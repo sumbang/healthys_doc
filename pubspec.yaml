@@ -69,6 +69,8 @@ dependencies:
   dotted_border: ^2.0.0
   flutter_image_compress: ^0.7.0
   flutter_absolute_path: ^1.0.6
+  flutter_signature_pad: ^3.0.0
+  syncfusion_flutter_signaturepad: ^19.1.57-beta
 
 dev_dependencies:
   flutter_test:

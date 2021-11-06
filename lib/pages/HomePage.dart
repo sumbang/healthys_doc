@@ -495,7 +495,7 @@ class HomePage1State extends State<HomePage1> {
       },
     ));
 
-    maliste1.add(new ListTile(
+   /* maliste1.add(new ListTile(
       leading: Icon(Icons.security),
       title: Text("Confidentialité"),
       onTap: () {
@@ -506,7 +506,7 @@ class HomePage1State extends State<HomePage1> {
           new MaterialPageRoute(builder: (_) => new ConfidentialitePage()),
         );
       },
-    ));
+    ));*/
 
     maliste1.add(new ListTile(
       leading: Icon(Icons.arrow_back),

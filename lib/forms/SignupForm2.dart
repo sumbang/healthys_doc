@@ -4,9 +4,11 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/foundation.dart';
+import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:flutter_signature_pad/flutter_signature_pad.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:healthys_medecin/config/image_compress_service.dart';
 import 'package:healthys_medecin/models/MyItems.dart';
@@ -41,6 +43,11 @@ class _SignupState extends State<SignupForm2> {
   DateTime _datenaiss;
   bool is_cni = false;
   bool is_ordre = false;
+
+  final _sign = GlobalKey<SignatureState>();
+  String signatures = "";
+  ByteData _img = ByteData(0);
+  var strokeWidth = 5.0;
 
   /** image pour uploads */
 
@@ -320,6 +327,16 @@ class _SignupState extends State<SignupForm2> {
   void _submitForms() async {
     Locale myLocale = Localizations.localeOf(context);
 
+
+    // recuperation de l'objet signature
+    final sign2 = _sign.currentState;
+    final image = await sign2.getData();
+    var data = await image.toByteData(format: ui.ImageByteFormat.png);
+    final encoded = base64.encode(data.buffer.asUint8List());
+    setState(() {
+      _img = data;
+    });
+
     // _uploadImage2();
 
     if (_nomController.text.isEmpty ||
@@ -337,7 +354,8 @@ class _SignupState extends State<SignupForm2> {
           timeInSecForIos: 5,
           backgroundColor: Colors.blue,
           textColor: Colors.white);
-    } else if (!_isChecked) {
+    } 
+    else if (!sign2.hasPoints) {
       Fluttertoast.showToast(
           msg: allTranslations.text('condition_title'),
           toastLength: Toast.LENGTH_LONG,
@@ -345,7 +363,7 @@ class _SignupState extends State<SignupForm2> {
           timeInSecForIos: 5,
           backgroundColor: Colors.blue,
           textColor: Colors.white);
-    } else if (l_images1 == null) {
+    }else if (l_images1 == null) {
       Fluttertoast.showToast(
           msg: "Veuillez charger votre numéro d'ordre",
           toastLength: Toast.LENGTH_LONG,
@@ -384,6 +402,7 @@ class _SignupState extends State<SignupForm2> {
 
       // chargement des cni
       String _ordre = "";
+      String _signature = "";
 
       List<File> file = await convertListAssetToListFile();
       List<File> file1 = await convertListAssetToListFile1();
@@ -465,6 +484,20 @@ class _SignupState extends State<SignupForm2> {
 
       String _cnifile = responseCni[0]["path"] + "|" + responseCni[1]["path"];
 
+            // uploads de la signature
+      Map _data = {
+        "image": encoded,
+        "name": "jpg",
+      };
+
+      var res5 =
+          await http.post(Setting.apiracine + "comptes/uploader", body: _data);
+      if (res5.statusCode == 200) {
+        setState(() {
+          _signature = res5.body.toString();
+        });
+      }
+
       String meszones = "";
 
       _ordre = responseOrdre[0]['path'];
@@ -496,6 +529,7 @@ class _SignupState extends State<SignupForm2> {
         'cnifile': _cnifile,
         'zones': meszones,
         'hopital': _hospit,
+        'signature': _signature
       };
 
       print("tosend : " + data.toString());
@@ -2240,11 +2274,12 @@ class _SignupState extends State<SignupForm2> {
               height: 20.0,
               color: Colors.transparent,
             ),
-            GestureDetector(
+           GestureDetector(
               child: Center(
                   child: Text(allTranslations.text('cond_title'),
+                      textAlign: TextAlign.center,
                       style: TextStyle(
-                          fontWeight: FontWeight.bold, color: color))),
+                          fontWeight: FontWeight.bold, color: color2))),
               onTap: () {
                 Navigator.of(context).push(PageRouteBuilder(
                     opaque: false,
@@ -2252,17 +2287,66 @@ class _SignupState extends State<SignupForm2> {
                         UserCondition()));
               },
             ),
-            CheckboxListTile(
-              title: Text(allTranslations.text('cond_title1'),
-                  style: TextStyle(fontWeight: FontWeight.bold, color: color2)),
-              value: _isChecked,
-              onChanged: (newValue) {
-                setState(() {
-                  _isChecked = newValue;
-                });
-              },
-              controlAffinity:
-                  ListTileControlAffinity.leading, //  <-- leading Checkbox
+             SizedBox(
+              height: 10,
+            ),
+            Container(
+                width: double.infinity,
+                height: 200,
+                color: Colors.grey,
+                child: Signature(
+                  color: Colors.black,
+                  key: _sign,
+                  onSign: () {
+                    final sign = _sign.currentState;
+                  },
+                  //backgroundPainter: MyCustomPainter2(this._image3),
+                  strokeWidth: 5.0,
+                )),
+            SizedBox(
+              height: 10,
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                new InkWell(
+                  onTap: () async {
+                    //ui.Image image = _signaturePadKey.currentState.clear();
+                    //_signaturePadKey.currentState.clear();
+                    final sign = _sign.currentState;
+                    sign.clear();
+                    setState(() {
+                      _img = ByteData(0);
+                      signatures = "";
+                    });
+                    debugPrint("cleared");
+                  },
+                  child: new Container(
+                    width: 120.0,
+                    height: 40.0,
+                    decoration: new BoxDecoration(
+                      color: Colors.red,
+                      border: new Border.all(color: Colors.white, width: 2.0),
+                      borderRadius: new BorderRadius.circular(10.0),
+                    ),
+                    child: new Center(
+                      child: new Text(
+                        "Effacer",
+                        style: new TextStyle(
+                            fontFamily: 'Candara',
+                            fontSize: 14.0,
+                            color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 10,
             ),
             Padding(
                 padding: const EdgeInsets.symmetric(vertical: 20.0),
