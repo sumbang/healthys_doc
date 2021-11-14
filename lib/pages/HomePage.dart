@@ -817,13 +817,16 @@ class HomePage1State extends State<HomePage1> {
                 else if (i == 3) {
                   Navigator.push(
                     context,
+                    new MaterialPageRoute(builder: (_) => new MedicalReportPage()),
+                  );
+                }
+                 else if (i == 4) {
+                  Navigator.push(
+                    context,
                     new MaterialPageRoute(builder: (_) => new NewsPage()),
                   );
                 }
-                /* else if (i == 3) {
-                  _SecurityBox(new ActivationPage());
-                }
-                else if (i == 7) {
+                /*else if (i == 7) {
                   currentpayer == "0"
                       ? _OpenBox()
                       : _SecurityBox(new VaccinPage());
@@ -959,12 +962,12 @@ class HomePage1State extends State<HomePage1> {
     Menu menu0 = new Menu(2, "MES CONSULTATIONS", 'img/historique-soins.png');
     menus.add(menu0);
 
-    Menu menu3 =
-        new Menu(4, "DOSSIERS MEDICAUX", 'img/antecedents-medicaux.png');
-    // menus.add(menu3);
-
     Menu menu7 = new Menu(4, "MES RENDEZ-VOUS", 'img/prise-rdv2.png');
     menus.add(menu7);
+    
+    Menu menu3 =
+        new Menu(5, "DOSSIERS MEDICAUX", 'img/antecedents-medicaux.png');
+     menus.add(menu3);
 
     Menu menu4 = new Menu(4, "MES DOCUMENTS", 'img/identifiants-connexion.png');
     // menus.add(menu4);
