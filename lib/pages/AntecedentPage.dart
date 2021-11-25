@@ -104,6 +104,16 @@ class AntecedentPage1 extends State<AntecedentPage> {
   }
 
   _loadUser() async {
+
+
+      Fluttertoast.showToast(
+          msg: "Chargeement des donnees...",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIos: 5,
+          backgroundColor: Colors.green,
+          textColor: Colors.white);
+
     sitmat.add("Marié(e)");
     sitmat.add("Célibaraire");
     sitmat.add("Divorcé(e)");
@@ -114,6 +124,8 @@ class AntecedentPage1 extends State<AntecedentPage> {
     String token1 = (prefs.getString('token') ?? '');
 
     String basicAuth = 'Bearer ' + token1;
+
+    print("patient : "+this.patient.toString());
 
     var res = await http.get(
         Setting.apiracine + "comptes/donnee2?patient=" + this.patient,
@@ -325,6 +337,15 @@ class AntecedentPage1 extends State<AntecedentPage> {
         });
       });
     }
+
+         Fluttertoast.showToast(
+          msg: "Chargeement des termine",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIos: 5,
+          backgroundColor: Colors.green,
+          textColor: Colors.white);
+
   }
 
   void initState() {

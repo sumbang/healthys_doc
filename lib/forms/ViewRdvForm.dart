@@ -55,7 +55,7 @@ class EditRdvFormState extends State<ViewRdvForm> {
       _dateController.text = id.datemeeting;
       _medecinController.text = id.docname;
       _noteController.text = id.notes;
-      _hopitalController.text = id.hopital;
+      _hopitalController.text = id.idcentresoins.toString();
     });
   }
 

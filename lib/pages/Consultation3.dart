@@ -597,7 +597,7 @@ class ConsultationPageState extends State<Consultation31> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Padding(
+           Expanded(child : Padding(
               padding:
                   EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0, bottom: 5.0),
               child: Text(items[i].toString(),
@@ -605,7 +605,7 @@ class ConsultationPageState extends State<Consultation31> {
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
                       color: Colors.black)),
-            )
+            ))
           ],
         ),
       ));
@@ -633,7 +633,7 @@ class ConsultationPageState extends State<Consultation31> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Padding(
+           Expanded(child:Padding(
               padding:
                   EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0, bottom: 5.0),
               child: Text(
@@ -644,7 +644,7 @@ class ConsultationPageState extends State<Consultation31> {
                       fontWeight: FontWeight.normal,
                       fontSize: 16,
                       color: Colors.black)),
-            )
+            ))
           ],
         ),
       ));

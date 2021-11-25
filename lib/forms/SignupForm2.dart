@@ -40,6 +40,7 @@ class _SignupState extends State<SignupForm2> {
   MyItems pays;
   MyItems sexe;
   MyItems specialite;
+  MyItems vaca;
   DateTime _datenaiss;
   bool is_cni = false;
   bool is_ordre = false;
@@ -504,7 +505,9 @@ class _SignupState extends State<SignupForm2> {
 
       String _hospit = '[';
 
-      _hospit += ']';
+      _hospit += ']'; int vac = 0;
+
+      if(vaca != null) vac = vaca.id;
 
       Map data = {
         'civilite': civilite.id.toString(),
@@ -529,7 +532,8 @@ class _SignupState extends State<SignupForm2> {
         'cnifile': _cnifile,
         'zones': meszones,
         'hopital': _hospit,
-        'signature': _signature
+        'signature': _signature,
+        'vacation': vac.toString()
       };
 
       print("tosend : " + data.toString());
@@ -599,7 +603,8 @@ class _SignupState extends State<SignupForm2> {
   final ImagePicker _picker2 = ImagePicker();
   dynamic _pickImageError;
   Future<List<MyItems>> special;
-
+  List<MyItems> vacation = [];
+  
   Widget _previewImage() {
     final Text retrieveError = _getRetrieveErrorWidget();
     if (retrieveError != null) {
@@ -1286,6 +1291,8 @@ class _SignupState extends State<SignupForm2> {
   }
 
   void initState() {
+    vacation.add(MyItems.fromJson({"id":1,"libelle":"Oui"}));
+    vacation.add(MyItems.fromJson({"id":2,"libelle":"Non"}));
     super.initState();
     civi = getElements("2");
     special = getElements("7");
@@ -1326,6 +1333,15 @@ class _SignupState extends State<SignupForm2> {
     Locale myLocale = Localizations.localeOf(context);
 
     allTranslations.init(myLocale.languageCode.toString());
+
+    List<DropdownMenuItem<MyItems>> items1 = List();
+    for (int i = 0; i < vacation.length; i++) {
+                            items1.add(
+                              DropdownMenuItem(
+                                  child: Text(vacation[i].libelle),
+                                  value: vacation[i]),
+                            );
+                      }
 
     return Form(
       key: _formKey,
@@ -2270,6 +2286,48 @@ class _SignupState extends State<SignupForm2> {
                     ),
                   )
                 : Container(),
+                Padding(
+                    padding: EdgeInsets.only(
+                        left: 10.0, right: 8.0, top: 8.0, bottom: 15.0),
+                    child: Center(
+                      child: Text("Disponibilité pour vacations ou remplacements ? ",
+                        style: TextStyle(
+                            color: color2,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16.0),
+                      ),
+                    )),
+                Padding(
+                  padding: const EdgeInsets.all(0.0),
+                  child: Container(
+                              width: double.infinity,
+                              height: 65,
+                              decoration: BoxDecoration(
+                                color: Colors.white70,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10.0)),
+                                border: new Border.all(color: Colors.black38),
+                              ),
+                              padding: const EdgeInsets.only(
+                                  left: 10.0,
+                                  right: 5.0,
+                                  top: 5.0,
+                                  bottom: 4.0),
+                              child: DropdownButtonHideUnderline(
+                                  child: DropdownButton<MyItems>(
+                                      isExpanded: true,
+                                      value: vaca,
+                                      items: items1,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          vaca = value;
+                                        });
+                                      }))),
+                ),
+                Divider(
+                  height: 15.0,
+                  color: Colors.transparent,
+                ),
             Divider(
               height: 20.0,
               color: Colors.transparent,

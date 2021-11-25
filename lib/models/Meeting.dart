@@ -6,10 +6,13 @@ class Meeting {
   var idcentresoins;
   var idmedecin;
   String datemeeting;
-  var statut;
+  String heuremeeting;
+  String statut;
   String symptome;
   String docname;
-  String hopital;
+  String specialite;
+  String patientname;
+  String patientmatricule;
   String notes;
 
   Meeting(
@@ -18,10 +21,13 @@ class Meeting {
       this.idcentresoins,
       this.idmedecin,
       this.datemeeting,
+      this.heuremeeting,
       this.statut,
       this.symptome,
       this.docname,
-      this.hopital,
+      this.specialite,
+      this.patientname,
+      this.patientmatricule,
       this.notes});
 
   factory Meeting.fromJson(Map<String, dynamic> json) => Meeting(
@@ -30,10 +36,13 @@ class Meeting {
         idcentresoins: json['hopital'],
         idmedecin: json['idmedecin'],
         datemeeting: json['datemeeting'],
-        statut: json['statut'],
+        heuremeeting: json['heuremeeting'],
+        statut: json['statut'].toString(),
         symptome: json['symptome'],
         docname: json['docname'],
-        hopital: json['hopital'],
+        specialite: json['specialite'],
+        patientname: json['patientname'],
+        patientmatricule: json['patientmatricule'],
         notes: json['notes'],
       );
 
@@ -42,3 +51,4 @@ class Meeting {
     return '${this.id.toString()} }';
   }
 }
+

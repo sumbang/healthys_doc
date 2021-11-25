@@ -348,7 +348,7 @@ class ConsultationPageState extends State<Consultation_2> {
                 context,
                 new MaterialPageRoute(
                     builder: (_) => new Consultation3(
-                        item.id.toString(), item.malade.toString())),
+                        item.id.toString(), item.numero.toString())),
               );
             },
             child: Card(

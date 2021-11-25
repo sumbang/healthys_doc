@@ -257,16 +257,25 @@ class RendezVousFragmentState extends State<RendezVous2Fragment>
                   height: 5.0,
                   color: Colors.transparent,
                 ),
-                Text(item.docname,
+                Text(item.patientname,
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 18.0,
                         color: color2)),
+                          Divider(
+                  height: 5.0,
+                  color: Colors.transparent,
+                ),
+                 Text("Matricule : " + item.patientmatricule,
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14.0,
+                        color: Colors.black)),
                 Divider(
                   height: 10.0,
                   color: Colors.transparent,
                 ),
-                Text("Médécin : " + item.hopital,
+                Text("Médécin : " + item.docname,
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16.0,

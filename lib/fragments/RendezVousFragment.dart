@@ -194,7 +194,7 @@ class RendezVousFragmentState extends State<RendezVousFragment>
                   height: 10.0,
                   color: Colors.transparent,
                 ),
-                Text(item.hopital,
+                Text(item.specialite,
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16.0,
