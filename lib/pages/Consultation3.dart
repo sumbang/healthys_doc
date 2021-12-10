@@ -195,7 +195,7 @@ class ConsultationPageState extends State<Consultation31> {
     // images from galllery
     for (int i = 0; i < l_images1.length; i++) {
       String imagePath = await FlutterAbsolutePath.getAbsolutePath(
-        l_images[i].identifier,
+        l_images1[i].identifier,
       );
       File file = File(imagePath);
       files.add(file);
@@ -690,7 +690,7 @@ class ConsultationPageState extends State<Consultation31> {
 
       Uri uri = Uri.parse(Setting.apiracine + "comptes/uploaders");
 
-      if (l_images != null) {
+      if (l_images.length != 0 ) {
         List<File> file = await convertListAssetToListFile();
 
         MultipartRequest request1 = http.MultipartRequest("POST", uri);
@@ -733,7 +733,7 @@ class ConsultationPageState extends State<Consultation31> {
         scan1 = responseCni[0]["path"];
       }
 
-      if (l_images1 != null) {
+      if (l_images1.length != 0 ) {
         List<File> file1 = await convertListAssetToListFile1();
 
         MultipartRequest request2 = http.MultipartRequest("POST", uri);
@@ -2207,12 +2207,13 @@ class ConsultationPageState extends State<Consultation31> {
                   var truedate = "";
 
                   if (datnaiss != null) {
-                    var d = datnaiss.toString().split("-");
+                   /* var d = datnaiss.toString().split("-");
                     truedate = d[2].toString() +
                         "-" +
                         d[1].toString() +
                         "-" +
-                        d[0].toString();
+                        d[0].toString();*/
+                        truedate = datnaiss.toString();
                   }
 
                   return new Stack(

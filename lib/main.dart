@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_lock/flutter_app_lock.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:healthys_medecin/lock/lock_screen.dart';
 import 'package:healthys_medecin/pages/ChooseProfile.dart';
 import 'package:splashscreen/splashscreen.dart';
 import './pages/HomePage.dart';
@@ -8,7 +10,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'config/all_translations.dart';
 
-void main() => runApp(new MyApp());
+
+void main() {
+  runApp(AppLock(
+    builder: (args) => MyApp(),
+    lockScreen: LockScreen(),
+    enabled: true,
+    backgroundLockLatency: const Duration(seconds: 30),
+  ));
+}
 
 class MyApp extends StatelessWidget {
   //final color = const Color(0xFFffffff);

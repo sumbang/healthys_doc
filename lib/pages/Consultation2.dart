@@ -335,9 +335,10 @@ class ConsultationPageState extends State<Consultation_2> {
         var truedate = "";
 
         if (item.dateconsultation != null) {
-          var d = item.dateconsultation.toString().split("-");
+         /* var d = item.dateconsultation.toString().split("-");
           truedate =
-              d[2].toString() + "-" + d[1].toString() + "-" + d[0].toString();
+              d[2].toString() + "-" + d[1].toString() + "-" + d[0].toString();*/
+              truedate = item.dateconsultation.toString();
         }
 
         var listItem = new Container(
@@ -522,9 +523,10 @@ class ConsultationPageState extends State<Consultation_2> {
         var truedate = "";
 
         if (item.dateconsultation != null) {
-          var d = item.dateconsultation.toString().split("-");
+         /* var d = item.dateconsultation.toString().split("-");
           truedate =
-              d[2].toString() + "-" + d[1].toString() + "-" + d[0].toString();
+              d[2].toString() + "-" + d[1].toString() + "-" + d[0].toString();*/
+              truedate = item.dateconsultation.toString();
         }
 
         List<Widget> actions = new List<Widget>();

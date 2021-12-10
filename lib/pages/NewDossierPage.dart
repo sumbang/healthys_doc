@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:healthys_medecin/config/all_translations.dart';
 import 'package:healthys_medecin/forms/DossierForm.dart';
+import 'package:healthys_medecin/pages/DossierMedicalPage2.dart';
 
 import 'HomePage.dart';
 
@@ -65,7 +66,7 @@ class NewDossierPageState extends State<NewDossierPage1> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    new MaterialPageRoute(builder: (_) => new HomePage()),
+                    new MaterialPageRoute(builder: (_) => new DossierMedicalPage2(this.patient)),
                   );
                 },
               ),

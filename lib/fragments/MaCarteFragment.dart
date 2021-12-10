@@ -102,7 +102,7 @@ class MaCarteFragmentState extends State<MaCarteFragment> {
         ),
         Center(
           child: Text(
-            allTranslations.text('matricule').toUpperCase() + " : " + qrstring,
+            allTranslations.text('login_title1').toUpperCase() + " : " + qrstring,
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
           ),
         ),

@@ -731,13 +731,13 @@ class HomePage1State extends State<HomePage1> {
               ],
             ),
             content: Container(
-                height: 125.0, // Change as per your requirement
+                height: 145.0, // Change as per your requirement
                 width: 300.0, // Change as per your requirement
                 child: Column(
                   children: [
                     Padding(
                       padding: EdgeInsets.all(2.0),
-                      child: Text(
+                      child: Expanded(child: Text(
                         allTranslations.text('at1'),
                         style: TextStyle(
                             fontSize: 15.0,
@@ -745,7 +745,7 @@ class HomePage1State extends State<HomePage1> {
                             height: 2.0,
                             fontWeight: FontWeight.normal),
                         textAlign: TextAlign.center,
-                      ),
+                      )),
                     ),
                     SizedBox(
                       height: 10.0,
@@ -1008,7 +1008,7 @@ class HomePage1State extends State<HomePage1> {
                               ? CircleAvatar(
                                   radius: 20,
                                   backgroundImage: NetworkImage(
-                                      Setting.serveurimage +
+                                      Setting.serveurimage1 +
                                           '' +
                                           currentphoto.toString()),
                                 )
@@ -1019,8 +1019,7 @@ class HomePage1State extends State<HomePage1> {
                           Flexible(
                               child: Padding(
                             padding: EdgeInsets.only(top: 10),
-                            child: Text(
-                              "Bienvenue " + username.toString(),
+                            child: Text(currentnom.toString(),
                               textAlign: TextAlign.left,
                               style: TextStyle(
                                   color: Colors.white,

@@ -129,8 +129,14 @@ class EvolutionPage1 extends State<EvolutionPage> {
   }
 
   void initState() {
-    super.initState();
-    data = getElements();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      data = getElements();
+    });
+           
+       super.initState();
+    // Future.delayed(Duration.zero, () {
+  // });
+   
   }
 
   @override
@@ -287,6 +293,17 @@ class EvolutionPage1 extends State<EvolutionPage> {
                                       liste.add(SizedBox(height: 10));
                                     }
 
+                                    if(responseJson[i]["scan1"] != null && responseJson[i]["scan"].toString().isNotEmpty) {
+                                       liste.add(SizedBox(height: 20));
+                                       liste.add(Image.network(
+                                              Setting.serveurimage1 +
+                                                  '' +
+                                                  responseJson[i]["scan1"],
+                                              fit: BoxFit.fill));
+
+                                      liste.add(SizedBox(height: 20));
+                                    }
+
                                     if (responseJson[i]["resultat"]
                                         .toString()
                                         .isNotEmpty) {
@@ -297,7 +314,19 @@ class EvolutionPage1 extends State<EvolutionPage> {
                                                 ["resultat"]
                                             .toString()),
                                       ));
+
                                       liste.add(SizedBox(height: 15));
+                                    }
+
+                                    if(responseJson[i]["scan2"] != null && responseJson[i]["scan2"].toString().isNotEmpty ) {
+                                       liste.add(SizedBox(height: 20));
+                                       liste.add(Image.network(
+                                              Setting.serveurimage1 +
+                                                  '' +
+                                                  responseJson[i]["scan2"],
+                                              fit: BoxFit.fill));
+
+                                      liste.add(SizedBox(height: 20));
                                     }
 
                                     listElementWidgetList.add(Column(
@@ -339,7 +368,7 @@ class EvolutionPage1 extends State<EvolutionPage> {
                         Icons.close,
                         color: Colors.black,
                       ),
-                      onPressed: () => Navigator.of(context).pop(),
+                      onPressed: () {Navigator.of(context).pop();}
                     )),
               ],
             )));

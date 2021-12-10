@@ -486,12 +486,13 @@ class ConsultationPageState extends State<Consultation31> {
                   var truedate = "";
 
                   if (datnaiss != null) {
-                    var d = datnaiss.toString().split("-");
+                    /*var d = datnaiss.toString().split("-");
                     truedate = d[2].toString() +
                         "-" +
                         d[1].toString() +
                         "-" +
-                        d[0].toString();
+                        d[0].toString();*/
+                        truedate = datnaiss.toString();
                   }
 
                   return new Stack(

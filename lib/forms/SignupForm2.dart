@@ -364,7 +364,7 @@ class _SignupState extends State<SignupForm2> {
           timeInSecForIos: 5,
           backgroundColor: Colors.blue,
           textColor: Colors.white);
-    }else if (l_images1 == null) {
+    }else if (l_images1.length == 0) {
       Fluttertoast.showToast(
           msg: "Veuillez charger votre numéro d'ordre",
           toastLength: Toast.LENGTH_LONG,
@@ -372,7 +372,7 @@ class _SignupState extends State<SignupForm2> {
           timeInSecForIos: 5,
           backgroundColor: Colors.blue,
           textColor: Colors.white);
-    } else if (l_images == null || (l_images.length != 2)) {
+    } else if (l_images.length != 2) {
       Fluttertoast.showToast(
           msg: "Veuillez charger les 2 faces de votre CNI",
           toastLength: Toast.LENGTH_LONG,

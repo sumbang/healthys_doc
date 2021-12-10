@@ -10,6 +10,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:healthys_medecin/config/Setting.dart';
 import 'package:healthys_medecin/config/SizeConfig.dart';
 import 'package:healthys_medecin/models/Contenu.dart';
+import 'package:healthys_medecin/pages/AntecedentPatient.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:qrscan/qrscan.dart' as scanner;
@@ -496,7 +497,44 @@ class DossierMedicalPageState extends State<DossierMedical> {
                                 child: Column(
                                   children: _buildExpandableContent(base),
                                 ),
-                              ),
+                              ),  SizedBox(
+                                        height: 20,
+                                      ),
+                                      new Center(
+                                        child: new InkWell(
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              new MaterialPageRoute(
+                                                  builder: (_) =>
+                                                      new AntecedentPatient(
+                                                          this.id.toString())),
+                                            );
+                                          },
+                                          child: new Container(
+                                            width: 250.0,
+                                            height: 50.0,
+                                            decoration: new BoxDecoration(
+                                              color: color,
+                                              border: new Border.all(
+                                                  color: Colors.white,
+                                                  width: 2.0),
+                                              borderRadius:
+                                                  new BorderRadius.circular(
+                                                      30.0),
+                                            ),
+                                            child: new Center(
+                                              child: new Text(
+                                                "Antécédents médicaux",
+                                                style: new TextStyle(
+                                                    fontSize: 18.0,
+                                                    color: Colors.white),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    
                               SizedBox(
                                 height: 30.0,
                               ),

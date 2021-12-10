@@ -117,6 +117,8 @@ class ChooseProfilePageState extends State<ChooseProfilePage1> {
     String profil = (prefs.getString('currentpatient') ?? '');
     String basicAuth = 'Bearer ' + token1;
 
+    print("DOC :" + ids[pos].toString());
+
     var response = await http.get(
         Setting.apiracine + "comptes/check1?medecin=" + ids[pos].toString(),
         headers: {
@@ -194,7 +196,7 @@ class ChooseProfilePageState extends State<ChooseProfilePage1> {
                               image: new DecorationImage(
                                   fit: BoxFit.cover,
                                   image: new NetworkImage(
-                                    Setting.serveurimage +
+                                    Setting.serveurimage1 +
                                         '' +
                                         photos[i].toString(),
                                   )))),
