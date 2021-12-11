@@ -9,7 +9,7 @@ import 'package:healthys_medecin/config/all_translations.dart';
 import 'package:healthys_medecin/pages/DossierMedicalPage2.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
-import 'package:qrscan/qrscan.dart' as scanner;
+//import 'package:qrscan/qrscan.dart' as scanner;
 import 'package:permission_handler/permission_handler.dart';
 
 class MedicalReportFragment extends StatefulWidget {
@@ -300,8 +300,8 @@ class MedicalReportFragmentState extends State<MedicalReportFragment> {
   }
 
   Future _scan() async {
-    String barcode = await scanner.scan();
-    _matricule.text = barcode;
+  /*  String barcode = await scanner.scan();
+    _matricule.text = barcode;*/
   }
 
   void requestPersmission() async {
@@ -310,12 +310,12 @@ class MedicalReportFragmentState extends State<MedicalReportFragment> {
 
   Future _scan1() async {
     //await Permission.camera.request();
-    String barcode = await scanner.scan();
+   /* String barcode = await scanner.scan();
     if (barcode == null) {
       print('nothing return.');
     } else {
       //this._outputController.text = barcode;
       _matricule.text = barcode;
-    }
+    }*/
   }
 }

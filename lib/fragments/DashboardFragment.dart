@@ -26,7 +26,7 @@ import 'package:healthys_medecin/pages/Rendezvous2Page.dart';
 import 'package:healthys_medecin/pages/SouscriptionMatriculePage.dart';
 import 'package:healthys_medecin/pages/VaccinPage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:qrscan/qrscan.dart' as scanner;
+//import 'package:qrscan/qrscan.dart' as scanner;
 import 'package:http/http.dart' as http;
 
 import 'AssuranceFragment.dart';
@@ -588,7 +588,7 @@ class DashboardFragmentState extends State<DashboardFragment> {
   }
 
   Future _scan() async {
-    String barcode = await scanner.scan();
+  /*  String barcode = await scanner.scan();
 
     // String barcode = "22011237001";
 
@@ -630,7 +630,7 @@ class DashboardFragmentState extends State<DashboardFragment> {
           timeInSecForIos: 5,
           backgroundColor: Colors.orange,
           textColor: Colors.white);
-    }
+    }*/
   }
 }
 

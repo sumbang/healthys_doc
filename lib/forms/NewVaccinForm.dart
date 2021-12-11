@@ -14,7 +14,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../config/Setting.dart';
 import 'package:flutter/cupertino.dart';
 import '../pages/HomePage.dart';
-import 'package:qrscan/qrscan.dart' as scanner;
+//import 'package:qrscan/qrscan.dart' as scanner;
 import 'package:fluttertoast/fluttertoast.dart';
 
 class NewVaccinForm extends StatefulWidget {
@@ -91,9 +91,9 @@ class NewVaccinFormState extends State<NewVaccinForm> {
   }
 
   Future _scan() async {
-    String barcode = await scanner.scan();
+   /* String barcode = await scanner.scan();
 
-    _numeroController.text = barcode;
+    _numeroController.text = barcode;*/
   }
 
   void requestPersmission() async {
@@ -102,13 +102,13 @@ class NewVaccinFormState extends State<NewVaccinForm> {
 
   Future _scan1() async {
     //await Permission.camera.request();
-    String barcode = await scanner.scan();
+   /* String barcode = await scanner.scan();
     if (barcode == null) {
       print('nothing return.');
     } else {
       //this._outputController.text = barcode;
       _numeroController.text = barcode;
-    }
+    }*/
   }
 
   Future<List<MyItems>> getElements() async {

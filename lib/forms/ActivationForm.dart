@@ -15,7 +15,7 @@ import 'package:mime/mime.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../config/Setting.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:qrscan/qrscan.dart' as scanner;
+//import 'package:qrscan/qrscan.dart' as scanner;
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -298,9 +298,9 @@ class _ResetState extends State<ActivationForm> {
   }
 
   Future _scan() async {
-    String barcode = await scanner.scan();
+ /*   String barcode = await scanner.scan();
 
-    _numeroController.text = barcode;
+    _numeroController.text = barcode;*/
   }
 
   void requestPersmission() async {
@@ -309,13 +309,13 @@ class _ResetState extends State<ActivationForm> {
 
   Future _scan1() async {
     //await Permission.camera.request();
-    String barcode = await scanner.scan();
+  /*  String barcode = await scanner.scan();
     if (barcode == null) {
       print('nothing return.');
     } else {
       //this._outputController.text = barcode;
       _numeroController.text = barcode;
-    }
+    }*/
   }
 
   @override
