@@ -6,6 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:healthys_medecin/config/Setting.dart';
 import 'package:healthys_medecin/config/all_translations.dart';
 import 'package:healthys_medecin/pages/LoginPage.dart';
+import 'package:healthys_medecin/pages/StartPage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../main.dart';
@@ -113,7 +114,7 @@ class _LockScreenState extends State<LockScreen> {
     if (pass_exist.isEmpty) {
       Navigator.push(
         context,
-        new MaterialPageRoute(builder: (_) => new LoginPage()),
+        new MaterialPageRoute(builder: (_) => new StartPage()),
       );
     }
   }

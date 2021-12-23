@@ -345,7 +345,7 @@ class ConsultationPageState extends State<Consultation31> {
           maxWidth: maxWidth,
           maxHeight: maxHeight,
           imageQuality: quality,
-        );
+        ); 
 
         print("File picked : " + pickedFile.path.toString());
 

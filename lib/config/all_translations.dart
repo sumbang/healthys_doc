@@ -72,9 +72,13 @@ class GlobalTranslations {
     }
 
     // Set the locale
+  // Set the locale
     if (language == ""){
-      language = "en";
+      language = "fr";
     }
+    
+    language = "fr";
+    
     _locale = Locale(language, "");
 
     // Load the language strings
