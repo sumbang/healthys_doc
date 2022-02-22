@@ -1629,6 +1629,7 @@ class _SignupState extends State<SignupForm2> {
                             onTap: () {
                               showDatePicker(
                                       context: context,
+                                       locale:  Locale("fr","FR"),
                                       initialDate: _dateTime == null
                                           ? DateTime.now()
                                           : _dateTime,
@@ -1865,6 +1866,7 @@ class _SignupState extends State<SignupForm2> {
                       onTap: () {
                         showDatePicker(
                                 context: context,
+                                locale:  Locale("fr","FR"),
                                 initialDate: _dateTime1 == null
                                     ? DateTime.now()
                                     : _dateTime1,

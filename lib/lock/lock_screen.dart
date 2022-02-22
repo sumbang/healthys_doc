@@ -111,7 +111,7 @@ class _LockScreenState extends State<LockScreen> {
       pass_exist = (prefs.getString("currentpin") ?? "");
     });
 
-    if (pass_exist.isEmpty) {
+    if (token.isEmpty) {
       Navigator.push(
         context,
         new MaterialPageRoute(builder: (_) => new StartPage()),
