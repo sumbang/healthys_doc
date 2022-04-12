@@ -1,212 +1,868 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:crypto/crypto.dart';
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/foundation.dart';
+import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_absolute_path/flutter_absolute_path.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:flutter_signature_pad/flutter_signature_pad.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:healthys_medecin/config/all_translations.dart';
-import 'package:healthys_medecin/models/Items.dart';
-import 'package:healthys_medecin/pages/Consultation4.dart';
+import 'package:healthys_medecin/models/MyItems.dart';
+import 'package:healthys_medecin/pages/SuccessPage.dart';
+import 'package:healthys_medecin/pages/UserCondition1.dart';
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:mime/mime.dart';
+import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../config/Setting.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/cupertino.dart';
-//import 'package:qrscan/qrscan.dart' as scanner;
-import '../pages/HomePage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:permission_handler/permission_handler.dart';
+
+import 'ImageCompressService.dart';
 
 class NewPatientForm extends StatefulWidget {
   @override
-  _ResetState createState() => _ResetState();
+  _SignupState createState() => _SignupState();
 }
 
-class _ResetState extends State<NewPatientForm> {
-  // Create a text controller. We will use it to retrieve the current value
-  // of the TextField!
+class _SignupState extends State<NewPatientForm> {
+  MyItems civilite;
+  MyItems situation;
+  MyItems pays;
+  MyItems sexe;
+  MyItems rhesus;
+  MyItems electro;
+  MyItems sanguin;
+  String currentstatus;
+  DateTime _dateTime;
+  DateTime _dateTime1;
 
-  // Note: This is a GlobalKey<FormState>, not a GlobalKey<MyCustomFormState>!
+  final _sign = GlobalKey<SignatureState>();
+  String signatures = "";
+  ByteData _img = ByteData(0);
+  var strokeWidth = 5.0;
+
+  final gris = const Color(0xFF373736);
+  final bleu = const Color(0xFF194185);
+  final bleu1 = const Color(0xFF006CA7);
+  final bleu2 = const Color(0xFF222651);
+  final bleu3 = const Color(0xFF3b5998);
+  final clair = const Color(0xFFF9FAFB);
+
+  bool is_cni = false;
+  bool is_ordre = false;
+
+  /** image pour uploads */
+
+  List<Asset> l_images = List<Asset>();
+  List<Asset> l_images1 = List<Asset>();
+
+  List<Widget> buildGridView() {
+    return List.generate(l_images.length, (index) {
+      Asset asset = l_images[index];
+      return Padding(
+          padding: EdgeInsets.all(5),
+          child: AssetThumb(
+            asset: asset,
+            width: 100,
+            height: 100,
+          ));
+    });
+  }
+
+  List<Widget> buildGridView1() {
+    return List.generate(l_images1.length, (index) {
+      Asset asset = l_images1[index];
+      return Padding(
+          padding: EdgeInsets.all(5),
+          child: AssetThumb(
+            asset: asset,
+            width: 200,
+            height: 200,
+          ));
+    });
+  }
+
+  Future<List<File>> convertListAssetToListFile() async {
+    List<File> files = List<File>();
+    // images from galllery
+    for (int i = 0; i < l_images.length; i++) {
+      String imagePath = await FlutterAbsolutePath.getAbsolutePath(
+        l_images[i].identifier,
+      );
+      File file = File(imagePath);
+      files.add(file);
+    }
+    return files;
+  }
+
+  Future<List<File>> convertListAssetToListFile1() async {
+    List<File> files = List<File>();
+    // images from galllery
+    for (int i = 0; i < l_images1.length; i++) {
+      String imagePath = await FlutterAbsolutePath.getAbsolutePath(
+        l_images1[i].identifier,
+      );
+      File file = File(imagePath);
+      files.add(file);
+    }
+    return files;
+  }
+
+  Future<void> loadAssets1() async {
+    List<Asset> resultList = List<Asset>();
+
+    try {
+      resultList = await MultiImagePicker.pickImages(
+        maxImages: 2,
+        enableCamera: true,
+        selectedAssets: l_images,
+        cupertinoOptions: CupertinoOptions(takePhotoIcon: "chat"),
+        materialOptions: MaterialOptions(
+          actionBarColor: "#abcdef",
+          actionBarTitle: "Example App",
+          allViewTitle: "All Photos",
+          useDetailsView: false,
+          selectCircleStrokeColor: "#000000",
+        ),
+      );
+
+      // await _uploadImage();
+
+    } on Exception catch (e) {}
+    if (!mounted) return;
+
+    setState(() {
+      l_images = resultList;
+      if (resultList.length != 0) is_cni = true;
+    });
+  }
+
+  Future<void> loadAssets2() async {
+    List<Asset> resultList = List<Asset>();
+
+    try {
+      resultList = await MultiImagePicker.pickImages(
+        maxImages: 1,
+        enableCamera: true,
+        selectedAssets: l_images1,
+        cupertinoOptions: CupertinoOptions(takePhotoIcon: "chat"),
+        materialOptions: MaterialOptions(
+          actionBarColor: "#abcdef",
+          actionBarTitle: "Example App",
+          allViewTitle: "All Photos",
+          useDetailsView: false,
+          selectCircleStrokeColor: "#000000",
+        ),
+      );
+
+      // await _uploadImage();
+
+    } on Exception catch (e) {}
+    if (!mounted) return;
+
+    setState(() {
+      l_images1 = resultList;
+      if (resultList.length != 0) is_ordre = true;
+    });
+  }
+
+  _uploadOrdre() async {}
+
+  _uploadCni() async {
+    List<File> file = await convertListAssetToListFile();
+
+    Uri uri = Uri.parse(Setting.apiracine + "comptes/uploaders");
+
+    MultipartRequest request = http.MultipartRequest("POST", uri);
+
+    for (int i = 0; i < file.length; i++) {
+      ImageCompressService imageCompressService = ImageCompressService(
+        file: file[i],
+      );
+
+      File afterCompress = await imageCompressService.exec();
+
+      Uint8List bytes = afterCompress.readAsBytesSync();
+
+      ByteData data = ByteData.view(bytes.buffer);
+
+      List<int> imageData = data.buffer.asUint8List();
+
+      MultipartFile multipartFile = MultipartFile.fromBytes(
+        'photo' + i.toString() + "",
+        imageData,
+        filename: 'some-file-name.jpg',
+        //contentType: MediaType("image", "jpg"),
+      );
+
+      // add file to multipart
+      request.files.add(multipartFile);
+    }
+
+    request.fields["qte"] = file.length.toString();
+
+    var response = await request.send();
+
+    var res = await http.Response.fromStream(response);
+
+    return res.body.toString();
+  }
+
+  /** fin uploads */
+
   final _formKey = GlobalKey<FormState>();
 
   final color = const Color(0xFFcd005f);
   final color2 = const Color(0xFF008dad);
 
-  final _codeController = TextEditingController();
-  final _numeroController = TextEditingController();
+  final _phone1Controller = TextEditingController();
+  final _phone2Controller = TextEditingController();
+  final _datnaissController = TextEditingController();
+  final _nomController = TextEditingController();
+  final _prenomController = TextEditingController();
+  final _villeController = TextEditingController();
+  final _adresseController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _poidsController = TextEditingController();
+  final _tailleController = TextEditingController();
+  final _cniController = TextEditingController();
+  final _datedelivController = TextEditingController();
+  final _nom1Controller = TextEditingController();
+  final _numero1Controller = TextEditingController();
+  final _nom2Controller = TextEditingController();
+  final _numero2Controller = TextEditingController();
+  final _autre1Controller = TextEditingController();
+  final _autre2Controller = TextEditingController();
+  final _sportController = TextEditingController();
+  final _professionController = TextEditingController();
   final _pinController = TextEditingController();
+  final _enfantController = TextEditingController();
 
-  bool visible = true;
+  var _listMedecin = List<Widget>();
+  var _listPersonne = List<Widget>();
+  List<String> _liste_medecin = new List();
+  List<String> _liste_personne = new List();
+
+  bool visible = false;
   String code = "";
   bool _isSaving = true;
   String currentpin = "";
   String currentpatient = "";
   bool isVisible = true;
+  bool isVisible1 = true;
+  bool isVisible2 = true;
 
-  @override
-  void dispose() {
-    // Clean up the controller when the Widget is disposed
-    _codeController.dispose();
-    _numeroController.dispose();
-    super.dispose();
-  }
+  bool tabac = false;
+  bool sport = false;
+  bool enfant = false;
+  bool alcool = false;
+  bool hta = false;
+  bool diabete = false;
+  bool dsylipedemie = false;
+  bool asmathique = false;
+  bool seropositif = false;
+  bool alzheimer = false;
+  bool mental = false;
+  bool audiovisuel = false;
+  bool epilepsies = false;
+  bool autre = false;
+  bool autre2 = false;
+  bool _isChecked = true;
+  List<String> sitmat = new List();
 
-  _loadUser() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+  String payslocalisation = "";
+  String codepays = "";
 
+  void _handleRadioValueCiv(MyItems value) {
     setState(() {
-      currentpin = (prefs.getString('currentpin') ?? '');
-      currentpatient = (prefs.getString('currentpatient') ?? '');
+      civilite = value;
     });
   }
 
-  MyItems filiation;
-  Future<List<MyItems>> filiations;
+  void _handleRadioValueElect(MyItems value) {
+    setState(() {
+      electro = value;
+    });
+  }
+
+  void _handleRadioValueSang(MyItems value) {
+    setState(() {
+      sanguin = value;
+    });
+  }
+
+  void _handleRadioValueSit(MyItems value) {
+    setState(() {
+      situation = value;
+    });
+  }
+
+  Widget _addPersonne({@required Function refresh}) {
+    return SingleChildScrollView(
+        child: ConstrainedBox(
+            constraints: BoxConstraints(),
+            child: Container(
+                //height: 420.0,
+                width: 300.0, // Change as per your requirement
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(0.0),
+                      child: Container(
+                        padding: const EdgeInsets.only(
+                            left: 10.0, right: 5.0, top: 3.0, bottom: 3.0),
+                        width: double.infinity,
+                        decoration: new BoxDecoration(
+                          color: Colors.white70,
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                          border: new Border.all(color: Colors.black38),
+                        ),
+                        child: TextFormField(
+                          obscureText: false,
+                          style: const TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.normal),
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            icon: new Icon(
+                              Icons.person,
+                              color: color,
+                            ),
+                            labelText: allTranslations.text('fullname') + " *",
+                            labelStyle: TextStyle(
+                                color: color,
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.normal),
+                          ),
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Champ obligatoire';
+                            }
+                          },
+                          keyboardType: TextInputType.text,
+                          controller: _nom1Controller,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                    IntlPhoneField(
+                      decoration: InputDecoration(
+                        labelText: allTranslations.text('phone_title') + " *",
+                        prefixIcon: new Icon(
+                          Icons.phone,
+                          color: color,
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: const BorderRadius.all(
+                            const Radius.circular(10.0),
+                          ),
+                          borderSide: BorderSide(),
+                        ),
+                        labelStyle: TextStyle(
+                            color: color,
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.normal),
+                      ),
+                      initialCountryCode: 'CM',
+                      onChanged: (phone) {
+                        print(phone.completeNumber);
+                        if (mounted) {
+                          _numero1Controller.text =
+                              phone.completeNumber.toString();
+                          //payslocalisation = phone.countryISOCode.toString();
+                        }
+                      },
+                    ),
+                    Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 16.0),
+                        child: new Center(
+                          child: new InkWell(
+                            onTap: () {
+                              if (_nom1Controller.text.toString().isEmpty ||
+                                  _numero1Controller.text.toString().isEmpty) {
+                                Fluttertoast.showToast(
+                                    msg: allTranslations.text('requis_title'),
+                                    toastLength: Toast.LENGTH_LONG,
+                                    gravity: ToastGravity.BOTTOM,
+                                    timeInSecForIos: 5,
+                                    backgroundColor: color,
+                                    textColor: Colors.white);
+                              } else {
+                                String json = '{"id":0,"nom":"' +
+                                    _nom1Controller.text.toString() +
+                                    '","phone":"' +
+                                    _numero1Controller.text.toString() +
+                                    '"}';
+
+                                refresh(() {
+                                  setState(() {
+                                    _liste_personne.add(json);
+
+                                    int pos = _liste_personne.length - 1;
+
+                                    _listPersonne.add(Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                              left: 10.0,
+                                              right: 10.0,
+                                              top: 5.0,
+                                              bottom: 5.0),
+                                          child: Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: <Widget>[
+                                              new Expanded(
+                                                  child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: [
+                                                  Row(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    children: [
+                                                      new Text(
+                                                          allTranslations.text(
+                                                                  'nom_title') +
+                                                              " : ",
+                                                          style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontSize: 16,
+                                                            color: Colors.black,
+                                                          )),
+                                                      new Text(
+                                                          _nom1Controller.text
+                                                              .toString(),
+                                                          style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .normal,
+                                                            fontSize: 16,
+                                                            color: Colors.black,
+                                                          )),
+                                                    ],
+                                                  ),
+                                                  SizedBox(
+                                                    height: 5.0,
+                                                  ),
+                                                  Row(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    children: [
+                                                      new Text(
+                                                          allTranslations.text(
+                                                                  'phone_title') +
+                                                              " : ",
+                                                          style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontSize: 16,
+                                                            color: Colors.black,
+                                                          )),
+                                                      new Text(
+                                                          _numero1Controller
+                                                              .text
+                                                              .toString(),
+                                                          style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .normal,
+                                                            fontSize: 16,
+                                                            color: Colors.black,
+                                                          )),
+                                                    ],
+                                                  ),
+                                                  SizedBox(
+                                                    height: 5.0,
+                                                  ),
+                                                  SizedBox(
+                                                    height: 8.0,
+                                                  ),
+                                                ],
+                                              )),
+                                              Column(
+                                                children: [
+                                                  new IconButton(
+                                                      icon: new Icon(
+                                                        Icons.delete,
+                                                        color: color,
+                                                      ),
+                                                      onPressed: () {
+                                                        _removePersonne(pos);
+                                                      }),
+                                                ],
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                        Divider(height: 5, color: Colors.grey)
+                                      ],
+                                    ));
+                                  });
+                                });
+
+                                _nom1Controller.text = "";
+                                _numero1Controller.text = "";
+
+                                Navigator.of(context, rootNavigator: true)
+                                    .pop('dialog');
+                              }
+                            },
+                            child: new Container(
+                              width: 200.0,
+                              height: 50.0,
+                              decoration: new BoxDecoration(
+                                color: color,
+                                border: new Border.all(
+                                    color: Colors.white, width: 2.0),
+                                borderRadius: new BorderRadius.circular(30.0),
+                              ),
+                              child: new Center(
+                                child: new Text(
+                                  'AJOUTER',
+                                  style: new TextStyle(
+                                      fontSize: 18.0, color: Colors.white),
+                                ),
+                              ),
+                            ),
+                          ),
+                        )),
+                  ],
+                ))));
+  }
+
+  void _removePersonne(int pos) {
+    print("suppression : " + pos.toString());
+
+    setState(() {
+      _listPersonne = List.from(_listPersonne)..removeAt(pos);
+
+      _liste_personne = List.from(_liste_personne)..removeAt(pos);
+    });
+  }
+
+  Widget _addMedecin({@required Function refresh}) {
+    return SingleChildScrollView(
+        child: ConstrainedBox(
+            constraints: BoxConstraints(),
+            child: Container(
+                //height: 420.0,
+                width: 300.0, // Change as per your requirement
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(0.0),
+                      child: Container(
+                        padding: const EdgeInsets.only(
+                            left: 10.0, right: 5.0, top: 3.0, bottom: 3.0),
+                        width: double.infinity,
+                        decoration: new BoxDecoration(
+                          color: Colors.white70,
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                          border: new Border.all(color: Colors.black38),
+                        ),
+                        child: TextFormField(
+                          obscureText: false,
+                          style: const TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.normal),
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            icon: new Icon(
+                              Icons.person,
+                              color: color,
+                            ),
+                            labelText: allTranslations.text('fullname') + " *",
+                            labelStyle: TextStyle(
+                                color: color,
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.normal),
+                          ),
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Champ obligatoire';
+                            }
+                          },
+                          keyboardType: TextInputType.text,
+                          controller: _nom2Controller,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                    IntlPhoneField(
+                      decoration: InputDecoration(
+                        labelText: allTranslations.text('phone_title') + " *",
+                        prefixIcon: new Icon(
+                          Icons.phone,
+                          color: color,
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: const BorderRadius.all(
+                            const Radius.circular(10.0),
+                          ),
+                          borderSide: BorderSide(),
+                        ),
+                        labelStyle: TextStyle(
+                            color: color,
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.normal),
+                      ),
+                      initialCountryCode: 'CM',
+                      onChanged: (phone) {
+                        print(phone.completeNumber);
+                        if (mounted) {
+                          _numero2Controller.text =
+                              phone.completeNumber.toString();
+                          //payslocalisation = phone.countryISOCode.toString();
+                        }
+                      },
+                    ),
+                    Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 16.0),
+                        child: new Center(
+                          child: new InkWell(
+                            onTap: () {
+                              if (_nom2Controller.text.toString().isEmpty ||
+                                  _numero2Controller.text.toString().isEmpty) {
+                                Fluttertoast.showToast(
+                                    msg: allTranslations.text('requis_title'),
+                                    toastLength: Toast.LENGTH_LONG,
+                                    gravity: ToastGravity.BOTTOM,
+                                    timeInSecForIos: 5,
+                                    backgroundColor: color,
+                                    textColor: Colors.white);
+                              } else {
+                                String json = '{"id":0,"nom":"' +
+                                    _nom2Controller.text.toString() +
+                                    '","phone":"' +
+                                    _numero2Controller.text.toString() +
+                                    '"}';
+
+                                refresh(() {
+                                  setState(() {
+                                    _liste_medecin.add(json);
+
+                                    int pos = _liste_medecin.length - 1;
+
+                                    _listMedecin.add(Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                              left: 10.0,
+                                              right: 10.0,
+                                              top: 5.0,
+                                              bottom: 5.0),
+                                          child: Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: <Widget>[
+                                              new Expanded(
+                                                  child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: [
+                                                  Row(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    children: [
+                                                      new Text(
+                                                          allTranslations.text(
+                                                                  'nom_title') +
+                                                              " : ",
+                                                          style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontSize: 16,
+                                                            color: Colors.black,
+                                                          )),
+                                                      new Text(
+                                                          _nom2Controller.text
+                                                              .toString(),
+                                                          style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .normal,
+                                                            fontSize: 16,
+                                                            color: Colors.black,
+                                                          )),
+                                                    ],
+                                                  ),
+                                                  SizedBox(
+                                                    height: 5.0,
+                                                  ),
+                                                  Row(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    children: [
+                                                      new Text(
+                                                          allTranslations.text(
+                                                                  'phone_title') +
+                                                              " : ",
+                                                          style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontSize: 16,
+                                                            color: Colors.black,
+                                                          )),
+                                                      new Text(
+                                                          _numero2Controller
+                                                              .text
+                                                              .toString(),
+                                                          style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .normal,
+                                                            fontSize: 16,
+                                                            color: Colors.black,
+                                                          )),
+                                                    ],
+                                                  ),
+                                                  SizedBox(
+                                                    height: 5.0,
+                                                  ),
+                                                  SizedBox(
+                                                    height: 8.0,
+                                                  ),
+                                                ],
+                                              )),
+                                              Column(
+                                                children: [
+                                                  new IconButton(
+                                                      icon: new Icon(
+                                                        Icons.delete,
+                                                        color: color,
+                                                      ),
+                                                      onPressed: () {
+                                                        _removeMedecin(pos);
+                                                      }),
+                                                ],
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                        Divider(height: 5, color: Colors.grey)
+                                      ],
+                                    ));
+                                  });
+                                });
+
+                                _nom2Controller.text = "";
+                                _numero2Controller.text = "";
+
+                                Navigator.of(context, rootNavigator: true)
+                                    .pop('dialog');
+                              }
+                            },
+                            child: new Container(
+                              width: 200.0,
+                              height: 50.0,
+                              decoration: new BoxDecoration(
+                                color: color,
+                                border: new Border.all(
+                                    color: Colors.white, width: 2.0),
+                                borderRadius: new BorderRadius.circular(30.0),
+                              ),
+                              child: new Center(
+                                child: new Text(
+                                  'AJOUTER',
+                                  style: new TextStyle(
+                                      fontSize: 18.0, color: Colors.white),
+                                ),
+                              ),
+                            ),
+                          ),
+                        )),
+                  ],
+                ))));
+  }
+
+  void _removeMedecin(int pos) {
+    print("suppression : " + pos.toString());
+
+    setState(() {
+      _listMedecin = List.from(_listMedecin)..removeAt(pos);
+
+      _liste_medecin = List.from(_liste_medecin)..removeAt(pos);
+    });
+  }
+
   String base64Image;
   String _fileName;
+
+  String base64Image1;
+  String _fileName1;
+
+  String base64Image2;
+  String _fileName2;
+
   String _path;
   Map<String, String> _paths;
   String _extension = "png, jpg, jpeg, pdf";
   bool _loadingPath = false;
   bool _multiPick = false;
-  Future<File> imageFile;
-  PickedFile _imageFile;
-  File _image;
-  File tmpFile;
-  final ImagePicker _picker = ImagePicker();
-  dynamic _pickImageError;
-
-  String _retrieveDataError;
-  bool isVideo = false;
-
-  final TextEditingController maxWidthController = TextEditingController();
-  final TextEditingController maxHeightController = TextEditingController();
-  final TextEditingController qualityController = TextEditingController();
-
-  Widget _previewImage() {
-    final Text retrieveError = _getRetrieveErrorWidget();
-    if (retrieveError != null) {
-      return retrieveError;
-    }
-    if (_imageFile != null) {
-      return GestureDetector(
-        onTap: () {
-          _showSelectionDialog(context);
-        },
-        child: Image.file(File(_imageFile.path)),
-      );
-    } else if (_pickImageError != null) {
-      return Center(
-          child: Text(
-        'Erreur : $_pickImageError',
-      ));
-    } else {
-      return Center(child: Text(""));
-    }
-  }
-
-  Future<void> _displayPickImageDialog(
-      BuildContext context, OnPickImageCallback onPick) async {
-    double width = maxWidthController.text.isNotEmpty
-        ? double.parse(maxWidthController.text)
-        : null;
-
-    double height = maxHeightController.text.isNotEmpty
-        ? double.parse(maxHeightController.text)
-        : null;
-
-    int quality = qualityController.text.isNotEmpty
-        ? int.parse(qualityController.text)
-        : null;
-
-    onPick(width, height, quality);
-  }
-
-  pickImageFromGallery(ImageSource source, {BuildContext context}) async {
-    await _displayPickImageDialog(context,
-        (double maxWidth, double maxHeight, int quality) async {
-      try {
-        final pickedFile = await _picker.getImage(
-          source: source,
-          maxWidth: maxWidth,
-          maxHeight: maxHeight,
-          imageQuality: quality,
-        );
-
-        print("File picked : " + pickedFile.path.toString());
-
-        setState(() {
-          _imageFile = pickedFile;
-          isVisible = false;
-        });
-      } catch (e) {
-        setState(() {
-          _pickImageError = e;
-        });
-      }
-    });
-  }
-
-  Text _getRetrieveErrorWidget() {
-    if (_retrieveDataError != null) {
-      final Text result = Text(_retrieveDataError);
-      _retrieveDataError = null;
-      return result;
-    }
-    return null;
-  }
-
-  Future<void> retrieveLostData() async {
-    final LostData response = await _picker.getLostData();
-    if (response.isEmpty) {
-      return;
-    }
-    if (response.file != null) {
-      isVideo = false;
-      setState(() {
-        _imageFile = response.file;
-      });
-    } else {
-      _retrieveDataError = response.exception.code;
-    }
-  }
-
-  Future<void> _showSelectionDialog(BuildContext context) {
-    return showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-              title: Text(allTranslations.text('photo1_title')),
-              content: SingleChildScrollView(
-                child: ListBody(
-                  children: <Widget>[
-                    GestureDetector(
-                      child: Text(allTranslations.text('photo2_title')),
-                      onTap: () {
-                        Navigator.pop(
-                            context, allTranslations.text('cancel_title'));
-                        pickImageFromGallery(ImageSource.gallery,
-                            context: context);
-                      },
-                    ),
-                    Padding(padding: EdgeInsets.all(8.0)),
-                    GestureDetector(
-                      child: Text(allTranslations.text('photo3_title')),
-                      onTap: () {
-                        Navigator.pop(
-                            context, allTranslations.text('cancel_title'));
-                        pickImageFromGallery(ImageSource.camera,
-                            context: context);
-                      },
-                    )
-                  ],
-                ),
-              ));
-        });
-  }
+  Future<List<MyItems>> civi;
+  Future<List<MyItems>> elect;
+  Future<List<MyItems>> sang;
+  Future<List<MyItems>> sit;
+  Future<List<MyItems>> toxico;
+  MyItems filiation;
+  Future<List<MyItems>> filiations;
+  Future<List<MyItems>> medical;
 
   Future<List<MyItems>> getElements(String nature) async {
     List<MyItems> liste = List();
@@ -214,6 +870,8 @@ class _ResetState extends State<NewPatientForm> {
     var response = await http.get(
         Setting.apiracine + "comptes/data?types=" + nature.toString(),
         headers: {"Language": allTranslations.currentLanguage.toString()});
+
+    print("DATA " + nature + " : " + response.body.toString());
 
     if (response.statusCode == 200) {
       final responseJson = json.decode(response.body.toString());
@@ -228,49 +886,135 @@ class _ResetState extends State<NewPatientForm> {
     return null;
   }
 
-  @override
-  void initState() {
-    requestPersmission();
-    super.initState();
+  List<MyItems> selectedToxico = [];
+  List<MyItems> selectedMedical = [];
 
-    _loadUser();
-    filiations = getElements("12");
+  Widget _buildToxico(List<MyItems> list) {
+    List<Widget> mList = new List();
+
+    for (int b = 0; b < list.length; b++) {
+      MyItems cmap = list[b];
+
+      mList.add(CheckboxListTile(
+        onChanged: (bool value) {
+          if (mounted) {
+            setState(() {
+              if (value) {
+                selectedToxico.add(cmap);
+                if (cmap.id == 23) autre2 = true;
+              } else {
+                selectedToxico.remove(cmap);
+                if (cmap.id == 23) autre2 = false;
+              }
+            });
+          }
+        },
+        value: selectedToxico.contains(cmap),
+        title: new Text(
+          cmap.libelle.toString().toUpperCase(),
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+      ));
+    }
+
+    return new Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: mList,
+    );
   }
 
-  _makeReset() async {
-    String matricule = _numeroController.text.toString();
-    String pin = _pinController.text.toString();
-    String code1 = _codeController.text.toString();
+  Widget _buildMedical(List<MyItems> list) {
+    List<Widget> mList = new List();
 
-    if (code1 != code) {
+    for (int b = 0; b < list.length; b++) {
+      MyItems cmap = list[b];
+
+      mList.add(CheckboxListTile(
+        onChanged: (bool value) {
+          if (mounted) {
+            setState(() {
+              if (value) {
+                selectedMedical.add(cmap);
+                if (cmap.id == 28) autre = true;
+              } else {
+                selectedMedical.remove(cmap);
+                if (cmap.id == 28) autre = false;
+              }
+            });
+          }
+        },
+        value: selectedMedical.contains(cmap),
+        title: new Text(
+          cmap.libelle.toString().toUpperCase(),
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+      ));
+    }
+
+    return new Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: mList,
+    );
+  }
+
+  void _submitForms() async {
+
+      // recuperation de l'objet signature
+    final sign2 = _sign.currentState;
+    final image = await sign2.getData();
+    var data = await image.toByteData(format: ui.ImageByteFormat.png);
+    final encoded = base64.encode(data.buffer.asUint8List());
+    setState(() {
+      _img = data;
+    });
+
+
+    Locale myLocale = Localizations.localeOf(context);
+
+    if (_nomController.text.isEmpty ||
+        civilite == null ||
+        _prenomController.text.isEmpty ||
+        _datnaissController.text.isEmpty ||
+        _prenomController.text.isEmpty ||
+        situation == null ||
+        _phone1Controller.text.isEmpty) {
       Fluttertoast.showToast(
-          msg: "Code de confirmation incorrect",
+          msg: allTranslations.text('requis1_title'),
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIos: 5,
+          backgroundColor: Colors.red,
+          textColor: Colors.white);
+    } else if (_liste_personne.length == 0) {
+      Fluttertoast.showToast(
+          msg: "Veuillez renseigner une personne à prevenir",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIos: 5,
+          backgroundColor: Colors.red,
+          textColor: Colors.white);
+    } else if (enfant == true && _enfantController.text.toString().isEmpty) {
+      Fluttertoast.showToast(
+          msg: "Veuillez renseigner le nombre d'enfant",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIos: 5,
+          backgroundColor: Colors.red,
+          textColor: Colors.white);
+    } else if (!sign2.hasPoints) {
+      Fluttertoast.showToast(
+          msg: allTranslations.text('condition_title'),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIos: 5,
           backgroundColor: Colors.blue,
           textColor: Colors.white);
-    } else if (pin != currentpin) {
-      Fluttertoast.showToast(
-          msg: "Pin d'authentification incorrect",
-          toastLength: Toast.LENGTH_LONG,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 5,
-          backgroundColor: Colors.blue,
-          textColor: Colors.white);
-    } /*else if (filiation == null) {
-      Fluttertoast.showToast(
-          msg: "Veuillez renseigner votre filiation",
-          toastLength: Toast.LENGTH_LONG,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 5,
-          backgroundColor: Colors.blue,
-          textColor: Colors.white);
-    } */
-    else {
+    } else {
       showDialog(
         context: context,
-        barrierDismissible: false,
+        barrierDismissible: _isSaving,
         builder: (BuildContext context) {
           return AlertDialog(
               title: Row(
@@ -323,12 +1067,154 @@ class _ResetState extends State<NewPatientForm> {
         _isSaving = false;
       });
 
-      // if (_imageFile == null) {
+      // chargement des cni
+      String _cnifile = "";
+      String _profil = "";
+      String _signature = "";
+
+      Uri uri = Uri.parse(Setting.apiracine + "comptes/uploaders");
+
+      if (is_cni) {
+        List<File> file = await convertListAssetToListFile();
+
+        MultipartRequest request1 = http.MultipartRequest("POST", uri);
+
+        for (int i = 0; i < file.length; i++) {
+          ImageCompressService imageCompressService = ImageCompressService(
+            file: file[i],
+          );
+
+          File afterCompress = await imageCompressService.exec();
+
+          Uint8List bytes = afterCompress.readAsBytesSync();
+
+          ByteData data = ByteData.view(bytes.buffer);
+
+          List<int> imageData = data.buffer.asUint8List();
+
+          MultipartFile multipartFile = MultipartFile.fromBytes(
+            'photo' + i.toString() + "",
+            imageData,
+            filename: 'some-file-name.jpg',
+            //contentType: MediaType("image", "jpg"),
+          );
+
+          // add file to multipart
+          request1.files.add(multipartFile);
+        }
+
+        request1.fields["qte"] = file.length.toString();
+        request1.fields["types"] = "cni";
+
+        var response1 = await request1.send();
+
+        var res1 = await http.Response.fromStream(response1);
+
+        var responseCni = json.decode(res1.body.toString());
+
+        _cnifile = responseCni[0]["path"] + "|" + responseCni[1]["path"];
+      }
+
+      if (is_ordre) {
+        List<File> file1 = await convertListAssetToListFile1();
+
+        MultipartRequest request2 = http.MultipartRequest("POST", uri);
+
+        for (int i = 0; i < file1.length; i++) {
+          ImageCompressService imageCompressService = ImageCompressService(
+            file: file1[i],
+          );
+
+          File afterCompress = await imageCompressService.exec();
+
+          Uint8List bytes = afterCompress.readAsBytesSync();
+
+          ByteData data = ByteData.view(bytes.buffer);
+
+          List<int> imageData = data.buffer.asUint8List();
+
+          MultipartFile multipartFile = MultipartFile.fromBytes(
+            'photo' + i.toString() + "",
+            imageData,
+            filename: 'some-file-name.jpg',
+            //contentType: MediaType("image", "jpg"),
+          );
+
+          // add file to multipart
+          request2.files.add(multipartFile);
+        }
+
+        request2.fields["qte"] = file1.length.toString();
+        request2.fields["types"] = "profil";
+
+        var response2 = await request2.send();
+
+        var res2 = await http.Response.fromStream(response2);
+
+        var responseOrdre = json.decode(res2.body.toString());
+        _profil = responseOrdre[0]['path'];
+      }
+
+      String _sport = sport ? _sportController.text.toString() : "0";
+
+       // uploads de la signature
+      Map _data = {
+        "image": encoded,
+        "name": "jpg",
+      };
+
+      var res5 =
+          await http.post(Setting.apiracine + "comptes/uploader", body: _data);
+      if (res5.statusCode == 200) {
+        setState(() {
+          _signature = res5.body.toString();
+        });
+      }
+
+      String _b1 = '[';
+      String _b2 = '[';
+
+      for (int i = 0; i < _liste_personne.length; i++) {
+        if (i == 0)
+          _b1 += _liste_personne[i];
+        else
+          _b1 += "," + _liste_personne[i];
+      }
+
+      for (int i = 0; i < _liste_medecin.length; i++) {
+        if (i == 0)
+          _b2 += _liste_medecin[i];
+        else
+          _b2 += "," + _liste_medecin[i];
+      }
+
+      _b1 += ']';
+      _b2 += ']';
+
       Map data = {
-        //'parent': currentpatient.toString(),
-        'fils': _numeroController.text.toString(),
-        // 'filiation': filiation.id.toString(),
-        'photo': ''
+        'civilite': civilite.id.toString(),
+        'nom': _nomController.text.toString(),
+        'prenom': _prenomController.text.toString(),
+        'datnaiss': _datnaissController.text.toString(),
+        'pays': payslocalisation,
+        'ville': _villeController.text.toString(),
+        'adresse': _adresseController.text.toString(),
+        'phone1': _phone1Controller.text.toString(),
+        'phone2': _phone2Controller.text.toString(),
+        'codepays': codepays,
+        'email': _emailController.text.toString(),
+        'role': '1',
+        'cni': _cnifile,
+        'datedeliv': _datedelivController.text.toString(),
+        'personne': _b1,
+        'medecin': _b2,
+        'number': _cniController.text.toString(),
+        'sport': _sport,
+        'enfant': _enfantController.text.toString(),
+        'profession': _professionController.text.toString(),
+        'sitmat': situation.id.toString(),
+        'photo': _profil,
+        'signature': _signature
       };
 
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -337,20 +1223,32 @@ class _ResetState extends State<NewPatientForm> {
       String basicAuth = 'Bearer ' + token1;
 
       var res = await http
-          .post(Setting.apiracine + "comptes/jointure3", body: data, headers: {
+          .post(Setting.apiracine + "comptes/jointure7", body: data, headers: {
         "Language": allTranslations.currentLanguage.toString(),
         "Authorization": basicAuth,
       });
+
+      print("Retour : " + res.body.toString());
 
       if (res.statusCode == 200) {
         var responseJson = json.decode(res.body);
 
         Navigator.of(context, rootNavigator: true).pop('dialog');
 
+        Fluttertoast.showToast(
+            msg: responseJson["message"].toString(),
+            toastLength: Toast.LENGTH_LONG,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIos: 5,
+            backgroundColor: Colors.green,
+            textColor: Colors.white);
+
         Navigator.push(
           context,
           new MaterialPageRoute(
-              builder: (_) => new Consultation4(responseJson["code"])),
+              builder: (_) => new SuccessPage(
+                  responseJson["matricule"].toString(),
+                  responseJson["pin"].toString())),
         );
       } else {
         Navigator.of(context, rootNavigator: true).pop('dialog');
@@ -362,194 +1260,435 @@ class _ResetState extends State<NewPatientForm> {
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.BOTTOM,
             timeInSecForIos: 5,
-            backgroundColor: Colors.blue,
+            backgroundColor: Colors.red,
             textColor: Colors.white);
       }
-
-      /* } 
-      
-      else {
-        tmpFile = File(_imageFile.path);
-
-        base64Image = base64Encode(tmpFile.readAsBytesSync());
-
-        String fileName = tmpFile.path.split('/').last;
-
-        String ext = lookupMimeType(tmpFile.path).split('/').last;
-
-        Map data = {
-          "image": base64Image,
-          "name": ext,
-        };
-
-        var res1 =
-            await http.post(Setting.apiracine + "comptes/uploader", body: data);
-
-        print("retour : " + res1.body.toString());
-
-        if (res1.statusCode == 200) {
-          var response1Json = json.decode(res1.body);
-
-          Map data = {
-            'parent': currentpatient.toString(),
-            'fils': _numeroController.text.toString(),
-            'filiation': filiation.id.toString(),
-            'photo': response1Json['path']
-          };
-
-          SharedPreferences prefs = await SharedPreferences.getInstance();
-          String token1 = (prefs.getString('token') ?? '');
-
-          String basicAuth = 'Bearer ' + token1;
-
-          var res = await http.post(Setting.apiracine + "comptes/jointure",
-              body: data,
-              headers: {
-                "Language": allTranslations.currentLanguage.toString(),
-                "Authorization": basicAuth,
-              });
-
-          if (res.statusCode == 200) {
-            var responseJson = json.decode(res.body);
-
-            Navigator.of(context, rootNavigator: true).pop('dialog');
-
-            Fluttertoast.showToast(
-                msg: responseJson["message"].toString(),
-                toastLength: Toast.LENGTH_LONG,
-                gravity: ToastGravity.BOTTOM,
-                timeInSecForIos: 5,
-                backgroundColor: Colors.blue,
-                textColor: Colors.white);
-
-            Navigator.push(
-              context,
-              new MaterialPageRoute(builder: (_) => new HomePage(0)),
-            );
-          } else {
-            Navigator.of(context, rootNavigator: true).pop('dialog');
-
-            var responseJson = json.decode(res.body);
-
-            Fluttertoast.showToast(
-                msg: responseJson["message"].toString(),
-                toastLength: Toast.LENGTH_LONG,
-                gravity: ToastGravity.BOTTOM,
-                timeInSecForIos: 5,
-                backgroundColor: Colors.blue,
-                textColor: Colors.white);
-          }
-        } else {
-          Navigator.of(context, rootNavigator: true).pop('dialog');
-
-          Fluttertoast.showToast(
-              msg: allTranslations.text('erreur_title'),
-              toastLength: Toast.LENGTH_LONG,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIos: 5,
-              backgroundColor: Colors.orange,
-              textColor: Colors.white);
-        }
-      } */
     }
   }
 
-  _init() async {
-    String matricule = _numeroController.text.toString();
+  _loadUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    if (matricule.isEmpty) {
-      Fluttertoast.showToast(
-          msg: allTranslations.text('requis1_title'),
-          toastLength: Toast.LENGTH_LONG,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 5,
-          backgroundColor: Colors.blue,
-          textColor: Colors.white);
+    setState(() {
+      currentpin = (prefs.getString('currentpin') ?? '');
+      currentpatient = (prefs.getString('currentpatient') ?? '');
+    });
+  }
+
+  void initState() {
+    super.initState();
+
+    civi = getElements("2");
+    elect = getElements("6");
+    sang = getElements("4");
+    sit = getElements("8");
+    toxico = getElements("9");
+    medical = getElements("11");
+    _loadUser();
+    filiations = getElements("12");
+  }
+
+  @override
+  void dispose() {
+    // Clean up the controller when the Widget is disposed
+    _phone1Controller.dispose();
+    _phone2Controller.dispose();
+    _datnaissController.dispose();
+    _nomController.dispose();
+    _prenomController.dispose();
+    _villeController.dispose();
+    _adresseController.dispose();
+    _emailController.dispose();
+    _poidsController.dispose();
+    _tailleController.dispose();
+    _cniController.dispose();
+    _datedelivController.dispose();
+    _nom1Controller.dispose();
+    _numero1Controller.dispose();
+    _nom2Controller.dispose();
+    _numero2Controller.dispose();
+    _autre1Controller.dispose();
+    _autre2Controller.dispose();
+    _sportController.dispose();
+    _professionController.dispose();
+    super.dispose();
+  }
+
+  bool isVideo = false;
+  String _retrieveDataError;
+
+  final TextEditingController maxWidthController = TextEditingController();
+  final TextEditingController maxHeightController = TextEditingController();
+  final TextEditingController qualityController = TextEditingController();
+  Future<File> imageFile;
+  PickedFile _imageFile;
+  File _image;
+  File tmpFile;
+
+  Future<File> imageFile1;
+  PickedFile _imageFile1;
+  File _image1;
+  File tmpFile1;
+
+  Future<File> imageFile2;
+  PickedFile _imageFile2;
+  File _image2;
+  File tmpFile2;
+
+  final ImagePicker _picker = ImagePicker();
+  final ImagePicker _picker1 = ImagePicker();
+  final ImagePicker _picker2 = ImagePicker();
+  dynamic _pickImageError;
+
+  Widget _previewImage() {
+    final Text retrieveError = _getRetrieveErrorWidget();
+    if (retrieveError != null) {
+      return retrieveError;
+    }
+    if (_imageFile != null) {
+      return GestureDetector(
+        onTap: () {
+          _showSelectionDialog(context);
+        },
+        child: Image.file(File(_imageFile.path)),
+      );
+    } else if (_pickImageError != null) {
+      return Center(child: Text(""));
     } else {
-      showDialog(
+      return Center(child: Text(""));
+    }
+  }
+
+  Widget _previewImage1() {
+    final Text retrieveError = _getRetrieveErrorWidget();
+    if (retrieveError != null) {
+      return retrieveError;
+    }
+    if (_imageFile1 != null) {
+      return GestureDetector(
+        onTap: () {
+          _showSelectionDialog1(context);
+        },
+        child: Image.file(File(_imageFile1.path)),
+      );
+    } else if (_pickImageError != null) {
+      return Center(child: Text(""));
+      ;
+    } else {
+      return Center(child: Text(""));
+    }
+  }
+
+  Widget _previewImage2() {
+    final Text retrieveError = _getRetrieveErrorWidget();
+    if (retrieveError != null) {
+      return retrieveError;
+    }
+    if (_imageFile2 != null) {
+      return GestureDetector(
+        onTap: () {
+          _showSelectionDialog2(context);
+        },
+        child: Image.file(File(_imageFile2.path)),
+      );
+    } else if (_pickImageError != null) {
+      return Center(child: Text(""));
+    } else {
+      return Center(child: Text(""));
+    }
+  }
+
+  Future<void> _displayPickImageDialog(
+      BuildContext context, OnPickImageCallback onPick) async {
+    double width = maxWidthController.text.isNotEmpty
+        ? double.parse(maxWidthController.text)
+        : null;
+
+    double height = maxHeightController.text.isNotEmpty
+        ? double.parse(maxHeightController.text)
+        : null;
+
+    int quality = qualityController.text.isNotEmpty
+        ? int.parse(qualityController.text)
+        : null;
+
+    onPick(width, height, quality);
+  }
+
+  pickImageFromGallery(ImageSource source, {BuildContext context}) async {
+    await _displayPickImageDialog(context,
+        (double maxWidth, double maxHeight, int quality) async {
+      try {
+        final pickedFile = await _picker.getImage(
+          source: source,
+          maxWidth: maxWidth,
+          maxHeight: maxHeight,
+          imageQuality: quality,
+        );
+
+        print("File picked : " + pickedFile.path.toString());
+
+        setState(() {
+          _imageFile = pickedFile;
+          isVisible = false;
+        });
+      } catch (e) {
+        setState(() {
+          _pickImageError = e;
+        });
+      }
+    });
+  }
+
+  pickImageFromGallery1(ImageSource source, {BuildContext context}) async {
+    await _displayPickImageDialog(context,
+        (double maxWidth, double maxHeight, int quality) async {
+      try {
+        final pickedFile = await _picker1.getImage(
+          source: source,
+          maxWidth: maxWidth,
+          maxHeight: maxHeight,
+          imageQuality: quality,
+        );
+
+        print("File picked : " + pickedFile.path.toString());
+
+        setState(() {
+          _imageFile1 = pickedFile;
+          isVisible1 = false;
+        });
+      } catch (e) {
+        setState(() {
+          _pickImageError = e;
+        });
+      }
+    });
+  }
+
+  pickImageFromGallery2(ImageSource source, {BuildContext context}) async {
+    await _displayPickImageDialog(context,
+        (double maxWidth, double maxHeight, int quality) async {
+      try {
+        final pickedFile = await _picker2.getImage(
+          source: source,
+          maxWidth: maxWidth,
+          maxHeight: maxHeight,
+          imageQuality: quality,
+        );
+
+        print("File picked : " + pickedFile.path.toString());
+
+        setState(() {
+          _imageFile2 = pickedFile;
+          isVisible2 = false;
+        });
+      } catch (e) {
+        setState(() {
+          _pickImageError = e;
+        });
+      }
+    });
+  }
+
+  Text _getRetrieveErrorWidget() {
+    if (_retrieveDataError != null) {
+      final Text result = Text(_retrieveDataError);
+      _retrieveDataError = null;
+      return result;
+    }
+    return null;
+  }
+
+  Future<void> retrieveLostData() async {
+    final LostData response = await _picker.getLostData();
+    if (response.isEmpty) {
+      return;
+    }
+    if (response.file != null) {
+      isVideo = false;
+      setState(() {
+        _imageFile = response.file;
+      });
+    } else {
+      _retrieveDataError = response.exception.code;
+    }
+  }
+
+  Future<void> retrieveLostData1() async {
+    final LostData response = await _picker1.getLostData();
+    if (response.isEmpty) {
+      return;
+    }
+    if (response.file != null) {
+      isVideo = false;
+      setState(() {
+        _imageFile1 = response.file;
+      });
+    } else {
+      _retrieveDataError = response.exception.code;
+    }
+  }
+
+  Future<void> retrieveLostData2() async {
+    final LostData response = await _picker2.getLostData();
+    if (response.isEmpty) {
+      return;
+    }
+    if (response.file != null) {
+      isVideo = false;
+      setState(() {
+        _imageFile2 = response.file;
+      });
+    } else {
+      _retrieveDataError = response.exception.code;
+    }
+  }
+
+  Future<void> _showSelectionDialog(BuildContext context) {
+    return showDialog(
         context: context,
-        barrierDismissible: _isSaving,
         builder: (BuildContext context) {
           return AlertDialog(
-              title: Text(allTranslations.text('progress_title')),
-              content: new Container(
-                  height: 100.0,
-                  child: new Center(
-                      child: new CircularProgressIndicator(
-                    valueColor: new AlwaysStoppedAnimation<Color>(Colors.blue),
-                  ))));
-        },
-      );
-
-      // start the modal progress HUD
-      setState(() {
-        _isSaving = false;
-      });
-
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      String token1 = (prefs.getString('token') ?? '');
-      String currentpatient1 = (prefs.getString('currentpatient') ?? '');
-
-      String basicAuth = 'Bearer ' + token1;
-
-      var response = await http.get(
-          Setting.apiracine + "comptes/check?matricule=" + matricule.toString(),
-          headers: {
-            "Language": allTranslations.currentLanguage.toString(),
-            "Authorization": basicAuth,
-          });
-
-      print("retour : " + response.body.toString());
-
-      if (response.statusCode == 200) {
-        Navigator.of(context, rootNavigator: true).pop('dialog');
-
-        var responseJson = json.decode(response.body);
-        setState(() {
-          visible = true;
-          code = responseJson["code"].toString();
-          Fluttertoast.showToast(
-              msg: "Le code est : " + responseJson["code"].toString(),
-              toastLength: Toast.LENGTH_LONG,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIos: 5,
-              backgroundColor: Colors.blue,
-              textColor: Colors.white);
+              title: Text(allTranslations.text('photo1_title')),
+              content: SingleChildScrollView(
+                child: ListBody(
+                  children: <Widget>[
+                    GestureDetector(
+                      child: Text(allTranslations.text('photo2_title')),
+                      onTap: () {
+                        Navigator.pop(
+                            context, allTranslations.text('cancel_title'));
+                        pickImageFromGallery(ImageSource.gallery,
+                            context: context);
+                      },
+                    ),
+                    Padding(padding: EdgeInsets.all(8.0)),
+                    GestureDetector(
+                      child: Text(allTranslations.text('photo3_title')),
+                      onTap: () {
+                        Navigator.pop(
+                            context, allTranslations.text('cancel_title'));
+                        pickImageFromGallery(ImageSource.camera,
+                            context: context);
+                      },
+                    )
+                  ],
+                ),
+              ));
         });
-      } else {
-        Navigator.of(context, rootNavigator: true).pop('dialog');
+  }
 
-        var responseJson = json.decode(response.body);
+  Future<void> _showSelectionDialog1(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+              title: Text(allTranslations.text('photo1_title')),
+              content: SingleChildScrollView(
+                child: ListBody(
+                  children: <Widget>[
+                    GestureDetector(
+                      child: Text(allTranslations.text('photo2_title')),
+                      onTap: () {
+                        Navigator.pop(
+                            context, allTranslations.text('cancel_title'));
+                        pickImageFromGallery1(ImageSource.gallery,
+                            context: context);
+                      },
+                    ),
+                    Padding(padding: EdgeInsets.all(8.0)),
+                    GestureDetector(
+                      child: Text(allTranslations.text('photo3_title')),
+                      onTap: () {
+                        Navigator.pop(
+                            context, allTranslations.text('cancel_title'));
+                        pickImageFromGallery1(ImageSource.camera,
+                            context: context);
+                      },
+                    )
+                  ],
+                ),
+              ));
+        });
+  }
 
-        Fluttertoast.showToast(
-            msg: responseJson["message"].toString(),
-            toastLength: Toast.LENGTH_LONG,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIos: 5,
-            backgroundColor: Colors.blue,
-            textColor: Colors.white);
-      }
+  Future<void> _showSelectionDialog2(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+              title: Text(allTranslations.text('photo1_title')),
+              content: SingleChildScrollView(
+                child: ListBody(
+                  children: <Widget>[
+                    GestureDetector(
+                      child: Text(allTranslations.text('photo2_title')),
+                      onTap: () {
+                        Navigator.pop(
+                            context, allTranslations.text('cancel_title'));
+                        pickImageFromGallery2(ImageSource.gallery,
+                            context: context);
+                      },
+                    ),
+                    Padding(padding: EdgeInsets.all(8.0)),
+                    GestureDetector(
+                      child: Text(allTranslations.text('photo3_title')),
+                      onTap: () {
+                        Navigator.pop(
+                            context, allTranslations.text('cancel_title'));
+                        pickImageFromGallery2(ImageSource.camera,
+                            context: context);
+                      },
+                    )
+                  ],
+                ),
+              ));
+        });
+  }
+
+  List<String> _fichier = new List();
+  List<Asset> images = List<Asset>();
+  String _error = 'No Error Dectected';
+
+  Future<void> loadAssets() async {
+    List<Asset> resultList = List<Asset>();
+    String error = 'No Error Dectected';
+
+    try {
+      resultList = await MultiImagePicker.pickImages(
+        maxImages: 2,
+        enableCamera: true,
+        selectedAssets: images,
+        cupertinoOptions: CupertinoOptions(takePhotoIcon: "chat"),
+        materialOptions: MaterialOptions(
+          actionBarColor: "#abcdef",
+          actionBarTitle: "Example App",
+          allViewTitle: "All Photos",
+          useDetailsView: false,
+          selectCircleStrokeColor: "#000000",
+        ),
+      );
+    } on Exception catch (e) {
+      error = e.toString();
     }
+
+    // If the widget was removed from the tree while the asynchronous platform
+    // message was in flight, we want to discard the reply rather than calling
+    // setState to update our non-existent appearance.
+    if (!mounted) return;
+
+    setState(() {
+      images = resultList;
+      _error = error;
+    });
   }
 
-  Future _scan() async {
-   /* String barcode = await scanner.scan();
+  Widget buildView() {
+    var taille = images == null ? 0 : images.length;
 
-    _numeroController.text = barcode;*/  }
+    print("images : " + images.toString());
 
-  void requestPersmission() async {
-    await PermissionHandler().requestPermissions([PermissionGroup.camera]);
-  }
-
-  Future _scan1() async {
-    //await Permission.camera.request();
-  /*  String barcode = await scanner.scan();
-    if (barcode == null) {
-      print('nothing return.');
-    } else {
-      //this._outputController.text = barcode;
-      _numeroController.text = barcode;
-    }*/
+    return Center(child: Text(taille.toString() + " image(s) chosen"));
   }
 
   @override
@@ -563,17 +1702,91 @@ class _ResetState extends State<NewPatientForm> {
     return Form(
       key: _formKey,
       child: Container(
-        padding: EdgeInsets.only(top: 20.0),
+        padding: EdgeInsets.only(top: 10.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Flexible(
-                  child: Padding(
+            Center(
+              child: new Text(
+                allTranslations.text('identif_title'),
+                textAlign: TextAlign.left,
+                style: new TextStyle(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.bold,
+                    fontStyle: FontStyle.normal,
+                    color: color),
+              ),
+            ),
+            Divider(
+              height: 20.0,
+              color: Colors.transparent,
+            ),
+            Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Padding(
+                      padding: EdgeInsets.only(
+                          left: 10.0, right: 8.0, top: 8.0, bottom: 0.0),
+                      child: Center(
+                        child: Text(
+                          allTranslations.text('civ_title') + " *",
+                          style: TextStyle(
+                              color: color2,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.0),
+                        ),
+                      )),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        left: 5.0, right: 5.0, top: 0.0, bottom: 0.0),
+                    child: FutureBuilder<List<MyItems>>(
+                        future: civi,
+                        builder: (context, snapshot) {
+                          if (snapshot.hasError) {
+                            return new Container();
+                          } else if (snapshot.hasData) {
+                            List<Widget> civ = new List();
+
+                            for (int i = 0; i < snapshot.data.length; i++) {
+                              Widget radio = new Radio(
+                                value: snapshot.data[i],
+                                groupValue: civilite,
+                                onChanged: _handleRadioValueCiv,
+                              );
+
+                              Widget pad = new Padding(
+                                  padding: EdgeInsets.only(top: 15.0),
+                                  child: Text(
+                                    snapshot.data[i].libelle.toString(),
+                                    style: new TextStyle(
+                                        fontSize: 16.0,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold),
+                                  ));
+
+                              civ.add(radio);
+                              civ.add(pad);
+                            }
+
+                            return SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: civ),
+                            );
+                          } else {
+                            return CircularProgressIndicator();
+                          }
+                        }),
+                  ),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  Padding(
                     padding: const EdgeInsets.all(0.0),
                     child: Container(
                       padding: const EdgeInsets.only(
@@ -594,7 +1807,7 @@ class _ResetState extends State<NewPatientForm> {
                             Icons.person,
                             color: color,
                           ),
-                          labelText: allTranslations.text('matricule') + " *",
+                          labelText: allTranslations.text('nom_title') + " *",
                           labelStyle: TextStyle(
                               color: color,
                               fontSize: 16.0,
@@ -605,35 +1818,15 @@ class _ResetState extends State<NewPatientForm> {
                             return 'Champ obligatoire';
                           }
                         },
-                        controller: _numeroController,
-                        keyboardType: TextInputType.number,
-                        // enabled: visible ? false : true,
+                        keyboardType: TextInputType.text,
+                        controller: _nomController,
                       ),
                     ),
                   ),
-                  flex: 5,
-                ),
-                Flexible(
-                    child: IconButton(
-                      onPressed: () {
-                        // You enter here what you want the button to do once the user interacts with it
-                        _scan1();
-                      },
-                      icon: Icon(
-                        Icons.qr_code,
-                        color: color,
-                      ),
-                      iconSize: 40.0,
-                    ),
-                    flex: 1)
-              ],
-            ),
-            /*  Divider(
-              height: 25.0,
-              color: Colors.transparent,
-            ),
-            visible
-                ? Padding(
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  Padding(
                     padding: const EdgeInsets.all(0.0),
                     child: Container(
                       padding: const EdgeInsets.only(
@@ -654,8 +1847,222 @@ class _ResetState extends State<NewPatientForm> {
                             Icons.person,
                             color: color,
                           ),
-                          labelText:
-                              allTranslations.text('codeconfirm_title') + " *",
+                          labelText: allTranslations.text('prenom_title'),
+                          labelStyle: TextStyle(
+                              color: color,
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.normal),
+                        ),
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'Champ obligatoire';
+                          }
+                        },
+                        keyboardType: TextInputType.text,
+                        controller: _prenomController,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  new Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      new Flexible(
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                              left: 0.0, right: 0.0, top: 5.0, bottom: 5.0),
+                          child: new InkWell(
+                            onTap: () {
+                              showDatePicker(
+                                      context: context,
+                                      initialDate: _dateTime == null
+                                          ? DateTime.now()
+                                          : _dateTime,
+                                      firstDate: DateTime(1920),
+                                      lastDate: DateTime.now())
+                                  .then((date) {
+                                setState(() {
+                                  _dateTime = date;
+                                  String vj = "";
+                                  String vm = "";
+                                  var date1 =
+                                      DateTime.parse(_dateTime.toString());
+                                  var j = date1.day;
+                                  var m = date1.month;
+                                  if (j < 10)
+                                    vj = "0" + j.toString();
+                                  else
+                                    vj = j.toString();
+                                  if (m < 10)
+                                    vm = "0" + m.toString();
+                                  else
+                                    vm = m.toString();
+                                  var formattedDate =
+                                      "${date1.year}-${vm}-${vj}";
+                                  _datnaissController.text = formattedDate;
+                                });
+                              });
+                            },
+                            child: new Container(
+                              width: 120.0,
+                              height: 50.0,
+                              decoration: new BoxDecoration(
+                                color: color2,
+                                border: new Border.all(
+                                    color: Colors.white, width: 2.0),
+                                borderRadius: new BorderRadius.circular(10.0),
+                              ),
+                              child: new Center(
+                                child: new Text(
+                                  allTranslations.text('choisir'),
+                                  style: new TextStyle(
+                                      fontSize: 14.0, color: Colors.white),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        flex: 1,
+                      ),
+                      new Flexible(
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                            top: 0.0,
+                            left: 10.0,
+                          ),
+                          child: Container(
+                            padding: const EdgeInsets.only(
+                                left: 10.0, right: 5.0, top: 3.0, bottom: 3.0),
+                            width: double.infinity,
+                            decoration: new BoxDecoration(
+                              color: Colors.white70,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10.0)),
+                              border: new Border.all(color: Colors.black38),
+                            ),
+                            child: TextFormField(
+                              obscureText: false,
+                              style: const TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.normal),
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                icon: new Icon(
+                                  Icons.calendar_today,
+                                  color: color,
+                                ),
+                                labelText:
+                                    allTranslations.text('datnaiss_title') +
+                                        " *",
+                                labelStyle: TextStyle(
+                                    color: color,
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.normal),
+                              ),
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return 'Champ obligatoire';
+                                }
+                              },
+                              keyboardType: TextInputType.text,
+                              enabled: false,
+                              controller: _datnaissController,
+                            ),
+                          ),
+                        ),
+                        flex: 2,
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  IntlPhoneField(
+                    decoration: InputDecoration(
+                      labelText: allTranslations.text('phone1_title') + " *",
+                      prefixIcon: new Icon(
+                        Icons.phone,
+                        color: color,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: const BorderRadius.all(
+                          const Radius.circular(10.0),
+                        ),
+                        borderSide: BorderSide(),
+                      ),
+                      labelStyle: TextStyle(
+                          color: color,
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.normal),
+                    ),
+                    initialCountryCode: 'CM',
+                    onChanged: (phone) {
+                      print(phone.completeNumber);
+                      if (mounted) {
+                        _phone1Controller.text =
+                            phone.completeNumber.toString();
+                        payslocalisation = phone.countryISOCode.toString();
+                        codepays = phone.countryCode.toString();
+                      }
+                    },
+                  ),
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  IntlPhoneField(
+                    decoration: InputDecoration(
+                      labelText: allTranslations.text('phone2_title'),
+                      prefixIcon: new Icon(
+                        Icons.phone,
+                        color: Colors.black,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: const BorderRadius.all(
+                          const Radius.circular(10.0),
+                        ),
+                        borderSide: BorderSide(),
+                      ),
+                      labelStyle: TextStyle(
+                          color: Colors.black,
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.normal),
+                    ),
+                    initialCountryCode: 'CM',
+                    onChanged: (phone) {
+                      print(phone.completeNumber);
+                      if (mounted) {
+                        _phone2Controller.text =
+                            phone.completeNumber.toString();
+                      }
+                    },
+                  ),
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(0.0),
+                    child: Container(
+                      padding: const EdgeInsets.only(
+                          left: 10.0, right: 5.0, top: 3.0, bottom: 3.0),
+                      width: double.infinity,
+                      decoration: new BoxDecoration(
+                        color: Colors.white70,
+                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        border: new Border.all(color: Colors.black38),
+                      ),
+                      child: TextFormField(
+                        obscureText: false,
+                        style: const TextStyle(
+                            color: Colors.black, fontWeight: FontWeight.normal),
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          icon: new Icon(
+                            Icons.email,
+                            color: color,
+                          ),
+                          labelText: allTranslations.text('email_title'),
                           labelStyle: TextStyle(
                               color: Colors.grey,
                               fontSize: 16.0,
@@ -666,20 +2073,95 @@ class _ResetState extends State<NewPatientForm> {
                             return 'Champ obligatoire';
                           }
                         },
-                        controller: _codeController,
-                        keyboardType: TextInputType.number,
+                        keyboardType: TextInputType.emailAddress,
+                        controller: _emailController,
                       ),
                     ),
-                  )
-                : Container(),*/
-            visible
-                ? Divider(
-                    height: 25.0,
-                    color: Colors.transparent,
-                  )
-                : Container(),
-            visible
-                ? Padding(
+                  ),
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(0.0),
+                    child: Container(
+                      padding: const EdgeInsets.only(
+                          left: 10.0, right: 5.0, top: 3.0, bottom: 3.0),
+                      width: double.infinity,
+                      decoration: new BoxDecoration(
+                        color: Colors.white70,
+                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        border: new Border.all(color: Colors.black38),
+                      ),
+                      child: TextFormField(
+                        obscureText: false,
+                        style: const TextStyle(
+                            color: Colors.black, fontWeight: FontWeight.normal),
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          icon: new Icon(
+                            Icons.place,
+                            color: color,
+                          ),
+                          labelText: allTranslations.text('adresse_title'),
+                          labelStyle: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.normal),
+                        ),
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'Champ obligatoire';
+                          }
+                        },
+                        keyboardType: TextInputType.text,
+                        controller: _adresseController,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(0.0),
+                    child: Container(
+                      padding: const EdgeInsets.only(
+                          left: 10.0, right: 5.0, top: 3.0, bottom: 3.0),
+                      width: double.infinity,
+                      decoration: new BoxDecoration(
+                        color: Colors.white70,
+                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        border: new Border.all(color: Colors.black38),
+                      ),
+                      child: TextFormField(
+                        obscureText: false,
+                        style: const TextStyle(
+                            color: Colors.black, fontWeight: FontWeight.normal),
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          icon: new Icon(
+                            Icons.map,
+                            color: color,
+                          ),
+                          labelText: allTranslations.text('ville_title'),
+                          labelStyle: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.normal),
+                        ),
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'Champ obligatoire';
+                          }
+                        },
+                        keyboardType: TextInputType.text,
+                        controller: _villeController,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  Padding(
                     padding: const EdgeInsets.all(0.0),
                     child: Container(
                       padding: const EdgeInsets.only(
@@ -700,7 +2182,435 @@ class _ResetState extends State<NewPatientForm> {
                             Icons.security,
                             color: color,
                           ),
-                          labelText: allTranslations.text('s2') + " *",
+                          labelText: allTranslations.text('cni_title'),
+                          labelStyle: TextStyle(
+                              color: color,
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.normal),
+                        ),
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'Champ obligatoire';
+                          }
+                        },
+                        keyboardType: TextInputType.text,
+                        controller: _cniController,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  new Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      new Flexible(
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                              left: 0.0, right: 0.0, top: 5.0, bottom: 5.0),
+                          child: new InkWell(
+                            onTap: () {
+
+                                showDatePicker(
+                                context: context,
+                                initialDate: _dateTime1 == null
+                                    ? DateTime.now()
+                                    : _dateTime1,
+                                firstDate: DateTime.now(),
+                                lastDate: DateTime(2050))
+                            .then((date) {
+                          setState(() {
+                            _dateTime1 = date;
+                            String vj = "";
+                            String vm = "";
+                            var date1 = DateTime.parse(_dateTime1.toString());
+                            var j = date1.day;
+                            var m = date1.month;
+                            if (j < 10)
+                              vj = "0" + j.toString();
+                            else
+                              vj = j.toString();
+                            if (m < 10)
+                              vm = "0" + m.toString();
+                            else
+                              vm = m.toString();
+                            var formattedDate = "${date1.year}-${vm}-${vj}";
+                            _datedelivController.text = formattedDate;
+                          });
+                        });
+                             /* DatePicker.showDatePicker(context,
+                                  showTitleActions: true,
+                                  minTime: DateTime.now(),
+                                  maxTime: DateTime(20, 6, 7),
+                                  theme: DatePickerTheme(
+                                      headerColor: Colors.white,
+                                      backgroundColor: Colors.white,
+                                      itemStyle: TextStyle(
+                                          color: color2,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16),
+                                      doneStyle: TextStyle(
+                                          color: color,
+                                          fontSize: 16)), onChanged: (date) {
+                                var d = date.toString().split(' ');
+                                _datedelivController.text = d[0].toString();
+                              }, onConfirm: (date) {
+                                var d = date.toString().split(' ');
+                                _datedelivController.text = d[0].toString();
+                              },
+                                  currentTime: DateTime.now(),
+                                  locale: allTranslations.currentLanguage
+                                              .toString() ==
+                                          "fr"
+                                      ? LocaleType.fr
+                                      : allTranslations.currentLanguage
+                                                  .toString() ==
+                                              "es"
+                                          ? LocaleType.es
+                                          : LocaleType.en);*/
+                            },
+                            child: new Container(
+                              width: 120.0,
+                              height: 50.0,
+                              decoration: new BoxDecoration(
+                                color: color2,
+                                border: new Border.all(
+                                    color: Colors.white, width: 2.0),
+                                borderRadius: new BorderRadius.circular(10.0),
+                              ),
+                              child: new Center(
+                                child: new Text(
+                                  allTranslations.text('choisir'),
+                                  style: new TextStyle(
+                                      fontSize: 14.0, color: Colors.white),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        flex: 1,
+                      ),
+                      new Flexible(
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                            top: 0.0,
+                            left: 10.0,
+                          ),
+                          child: Container(
+                            padding: const EdgeInsets.only(
+                                left: 10.0, right: 5.0, top: 3.0, bottom: 3.0),
+                            width: double.infinity,
+                            decoration: new BoxDecoration(
+                              color: Colors.white70,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10.0)),
+                              border: new Border.all(color: Colors.black38),
+                            ),
+                            child: TextFormField(
+                              obscureText: false,
+                              style: const TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.normal),
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                icon: new Icon(
+                                  Icons.calendar_today,
+                                  color: color,
+                                ),
+                                labelText:
+                                    allTranslations.text('datedeliv_title'),
+                                labelStyle: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.normal),
+                              ),
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return 'Champ obligatoire';
+                                }
+                              },
+                              keyboardType: TextInputType.text,
+                              enabled: false,
+                              controller: _datedelivController,
+                            ),
+                          ),
+                        ),
+                        flex: 2,
+                      ),
+                    ],
+                  ),
+                  Divider(
+                    height: 0.0,
+                    color: Colors.transparent,
+                  ),
+                ]),
+            Divider(
+              height: 30.0,
+              color: Colors.transparent,
+            ),
+            Center(
+                child: new Text(
+              allTranslations.text('urgence_title'),
+              textAlign: TextAlign.left,
+              style: new TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                  fontStyle: FontStyle.normal,
+                  color: color),
+            )),
+            SizedBox(
+              height: 10,
+            ),
+            GestureDetector(
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return StatefulBuilder(
+                      builder: (context, refresh) {
+                        return AlertDialog(
+                            content: _addPersonne(refresh: refresh));
+                      },
+                    );
+                  },
+                );
+              },
+              child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(top: 2.0),
+                      child: Image.asset("img/download.png",
+                          width: 20.0,
+                          fit: BoxFit.contain,
+                          alignment: Alignment.centerLeft),
+                    ),
+                    Padding(
+                        padding: EdgeInsets.only(left: 5.0, top: 2),
+                        child: Center(
+                          child: Text(
+                            'Ajouter',
+                            style: TextStyle(
+                                color: color2,
+                                fontStyle: FontStyle.italic,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18),
+                          ),
+                        ))
+                  ]),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Container(child: Column(children: this._listPersonne)),
+            SizedBox(
+              height: 30,
+            ),
+            Center(
+                child: new Text(
+              allTranslations.text('medecin_title'),
+              textAlign: TextAlign.left,
+              style: new TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                  fontStyle: FontStyle.normal,
+                  color: color),
+            )),
+            SizedBox(
+              height: 10,
+            ),
+            GestureDetector(
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return StatefulBuilder(
+                      builder: (context, refresh) {
+                        return AlertDialog(
+                            content: _addMedecin(refresh: refresh));
+                      },
+                    );
+                  },
+                );
+              },
+              child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(top: 2.0),
+                      child: Image.asset("img/download.png",
+                          width: 20.0,
+                          fit: BoxFit.contain,
+                          alignment: Alignment.centerLeft),
+                    ),
+                    Padding(
+                        padding: EdgeInsets.only(left: 5.0, top: 2),
+                        child: Center(
+                          child: Text(
+                            'Ajouter',
+                            style: TextStyle(
+                                color: color2,
+                                fontStyle: FontStyle.italic,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18),
+                          ),
+                        ))
+                  ]),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Container(child: Column(children: this._listMedecin)),
+            SizedBox(
+              height: 20,
+            ),
+            Padding(
+                padding: EdgeInsets.only(
+                    left: 20.0, right: 8.0, top: 5.0, bottom: 18.0),
+                child: Center(
+                  child: Text(
+                    allTranslations.text('sit_title') + " *",
+                    style: TextStyle(
+                        color: color,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18.0),
+                  ),
+                )),
+            Padding(
+              padding: const EdgeInsets.only(
+                  left: 5.0, right: 5.0, top: 0.0, bottom: 0.0),
+              child: FutureBuilder<List<MyItems>>(
+                  future: sit,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) {
+                      return new Container();
+                    } else if (snapshot.hasData) {
+                      List<Widget> civ = new List();
+
+                      for (int i = 0; i < snapshot.data.length; i++) {
+                        Widget radio = new Radio(
+                          value: snapshot.data[i],
+                          groupValue: situation,
+                          onChanged: _handleRadioValueSit,
+                        );
+
+                        Widget pad = new Padding(
+                            padding: EdgeInsets.only(top: 15.0),
+                            child: Text(
+                              snapshot.data[i].libelle.toString(),
+                              style: new TextStyle(
+                                  fontSize: 16.0,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold),
+                            ));
+
+                        civ.add(radio);
+                        civ.add(pad);
+                      }
+
+                      return SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: civ),
+                      );
+                    } else {
+                      return CircularProgressIndicator();
+                    }
+                  }),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(0.0),
+              child: Container(
+                padding: const EdgeInsets.only(
+                    left: 10.0, right: 5.0, top: 3.0, bottom: 3.0),
+                width: double.infinity,
+                decoration: new BoxDecoration(
+                  color: Colors.white70,
+                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                  border: new Border.all(color: Colors.black38),
+                ),
+                child: TextFormField(
+                  obscureText: false,
+                  style: const TextStyle(
+                      color: Colors.black, fontWeight: FontWeight.normal),
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    icon: new Icon(
+                      Icons.assignment,
+                      color: color,
+                    ),
+                    labelText: allTranslations.text('profession_title'),
+                    labelStyle: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.normal),
+                  ),
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Champ obligatoire';
+                    }
+                  },
+                  keyboardType: TextInputType.text,
+                  controller: _professionController,
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 20.0,
+            ),
+            CheckboxListTile(
+              title: Center(
+                  child: Text(
+                'Avez-vous des enfants ?',
+                style: TextStyle(
+                    color: color2, fontWeight: FontWeight.bold, fontSize: 16.0),
+                textAlign: TextAlign.left,
+              )),
+              value: enfant,
+              onChanged: (newValue) {
+                if (newValue)
+                  setState(() {
+                    enfant = true;
+                  });
+                else
+                  setState(() {
+                    enfant = false;
+                    _enfantController.text = "";
+                  });
+              },
+              controlAffinity:
+                  ListTileControlAffinity.leading, //  <-- leading Checkbox
+            ),
+            enfant
+                ? Padding(
+                    padding: const EdgeInsets.all(0.0),
+                    child: Container(
+                      padding: const EdgeInsets.only(
+                          left: 10.0, right: 5.0, top: 3.0, bottom: 3.0),
+                      width: double.infinity,
+                      decoration: new BoxDecoration(
+                        color: Colors.white70,
+                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        border: new Border.all(color: Colors.black38),
+                      ),
+                      child: TextFormField(
+                        obscureText: false,
+                        style: const TextStyle(
+                            color: Colors.black, fontWeight: FontWeight.normal),
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          icon: new Icon(
+                            Icons.assignment,
+                            color: color,
+                          ),
+                          labelText: allTranslations.text('enfant'),
                           labelStyle: TextStyle(
                               color: Colors.grey,
                               fontSize: 16.0,
@@ -711,200 +2621,378 @@ class _ResetState extends State<NewPatientForm> {
                             return 'Champ obligatoire';
                           }
                         },
-                        controller: _pinController,
                         keyboardType: TextInputType.number,
+                        controller: _enfantController,
                       ),
                     ),
                   )
                 : Container(),
-            visible
-                ? Divider(
-                    height: 10.0,
-                    color: Colors.transparent,
-                  )
-                : Container(),
-            /*  visible
-                ? Padding(
-                    padding: EdgeInsets.only(
-                        left: 10.0, right: 8.0, top: 8.0, bottom: 15.0),
-                    child: Center(
-                      child: Text(
-                        allTranslations.text('filiation') + " *",
-                        style: TextStyle(
-                            color: color2,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16.0),
-                      ),
-                    ))
-                : Container(),
-            visible
+            CheckboxListTile(
+              title: Center(
+                  child: Text(
+                allTranslations.text('sport_title'),
+                style: TextStyle(
+                    color: color2, fontWeight: FontWeight.bold, fontSize: 16.0),
+                textAlign: TextAlign.left,
+              )),
+              value: sport,
+              onChanged: (newValue) {
+                if (newValue)
+                  setState(() {
+                    sport = true;
+                  });
+                else
+                  setState(() {
+                    sport = false;
+                    _sportController.text = "";
+                  });
+              },
+              controlAffinity:
+                  ListTileControlAffinity.leading, //  <-- leading Checkbox
+            ),
+            sport
                 ? Padding(
                     padding: const EdgeInsets.all(0.0),
-                    child: FutureBuilder<List<MyItems>>(
-                        future: filiations,
-                        builder: (context, snapshot) {
-                          print(snapshot.toString());
-
-                          if (snapshot.hasError) {
-                            return new Container();
-                          } else if (snapshot.hasData) {
-                            List<DropdownMenuItem<MyItems>> items = List();
-
-                            for (int i = 0; i < snapshot.data.length; i++) {
-                              items.add(
-                                DropdownMenuItem(
-                                    child: Text(snapshot.data[i].libelle),
-                                    value: snapshot.data[i]),
-                              );
-                            }
-
-                            return Container(
-                                width: double.infinity,
-                                height: 65,
-                                decoration: BoxDecoration(
-                                  color: Colors.white70,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(10.0)),
-                                  border: new Border.all(color: Colors.black38),
-                                ),
-                                padding: const EdgeInsets.only(
-                                    left: 10.0,
-                                    right: 5.0,
-                                    top: 5.0,
-                                    bottom: 4.0),
-                                child: DropdownButtonHideUnderline(
-                                    child: DropdownButton<MyItems>(
-                                        isExpanded: true,
-                                        value: filiation,
-                                        items: items,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            filiation = value;
-                                          });
-                                        })));
-                          } else {
-                            return CircularProgressIndicator();
+                    child: Container(
+                      padding: const EdgeInsets.only(
+                          left: 10.0, right: 5.0, top: 3.0, bottom: 3.0),
+                      width: double.infinity,
+                      decoration: new BoxDecoration(
+                        color: Colors.white70,
+                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        border: new Border.all(color: Colors.black38),
+                      ),
+                      child: TextFormField(
+                        obscureText: false,
+                        style: const TextStyle(
+                            color: Colors.black, fontWeight: FontWeight.normal),
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          icon: new Icon(
+                            Icons.assessment,
+                            color: color,
+                          ),
+                          labelText:
+                              allTranslations.text('precision_title') + " *",
+                          labelStyle: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.normal),
+                        ),
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'Champ obligatoire';
                           }
-                        }),
-                  )
-                : Container(),*/
-            visible
-                ? Divider(
-                    height: 15.0,
-                    color: Colors.transparent,
+                        },
+                        keyboardType: TextInputType.text,
+                        controller: _sportController,
+                      ),
+                    ),
                   )
                 : Container(),
-            /*   visible
-                ? Column(
-                    children: [
-                      Padding(
+            SizedBox(
+              height: 20.0,
+            ),
+            Padding(
+              padding: EdgeInsets.only(
+                  left: 10.0, right: 8.0, top: 8.0, bottom: 10.0),
+              child: Center(
+                  child: Text(
+                "Uploader la photo du patient",
+                style: TextStyle(
+                    color: color, fontWeight: FontWeight.bold, fontSize: 16.0),
+                textAlign: TextAlign.left,
+              )),
+            ),
+            (!is_ordre)
+                ? GestureDetector(
+                    onTap: loadAssets2,
+                    child: Padding(
                         padding: EdgeInsets.only(
-                            left: 10.0, right: 8.0, top: 8.0, bottom: 10.0),
-                        child: Center(
-                            child: Text(
-                          allTranslations.text('takephoto_title'),
-                          style: TextStyle(
-                              color: color2,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16.0),
-                          textAlign: TextAlign.left,
-                        )),
-                      ),
-                      defaultTargetPlatform == TargetPlatform.android
-                          ? FutureBuilder<void>(
-                              future: retrieveLostData(),
-                              builder: (BuildContext context,
-                                  AsyncSnapshot<void> snapshot) {
-                                switch (snapshot.connectionState) {
-                                  case ConnectionState.none:
-                                  case ConnectionState.waiting:
-                                    return Center(child: Text(""));
-                                  case ConnectionState.done:
-                                    return _previewImage();
-                                  default:
-                                    if (snapshot.hasError) {
-                                      return Center(
-                                          child: Text(
-                                        'Erreur : ${snapshot.error}}',
-                                        textAlign: TextAlign.center,
-                                      ));
-                                    } else {
-                                      return Center(child: Text(""));
-                                    }
-                                }
-                              },
-                            )
-                          : _previewImage(),
-                      isVisible
-                          ? Container(
+                            left: 10, right: 10, bottom: 5, top: 0),
+                        child: DottedBorder(
+                          borderType: BorderType.RRect,
+                          color: Colors.grey,
+                          radius: Radius.circular(12),
+                          padding: EdgeInsets.all(1),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            child: Container(
                               width: double.infinity,
-                              height: 200.0,
-                              child: GestureDetector(
-                                onTap: () {
-                                  _showSelectionDialog(context);
-                                },
-                                child: Image.asset('img/uploads.png'),
-                              ))
-                          : Container(),
-                    ],
-                  )
-                : Container(), */
-            !visible
-                ? Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 20.0),
-                    child: new Center(
-                      child: new InkWell(
-                        onTap: _init,
-                        child: new Container(
-                          width: 300.0,
-                          height: 50.0,
-                          decoration: new BoxDecoration(
-                            color: color,
-                            border:
-                                new Border.all(color: Colors.white, width: 2.0),
-                            borderRadius: new BorderRadius.circular(30.0),
-                          ),
-                          child: new Center(
-                            child: new Text(
-                              allTranslations.text('initconfirm_title'),
-                              style: new TextStyle(
-                                  fontSize: 18.0, color: Colors.white),
+                              height: 160,
+                              color: clair,
+                              child: Center(
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Image.asset("img/path.png",
+                                        width: 50.0,
+                                        fit: BoxFit.contain,
+                                        alignment: Alignment.center),
+                                    SizedBox(
+                                      height: 2,
+                                    ),
+                                    Text(
+                                      "Téléchargez votre image",
+                                      style: TextStyle(
+                                          color: bleu,
+                                          height: 1.5,
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: 15.0),
+                                    ),
+                                    SizedBox(
+                                      height: 2,
+                                    ),
+                                    Text(
+                                      "Vous ne pouvez selectionner qu'une image",
+                                      style: TextStyle(
+                                          color: Colors.grey,
+                                          height: 1.5,
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: 12.0),
+                                    )
+                                  ],
+                                ),
+                              ),
                             ),
                           ),
-                        ),
+                        )),
+                  )
+                : Container(),
+            (is_ordre)
+                ? Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: buildGridView1(),
+                  )
+                : Container(),
+            (is_ordre)
+                ? Center(
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          is_ordre = false;
+                          l_images1.clear();
+                        });
+                      },
+                      child: Text(
+                        "Supprimer",
+                        style: TextStyle(
+                            color: Colors.red,
+                            height: 1.5,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12.0),
                       ),
-                    ))
+                    ),
+                  )
                 : Container(),
             Divider(
-              height: 10.0,
+              height: 20.0,
               color: Colors.transparent,
             ),
-            visible
-                ? Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 20.0),
-                    child: new Center(
-                      child: new InkWell(
-                        onTap: _makeReset,
-                        child: new Container(
-                          width: 300.0,
-                          height: 50.0,
-                          decoration: new BoxDecoration(
-                            color: color2,
-                            border:
-                                new Border.all(color: Colors.white, width: 2.0),
-                            borderRadius: new BorderRadius.circular(30.0),
-                          ),
-                          child: new Center(
-                            child: new Text(
-                              "Continuer",
-                              style: new TextStyle(
-                                  fontSize: 18.0, color: Colors.white),
+            Padding(
+              padding: EdgeInsets.only(
+                  left: 10.0, right: 8.0, top: 8.0, bottom: 10.0),
+              child: Center(
+                  child: Text(
+                "Uploader sa CNI (recto/verso) *",
+                style: TextStyle(
+                    color: color, fontWeight: FontWeight.bold, fontSize: 16.0),
+                textAlign: TextAlign.left,
+              )),
+            ),
+            (!is_cni)
+                ? GestureDetector(
+                    onTap: loadAssets1,
+                    child: Padding(
+                        padding: EdgeInsets.only(
+                            left: 10, right: 10, bottom: 5, top: 0),
+                        child: DottedBorder(
+                          borderType: BorderType.RRect,
+                          color: Colors.grey,
+                          radius: Radius.circular(12),
+                          padding: EdgeInsets.all(1),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            child: Container(
+                              width: double.infinity,
+                              height: 160,
+                              color: clair,
+                              child: Center(
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Image.asset("img/path.png",
+                                        width: 50.0,
+                                        fit: BoxFit.contain,
+                                        alignment: Alignment.center),
+                                    SizedBox(
+                                      height: 2,
+                                    ),
+                                    Text(
+                                      "Téléchargez votre CNI",
+                                      style: TextStyle(
+                                          color: bleu,
+                                          height: 1.5,
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: 15.0),
+                                    ),
+                                    SizedBox(
+                                      height: 2,
+                                    ),
+                                    Text(
+                                      "Vous devez sélectionner le recto et le verso",
+                                      style: TextStyle(
+                                          color: Colors.grey,
+                                          height: 1.5,
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: 12.0),
+                                    )
+                                  ],
+                                ),
+                              ),
                             ),
                           ),
+                        )),
+                  )
+                : Container(),
+            (is_cni)
+                ? Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: buildGridView(),
+                  )
+                : Container(),
+            (is_cni)
+                ? Center(
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          is_cni = false;
+                          l_images.clear();
+                        });
+                      },
+                      child: Text(
+                        "Supprimer",
+                        style: TextStyle(
+                            color: Colors.red,
+                            height: 1.5,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12.0),
+                      ),
+                    ),
+                  )
+                : Container(),
+            SizedBox(
+              height: 20.0,
+            ),   GestureDetector(
+              child: Center(
+                  child: Text(allTranslations.text('cond_title'),
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, color: color2))),
+              onTap: () {
+                Navigator.of(context).push(PageRouteBuilder(
+                    opaque: false,
+                    pageBuilder: (BuildContext context, _, __) =>
+                        UserCondition1()));
+              },
+            ),
+            /*CheckboxListTile(
+              title: Text(allTranslations.text('cond_title1'),
+                  style: TextStyle(fontWeight: FontWeight.bold, color: color2)),
+              value: _isChecked,
+              onChanged: (newValue) {
+                setState(() {
+                  _isChecked = newValue;
+                });
+              },
+              controlAffinity:
+                  ListTileControlAffinity.leading, //  <-- leading Checkbox
+            ),*/
+            SizedBox(
+              height: 10,
+            ),
+            Container(
+                width: double.infinity,
+                height: 200,
+                color: Colors.grey,
+                child: Signature(
+                  color: Colors.black,
+                  key: _sign,
+                  onSign: () {
+                    final sign = _sign.currentState;
+                  },
+                  //backgroundPainter: MyCustomPainter2(this._image3),
+                  strokeWidth: 5.0,
+                )),
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                new InkWell(
+                  onTap: () async {
+                    //ui.Image image = _signaturePadKey.currentState.clear();
+                    //_signaturePadKey.currentState.clear();
+                    final sign = _sign.currentState;
+                    sign.clear();
+                    setState(() {
+                      _img = ByteData(0);
+                      signatures = "";
+                    });
+                    debugPrint("cleared");
+                  },
+                  child: new Container(
+                    width: 120.0,
+                    height: 40.0,
+                    decoration: new BoxDecoration(
+                      color: Colors.red,
+                      border: new Border.all(color: Colors.white, width: 2.0),
+                      borderRadius: new BorderRadius.circular(10.0),
+                    ),
+                    child: new Center(
+                      child: new Text(
+                        "Effacer",
+                        style: new TextStyle(
+                            fontFamily: 'Candara',
+                            fontSize: 14.0,
+                            color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Padding(
+                padding: const EdgeInsets.symmetric(vertical: 20.0),
+                child: new Center(
+                  child: new InkWell(
+                    onTap: _submitForms,
+                    child: new Container(
+                      width: 300.0,
+                      height: 50.0,
+                      decoration: new BoxDecoration(
+                        color: color,
+                        border: new Border.all(color: Colors.white, width: 2.0),
+                        borderRadius: new BorderRadius.circular(30.0),
+                      ),
+                      child: new Center(
+                        child: new Text(
+                          allTranslations.text('save_title'),
+                          style: new TextStyle(
+                              fontSize: 18.0, color: Colors.white),
                         ),
                       ),
-                    ))
-                : Container(),
+                    ),
+                  ),
+                )),
           ],
         ),
       ),

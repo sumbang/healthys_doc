@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:healthys_medecin/config/all_translations.dart';
 import 'package:healthys_medecin/fragments/MedicalReportFragment.dart';
+import 'package:healthys_medecin/pages/HomePageNew.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'HomePage.dart';
 
@@ -39,6 +41,20 @@ class AntecedantPageState extends State<AntecedantPage2> {
   final color = const Color(0xFFcd005f);
   final color2 = const Color(0xFF008dad);
 
+    String perso = "";
+
+  _loadUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      perso = (prefs.getString('currentperso') ?? "");
+    });
+  }
+  
+  void initState() {
+    _loadUser();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     Locale myLocale = Localizations.localeOf(context);
@@ -57,10 +73,17 @@ class AntecedantPageState extends State<AntecedantPage2> {
               leading: new IconButton(
                 icon: new Icon(Icons.arrow_back),
                 onPressed: () {
+                   if(perso == "1") {
+                  Navigator.push(
+                    context,
+                    new MaterialPageRoute(builder: (_) => new HomePageNew()),
+                  );
+                  }else {
                   Navigator.push(
                     context,
                     new MaterialPageRoute(builder: (_) => new HomePage()),
                   );
+                  }
                 },
               ),
             ),

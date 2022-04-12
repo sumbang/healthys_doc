@@ -272,6 +272,7 @@ class _LoginState extends State<LoginForm> {
         List<String> pins = new List();
         List<String> payer = new List();
         List<String> integral = new List();
+        List<String> perso =  new List();
 
         String res1 = res.body.toString();
 
@@ -291,6 +292,7 @@ class _LoginState extends State<LoginForm> {
           pins.add(tagObjs[j].pin.toString());
           payer.add(tagObjs[j].payer.toString());
           integral.add(tagObjs[j].integral.toString());
+          perso.add(tagObjs[j].perso.toString());
         }
 
         // SharedPreferences.setMockInitialValues({});
@@ -320,6 +322,7 @@ class _LoginState extends State<LoginForm> {
           prefs.setStringList('pins', pins);
           prefs.setStringList('payer', payer);
           prefs.setStringList('integral', integral);
+          prefs.setStringList('perso', perso);
         });
 
         print("taille : " + photos.length.toString());

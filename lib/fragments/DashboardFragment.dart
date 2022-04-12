@@ -349,7 +349,7 @@ class DashboardFragmentState extends State<DashboardFragment> {
     if (position == 9) {
       _SecurityBox(new CarteDigitalePage());
     } else if (position == 2) {
-      _SecurityBox(new ConsultationPage());
+      //_SecurityBox(new ConsultationPage());
     } else if (position == 3) {
       _SecurityBox(new AntecedantPage());
     } else if (position == 10) {

@@ -5,12 +5,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:healthys_medecin/config/all_translations.dart';
-import 'package:healthys_medecin/forms/NewPatientForm.dart';
+import 'package:healthys_medecin/forms/NewConsultationForm.dart';
 import 'package:healthys_medecin/pages/HomePageNew.dart';
 
-import 'HomePage.dart';
-
-class NewPatientPage extends StatelessWidget {
+class NewConsultationPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return new MaterialApp(
       theme: new ThemeData(
@@ -22,19 +20,19 @@ class NewPatientPage extends StatelessWidget {
       ],
       // Tells the system which are the supported languages
       supportedLocales: allTranslations.supportedLocales(),
-      home: new NewPatientPage1(),
+      home: new NewConsultationPage1(),
     );
   }
 }
 
-class NewPatientPage1 extends StatefulWidget {
-  NewPatientPage1();
+class NewConsultationPage1 extends StatefulWidget {
+  NewConsultationPage1();
 
   @override
-  NewPatientPageState createState() => new NewPatientPageState();
+  NewConsultationPageState createState() => new NewConsultationPageState();
 }
 
-class NewPatientPageState extends State<NewPatientPage1> {
+class NewConsultationPageState extends State<NewConsultationPage1> {
   final graycolor = const Color(0xFFdededc);
   final color = const Color(0xFFcd005f);
   final color2 = const Color(0xFF008dad);
@@ -47,7 +45,7 @@ class NewPatientPageState extends State<NewPatientPage1> {
 
     return new Scaffold(
         appBar: AppBar(
-          title: Text("ENREGISTRER UN PATIENT"),
+          title: Text("NOUVELLE CONSULTATION"),
           backgroundColor: color,
           elevation: 0,
           leading: new IconButton(
@@ -81,7 +79,7 @@ class NewPatientPageState extends State<NewPatientPage1> {
                                 height: 5.0,
                                 color: Colors.transparent,
                               ),
-                              new NewPatientForm(),
+                              new NewConsultationForm(),
                               new Divider(
                                 height: 30.0,
                                 color: Colors.transparent,

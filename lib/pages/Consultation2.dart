@@ -21,6 +21,7 @@ import 'Consultation3.dart';
 import 'Consultation5.dart';
 import 'Consultation6.dart';
 import 'HomePage.dart';
+import 'HomePageNew.dart';
 
 class Consultation2 extends StatelessWidget {
   Widget build(BuildContext context) {
@@ -696,8 +697,17 @@ class ConsultationPageState extends State<Consultation_2> {
 
     return listElementWidgetList;
   }
+  
+  String perso = "";
+  _loadUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      perso = (prefs.getString('currentperso') ?? "");
+    });
+  }
 
   void initState() {
+    _loadUser();
     super.initState();
     consultations = getConsultation(1);
     consultations2 = getConsultation(2);
@@ -724,10 +734,17 @@ class ConsultationPageState extends State<Consultation_2> {
                 leading: new IconButton(
                   icon: new Icon(Icons.arrow_back),
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      new MaterialPageRoute(builder: (_) => new HomePage()),
-                    );
+                    if(perso == "1") {
+                  Navigator.push(
+                    context,
+                    new MaterialPageRoute(builder: (_) => new HomePageNew()),
+                  );
+                  }else {
+                  Navigator.push(
+                    context,
+                    new MaterialPageRoute(builder: (_) => new HomePage()),
+                  );
+                  }
                   },
                 ),
                 bottom: TabBar(

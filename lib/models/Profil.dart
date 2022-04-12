@@ -9,6 +9,7 @@ class Profil {
   String pin;
   var payer;
   var integral;
+  var perso;
 
   Profil(
       {this.id,
@@ -18,7 +19,9 @@ class Profil {
       this.photo,
       this.pin,
       this.payer,
-      this.integral});
+      this.integral,
+      this.perso
+      });
 
   factory Profil.fromJson(Map<String, dynamic> json) => Profil(
       id: json['id'],
@@ -28,6 +31,7 @@ class Profil {
       photo: json['photo'],
       pin: json['pin'],
       payer: json['payer'],
+      perso: json['perso'],
       integral: json['integral']);
 
   @override

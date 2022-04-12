@@ -8,8 +8,10 @@ import 'package:healthys_medecin/config/all_translations.dart';
 import 'package:healthys_medecin/forms/RdvForm.dart';
 import 'package:healthys_medecin/fragments/MaCarteFragment.dart';
 import 'package:healthys_medecin/models/Medecin.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'HomePage.dart';
+import 'HomePageNew.dart';
 
 class MaCartePage extends StatelessWidget {
   MaCartePage();
@@ -43,6 +45,20 @@ class MaCartePageState extends State<MaCartePage1> {
   final color = const Color(0xFFcd005f);
   final color2 = const Color(0xFF008dad);
 
+    String perso = "";
+
+  _loadUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      perso = (prefs.getString('currentperso') ?? "");
+    });
+  }
+  
+  void initState() {
+    _loadUser();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     Locale myLocale = Localizations.localeOf(context);
@@ -61,10 +77,17 @@ class MaCartePageState extends State<MaCartePage1> {
               leading: new IconButton(
                 icon: new Icon(Icons.arrow_back),
                 onPressed: () {
+                  if(perso == "1") {
+                  Navigator.push(
+                    context,
+                    new MaterialPageRoute(builder: (_) => new HomePageNew()),
+                  );
+                  }else {
                   Navigator.push(
                     context,
                     new MaterialPageRoute(builder: (_) => new HomePage()),
                   );
+                  }
                 },
               ),
             ),

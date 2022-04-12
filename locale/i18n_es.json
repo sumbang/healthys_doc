@@ -339,6 +339,7 @@
   "workplace3":"Ajouter un lieu", 
   "at":"Attention !",
   "empty":"Aucun élément dans cette liste",
-  "at1":"Votre profil ne dispose pas d'abonnement pour ce module. Veuillez vous rapprocher de votre centre de soins"
+  "at1":"Votre profil ne dispose pas d'abonnement pour ce module. Veuillez vous rapprocher de votre centre de soins",
+  "at2":"Votre profil ne dispose pas d'abonnement pour ce module. Veuillez vous rapprocher du service client Heath'ys"
 
 }

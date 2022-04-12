@@ -518,12 +518,12 @@ class ConsultationPageState extends State<Consultation31> {
                                       color: Colors.white,
                                     ),
                                     onPressed: () {
-                                      Navigator.push(
+                                      /*Navigator.push(
                                         context,
                                         new MaterialPageRoute(
                                             builder: (_) =>
                                                 new ConsultationPage()),
-                                      );
+                                      );*/
                                     },
                                   ),
                                   SizedBox(

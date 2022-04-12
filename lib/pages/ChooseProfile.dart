@@ -7,6 +7,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:healthys_medecin/config/Setting.dart';
 import 'package:healthys_medecin/config/all_translations.dart';
+import 'package:healthys_medecin/pages/HomePageNew.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -55,6 +56,7 @@ class ChooseProfilePageState extends State<ChooseProfilePage1> {
   List<String> photos;
   List<String> payer;
   List<String> integral;
+  List<String> perso;
   String currentid = "1";
   String currentpatient = "";
   String currentacces = "";
@@ -64,6 +66,7 @@ class ChooseProfilePageState extends State<ChooseProfilePage1> {
   String currentphoto = "";
   String currentpayer = "";
   String currentint = "";
+  String currentperso = "";
   var currentMeneu = <Widget>[];
 
   _loadUser() async {
@@ -78,6 +81,7 @@ class ChooseProfilePageState extends State<ChooseProfilePage1> {
       photos = (prefs.getStringList('photos') ?? []);
       payer = (prefs.getStringList('payer') ?? []);
       integral = (prefs.getStringList('integral') ?? []);
+      perso = (prefs.getStringList('perso') ?? []);
     });
 
     print("taille : " + photos.length.toString());
@@ -147,13 +151,25 @@ class ChooseProfilePageState extends State<ChooseProfilePage1> {
       prefs.setString('currentnumero', numeros[pos].toString());
       prefs.setString('currentphoto', photos[pos].toString());
       prefs.setString('currentpin', pins[pos].toString());
+      prefs.setString('currentperso', perso[pos].toString());
       prefs.setString('currentpayer', responseJson["payer"].toString());
       prefs.setString('currentint', responseJson["integral"].toString());
+
+      if(perso[pos].toString() == "1") {
+
+      Navigator.push(
+        context,
+        new MaterialPageRoute(builder: (_) => new HomePageNew()),
+      );
+      }
+      else {
 
       Navigator.push(
         context,
         new MaterialPageRoute(builder: (_) => new HomePage()),
       );
+      }
+
     } else {
       Navigator.of(context, rootNavigator: true).pop('dialog');
 

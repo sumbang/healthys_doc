@@ -14,6 +14,7 @@ import 'package:http/http.dart' as http;
 import 'package:transparent_image/transparent_image.dart';
 
 import 'HomePage.dart';
+import 'HomePageNew.dart';
 
 class ComptePage extends StatelessWidget {
   Widget build(BuildContext context) {
@@ -135,7 +136,17 @@ class ComptePage1State extends State<ComptePage1> {
   final _emailController = TextEditingController();
   final _prenomController = TextEditingController();
 
+    String perso = "";
+
+  _loadUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      perso = (prefs.getString('currentperso') ?? "");
+    });
+  }
+  
   void initState() {
+    _loadUser();
     super.initState();
     profil = getCompte();
   }
@@ -370,10 +381,17 @@ class ComptePage1State extends State<ComptePage1> {
               color: Colors.white,
             ),
             onPressed: () {
-              Navigator.push(
-                context,
-                new MaterialPageRoute(builder: (_) => new HomePage()),
-              );
+               if(perso == "1") {
+                  Navigator.push(
+                    context,
+                    new MaterialPageRoute(builder: (_) => new HomePageNew()),
+                  );
+                  }else {
+                  Navigator.push(
+                    context,
+                    new MaterialPageRoute(builder: (_) => new HomePage()),
+                  );
+                  }
             },
           ),
         ),
