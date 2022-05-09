@@ -68,7 +68,7 @@ class NewsPageState extends State<NewsPage1> {
         },
         child: Scaffold(
             appBar: AppBar(
-              title: Text("NEWS"),
+              title: Text(allTranslations.text("z59")),
               backgroundColor: color,
               elevation: 0,
               leading: new IconButton(

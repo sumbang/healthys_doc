@@ -969,7 +969,7 @@ class ComptePage1State extends State<ComptePage1> {
                                                       Icons.email,
                                                       color: color,
                                                     ),
-                                                    labelText: "Adresse email",
+                                                    labelText: allTranslations.text("email_title"),
                                                     labelStyle: TextStyle(
                                                         color: Colors.grey,
                                                         fontSize: 16.0,
@@ -1015,7 +1015,7 @@ class ComptePage1State extends State<ComptePage1> {
                                                       color: color,
                                                     ),
                                                     labelText:
-                                                        "Numéro de téléphone",
+                                                        allTranslations.text("phone1_title"),
                                                     labelStyle: TextStyle(
                                                         color: Colors.grey,
                                                         fontSize: 16.0,
@@ -1061,7 +1061,7 @@ class ComptePage1State extends State<ComptePage1> {
                                                       color: color,
                                                     ),
                                                     labelText:
-                                                        "Numéro de téléphone secondaire",
+                                                        allTranslations.text("phone2_title"),
                                                     labelStyle: TextStyle(
                                                         color: Colors.grey,
                                                         fontSize: 16.0,

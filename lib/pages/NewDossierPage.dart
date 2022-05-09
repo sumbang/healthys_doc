@@ -58,7 +58,7 @@ class NewDossierPageState extends State<NewDossierPage1> {
         },
         child: Scaffold(
             appBar: AppBar(
-              title: Text("Ajouter un historique"),
+              title: Text(allTranslations.text("z61")),
               backgroundColor: color,
               elevation: 0,
               leading: new IconButton(

@@ -46,7 +46,7 @@ class NewPatientPageState extends State<NewPatientPag1> {
 
     return new Scaffold(
         appBar: AppBar(
-          title: Text("Patient sans matricule santé"),
+          title: Text(allTranslations.text("z61")),
           backgroundColor: color,
           elevation: 0,
           leading: new IconButton(

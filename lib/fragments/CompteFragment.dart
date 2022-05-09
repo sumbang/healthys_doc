@@ -238,7 +238,7 @@ class CompteFragmentState extends State<CompteFragment> {
                                         height: 10,
                                       ),
                                       Text(
-                                        "Membre depuis le " + truedate,
+                                        allTranslations.text("z35")+" " + truedate,
                                         style: TextStyle(
                                             color: Colors.white,
                                             fontSize: 18,
@@ -249,7 +249,7 @@ class CompteFragmentState extends State<CompteFragment> {
                                         height: 10,
                                       ),
                                       Text(
-                                        "Sexe : " + snapshot.data.sexenom,
+                                        allTranslations.text("z36")+" : " + snapshot.data.sexenom,
                                         style: TextStyle(
                                             color: Colors.white,
                                             fontSize: 18,
@@ -332,7 +332,7 @@ class CompteFragmentState extends State<CompteFragment> {
                                       ),
                                       validator: (value) {
                                         if (value.isEmpty) {
-                                          return 'Champ obligatoire';
+                                          return allTranslations.text("requis_title");
                                         }
                                       },
                                       enabled: false,
@@ -376,7 +376,7 @@ class CompteFragmentState extends State<CompteFragment> {
                                       ),
                                       validator: (value) {
                                         if (value.isEmpty) {
-                                          return 'Champ obligatoire';
+                                          return allTranslations.text("requis_title");
                                         }
                                       },
                                       enabled: false,
@@ -533,7 +533,7 @@ class CompteFragmentState extends State<CompteFragment> {
                                       ),
                                       validator: (value) {
                                         if (value.isEmpty) {
-                                          return 'Champ obligatoire';
+                                          return allTranslations.text("requis_title");
                                         }
                                       },
                                       enabled: _isChecked,
@@ -578,7 +578,7 @@ class CompteFragmentState extends State<CompteFragment> {
                                       ),
                                       validator: (value) {
                                         if (value.isEmpty) {
-                                          return 'Champ obligatoire';
+                                          return allTranslations.text("requis_title");
                                         }
                                       },
                                       enabled: _isChecked,
@@ -623,7 +623,7 @@ class CompteFragmentState extends State<CompteFragment> {
                                       ),
                                       validator: (value) {
                                         if (value.isEmpty) {
-                                          return 'Champ obligatoire';
+                                          return allTranslations.text("requis_title");
                                         }
                                       },
                                       enabled: _isChecked,

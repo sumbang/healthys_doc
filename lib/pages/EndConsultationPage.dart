@@ -44,7 +44,7 @@ class EndConsultationPageState extends State<EndConsultationPage1> {
 
     return new Scaffold(
         appBar: AppBar(
-          title: Text("NOUVELLE CONSULTATION"),
+          title: Text(allTranslations.text("z66")),
           backgroundColor: color,
           elevation: 0,
           leading: new IconButton(
@@ -96,7 +96,7 @@ class EndConsultationPageState extends State<EndConsultationPage1> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Text(
-                                    'Enregistrement réussi, le patient est présent dans la file d’attente de consultation du nom du médecin choisi',
+                                    allTranslations.text("z67"),
                                     textAlign: TextAlign.center,
                                     style: new TextStyle(
                                         fontSize: 17.0,

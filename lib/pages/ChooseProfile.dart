@@ -174,7 +174,7 @@ class ChooseProfilePageState extends State<ChooseProfilePage1> {
       Navigator.of(context, rootNavigator: true).pop('dialog');
 
       Fluttertoast.showToast(
-          msg: "Impossible de charger ce profil",
+          msg: allTranslations.text("z44"),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIos: 3,
@@ -257,7 +257,7 @@ class ChooseProfilePageState extends State<ChooseProfilePage1> {
         },
         child: Scaffold(
             appBar: AppBar(
-              title: Text("VEUILLEZ CHOISIR UN PROFIL"),
+              title: Text(allTranslations.text("z43")),
               backgroundColor: color,
               elevation: 0,
               leading: null,

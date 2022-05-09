@@ -239,7 +239,7 @@ class AntecedentPatient1 extends State<AntecedentPatient> {
         onWillPop: () async => false,
         child: Scaffold(
             appBar: AppBar(
-              title: Text("ANTÉCÉDENTS MÉDICAUX"),
+              title: Text(allTranslations.text("z41")),
               backgroundColor: color,
               elevation: 0,
               leading: new IconButton(

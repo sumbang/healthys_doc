@@ -328,7 +328,7 @@ class ConsultationPage2State extends State<ConsultationPage21> {
                         child: Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            "NOUVEAU PARAMETRE",
+                            allTranslations.text("z46"),
                             style: TextStyle(
                                 color: color2, fontWeight: FontWeight.bold),
                           ),
@@ -367,7 +367,7 @@ class ConsultationPage2State extends State<ConsultationPage21> {
                             children: [
                               Padding(
                                 padding: EdgeInsets.all(8.0),
-                                child: Text("Libellé du paramètre *"),
+                                child: Text(allTranslations.text("z47")+" *"),
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
@@ -387,7 +387,7 @@ class ConsultationPage2State extends State<ConsultationPage21> {
                                           color: Colors.black,
                                           fontWeight: FontWeight.normal),
                                       decoration: InputDecoration(
-                                        hintText: "nom paramètre (unité)",
+                                        hintText: allTranslations.text("z48"),
                                         border: InputBorder.none,
                                         labelStyle: TextStyle(
                                             color: Colors.grey,
@@ -403,7 +403,7 @@ class ConsultationPage2State extends State<ConsultationPage21> {
                               ),
                               Padding(
                                 padding: EdgeInsets.all(8.0),
-                                child: Text("Valeur du paramètre *"),
+                                child: Text(allTranslations.text("z49")+" *"),
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
@@ -536,7 +536,7 @@ class ConsultationPage2State extends State<ConsultationPage21> {
                                         ),
                                         child: new Center(
                                           child: new Text(
-                                            'AJOUTER',
+                                            allTranslations.text("z28"),
                                             style: new TextStyle(
                                                 fontSize: 18.0,
                                                 color: Colors.white),

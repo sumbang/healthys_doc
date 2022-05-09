@@ -256,7 +256,7 @@ class EvolutionPage1 extends State<EvolutionPage> {
                                                 )))));
                                     liste.add(SizedBox(height: 10));
                                     liste.add(Text(
-                                      "Motif",
+                                      allTranslations.text("titre5_title"),
                                       style: TextStyle(color: color2),
                                     ));
                                     liste.add(SizedBox(height: 10));
@@ -270,7 +270,7 @@ class EvolutionPage1 extends State<EvolutionPage> {
                                     if (responseJson[i]["diagnostic"]
                                         .toString()
                                         .isNotEmpty) {
-                                      liste.add(Text("Diagnostic",
+                                      liste.add(Text(allTranslations.text("z78"),
                                           style: TextStyle(color: color2)));
                                       liste.add(Column(
                                         children: _buildList2(responseJson[i]
@@ -283,7 +283,7 @@ class EvolutionPage1 extends State<EvolutionPage> {
                                     if (responseJson[i]["ordonnance"]
                                         .toString()
                                         .isNotEmpty) {
-                                      liste.add(Text("Prescription",
+                                      liste.add(Text(allTranslations.text("z79"),
                                           style: TextStyle(color: color2)));
                                       liste.add(Column(
                                         children: _buildList(responseJson[i]
@@ -307,11 +307,56 @@ class EvolutionPage1 extends State<EvolutionPage> {
                                     if (responseJson[i]["resultat"]
                                         .toString()
                                         .isNotEmpty) {
-                                      liste.add(Text("Bilan ",
+                                      liste.add(Text(allTranslations.text("z80"),
                                           style: TextStyle(color: color2)));
                                       liste.add(Column(
                                         children: _buildList(responseJson[i]
                                                 ["resultat"]
+                                            .toString()),
+                                      ));
+
+                                      liste.add(SizedBox(height: 15));
+                                    }
+
+
+                                  if (responseJson[i]["resultat1"]
+                                        .toString()
+                                        .isNotEmpty) {
+                                      liste.add(Text(allTranslations.text("z70"),
+                                          style: TextStyle(color: color2)));
+                                      liste.add(Column(
+                                        children: _buildList(responseJson[i]
+                                                ["resultat1"]
+                                            .toString()),
+                                      ));
+
+                                      liste.add(SizedBox(height: 15));
+                                    }
+
+
+                                  if (responseJson[i]["diagnostic1"]
+                                        .toString()
+                                        .isNotEmpty) {
+                                      liste.add(Text(allTranslations.text("z72"),
+                                          style: TextStyle(color: color2)));
+                                      liste.add(Column(
+                                        children: _buildList(responseJson[i]
+                                                ["resultat1"]
+                                            .toString()),
+                                      ));
+
+                                      liste.add(SizedBox(height: 15));
+                                    }
+
+
+                                  if (responseJson[i]["mise1"]
+                                        .toString()
+                                        .isNotEmpty) {
+                                      liste.add(Text(allTranslations.text("z73"),
+                                          style: TextStyle(color: color2)));
+                                      liste.add(Column(
+                                        children: _buildList(responseJson[i]
+                                                ["mise1"]
                                             .toString()),
                                       ));
 

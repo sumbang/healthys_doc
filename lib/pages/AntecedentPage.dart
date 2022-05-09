@@ -339,7 +339,7 @@ class AntecedentPage1 extends State<AntecedentPage> {
     }
 
          Fluttertoast.showToast(
-          msg: "Chargeement des termine",
+          msg: allTranslations.text("z39"),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIos: 5,
@@ -1348,7 +1348,7 @@ class AntecedentPage1 extends State<AntecedentPage> {
                                       color: Colors.black,
                                       fontWeight: FontWeight.normal),
                                   decoration: InputDecoration(
-                                      labelText: "Précision",
+                                      labelText: allTranslations.text("z40"),
                                       border: InputBorder.none,
                                       labelStyle: TextStyle(
                                           color: Colors.grey,
@@ -1397,7 +1397,7 @@ class AntecedentPage1 extends State<AntecedentPage> {
                                       color: Colors.black,
                                       fontWeight: FontWeight.normal),
                                   decoration: InputDecoration(
-                                      labelText: "Précision",
+                                      labelText:allTranslations.text("z40"),
                                       border: InputBorder.none,
                                       labelStyle: TextStyle(
                                           color: Colors.grey,
@@ -1446,7 +1446,7 @@ class AntecedentPage1 extends State<AntecedentPage> {
                                       color: Colors.black,
                                       fontWeight: FontWeight.normal),
                                   decoration: InputDecoration(
-                                      labelText: "Précision",
+                                      labelText:allTranslations.text("z40"),
                                       border: InputBorder.none,
                                       labelStyle: TextStyle(
                                           color: Colors.grey,
@@ -1495,7 +1495,7 @@ class AntecedentPage1 extends State<AntecedentPage> {
                                       color: Colors.black,
                                       fontWeight: FontWeight.normal),
                                   decoration: InputDecoration(
-                                      labelText: "Précision",
+                                      labelText: allTranslations.text("z40"),
                                       border: InputBorder.none,
                                       labelStyle: TextStyle(
                                           color: Colors.grey,
@@ -1559,7 +1559,7 @@ class AntecedentPage1 extends State<AntecedentPage> {
                                       color: Colors.black,
                                       fontWeight: FontWeight.normal),
                                   decoration: InputDecoration(
-                                      labelText: "Précision",
+                                      labelText: allTranslations.text("z40"),
                                       border: InputBorder.none,
                                       labelStyle: TextStyle(
                                           color: Colors.grey,
@@ -1608,7 +1608,7 @@ class AntecedentPage1 extends State<AntecedentPage> {
                                       color: Colors.black,
                                       fontWeight: FontWeight.normal),
                                   decoration: InputDecoration(
-                                      labelText: "Précision",
+                                      labelText: allTranslations.text("z40"),
                                       border: InputBorder.none,
                                       labelStyle: TextStyle(
                                           color: Colors.grey,
@@ -1657,7 +1657,7 @@ class AntecedentPage1 extends State<AntecedentPage> {
                                       color: Colors.black,
                                       fontWeight: FontWeight.normal),
                                   decoration: InputDecoration(
-                                      labelText: "Précision",
+                                      labelText: allTranslations.text("z40"),
                                       border: InputBorder.none,
                                       labelStyle: TextStyle(
                                           color: Colors.grey,

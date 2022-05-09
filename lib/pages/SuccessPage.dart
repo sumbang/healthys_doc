@@ -59,7 +59,7 @@ class SuccessPageState extends State<SuccessPage1> {
 
     return new Scaffold(
         appBar: AppBar(
-          title: Text("NOUVEAU PATIENT"),
+          title: Text(allTranslations.text("z56")),
           backgroundColor: color,
           elevation: 0,
           leading: new IconButton(

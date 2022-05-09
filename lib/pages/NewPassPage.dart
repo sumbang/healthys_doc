@@ -101,7 +101,7 @@ class ResetPageState extends State<NewPassPage1> {
                                 color: Colors.transparent,
                               ),
                               new Text(
-                                "NOUVEAU MOT DE PASSE",
+                                "",
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
@@ -114,7 +114,7 @@ class ResetPageState extends State<NewPassPage1> {
                                 color: Colors.transparent,
                               ),
                               new Text(
-                                "Hello, bien vouloir saisir le code de réinitialisation que vous avez reçu par mail/sms, puis renseigner et confirmer votre nouveau mot de passe.",
+                                allTranslations.text("z63"),
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.normal,

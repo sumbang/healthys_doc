@@ -141,7 +141,7 @@ class _ResetState extends State<ActivationForm> {
 
     if (matricule.isEmpty) {
       Fluttertoast.showToast(
-          msg: "Veuillez entrer un matricule santé",
+          msg: allTranslations.text("z1"),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIos: 5,
@@ -149,7 +149,7 @@ class _ResetState extends State<ActivationForm> {
           textColor: Colors.white);
     } else if (abonnement == null) {
       Fluttertoast.showToast(
-          msg: "Veuillez choisir un abonnement",
+          msg: allTranslations.text("z2"),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIos: 5,
@@ -157,7 +157,7 @@ class _ResetState extends State<ActivationForm> {
           textColor: Colors.white);
     } else if (mode == null) {
       Fluttertoast.showToast(
-          msg: "Veuillez choisir un mode de paiement",
+          msg: allTranslations.text("z3"),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIos: 5,
@@ -165,7 +165,7 @@ class _ResetState extends State<ActivationForm> {
           textColor: Colors.white);
     } else if ((mode.id == 2) && (reference.isEmpty)) {
       Fluttertoast.showToast(
-          msg: "Veuillez entrer la référence du paiement",
+          msg: allTranslations.text("z4"),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIos: 5,
@@ -173,7 +173,7 @@ class _ResetState extends State<ActivationForm> {
           textColor: Colors.white);
     } else if (pin.toString().isEmpty) {
       Fluttertoast.showToast(
-          msg: "Veuillez entre votre code revendeur",
+          msg: allTranslations.text("z5"),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIos: 5,
@@ -181,7 +181,7 @@ class _ResetState extends State<ActivationForm> {
           textColor: Colors.white);
     } else if (pin != currentpin) {
       Fluttertoast.showToast(
-          msg: "Code revendeur incorrect",
+          msg: allTranslations.text("z6"),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIos: 5,
@@ -368,7 +368,7 @@ class _ResetState extends State<ActivationForm> {
                         ),
                         validator: (value) {
                           if (value.isEmpty) {
-                            return 'Champ obligatoire';
+                            return allTranslations.text("requis_title");
                           }
                         },
                         controller: _numeroController,
@@ -398,7 +398,7 @@ class _ResetState extends State<ActivationForm> {
               padding: EdgeInsets.only(
                   left: 10.0, right: 8.0, top: 20.0, bottom: 8.0),
               child: Text(
-                "Formule d'abonnement *",
+                allTranslations.text("z7")+" *",
                 style: TextStyle(
                     color: color,
                     fontWeight: FontWeight.normal,
@@ -460,7 +460,7 @@ class _ResetState extends State<ActivationForm> {
               padding: EdgeInsets.only(
                   left: 10.0, right: 8.0, top: 20.0, bottom: 8.0),
               child: Text(
-                "Mode de paiement *",
+                allTranslations.text("z8")+" *",
                 style: TextStyle(
                     color: color,
                     fontWeight: FontWeight.normal,
@@ -539,7 +539,7 @@ class _ResetState extends State<ActivationForm> {
                       Icons.money,
                       color: color,
                     ),
-                    labelText: "Reference de paiement *",
+                    labelText: allTranslations.text("z9")+" *",
                     labelStyle: TextStyle(
                         color: color,
                         fontSize: 16.0,
@@ -547,7 +547,7 @@ class _ResetState extends State<ActivationForm> {
                   ),
                   validator: (value) {
                     if (value.isEmpty) {
-                      return 'Champ obligatoire';
+                         return allTranslations.text("requis_title");
                     }
                   },
                   controller: referenceController,
@@ -580,7 +580,7 @@ class _ResetState extends State<ActivationForm> {
                       Icons.security,
                       color: color,
                     ),
-                    labelText: "Pin d'authentification *",
+                    labelText: allTranslations.text("z10")+" *",
                     labelStyle: TextStyle(
                         color: color,
                         fontSize: 16.0,
@@ -588,7 +588,7 @@ class _ResetState extends State<ActivationForm> {
                   ),
                   validator: (value) {
                     if (value.isEmpty) {
-                      return 'Champ obligatoire';
+                         return allTranslations.text("requis_title");
                     }
                   },
                   controller: _pinController,

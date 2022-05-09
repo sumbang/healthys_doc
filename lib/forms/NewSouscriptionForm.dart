@@ -94,7 +94,7 @@ class _ResetState extends State<NewSouscriptionForm> {
 
     if (code1 != code) {
       Fluttertoast.showToast(
-          msg: "Code de confirmation incorrect",
+          msg: allTranslations.text("z29"),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIos: 5,
@@ -102,7 +102,7 @@ class _ResetState extends State<NewSouscriptionForm> {
           textColor: Colors.white);
     } else if (pin != currentpin) {
       Fluttertoast.showToast(
-          msg: "Pin d'authentification incorrect",
+          msg:allTranslations.text("z30"),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIos: 5,
@@ -388,7 +388,7 @@ class _ResetState extends State<NewSouscriptionForm> {
                   ),
                   validator: (value) {
                     if (value.isEmpty) {
-                      return 'Champ obligatoire';
+                       return allTranslations.text('requis_title');
                     }
                   },
                   controller: _numeroController,
@@ -422,7 +422,7 @@ class _ResetState extends State<NewSouscriptionForm> {
                       Icons.person,
                       color: color,
                     ),
-                    labelText: "Code d'abonnement" + " *",
+                    labelText: allTranslations.text("z31") + " *",
                     labelStyle: TextStyle(
                         color: Colors.grey,
                         fontSize: 16.0,
@@ -430,7 +430,7 @@ class _ResetState extends State<NewSouscriptionForm> {
                   ),
                   validator: (value) {
                     if (value.isEmpty) {
-                      return 'Champ obligatoire';
+                      return allTranslations.text('requis_title');
                     }
                   },
                   controller: _codeController,
@@ -471,7 +471,7 @@ class _ResetState extends State<NewSouscriptionForm> {
                   ),
                   validator: (value) {
                     if (value.isEmpty) {
-                      return 'Champ obligatoire';
+                       return allTranslations.text('requis_title');
                     }
                   },
                   controller: _pinController,
@@ -498,7 +498,7 @@ class _ResetState extends State<NewSouscriptionForm> {
                       ),
                       child: new Center(
                         child: new Text(
-                          "Activer le cartnet",
+                         allTranslations.text("z32"),
                           style: new TextStyle(
                               fontSize: 18.0, color: Colors.white),
                         ),

@@ -782,7 +782,6 @@ class ConsultationPageState extends State<Consultation51> {
                                                 deta.resultat.toString())),
                                       ),
                                       SizedBox(height: 20),
-                                      SizedBox(height: 20),
                                       !deta.scan1.isEmpty
                                           ? Image.network(
                                               Setting.serveurimage1 +
@@ -790,6 +789,32 @@ class ConsultationPageState extends State<Consultation51> {
                                                   deta.scan1,
                                               fit: BoxFit.fill)
                                           : Container(),
+                                      SizedBox(height: 20),
+                                       Padding(
+                                          padding: EdgeInsets.only(
+                                              left: 15.0,
+                                              top: 3 *
+                                                  SizeConfig.heightMultiplier),
+                                          child: Center(
+                                            child: Text(
+                                              allTranslations
+                                                  .text('z70'),
+                                              style: TextStyle(
+                                                  color: color,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 2.2 *
+                                                      SizeConfig
+                                                          .textMultiplier),
+                                            ),
+                                          )),
+                                          SizedBox(height: 10),
+                                           Container(
+                                        child:    Text(deta.resultat1.toString(),
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.normal,
+                                              fontSize:18)),
+                                      ),
                                       SizedBox(height: 20),
                                       Text(
                                           allTranslations
@@ -818,6 +843,59 @@ class ConsultationPageState extends State<Consultation51> {
                                     ],
                                   ),
                                 ),
+                                 SizedBox(height: 20),
+                                       Padding(
+                                          padding: EdgeInsets.only(
+                                              left: 15.0,
+                                              top: 3 *
+                                                  SizeConfig.heightMultiplier),
+                                          child: Center(
+                                            child: Text(
+                                              allTranslations
+                                                  .text('z72'),
+                                              style: TextStyle(
+                                                  color: color,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 2.2 *
+                                                      SizeConfig
+                                                          .textMultiplier),
+                                            ),
+                                          )),
+                                          SizedBox(height: 10),
+                                           Container(
+                                        child:    Text(deta.diagnostic1.toString(),
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.normal,
+                                              fontSize:18)),
+                                      ),
+                                     SizedBox(height: 20),
+                                       Padding(
+                                          padding: EdgeInsets.only(
+                                              left: 15.0,
+                                              top: 3 *
+                                                  SizeConfig.heightMultiplier),
+                                          child: Center(
+                                            child: Text(
+                                              allTranslations
+                                                  .text('z73'),
+                                              style: TextStyle(
+                                                  color: color,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 2.2 *
+                                                      SizeConfig
+                                                          .textMultiplier),
+                                            ),
+                                          )),
+                                          SizedBox(height: 10),
+                                           Container(
+                                        child:    Text(deta.mise1.toString(),
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.normal,
+                                              fontSize:18)),
+                                      ),
+                                      
                                 SizedBox(height: 30.0),
                                 new InkWell(
                                   onTap: () {
@@ -839,7 +917,7 @@ class ConsultationPageState extends State<Consultation51> {
                                     ),
                                     child: new Center(
                                       child: new Text(
-                                        "Voir les évolutions",
+                                        allTranslations.text("z55"),
                                         style: new TextStyle(
                                             fontSize: 16.0,
                                             color: Colors.white),

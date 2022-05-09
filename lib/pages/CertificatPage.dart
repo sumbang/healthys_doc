@@ -57,7 +57,7 @@ class CertificatPageState extends State<CertificatPage1> {
         },
         child: Scaffold(
             appBar: AppBar(
-              title: Text("Nouveau certificat"),
+              title: Text(allTranslations.text("z42")),
               backgroundColor: color,
               elevation: 0,
               leading: new IconButton(

@@ -353,7 +353,7 @@ class _SignupState extends State<NewPatientForm> {
                           ),
                           validator: (value) {
                             if (value.isEmpty) {
-                              return 'Champ obligatoire';
+                              return allTranslations.text('requis_title');
                             }
                           },
                           keyboardType: TextInputType.text,
@@ -619,7 +619,7 @@ class _SignupState extends State<NewPatientForm> {
                           ),
                           validator: (value) {
                             if (value.isEmpty) {
-                              return 'Champ obligatoire';
+                              return allTranslations.text('requis_title');
                             }
                           },
                           keyboardType: TextInputType.text,
@@ -989,7 +989,7 @@ class _SignupState extends State<NewPatientForm> {
           textColor: Colors.white);
     } else if (_liste_personne.length == 0) {
       Fluttertoast.showToast(
-          msg: "Veuillez renseigner une personne à prevenir",
+          msg: allTranslations.text("z19"),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIos: 5,
@@ -997,7 +997,7 @@ class _SignupState extends State<NewPatientForm> {
           textColor: Colors.white);
     } else if (enfant == true && _enfantController.text.toString().isEmpty) {
       Fluttertoast.showToast(
-          msg: "Veuillez renseigner le nombre d'enfant",
+          msg: allTranslations.text("z20"),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIos: 5,
@@ -1815,7 +1815,7 @@ class _SignupState extends State<NewPatientForm> {
                         ),
                         validator: (value) {
                           if (value.isEmpty) {
-                            return 'Champ obligatoire';
+                            return allTranslations.text('requis_title');
                           }
                         },
                         keyboardType: TextInputType.text,
@@ -1855,7 +1855,7 @@ class _SignupState extends State<NewPatientForm> {
                         ),
                         validator: (value) {
                           if (value.isEmpty) {
-                            return 'Champ obligatoire';
+                            return allTranslations.text('requis_title');
                           }
                         },
                         keyboardType: TextInputType.text,
@@ -1963,7 +1963,7 @@ class _SignupState extends State<NewPatientForm> {
                               ),
                               validator: (value) {
                                 if (value.isEmpty) {
-                                  return 'Champ obligatoire';
+                                  return allTranslations.text('requis_title');
                                 }
                               },
                               keyboardType: TextInputType.text,
@@ -2070,7 +2070,7 @@ class _SignupState extends State<NewPatientForm> {
                         ),
                         validator: (value) {
                           if (value.isEmpty) {
-                            return 'Champ obligatoire';
+                            return allTranslations.text('requis_title');
                           }
                         },
                         keyboardType: TextInputType.emailAddress,
@@ -2110,7 +2110,7 @@ class _SignupState extends State<NewPatientForm> {
                         ),
                         validator: (value) {
                           if (value.isEmpty) {
-                            return 'Champ obligatoire';
+                            return allTranslations.text('requis_title');
                           }
                         },
                         keyboardType: TextInputType.text,
@@ -2150,7 +2150,7 @@ class _SignupState extends State<NewPatientForm> {
                         ),
                         validator: (value) {
                           if (value.isEmpty) {
-                            return 'Champ obligatoire';
+                            return allTranslations.text('requis_title');
                           }
                         },
                         keyboardType: TextInputType.text,
@@ -2190,7 +2190,7 @@ class _SignupState extends State<NewPatientForm> {
                         ),
                         validator: (value) {
                           if (value.isEmpty) {
-                            return 'Champ obligatoire';
+                            return allTranslations.text('requis_title');
                           }
                         },
                         keyboardType: TextInputType.text,
@@ -2326,7 +2326,7 @@ class _SignupState extends State<NewPatientForm> {
                               ),
                               validator: (value) {
                                 if (value.isEmpty) {
-                                  return 'Champ obligatoire';
+                                  return allTranslations.text('requis_title');
                                 }
                               },
                               keyboardType: TextInputType.text,
@@ -2554,7 +2554,7 @@ class _SignupState extends State<NewPatientForm> {
                   ),
                   validator: (value) {
                     if (value.isEmpty) {
-                      return 'Champ obligatoire';
+                      return allTranslations.text('requis_title');
                     }
                   },
                   keyboardType: TextInputType.text,
@@ -2618,7 +2618,7 @@ class _SignupState extends State<NewPatientForm> {
                         ),
                         validator: (value) {
                           if (value.isEmpty) {
-                            return 'Champ obligatoire';
+                            return allTranslations.text('requis_title');
                           }
                         },
                         keyboardType: TextInputType.number,
@@ -2681,7 +2681,7 @@ class _SignupState extends State<NewPatientForm> {
                         ),
                         validator: (value) {
                           if (value.isEmpty) {
-                            return 'Champ obligatoire';
+                            return allTranslations.text('requis_title');
                           }
                         },
                         keyboardType: TextInputType.text,
@@ -2698,7 +2698,7 @@ class _SignupState extends State<NewPatientForm> {
                   left: 10.0, right: 8.0, top: 8.0, bottom: 10.0),
               child: Center(
                   child: Text(
-                "Uploader la photo du patient",
+                allTranslations.text("z21"),
                 style: TextStyle(
                     color: color, fontWeight: FontWeight.bold, fontSize: 16.0),
                 textAlign: TextAlign.left,
@@ -2734,7 +2734,7 @@ class _SignupState extends State<NewPatientForm> {
                                       height: 2,
                                     ),
                                     Text(
-                                      "Téléchargez votre image",
+                                      allTranslations.text("z22"),
                                       style: TextStyle(
                                           color: bleu,
                                           height: 1.5,
@@ -2745,7 +2745,7 @@ class _SignupState extends State<NewPatientForm> {
                                       height: 2,
                                     ),
                                     Text(
-                                      "Vous ne pouvez selectionner qu'une image",
+                                      allTranslations.text("z23"),
                                       style: TextStyle(
                                           color: Colors.grey,
                                           height: 1.5,
@@ -2777,7 +2777,7 @@ class _SignupState extends State<NewPatientForm> {
                         });
                       },
                       child: Text(
-                        "Supprimer",
+                        allTranslations.text("z24"),
                         style: TextStyle(
                             color: Colors.red,
                             height: 1.5,
@@ -2796,7 +2796,7 @@ class _SignupState extends State<NewPatientForm> {
                   left: 10.0, right: 8.0, top: 8.0, bottom: 10.0),
               child: Center(
                   child: Text(
-                "Uploader sa CNI (recto/verso) *",
+                allTranslations.text("z25")+" *",
                 style: TextStyle(
                     color: color, fontWeight: FontWeight.bold, fontSize: 16.0),
                 textAlign: TextAlign.left,
@@ -2832,7 +2832,7 @@ class _SignupState extends State<NewPatientForm> {
                                       height: 2,
                                     ),
                                     Text(
-                                      "Téléchargez votre CNI",
+                                      allTranslations.text("z26"),
                                       style: TextStyle(
                                           color: bleu,
                                           height: 1.5,
@@ -2843,7 +2843,7 @@ class _SignupState extends State<NewPatientForm> {
                                       height: 2,
                                     ),
                                     Text(
-                                      "Vous devez sélectionner le recto et le verso",
+                                      allTranslations.text("z27"),
                                       style: TextStyle(
                                           color: Colors.grey,
                                           height: 1.5,
@@ -2875,7 +2875,7 @@ class _SignupState extends State<NewPatientForm> {
                         });
                       },
                       child: Text(
-                        "Supprimer",
+                        allTranslations.text("z24"),
                         style: TextStyle(
                             color: Colors.red,
                             height: 1.5,

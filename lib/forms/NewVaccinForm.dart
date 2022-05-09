@@ -187,7 +187,7 @@ class NewVaccinFormState extends State<NewVaccinForm> {
                         ),
                         validator: (value) {
                           if (value.isEmpty) {
-                            return 'Champ obligatoire';
+                            return allTranslations.text('requis_title');
                           }
                         },
                         controller: _numeroController,

@@ -381,7 +381,7 @@ class _SignupState extends State<NewPatientForm1> {
                               ),
                               child: new Center(
                                 child: new Text(
-                                  'AJOUTER',
+                                  allTranslations.text("z28"),
                                   style: new TextStyle(
                                       fontSize: 18.0, color: Colors.white),
                                 ),
@@ -647,7 +647,7 @@ class _SignupState extends State<NewPatientForm1> {
                               ),
                               child: new Center(
                                 child: new Text(
-                                  'AJOUTER',
+                                  allTranslations.text("z28"),
                                   style: new TextStyle(
                                       fontSize: 18.0, color: Colors.white),
                                 ),
@@ -2165,7 +2165,7 @@ class _SignupState extends State<NewPatientForm1> {
                         padding: EdgeInsets.only(left: 5.0, top: 2),
                         child: Center(
                           child: Text(
-                            'Ajouter',
+                           allTranslations.text("z28"),
                             style: TextStyle(
                                 color: color2,
                                 fontStyle: FontStyle.italic,
@@ -2224,7 +2224,7 @@ class _SignupState extends State<NewPatientForm1> {
                         padding: EdgeInsets.only(left: 5.0, top: 2),
                         child: Center(
                           child: Text(
-                            'Ajouter',
+                            allTranslations.text("z28"),
                             style: TextStyle(
                                 color: color2,
                                 fontStyle: FontStyle.italic,
@@ -2509,7 +2509,7 @@ class _SignupState extends State<NewPatientForm1> {
                                       height: 2,
                                     ),
                                     Text(
-                                      "Téléchargez votre image",
+                                      allTranslations.text("z22"),
                                       style: TextStyle(
                                           color: bleu,
                                           height: 1.5,
@@ -2520,7 +2520,7 @@ class _SignupState extends State<NewPatientForm1> {
                                       height: 2,
                                     ),
                                     Text(
-                                      "Vous ne pouvez selectionner qu'une image",
+                                      allTranslations.text("z23"),
                                       style: TextStyle(
                                           color: Colors.grey,
                                           height: 1.5,
@@ -2552,7 +2552,7 @@ class _SignupState extends State<NewPatientForm1> {
                         });
                       },
                       child: Text(
-                        "Supprimer",
+                        allTranslations.text("z24"),
                         style: TextStyle(
                             color: Colors.red,
                             height: 1.5,
@@ -2571,7 +2571,7 @@ class _SignupState extends State<NewPatientForm1> {
                   left: 10.0, right: 8.0, top: 8.0, bottom: 10.0),
               child: Center(
                   child: Text(
-                "Uploader sa CNI (recto/verso) *",
+                allTranslations.text("z25")+" *",
                 style: TextStyle(
                     color: color, fontWeight: FontWeight.bold, fontSize: 16.0),
                 textAlign: TextAlign.left,
@@ -2607,7 +2607,7 @@ class _SignupState extends State<NewPatientForm1> {
                                       height: 2,
                                     ),
                                     Text(
-                                      "Téléchargez votre CNI",
+                                     allTranslations.text("z26"),
                                       style: TextStyle(
                                           color: bleu,
                                           height: 1.5,
@@ -2618,7 +2618,7 @@ class _SignupState extends State<NewPatientForm1> {
                                       height: 2,
                                     ),
                                     Text(
-                                      "Vous devez sélectionner le recto et le verso",
+                                      allTranslations.text("z27"),
                                       style: TextStyle(
                                           color: Colors.grey,
                                           height: 1.5,
@@ -2650,7 +2650,7 @@ class _SignupState extends State<NewPatientForm1> {
                         });
                       },
                       child: Text(
-                        "Supprimer",
+                        allTranslations.text("z24"),
                         style: TextStyle(
                             color: Colors.red,
                             height: 1.5,
@@ -2678,7 +2678,7 @@ class _SignupState extends State<NewPatientForm1> {
                       ),
                       child: new Center(
                         child: new Text(
-                          "Continuer",
+                          allTranslations.text("z27"),
                           style: new TextStyle(
                               fontSize: 18.0, color: Colors.white),
                         ),

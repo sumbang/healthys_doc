@@ -47,7 +47,7 @@ class NewPatientPageState extends State<NewPatientPage1> {
 
     return new Scaffold(
         appBar: AppBar(
-          title: Text("ENREGISTRER UN PATIENT"),
+          title: Text(allTranslations.text("z60")),
           backgroundColor: color,
           elevation: 0,
           leading: new IconButton(

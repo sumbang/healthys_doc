@@ -284,7 +284,7 @@ class _ResetState extends State<NewPassForm> {
     } else if (_pass1Controller.text.toString() !=
         _pass2Controller.text.toString()) {
       Fluttertoast.showToast(
-          msg: "Les mots de passes ne correspondent pas",
+          msg: allTranslations.text("z18"),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIos: 5,

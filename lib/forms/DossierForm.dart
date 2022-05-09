@@ -241,7 +241,7 @@ class DossierFormState extends State<DossierForm> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             new Text(
-              "NUMERO PATIENT" + " *",
+              allTranslations.text("z13") + " *",
               textAlign: TextAlign.left,
               style: new TextStyle(
                   fontSize: 18.0,
@@ -265,7 +265,7 @@ class DossierFormState extends State<DossierForm> {
               color: Colors.transparent,
             ),
             new Text(
-              "DATE DE CONSULTATION" + " *",
+              allTranslations.text("z14") + " *",
               textAlign: TextAlign.left,
               style: new TextStyle(
                   fontSize: 18.0,
@@ -345,7 +345,7 @@ class DossierFormState extends State<DossierForm> {
               color: Colors.transparent,
             ),
             new Text(
-              "DESCRIPTION" + " *",
+              allTranslations.text("z15") + " *",
               textAlign: TextAlign.left,
               style: new TextStyle(
                   fontSize: 18.0,
@@ -388,7 +388,7 @@ class DossierFormState extends State<DossierForm> {
                 selectFile();
               },
               icon: Icon(Icons.folder_open),
-              label: Text("FICHIER JOINT *"),
+              label: Text(allTranslations.text("z16")+" *"),
               color: Colors.redAccent,
               colorBrightness: Brightness.dark,
             )),

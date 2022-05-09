@@ -1459,7 +1459,7 @@ class _SignupState extends State<SignupForm2> {
                         ),
                         validator: (value) {
                           if (value.isEmpty) {
-                            return 'Champ obligatoire';
+                            return allTranslations.text('requis_title');
                           }
                         },
                         keyboardType: TextInputType.text,
@@ -1500,7 +1500,7 @@ class _SignupState extends State<SignupForm2> {
                         ),
                         validator: (value) {
                           if (value.isEmpty) {
-                            return 'Champ obligatoire';
+                           return allTranslations.text('requis_title');
                           }
                         },
                         keyboardType: TextInputType.text,
@@ -1606,7 +1606,7 @@ class _SignupState extends State<SignupForm2> {
                         ),
                         validator: (value) {
                           if (value.isEmpty) {
-                            return 'Champ obligatoire';
+                           return allTranslations.text('requis_title');
                           }
                         },
                         keyboardType: TextInputType.emailAddress,
@@ -1715,7 +1715,7 @@ class _SignupState extends State<SignupForm2> {
                               ),
                               validator: (value) {
                                 if (value.isEmpty) {
-                                  return 'Champ obligatoire';
+                                  return allTranslations.text('requis_title');
                                 }
                               },
                               keyboardType: TextInputType.text,
@@ -1760,7 +1760,7 @@ class _SignupState extends State<SignupForm2> {
                         ),
                         validator: (value) {
                           if (value.isEmpty) {
-                            return 'Champ obligatoire';
+                            return allTranslations.text('requis_title');
                           }
                         },
                         keyboardType: TextInputType.text,
@@ -1800,7 +1800,7 @@ class _SignupState extends State<SignupForm2> {
                         ),
                         validator: (value) {
                           if (value.isEmpty) {
-                            return 'Champ obligatoire';
+                            return allTranslations.text('requis_title');
                           }
                         },
                         keyboardType: TextInputType.text,
@@ -1844,7 +1844,7 @@ class _SignupState extends State<SignupForm2> {
                   ),
                   validator: (value) {
                     if (value.isEmpty) {
-                      return 'Champ obligatoire';
+                     return allTranslations.text('requis_title');
                     }
                   },
                   keyboardType: TextInputType.text,
@@ -1948,7 +1948,7 @@ class _SignupState extends State<SignupForm2> {
                         ),
                         validator: (value) {
                           if (value.isEmpty) {
-                            return 'Champ obligatoire';
+                           return allTranslations.text('requis_title');
                           }
                         },
                         keyboardType: TextInputType.text,
@@ -1967,7 +1967,7 @@ class _SignupState extends State<SignupForm2> {
                   left: 10.0, right: 8.0, top: 8.0, bottom: 10.0),
               child: Center(
                   child: Text(
-                "Uploader votre CNI (recto/verso) *",
+                allTranslations.text("z25")+" *",
                 style: TextStyle(
                     color: color, fontWeight: FontWeight.bold, fontSize: 16.0),
                 textAlign: TextAlign.left,
@@ -2003,7 +2003,7 @@ class _SignupState extends State<SignupForm2> {
                                       height: 2,
                                     ),
                                     Text(
-                                      "Téléchargez votre CNI",
+                                     allTranslations.text("z26"),
                                       style: TextStyle(
                                           color: bleu,
                                           height: 1.5,
@@ -2014,7 +2014,7 @@ class _SignupState extends State<SignupForm2> {
                                       height: 2,
                                     ),
                                     Text(
-                                      "Vous devez sélectionner le recto et le verso",
+                                      allTranslations.text("z27"),
                                       style: TextStyle(
                                           color: Colors.grey,
                                           height: 1.5,
@@ -2046,7 +2046,7 @@ class _SignupState extends State<SignupForm2> {
                         });
                       },
                       child: Text(
-                        "Supprimer",
+                        allTranslations.text("z24"),
                         style: TextStyle(
                             color: Colors.red,
                             height: 1.5,
@@ -2176,7 +2176,7 @@ class _SignupState extends State<SignupForm2> {
                       ),
                       validator: (value) {
                         if (value.isEmpty) {
-                          return 'Champ obligatoire';
+                         return allTranslations.text('requis_title');
                         }
                       },
                       keyboardType: TextInputType.text,
@@ -2199,7 +2199,7 @@ class _SignupState extends State<SignupForm2> {
                   left: 10.0, right: 8.0, top: 8.0, bottom: 10.0),
               child: Center(
                   child: Text(
-                "Uploader votre numéro d'ordre",
+                allTranslations.text("z33"),
                 style: TextStyle(
                     color: color2, fontWeight: FontWeight.bold, fontSize: 16.0),
                 textAlign: TextAlign.left,
@@ -2235,7 +2235,7 @@ class _SignupState extends State<SignupForm2> {
                                       height: 2,
                                     ),
                                     Text(
-                                      "Téléchargez votre image",
+                                      allTranslations.text("z22"),
                                       style: TextStyle(
                                           color: bleu,
                                           height: 1.5,
@@ -2246,7 +2246,7 @@ class _SignupState extends State<SignupForm2> {
                                       height: 2,
                                     ),
                                     Text(
-                                      "Vous ne pouvez selectionner qu'une image",
+                                      allTranslations.text("z23"),
                                       style: TextStyle(
                                           color: Colors.grey,
                                           height: 1.5,
@@ -2278,7 +2278,7 @@ class _SignupState extends State<SignupForm2> {
                         });
                       },
                       child: Text(
-                        "Supprimer",
+                        allTranslations.text("z24"),
                         style: TextStyle(
                             color: Colors.red,
                             height: 1.5,
@@ -2292,7 +2292,7 @@ class _SignupState extends State<SignupForm2> {
                     padding: EdgeInsets.only(
                         left: 10.0, right: 8.0, top: 8.0, bottom: 15.0),
                     child: Center(
-                      child: Text("Disponibilité pour vacations ou remplacements ? ",
+                      child: Text(allTranslations.text("z34"),
                         style: TextStyle(
                             color: color2,
                             fontWeight: FontWeight.bold,

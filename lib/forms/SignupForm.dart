@@ -912,7 +912,7 @@ class _SignupState extends State<SignupForm> {
                         ),
                         validator: (value) {
                           if (value.isEmpty) {
-                            return 'Champ obligatoire';
+                            return allTranslations.text('requis_title');
                           }
                         },
                         keyboardType: TextInputType.text,
@@ -952,7 +952,7 @@ class _SignupState extends State<SignupForm> {
                         ),
                         validator: (value) {
                           if (value.isEmpty) {
-                            return 'Champ obligatoire';
+                            return allTranslations.text('requis_title');
                           }
                         },
                         keyboardType: TextInputType.text,
@@ -1024,7 +1024,7 @@ class _SignupState extends State<SignupForm> {
                         ),
                         validator: (value) {
                           if (value.isEmpty) {
-                            return 'Champ obligatoire';
+                            return allTranslations.text('requis_title');
                           }
                         },
                         keyboardType: TextInputType.text,
@@ -1064,7 +1064,7 @@ class _SignupState extends State<SignupForm> {
                         ),
                         validator: (value) {
                           if (value.isEmpty) {
-                            return 'Champ obligatoire';
+                            return allTranslations.text('requis_title');
                           }
                         },
                         keyboardType: TextInputType.text,
@@ -1203,7 +1203,7 @@ class _SignupState extends State<SignupForm> {
                               ),
                               validator: (value) {
                                 if (value.isEmpty) {
-                                  return 'Champ obligatoire';
+                                  return allTranslations.text('requis_title');
                                 }
                               },
                               keyboardType: TextInputType.text,
@@ -1248,7 +1248,7 @@ class _SignupState extends State<SignupForm> {
                         ),
                         validator: (value) {
                           if (value.isEmpty) {
-                            return 'Champ obligatoire';
+                           return allTranslations.text('requis_title');
                           }
                         },
                         keyboardType: TextInputType.emailAddress,
@@ -1288,7 +1288,7 @@ class _SignupState extends State<SignupForm> {
                         ),
                         validator: (value) {
                           if (value.isEmpty) {
-                            return 'Champ obligatoire';
+                           return allTranslations.text('requis_title');
                           }
                         },
                         keyboardType: TextInputType.text,
@@ -1320,7 +1320,7 @@ class _SignupState extends State<SignupForm> {
                             ),
                             child: new Center(
                               child: new Text(
-                                "Charger le scan de votre CNI",
+                                allTranslations.text("z74"),
                                 style: new TextStyle(
                                     fontSize: 14.0, color: Colors.white),
                               ),
@@ -1430,7 +1430,7 @@ class _SignupState extends State<SignupForm> {
                               ),
                               validator: (value) {
                                 if (value.isEmpty) {
-                                  return 'Champ obligatoire';
+                                 return allTranslations.text('requis_title');
                                 }
                               },
                               keyboardType: TextInputType.text,
@@ -1544,7 +1544,7 @@ class _SignupState extends State<SignupForm> {
                   ),
                   validator: (value) {
                     if (value.isEmpty) {
-                      return 'Champ obligatoire';
+                      return allTranslations.text('requis_title');
                     }
                   },
                   keyboardType: TextInputType.text,
@@ -1628,7 +1628,7 @@ class _SignupState extends State<SignupForm> {
                   ),
                   validator: (value) {
                     if (value.isEmpty) {
-                      return 'Champ obligatoire';
+                      return allTranslations.text('requis_title');
                     }
                   },
                   keyboardType: TextInputType.text,
@@ -1708,7 +1708,7 @@ class _SignupState extends State<SignupForm> {
                   ),
                   validator: (value) {
                     if (value.isEmpty) {
-                      return 'Champ obligatoire';
+                      return allTranslations.text('requis_title');
                     }
                   },
                   keyboardType: TextInputType.number,
@@ -1748,7 +1748,7 @@ class _SignupState extends State<SignupForm> {
                   ),
                   validator: (value) {
                     if (value.isEmpty) {
-                      return 'Champ obligatoire';
+                      return allTranslations.text('requis_title');
                     }
                   },
                   keyboardType: TextInputType.number,
@@ -1925,7 +1925,7 @@ class _SignupState extends State<SignupForm> {
                   ),
                   validator: (value) {
                     if (value.isEmpty) {
-                      return 'Champ obligatoire';
+                     return allTranslations.text('requis_title');
                     }
                   },
                   keyboardType: TextInputType.text,
@@ -2042,7 +2042,7 @@ class _SignupState extends State<SignupForm> {
                         ),
                         validator: (value) {
                           if (value.isEmpty) {
-                            return 'Champ obligatoire';
+                            return allTranslations.text('requis_title');
                           }
                         },
                         keyboardType: TextInputType.text,
@@ -2110,7 +2110,7 @@ class _SignupState extends State<SignupForm> {
                         ),
                         validator: (value) {
                           if (value.isEmpty) {
-                            return 'Champ obligatoire';
+                            return allTranslations.text('requis_title');
                           }
                         },
                         keyboardType: TextInputType.text,
@@ -2178,7 +2178,7 @@ class _SignupState extends State<SignupForm> {
                         ),
                         validator: (value) {
                           if (value.isEmpty) {
-                            return 'Champ obligatoire';
+                            return allTranslations.text('requis_title');
                           }
                         },
                         keyboardType: TextInputType.text,

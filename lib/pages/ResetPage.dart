@@ -95,7 +95,7 @@ class ResetPageState extends State<ResetPage1> {
                                 color: Colors.transparent,
                               ),
                               new Text(
-                                "REINITIALISATION DE MOT DE PASSE",
+                                allTranslations.text("z57"),
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
@@ -108,7 +108,7 @@ class ResetPageState extends State<ResetPage1> {
                                 color: Colors.transparent,
                               ),
                               new Text(
-                                "Veuillez saisir votre numéro d'ordre, puis cliquer sur réinitialiser pour lancer l'opération.",
+                               allTranslations.text("z58"),
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.normal,

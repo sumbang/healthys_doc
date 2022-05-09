@@ -490,7 +490,7 @@ class DashboardFragmentState extends State<DashboardFragment> {
         'img/antecedents-medicaux.png');
     mens.add(men3);
 
-    Menu men5 = new Menu(12, "Mes documents", 'img/identifiants-connexion.png');
+    Menu men5 = new Menu(12, allTranslations.text("z37"), 'img/identifiants-connexion.png');
     mens.add(men5);
 
     /*Menu men4 =

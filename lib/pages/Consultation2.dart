@@ -253,7 +253,7 @@ class ConsultationPageState extends State<Consultation_2> {
     maliste.add(new ListTile(
       leading: Icon(Icons.person_pin),
       title: Text(
-        "Voir la consultation",
+        allTranslations.text("z53"),
         style: TextStyle(fontSize: 16),
       ),
       onTap: () {
@@ -269,7 +269,7 @@ class ConsultationPageState extends State<Consultation_2> {
     maliste.add(new ListTile(
       leading: Icon(Icons.person_pin),
       title: Text(
-        "Faire une évolution",
+        allTranslations.text("z54"),
         style: TextStyle(fontSize: 16),
       ),
       onTap: () {
@@ -381,7 +381,7 @@ class ConsultationPageState extends State<Consultation_2> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                Text("Matricule santé : ",
+                                Text(allTranslations.text("z50")+": ",
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 16.0,
@@ -423,7 +423,7 @@ class ConsultationPageState extends State<Consultation_2> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                Text("Personnel soignant : ",
+                                Text(allTranslations.text("z51")+": ",
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 16.0,
@@ -566,7 +566,7 @@ class ConsultationPageState extends State<Consultation_2> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                Text("Matricule santé : ",
+                                Text(allTranslations.text("z50")+" : ",
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 16.0,
@@ -608,7 +608,7 @@ class ConsultationPageState extends State<Consultation_2> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                Text("Personnel soignant : ",
+                                Text(allTranslations.text("z51")+" : ",
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 16.0,

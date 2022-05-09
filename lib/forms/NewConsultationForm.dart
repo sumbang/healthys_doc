@@ -243,7 +243,7 @@ class _ResetState extends State<NewConsultationForm> {
 
     if (code1 != code) {
       Fluttertoast.showToast(
-          msg: "Code de confirmation incorrect",
+          msg: allTranslations.text("z29"),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIos: 5,
@@ -251,7 +251,7 @@ class _ResetState extends State<NewConsultationForm> {
           textColor: Colors.white);
     } else if (pin != currentpin) {
       Fluttertoast.showToast(
-          msg: "Pin d'authentification incorrect",
+          msg: allTranslations.text("z30"),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIos: 5,
@@ -444,7 +444,7 @@ class _ResetState extends State<NewConsultationForm> {
                         ),
                         validator: (value) {
                           if (value.isEmpty) {
-                            return 'Champ obligatoire';
+                           return allTranslations.text('requis_title');
                           }
                         },
                         controller: _numeroController,
@@ -506,7 +506,7 @@ class _ResetState extends State<NewConsultationForm> {
                         ),
                         validator: (value) {
                           if (value.isEmpty) {
-                            return 'Champ obligatoire';
+                            return allTranslations.text('requis_title');
                           }
                         },
                         controller: _pinController,
@@ -536,7 +536,7 @@ class _ResetState extends State<NewConsultationForm> {
                           ),
                           child: new Center(
                             child: new Text(
-                              "Continuer",
+                              allTranslations.text("z17"),
                               style: new TextStyle(
                                   fontSize: 18.0, color: Colors.white),
                             ),

@@ -168,7 +168,7 @@ class CertificatFormState extends State<CertificatForm> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             new Text(
-              "Raisons du document *",
+              allTranslations.text("z11")+" *",
               textAlign: TextAlign.left,
               style: new TextStyle(
                   fontSize: 18.0,
@@ -234,7 +234,7 @@ class CertificatFormState extends State<CertificatForm> {
                       ),
                       child: new Center(
                         child: new Text(
-                          "GENERER LE DOCUMENT",
+                          allTranslations.text("z12"),
                           style: new TextStyle(
                               fontSize: 18.0, color: Colors.white),
                         ),

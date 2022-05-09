@@ -99,6 +99,11 @@ class ConsultationPageState extends State<Consultation51> {
   final TextEditingController cpController = TextEditingController();
   final TextEditingController momentController = TextEditingController();
 
+  
+  final TextEditingController resultatexamenController = TextEditingController();
+  final TextEditingController diagnosticconfirmationController = TextEditingController();
+   String dropdownValue = "";
+
   List<String> exa = new List();
   List<String> para = new List();
   List<String> soins = new List();
@@ -2106,6 +2111,9 @@ class ConsultationPageState extends State<Consultation51> {
       Map data = {
         'diagnostic': _diag,
         'traitement': _traitement,
+        'mise1': dropdownValue.toString(),
+        'resultat1': resultatexamenController.text.toString(),
+        'diagnostic1': diagnosticconfirmationController.text.toString(),
         'exams': _exam,
         'motif': motifController.text.toString(),
         'scan1': scan1,
@@ -2579,7 +2587,7 @@ class ConsultationPageState extends State<Consultation51> {
                                             bottom: 10.0),
                                         child: Center(
                                             child: Text(
-                                          "Uploader la photo de l'examen",
+                                          allTranslations.text("z69"),
                                           style: TextStyle(
                                               color: color,
                                               fontWeight: FontWeight.bold,
@@ -2632,7 +2640,7 @@ class ConsultationPageState extends State<Consultation51> {
                                                                 height: 2,
                                                               ),
                                                               Text(
-                                                                "Téléchargez votre image",
+                                                                allTranslations.text("z22"),
                                                                 style: TextStyle(
                                                                     color: bleu,
                                                                     height: 1.5,
@@ -2646,7 +2654,7 @@ class ConsultationPageState extends State<Consultation51> {
                                                                 height: 2,
                                                               ),
                                                               Text(
-                                                                "Vous ne pouvez selectionner qu'une image",
+                                                                allTranslations.text("z23"),
                                                                 style: TextStyle(
                                                                     color: Colors
                                                                         .grey,
@@ -2684,7 +2692,7 @@ class ConsultationPageState extends State<Consultation51> {
                                                   });
                                                 },
                                                 child: Text(
-                                                  "Supprimer",
+                                                  allTranslations.text("z24"),
                                                   style: TextStyle(
                                                       color: Colors.red,
                                                       height: 1.5,
@@ -2695,6 +2703,117 @@ class ConsultationPageState extends State<Consultation51> {
                                               ),
                                             )
                                           : Container(),
+                                          Padding(
+                                          padding: EdgeInsets.only(
+                                              left: 15.0,
+                                              top: 3 *
+                                                  SizeConfig.heightMultiplier),
+                                          child: Center(
+                                            child: Text(
+                                              allTranslations
+                                                  .text('z70'),
+                                              style: TextStyle(
+                                                  color: color,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 2.2 *
+                                                      SizeConfig
+                                                          .textMultiplier),
+                                            ),
+                                          )),
+                                              Padding(
+                                        padding: const EdgeInsets.all(10.0),
+                                        child: Container(
+                                          padding: const EdgeInsets.only(
+                                              left: 5.0,
+                                              right: 5.0,
+                                              top: 3.0,
+                                              bottom: 3.0),
+                                          width: double.infinity,
+                                          decoration: new BoxDecoration(
+                                            color: Colors.white70,
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(10.0)),
+                                            border: new Border.all(
+                                                color: Colors.black38),
+                                          ),
+                                          child: TextFormField(
+                                            obscureText: false,
+                                            style: const TextStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.normal),
+                                            decoration: InputDecoration(
+                                              border: InputBorder.none,
+                                              icon: new Icon(
+                                                Icons.message,
+                                                color: color,
+                                              ),
+                                              labelStyle: TextStyle(
+                                                  color: Colors.grey,
+                                                  fontSize: 16.0,
+                                                  fontWeight:
+                                                      FontWeight.normal),
+                                            ),
+                                            controller: resultatexamenController,
+                                            maxLines: 3,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(height: 20),
+                                       Padding(
+                                          padding: EdgeInsets.only(
+                                              left: 15.0,
+                                              top: 3 *
+                                                  SizeConfig.heightMultiplier),
+                                          child: Center(
+                                            child: Text(
+                                              allTranslations
+                                                  .text('z72'),
+                                              style: TextStyle(
+                                                  color: color,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 2.2 *
+                                                      SizeConfig
+                                                          .textMultiplier),
+                                            ),
+                                          )),
+                                              Padding(
+                                        padding: const EdgeInsets.all(10.0),
+                                        child: Container(
+                                          padding: const EdgeInsets.only(
+                                              left: 5.0,
+                                              right: 5.0,
+                                              top: 3.0,
+                                              bottom: 3.0),
+                                          width: double.infinity,
+                                          decoration: new BoxDecoration(
+                                            color: Colors.white70,
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(10.0)),
+                                            border: new Border.all(
+                                                color: Colors.black38),
+                                          ),
+                                          child: TextFormField(
+                                            obscureText: false,
+                                            style: const TextStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.normal),
+                                            decoration: InputDecoration(
+                                              border: InputBorder.none,
+                                              icon: new Icon(
+                                                Icons.message,
+                                                color: color,
+                                              ),
+                                              labelStyle: TextStyle(
+                                                  color: Colors.grey,
+                                                  fontSize: 16.0,
+                                                  fontWeight:
+                                                      FontWeight.normal),
+                                            ),
+                                            controller: diagnosticconfirmationController,
+                                            maxLines: 3,
+                                          ),
+                                        ),
+                                      ),
                                       SizedBox(
                                         height: 10,
                                       ),
@@ -2775,7 +2894,7 @@ class ConsultationPageState extends State<Consultation51> {
                                             bottom: 10.0),
                                         child: Center(
                                             child: Text(
-                                          "Uploader la photo de la prescription",
+                                          allTranslations.text("z71"),
                                           style: TextStyle(
                                               color: color,
                                               fontWeight: FontWeight.bold,
@@ -2828,7 +2947,7 @@ class ConsultationPageState extends State<Consultation51> {
                                                                 height: 2,
                                                               ),
                                                               Text(
-                                                                "Téléchargez votre image",
+                                                                allTranslations.text("z22"),
                                                                 style: TextStyle(
                                                                     color: bleu,
                                                                     height: 1.5,
@@ -2842,7 +2961,7 @@ class ConsultationPageState extends State<Consultation51> {
                                                                 height: 2,
                                                               ),
                                                               Text(
-                                                                "Vous ne pouvez selectionner qu'une image",
+                                                                allTranslations.text("z23"),
                                                                 style: TextStyle(
                                                                     color: Colors
                                                                         .grey,
@@ -2880,7 +2999,7 @@ class ConsultationPageState extends State<Consultation51> {
                                                   });
                                                 },
                                                 child: Text(
-                                                  "Supprimer",
+                                                  allTranslations.text("z24"),
                                                   style: TextStyle(
                                                       color: Colors.red,
                                                       height: 1.5,
@@ -2894,6 +3013,60 @@ class ConsultationPageState extends State<Consultation51> {
                                     ],
                                   ),
                                 ),
+                                  SizedBox(height: 20),
+                                       Padding(
+                                          padding: EdgeInsets.only(
+                                              left: 15.0,
+                                              top: 3 *
+                                                  SizeConfig.heightMultiplier),
+                                          child: Center(
+                                            child: Text(
+                                              allTranslations
+                                                  .text('z73'),
+                                              style: TextStyle(
+                                                  color: color,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 2.2 *
+                                                      SizeConfig
+                                                          .textMultiplier),
+                                            ),
+                                          )),
+                                              Padding(
+                                        padding: const EdgeInsets.all(10.0),
+                                        child: Container(
+                                          padding: const EdgeInsets.only(
+                                              left: 5.0,
+                                              right: 5.0,
+                                              top: 3.0,
+                                              bottom: 3.0),
+                                          width: double.infinity,
+                                          decoration: new BoxDecoration(
+                                            color: Colors.white70,
+                                          ),
+                                          child:  DropdownButton<String>(
+                                                    value: dropdownValue,
+                                                    icon: const Icon(Icons.arrow_drop_down_sharp),
+                                                    elevation: 16,
+                                                    style: const TextStyle(color: Colors.deepPurple),
+                                                    underline: Container(
+                                                      height: 2,
+                                                      color: Colors.deepPurpleAccent,
+                                                    ),
+                                                    onChanged: (String newValue) {
+                                                      setState(() {
+                                                        dropdownValue = newValue;
+                                                      });
+                                                    },
+                                                    items: <String>['', 'Observation', 'Hospitalisation', 'Ambulatoire']
+                                                        .map<DropdownMenuItem<String>>((String value) {
+                                                      return DropdownMenuItem<String>(
+                                                        value: value,
+                                                        child: Text(value),
+                                                      );
+                                                    }).toList(),
+                                                  ),
+                                                                                      ),
+                                      ),
                                 SizedBox(height: 30.0),
                                 Padding(
                                     padding: EdgeInsets.only(

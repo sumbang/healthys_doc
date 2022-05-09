@@ -71,7 +71,7 @@ class MaCartePageState extends State<MaCartePage1> {
         },
         child: Scaffold(
             appBar: AppBar(
-              title: Text("MA CARTE DIGITALE PRO"),
+              title: Text(allTranslations.text("z65")),
               backgroundColor: color,
               elevation: 0,
               leading: new IconButton(

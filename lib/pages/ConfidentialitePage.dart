@@ -51,7 +51,7 @@ class ConfidentialitePageState extends State<ConfidentialitePage1> {
         },
         child: Scaffold(
             appBar: AppBar(
-              title: Text("CONFIDENTIALITE"),
+              title: Text(allTranslations.text("z45")),
               backgroundColor: color,
               elevation: 0,
               leading: new IconButton(

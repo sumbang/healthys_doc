@@ -45,7 +45,7 @@ class NewPatientPageState extends State<NewPatientPage1> {
 
     return new Scaffold(
         appBar: AppBar(
-          title: Text("ACTIVER UN COMPTE"),
+          title: Text(allTranslations.text("z38")),
           backgroundColor: color,
           elevation: 0,
           leading: new IconButton(
