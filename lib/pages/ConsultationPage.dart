@@ -348,7 +348,7 @@ class ConsultationPage1State extends State<ConsultationPage1> {
                                           right: 0.0,
                                           top: 5.0,
                                           bottom: 5.0),
-                                      child: Text("Numéro patient : ",
+                                      child: Text(allTranslations.text("numpatient_title"),
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 14.5,

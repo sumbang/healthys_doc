@@ -98,6 +98,30 @@ class EvolutionPage1 extends State<EvolutionPage> {
     return listElementWidgetList;
   }
 
+  List<Widget> _buildImage(String datas) {
+    List<Widget> listElementWidgetList = new List<Widget>();
+    List<String> items = datas.split("|");
+    
+    for (int i = 0; i < items.length; i++) {
+      listElementWidgetList.add(new Padding(
+        padding:
+            EdgeInsets.only(left: 20.0, right: 20.0, top: 5.0, bottom: 5.0),
+        child: Image.network( 
+        Setting.serveurimage1 +''+ items[i], fit: BoxFit.fill),
+      ));
+
+      listElementWidgetList.add(Divider(
+        height: 5.0,
+        color: Colors.grey,
+      ));
+    }
+
+    return listElementWidgetList;
+
+    
+
+  }
+
   Future<String> getElements() async {
     Locale myLocale = Localizations.localeOf(context);
     print("debut");
@@ -257,17 +281,17 @@ class EvolutionPage1 extends State<EvolutionPage> {
                                     liste.add(SizedBox(height: 10));
                                     liste.add(Text(
                                       allTranslations.text("titre5_title"),
-                                      style: TextStyle(color: color2),
+                                      style: TextStyle(color: color, fontSize: 17.0),
                                     ));
                                     liste.add(SizedBox(height: 10));
                                     liste.add(Text(
                                       responseJson[i]["cmt"],
                                       style: TextStyle(
-                                          height: 1.2, color: Colors.black),
+                                          height: 1.2, color: Colors.black, fontSize: 15.0),
                                     ));
                                     liste.add(SizedBox(height: 10));
 
-                                    if (responseJson[i]["diagnostic"]
+                                   /* if (responseJson[i]["diagnostic"]
                                         .toString()
                                         .isNotEmpty) {
                                       liste.add(Text(allTranslations.text("z78"),
@@ -278,22 +302,18 @@ class EvolutionPage1 extends State<EvolutionPage> {
                                             .toString()),
                                       ));
                                       liste.add(SizedBox(height: 10));
-                                    }
-
-                                    if (responseJson[i]["ordonnance"]
-                                        .toString()
-                                        .isNotEmpty) {
-                                      liste.add(Text(allTranslations.text("z79"),
-                                          style: TextStyle(color: color2)));
-                                      liste.add(Column(
-                                        children: _buildList(responseJson[i]
-                                                ["ordonnance"]
-                                            .toString()),
-                                      ));
-                                      liste.add(SizedBox(height: 10));
-                                    }
+                                    }*/
 
                                     if(responseJson[i]["scan1"] != null && responseJson[i]["scan"].toString().isNotEmpty) {
+                                       liste.add( Text(allTranslations.text('cmt_title'),
+                                          style: TextStyle(
+                                              color: color, fontSize: 17.0)),);
+                                       liste.add(SizedBox(height: 20));
+                                       liste.add(Column(
+                                        children: _buildList(responseJson[i]
+                                                ["resultat"]
+                                            .toString()),
+                                      ));
                                        liste.add(SizedBox(height: 20));
                                        liste.add(Image.network(
                                               Setting.serveurimage1 +
@@ -304,28 +324,13 @@ class EvolutionPage1 extends State<EvolutionPage> {
                                       liste.add(SizedBox(height: 20));
                                     }
 
-                                    if (responseJson[i]["resultat"]
-                                        .toString()
-                                        .isNotEmpty) {
-                                      liste.add(Text(allTranslations.text("z80"),
-                                          style: TextStyle(color: color2)));
-                                      liste.add(Column(
-                                        children: _buildList(responseJson[i]
-                                                ["resultat"]
-                                            .toString()),
-                                      ));
-
-                                      liste.add(SizedBox(height: 15));
-                                    }
-
-
                                   if (responseJson[i]["resultat1"]
                                         .toString()
                                         .isNotEmpty) {
                                       liste.add(Text(allTranslations.text("z70"),
-                                          style: TextStyle(color: color2)));
+                                          style: TextStyle(color: color, fontSize: 17.0)));
                                       liste.add(Column(
-                                        children: _buildList(responseJson[i]
+                                        children: _buildImage(responseJson[i]
                                                 ["resultat1"]
                                             .toString()),
                                       ));
@@ -338,10 +343,10 @@ class EvolutionPage1 extends State<EvolutionPage> {
                                         .toString()
                                         .isNotEmpty) {
                                       liste.add(Text(allTranslations.text("z72"),
-                                          style: TextStyle(color: color2)));
+                                          style: TextStyle(color: color, fontSize: 17.0)));
                                       liste.add(Column(
                                         children: _buildList(responseJson[i]
-                                                ["resultat1"]
+                                                ["diagnostic1"]
                                             .toString()),
                                       ));
 
@@ -353,7 +358,7 @@ class EvolutionPage1 extends State<EvolutionPage> {
                                         .toString()
                                         .isNotEmpty) {
                                       liste.add(Text(allTranslations.text("z73"),
-                                          style: TextStyle(color: color2)));
+                                          style: TextStyle(color: color, fontSize: 17.0)));
                                       liste.add(Column(
                                         children: _buildList(responseJson[i]
                                                 ["mise1"]
@@ -362,6 +367,21 @@ class EvolutionPage1 extends State<EvolutionPage> {
 
                                       liste.add(SizedBox(height: 15));
                                     }
+
+                                    
+                                    if (responseJson[i]["ordonnance"]
+                                        .toString()
+                                        .isNotEmpty) {
+                                      liste.add(Text(allTranslations.text("z79"),
+                                          style: TextStyle(color: color,  fontSize: 17.0)));
+                                      liste.add(Column(
+                                        children: _buildList(responseJson[i]
+                                                ["ordonnance"]
+                                            .toString()),
+                                      ));
+                                      liste.add(SizedBox(height: 10));
+                                    }
+
 
                                     if(responseJson[i]["scan2"] != null && responseJson[i]["scan2"].toString().isNotEmpty ) {
                                        liste.add(SizedBox(height: 20));

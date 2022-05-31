@@ -343,6 +343,30 @@ class ConsultationPageState extends State<Consultation51> {
     return listElementWidgetList;
   }
 
+  List<Widget> _buildImage(String datas) {
+    List<Widget> listElementWidgetList = new List<Widget>();
+    List<String> items = datas.split("|");
+    
+    for (int i = 0; i < items.length; i++) {
+      listElementWidgetList.add(new Padding(
+        padding:
+            EdgeInsets.only(left: 20.0, right: 20.0, top: 5.0, bottom: 5.0),
+        child: Image.network( 
+        Setting.serveurimage1 +''+ items[i], fit: BoxFit.fill),
+      ));
+
+      listElementWidgetList.add(Divider(
+        height: 5.0,
+        color: Colors.grey,
+      ));
+    }
+
+    return listElementWidgetList;
+
+    
+
+  }
+
   void _submitForms() async {
     Navigator.push(
       context,
@@ -465,7 +489,6 @@ class ConsultationPageState extends State<Consultation51> {
                   }
 
                   return new Stack(
-                    overflow: Overflow.visible,
                     children: <Widget>[
                       Container(
                         color: color,
@@ -809,11 +832,9 @@ class ConsultationPageState extends State<Consultation51> {
                                           )),
                                           SizedBox(height: 10),
                                            Container(
-                                        child:    Text(deta.resultat1.toString(),
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.normal,
-                                              fontSize:18)),
+                                        child:   (deta.resultat1.toString().isEmpty) ? Container() :  Column(
+                                        children: _buildImage(deta.resultat1.toString() .toString()),
+                                      ),
                                       ),
                                       SizedBox(height: 20),
                                       Text(
@@ -897,7 +918,7 @@ class ConsultationPageState extends State<Consultation51> {
                                       ),
                                       
                                 SizedBox(height: 30.0),
-                                new InkWell(
+                               (deta.evolution != 0) ? new InkWell(
                                   onTap: () {
                                     Navigator.of(context).push(PageRouteBuilder(
                                         opaque: false,
@@ -924,7 +945,7 @@ class ConsultationPageState extends State<Consultation51> {
                                       ),
                                     ),
                                   ),
-                                ),
+                                ) : Container(),
                                 SizedBox(height: 10.0),
                               ],
                             ),

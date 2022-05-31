@@ -11,6 +11,7 @@ import 'package:healthys_medecin/pages/HomePageNew.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
+import '../main.dart';
 import 'HomePage.dart';
 
 class ChooseProfilePage extends StatelessWidget {
@@ -82,6 +83,7 @@ class ChooseProfilePageState extends State<ChooseProfilePage1> {
       payer = (prefs.getStringList('payer') ?? []);
       integral = (prefs.getStringList('integral') ?? []);
       perso = (prefs.getStringList('perso') ?? []);
+      token = (prefs.getString('token') ?? '');
     });
 
     print("taille : " + photos.length.toString());
@@ -91,6 +93,77 @@ class ChooseProfilePageState extends State<ChooseProfilePage1> {
     _loadUser();
     super.initState();
   }
+
+  Future<void> _makeLogout() async {
+    showDialog(
+      context: context,
+      barrierDismissible: _isSaving,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(allTranslations.text('progress_title')),
+          content: new Center(
+              child: new CircularProgressIndicator(
+            valueColor: new AlwaysStoppedAnimation<Color>(Colors.blue),
+          )),
+        );
+      },
+    );
+
+    setState(() {
+      _isSaving = false;
+    });
+
+    Map data = {
+      'TOKEN': token.toString(),
+    };
+
+    var res = await http.put(Setting.apiracine + "comptes/logout", body: data);
+
+    final prefs = await SharedPreferences.getInstance();
+
+    if (res.statusCode == 200) {
+      setState(() {
+        prefs.remove('token');
+        prefs.remove('datemembre');
+        prefs.remove('nom');
+        prefs.remove('id');
+        prefs.remove('role');
+        prefs.remove('biometrie');
+        prefs.remove('currentid');
+        prefs.remove('currentpatient');
+        prefs.remove('currentnom');
+        prefs.remove('currentphoto');
+        prefs.remove('currentpin');
+        prefs.remove('ids');
+        prefs.remove('noms');
+        prefs.remove('patients');
+        prefs.remove('pins');
+        prefs.remove('currentpayer');
+        prefs.remove('currentint');
+      });
+
+      Navigator.of(context, rootNavigator: true).pop('dialog');
+
+      Navigator.push(
+        context,
+        new MaterialPageRoute(builder: (_) => new MyApp()),
+      );
+    } else {
+      Navigator.of(context, rootNavigator: true).pop('dialog');
+
+      var responseJson = json.decode(res.body);
+
+      Fluttertoast.showToast(
+          msg: responseJson['message'].toString(),
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIos: 5,
+          backgroundColor: Colors.blue,
+          textColor: Colors.white);
+    }
+  }
+
+
 
   _setCurrentuser(int pos) async {
     showDialog(
@@ -183,13 +256,14 @@ class ChooseProfilePageState extends State<ChooseProfilePage1> {
     }
   }
 
-  List<Widget> _buildProfile() {
+  List<Widget> _buildProfile(BuildContext) {
     List<Widget> listElement = [];
 
     print("taille : " + patients.length.toString());
 
     for (int i = 0; i < photos.length; i++) {
-      listElement.add(new GestureDetector(
+
+         listElement.add(new GestureDetector(
           onTap: () {
             _setCurrentuser(i);
           },
@@ -241,6 +315,30 @@ class ChooseProfilePageState extends State<ChooseProfilePage1> {
             ),
           ])));
     }
+         
+         listElement.add(new   Padding(
+                padding: const EdgeInsets.symmetric(vertical: 20.0),
+                child: new Center(
+                  child: new InkWell(
+                    onTap: _makeLogout,
+                    child: new Container(
+                      width: 300.0,
+                      height: 50.0,
+                      decoration: new BoxDecoration(
+                        color: color,
+                        border: new Border.all(color: Colors.white, width: 2.0),
+                        borderRadius: new BorderRadius.circular(30.0),
+                      ),
+                      child: new Center(
+                        child: new Text(
+                          allTranslations.text('menu27_title'),
+                          style: new TextStyle(
+                              fontSize: 18.0, color: Colors.white),
+                        ),
+                      ),
+                    ),
+                  ),
+                )));
 
     return listElement;
   }
@@ -264,7 +362,7 @@ class ChooseProfilePageState extends State<ChooseProfilePage1> {
             ),
             body: (patients != null)
                 ? new Column(
-                    children: _buildProfile(),
+                    children: _buildProfile(context),
                   )
                 : Container()));
   }

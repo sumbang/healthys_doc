@@ -496,7 +496,6 @@ class ConsultationPageState extends State<Consultation31> {
                   }
 
                   return new Stack(
-                    overflow: Overflow.visible,
                     children: <Widget>[
                       Container(
                         color: color2,

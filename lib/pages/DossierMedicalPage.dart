@@ -301,7 +301,6 @@ class DossierMedicalPageState extends State<DossierMedical> {
     return Scaffold(
         backgroundColor: Color(0xffF8F8FA),
         body: new Stack(
-          overflow: Overflow.visible,
           children: <Widget>[
             Container(
               color: color,

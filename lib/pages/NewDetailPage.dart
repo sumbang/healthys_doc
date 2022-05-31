@@ -73,7 +73,6 @@ class NewDetailPage1State extends State<NewDetailPage1> {
     return Scaffold(
         backgroundColor: Color(0xffF8F8FA),
         body: new Stack(
-          overflow: Overflow.visible,
           children: <Widget>[
             Container(
               decoration: new BoxDecoration(

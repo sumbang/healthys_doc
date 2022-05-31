@@ -472,7 +472,6 @@ class ComptePage1State extends State<ComptePage1> {
                                   d[0].toString();
 
                               return new Stack(
-                                overflow: Overflow.visible,
                                 children: [
                                   Container(
                                     color: color,

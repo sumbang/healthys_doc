@@ -1,14 +1,22 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:crypto/crypto.dart';
+import 'package:dotted_border/dotted_border.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_absolute_path/flutter_absolute_path.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:healthys_medecin/config/all_translations.dart';
+import 'package:healthys_medecin/config/image_compress_service.dart';
 import 'package:healthys_medecin/models/MyItems.dart';
+import 'package:healthys_medecin/pages/HomePageNew.dart';
 import 'package:healthys_medecin/pages/VaccinPage.dart';
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../config/Setting.dart';
@@ -32,6 +40,13 @@ class NewVaccinFormState extends State<NewVaccinForm> {
   final color = const Color(0xFFcd005f);
   final color2 = const Color(0xFF008dad);
 
+  final gris = const Color(0xFF373736);
+  final bleu = const Color(0xFF194185);
+  final bleu1 = const Color(0xFF006CA7);
+  final bleu2 = const Color(0xFF222651);
+  final bleu3 = const Color(0xFF3b5998);
+  final clair = const Color(0xFFF9FAFB);
+
   final _nomController = TextEditingController();
   final _importanceController = TextEditingController();
   final _dateController = TextEditingController();
@@ -39,15 +54,87 @@ class NewVaccinFormState extends State<NewVaccinForm> {
   final _priseController = TextEditingController();
   final _numeroController = TextEditingController();
   Future<List<MyItems>> period;
+  Future<File> imageFile;
+  PickedFile _imageFile;
+  File _image;
+  File tmpFile;
+  final ImagePicker _picker = ImagePicker();
+  dynamic _pickImageError;
+  bool is_image = false;
+  List<Asset> l_images = List<Asset>();
+
+  List<Widget> buildGridView() {
+    return List.generate(l_images.length, (index) {
+      Asset asset = l_images[index];
+      return Padding(
+          padding: EdgeInsets.all(5),
+          child: AssetThumb(
+            asset: asset,
+            width: 200,
+            height: 200,
+          ));
+    });
+  }
+
+  Future<List<File>> convertListAssetToListFile() async {
+    List<File> files = List<File>();
+    // images from galllery
+    for (int i = 0; i < l_images.length; i++) {
+      String imagePath = await FlutterAbsolutePath.getAbsolutePath(
+        l_images[i].identifier,
+      );
+      File file = File(imagePath);
+      files.add(file);
+    }
+    return files;
+  }
+
+  Future<void> loadAssets1() async {
+    List<Asset> resultList = List<Asset>();
+
+    try {
+      resultList = await MultiImagePicker.pickImages(
+        maxImages: 1,
+        enableCamera: true,
+        selectedAssets: l_images,
+        cupertinoOptions: CupertinoOptions(takePhotoIcon: "chat"),
+        materialOptions: MaterialOptions(
+          actionBarColor: "#abcdef",
+          actionBarTitle: "Example App",
+          allViewTitle: "All Photos",
+          useDetailsView: false,
+          selectCircleStrokeColor: "#000000",
+        ),
+      );
+
+      // await _uploadImage();
+
+    } on Exception catch (e) {}
+    if (!mounted) return;
+
+    setState(() {
+      l_images = resultList;
+      if (resultList.length != 0) is_image = true;
+    });
+  }
 
   MyItems c_exist;
 
   DateTime _dateTime;
   int periode = -1;
   bool _isSaving = true;
+  String perso = "";
+
+     _loadUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      perso = (prefs.getString('currentperso') ?? "");
+    });
+  }
 
   void initState() {
     requestPersmission();
+    _loadUser();
     super.initState();
     period = getElements();
   }
@@ -218,7 +305,7 @@ class NewVaccinFormState extends State<NewVaccinForm> {
               color: Colors.transparent,
             ),
             new Text(
-              allTranslations.text('v2'),
+              allTranslations.text('v2')+" *",
               textAlign: TextAlign.left,
               style: new TextStyle(
                   fontSize: 18.0,
@@ -261,7 +348,7 @@ class NewVaccinFormState extends State<NewVaccinForm> {
               color: Colors.transparent,
             ),
             new Text(
-              allTranslations.text('v3'),
+              allTranslations.text('v3')+" *",
               textAlign: TextAlign.left,
               style: new TextStyle(
                   fontSize: 18.0,
@@ -305,7 +392,7 @@ class NewVaccinFormState extends State<NewVaccinForm> {
               color: Colors.transparent,
             ),
             new Text(
-              allTranslations.text('v4'),
+              allTranslations.text('v4')+" *",
               textAlign: TextAlign.left,
               style: new TextStyle(
                   fontSize: 18.0,
@@ -365,7 +452,7 @@ class NewVaccinFormState extends State<NewVaccinForm> {
                                 initialDate: _dateTime == null
                                     ? DateTime.now()
                                     : _dateTime,
-                                firstDate: DateTime.now(),
+                                firstDate: DateTime(1950),
                                 lastDate: DateTime(2030))
                             .then((date) {
                           setState(() {
@@ -399,7 +486,7 @@ class NewVaccinFormState extends State<NewVaccinForm> {
               color: Colors.transparent,
             ),
             new Text(
-              allTranslations.text('v5'),
+              allTranslations.text('v5')+" *",
               textAlign: TextAlign.left,
               style: new TextStyle(
                   fontSize: 18.0,
@@ -432,7 +519,7 @@ class NewVaccinFormState extends State<NewVaccinForm> {
               color: Colors.transparent,
             ),
             new Text(
-              allTranslations.text('v6'),
+              allTranslations.text('v6')+" *",
               textAlign: TextAlign.left,
               style: new TextStyle(
                   fontSize: 18.0,
@@ -470,6 +557,132 @@ class NewVaccinFormState extends State<NewVaccinForm> {
                 ),
               ),
             ),
+            SizedBox(height: 20),
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            left: 10.0,
+                                            right: 8.0,
+                                            top: 8.0,
+                                            bottom: 10.0),
+                                        child:  Text(
+                                          allTranslations.text("z110").toUpperCase()+" *",
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.bold,
+                                              
+                                              fontSize: 18.0),
+                                          textAlign: TextAlign.left,
+                                        ),
+                                      ),
+                                      (!is_image)
+                                          ? GestureDetector(
+                                              onTap: loadAssets1,
+                                              child: Padding(
+                                                  padding: EdgeInsets.only(
+                                                      left: 10,
+                                                      right: 10,
+                                                      bottom: 5,
+                                                      top: 0),
+                                                  child: DottedBorder(
+                                                    borderType:
+                                                        BorderType.RRect,
+                                                    color: Colors.grey,
+                                                    radius: Radius.circular(12),
+                                                    padding: EdgeInsets.all(1),
+                                                    child: ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                              Radius.circular(
+                                                                  10)),
+                                                      child: Container(
+                                                        width: double.infinity,
+                                                        height: 160,
+                                                        color: clair,
+                                                        child: Center(
+                                                          child: Column(
+                                                            mainAxisSize:
+                                                                MainAxisSize
+                                                                    .min,
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              Image.asset(
+                                                                  "img/path.png",
+                                                                  width: 50.0,
+                                                                  fit: BoxFit
+                                                                      .contain,
+                                                                  alignment:
+                                                                      Alignment
+                                                                          .center),
+                                                              SizedBox(
+                                                                height: 2,
+                                                              ),
+                                                              Text(
+                                                                allTranslations.text("z88"),
+                                                                style: TextStyle(
+                                                                    color: bleu,
+                                                                    height: 1.5,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .normal,
+                                                                    fontSize:
+                                                                        15.0),
+                                                              ),
+                                                              SizedBox(
+                                                                height: 2,
+                                                              ),
+                                                              Text(
+                                                                allTranslations.text("z23"),
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .grey,
+                                                                    height: 1.5,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .normal,
+                                                                    fontSize:
+                                                                        12.0),
+                                                              )
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  )),
+                                            )
+                                          : Container(),
+                                      (is_image)
+                                          ? Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: buildGridView(),
+                                            )
+                                          : Container(),
+                                      (is_image)
+                                          ? Center(
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  setState(() {
+                                                    is_image = false;
+                                                    l_images.clear();
+                                                  });
+                                                },
+                                                child: Text(
+                                                  allTranslations.text("z24"),
+                                                  style: TextStyle(
+                                                      color: Colors.red,
+                                                      height: 1.5,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 12.0),
+                                                ),
+                                              ),
+                                            )
+                                          : Container(), 
+                                          SizedBox(height: 20),
             Divider(
               height: 15.0,
               color: Colors.transparent,
@@ -519,6 +732,14 @@ class NewVaccinFormState extends State<NewVaccinForm> {
           timeInSecForIos: 5,
           backgroundColor: Colors.blue,
           textColor: Colors.white);
+    } else if (l_images.length == 0) {
+      Fluttertoast.showToast(
+          msg: allTranslations.text('requis1_title'),
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIos: 5,
+          backgroundColor: Colors.blue,
+          textColor: Colors.white);
     } else {
       showDialog(
         context: context,
@@ -540,6 +761,8 @@ class NewVaccinFormState extends State<NewVaccinForm> {
         _isSaving = false;
       });
 
+       String scan1 = "";
+       
       SharedPreferences prefs = await SharedPreferences.getInstance();
 
       String token1 = (prefs.getString('token') ?? '');
@@ -548,6 +771,37 @@ class NewVaccinFormState extends State<NewVaccinForm> {
 
       String basicAuth = 'Bearer ' + token1;
 
+      Uri uri = Uri.parse(Setting.apiracine + "comptes/uploaders");
+
+      if (l_images.length != 0 ) {
+        List<File> file = await convertListAssetToListFile();
+        MultipartRequest request1 = http.MultipartRequest("POST", uri);
+        for (int i = 0; i < file.length; i++) {
+          ImageCompressService imageCompressService = ImageCompressService(
+            file: file[i],
+          );
+          File afterCompress = await imageCompressService.exec();
+          Uint8List bytes = afterCompress.readAsBytesSync();
+          ByteData data = ByteData.view(bytes.buffer);
+          List<int> imageData = data.buffer.asUint8List();
+          MultipartFile multipartFile = MultipartFile.fromBytes(
+            'photo' + i.toString() + "",
+            imageData,
+            filename: 'some-file-name.jpg',
+            //contentType: MediaType("image", "jpg"),
+          );
+          // add file to multipart
+          request1.files.add(multipartFile);
+        }
+        request1.fields["qte"] = file.length.toString();
+        request1.fields["types"] = "vac";
+        var response1 = await request1.send();
+        var res1 = await http.Response.fromStream(response1);
+        print("photo1 : " + res1.body.toString());
+        var responseCni = json.decode(res1.body.toString());
+        scan1 = responseCni[0]["path"];
+      }
+
       Map data = {
         "nom": _nomController.text.toString(),
         "importance": _importanceController.text.toString(),
@@ -555,7 +809,8 @@ class NewVaccinFormState extends State<NewVaccinForm> {
         "periode": periode.toString(),
         "prise": _priseController.text.toString(),
         "profil": _numeroController.text.toString(),
-        "id": id
+        "id": id,
+        "scan":scan1
       };
 
       var res =
@@ -577,10 +832,17 @@ class NewVaccinFormState extends State<NewVaccinForm> {
             backgroundColor: Colors.blue,
             textColor: Colors.white);
 
-        Navigator.push(
-          context,
-          new MaterialPageRoute(builder: (_) => new VaccinPage()),
-        );
+           if(perso == "1") {
+                  Navigator.push(
+                    context,
+                    new MaterialPageRoute(builder: (_) => new HomePageNew()),
+                  );
+                  }else {
+                  Navigator.push(
+                    context,
+                    new MaterialPageRoute(builder: (_) => new HomePage()),
+                  );
+                  }
       } else {
         Navigator.of(context, rootNavigator: true).pop('dialog');
         var responseJson = json.decode(res.body);

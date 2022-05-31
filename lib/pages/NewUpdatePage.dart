@@ -5,14 +5,13 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:healthys_medecin/config/all_translations.dart';
+import 'package:healthys_medecin/forms/NewUpdateForn.dart';
 import 'package:healthys_medecin/forms/NewVaccinForm.dart';
 import 'package:healthys_medecin/pages/HomePage.dart';
 import 'package:healthys_medecin/pages/HomePageNew.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'VaccinPage.dart';
-
-class NewVaccinPage extends StatelessWidget {
+class NewUpdatePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return new MaterialApp(
       theme: new ThemeData(
@@ -24,20 +23,20 @@ class NewVaccinPage extends StatelessWidget {
       ],
       // Tells the system which are the supported languages
       supportedLocales: allTranslations.supportedLocales(),
-      home: new NewVaccinPage1(),
+      home: new NewUpdatePage1(),
     );
   }
 }
 
-class NewVaccinPage1 extends StatefulWidget {
-  NewVaccinPage1();
+class NewUpdatePage1 extends StatefulWidget {
+  NewUpdatePage1();
 
   @override
-  NewVaccinPageState createState() => new NewVaccinPageState();
+  NewUpdatePageState createState() => new NewUpdatePageState();
 }
 
-class NewVaccinPageState extends State<NewVaccinPage1> {
-  NewVaccinPageState();
+class NewUpdatePageState extends State<NewUpdatePage1> {
+  NewUpdatePageState();
 
   final color = const Color(0xFFcd005f);
   final color2 = const Color(0xFF008dad);    
@@ -68,7 +67,7 @@ class NewVaccinPageState extends State<NewVaccinPage1> {
         },
         child: Scaffold(
             appBar: AppBar(
-              title: Text(allTranslations.text('v1')),
+              title: Text(allTranslations.text('z87')),
               backgroundColor: color,
               elevation: 0,
               leading: new IconButton(
@@ -95,6 +94,6 @@ class NewVaccinPageState extends State<NewVaccinPage1> {
             body: new SingleChildScrollView(
                 child: ConstrainedBox(
                     constraints: BoxConstraints(),
-                    child: new NewVaccinForm()))));
+                    child: new NewUpdateForm()))));
   }
 }

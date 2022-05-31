@@ -114,14 +114,16 @@ class ConsultationPageState extends State<Consultation51> {
   var _listSoin = List<Widget>();
   var _listDiag = List<Widget>();
 
-  Future<File> imageFile, imageFile1;
-  PickedFile _imageFile, _imageFile1;
-  File _image, _image1;
-  File tmpFile, tmpFile1;
+  Future<File> imageFile, imageFile1, imageFile2;
+  PickedFile _imageFile, _imageFile1, _imageFile2;
+  File _image, _image1, _image2;
+  File tmpFile, tmpFile1, tmpFile2;
   final ImagePicker _picker = ImagePicker();
   dynamic _pickImageError;
   final ImagePicker _picker1 = ImagePicker();
   dynamic _pickImageError1;
+  final ImagePicker _picker2 = ImagePicker();
+  dynamic _pickImageError2;
 
   String base64Image;
   String _fileName;
@@ -136,6 +138,7 @@ class ConsultationPageState extends State<Consultation51> {
 
   bool is_cni = false;
   bool is_ordre = false;
+  bool is_resultat = false;
 
   final gris = const Color(0xFF373736);
   final bleu = const Color(0xFF194185);
@@ -146,6 +149,7 @@ class ConsultationPageState extends State<Consultation51> {
 
   List<Asset> l_images = List<Asset>();
   List<Asset> l_images1 = List<Asset>();
+  List<Asset> l_images2 = List<Asset>();
 
   List<Widget> buildGridView() {
     return List.generate(l_images.length, (index) {
@@ -173,6 +177,19 @@ class ConsultationPageState extends State<Consultation51> {
     });
   }
 
+  List<Widget> buildGridView2() {
+    return List.generate(l_images2.length, (index) {
+      Asset asset = l_images2[index];
+      return Padding(
+          padding: EdgeInsets.all(5),
+          child: AssetThumb(
+            asset: asset,
+            width: 100,
+            height: 100,
+          ));
+    });
+  }
+
   Future<List<File>> convertListAssetToListFile() async {
     List<File> files = List<File>();
     // images from galllery
@@ -192,6 +209,19 @@ class ConsultationPageState extends State<Consultation51> {
     for (int i = 0; i < l_images1.length; i++) {
       String imagePath = await FlutterAbsolutePath.getAbsolutePath(
         l_images1[i].identifier,
+      );
+      File file = File(imagePath);
+      files.add(file);
+    }
+    return files;
+  }
+
+  Future<List<File>> convertListAssetToListFile2() async {
+    List<File> files = List<File>();
+    // images from galllery
+    for (int i = 0; i < l_images2.length; i++) {
+      String imagePath = await FlutterAbsolutePath.getAbsolutePath(
+        l_images2[i].identifier,
       );
       File file = File(imagePath);
       files.add(file);
@@ -257,6 +287,36 @@ class ConsultationPageState extends State<Consultation51> {
     });
   }
 
+  Future<void> loadAssets3() async {
+    List<Asset> resultList = List<Asset>();
+
+    try {
+      resultList = await MultiImagePicker.pickImages(
+        maxImages: 4,
+        enableCamera: true,
+        selectedAssets: l_images2,
+        cupertinoOptions: CupertinoOptions(takePhotoIcon: "chat"),
+        materialOptions: MaterialOptions(
+          actionBarColor: "#abcdef",
+          actionBarTitle: "Example App",
+          allViewTitle: "All Photos",
+          useDetailsView: false,
+          selectCircleStrokeColor: "#000000",
+        ),
+      );
+
+      // await _uploadImage();
+
+    } on Exception catch (e) {}
+    if (!mounted) return;
+
+    setState(() {
+      l_images2 = resultList;
+      if (resultList.length != 0) is_resultat =  true;
+    });
+  }
+
+
   Widget _previewImage() {
     final Text retrieveError = _getRetrieveErrorWidget();
     if (retrieveError != null) {
@@ -287,6 +347,26 @@ class ConsultationPageState extends State<Consultation51> {
     } else if (_pickImageError1 != null) {
       return Text(
         'Erreur : $_pickImageError1',
+        textAlign: TextAlign.center,
+      );
+    } else {
+      return Text(
+        allTranslations.text('noimage_title'),
+        textAlign: TextAlign.center,
+      );
+    }
+  }
+
+    Widget _previewImage2() {
+    final Text retrieveError = _getRetrieveErrorWidget();
+    if (retrieveError != null) {
+      return retrieveError;
+    }
+    if (_imageFile2 != null) {
+      return Image.file(File(_imageFile2.path));
+    } else if (_pickImageError2 != null) {
+      return Text(
+        'Erreur : $_pickImageError2',
         textAlign: TextAlign.center,
       );
     } else {
@@ -1988,6 +2068,7 @@ class ConsultationPageState extends State<Consultation51> {
 
       String scan1 = "";
       String scan2 = "";
+      String scan3 = "";
 
       Uri uri = Uri.parse(Setting.apiracine + "comptes/uploaders");
 
@@ -2077,6 +2158,54 @@ class ConsultationPageState extends State<Consultation51> {
         scan2 = responseOrdre[0]['path'];
       }
 
+       if (l_images2.length != 0) {
+        List<File> file2 = await convertListAssetToListFile2();
+
+        MultipartRequest request3 = http.MultipartRequest("POST", uri);
+
+        for (int i = 0; i < file2.length; i++) {
+
+          ImageCompressService imageCompressService = ImageCompressService(
+            file: file2[i],
+          );
+
+          File afterCompress = await imageCompressService.exec();
+
+          Uint8List bytes = afterCompress.readAsBytesSync();
+
+          ByteData data = ByteData.view(bytes.buffer);
+
+          List<int> imageData = data.buffer.asUint8List();
+
+          MultipartFile multipartFile = MultipartFile.fromBytes(
+            'photo' + i.toString() + "",
+            imageData,
+            filename: 'some-file-name.jpg',
+            //contentType: MediaType("image", "jpg"),
+          );
+
+          // add file to multipart
+          request3.files.add(multipartFile);
+        }
+
+        request3.fields["qte"] = file2.length.toString();
+        request3.fields["types"] = "res";
+
+        var response3 = await request3.send();
+
+        var res3 = await http.Response.fromStream(response3);
+
+        print("photo2 : " + res3.body.toString());
+
+        var responseOrdre1 = json.decode(res3.body.toString());
+
+        for(int j = 0; j < responseOrdre1[0].length; j++){
+          if(j == 0) scan3+= responseOrdre1[j]['path'];
+          else scan3+= "|"+responseOrdre1[j]['path'];
+        }
+
+      }
+
       //String _para = '[';
       String _exam = '[';
       String _traitement = '[';
@@ -2096,12 +2225,12 @@ class ConsultationPageState extends State<Consultation51> {
           _traitement += "," + soins[i];
       }
 
-      for (int i = 0; i < diag.length; i++) {
+     /* for (int i = 0; i < diag.length; i++) {
         if (i == 0)
           _diag += diag[i];
         else
           _diag += "," + diag[i];
-      }
+      }*/
 
       //_para += ']';
       _traitement += ']';
@@ -2112,7 +2241,7 @@ class ConsultationPageState extends State<Consultation51> {
         'diagnostic': _diag,
         'traitement': _traitement,
         'mise1': dropdownValue.toString(),
-        'resultat1': resultatexamenController.text.toString(),
+        'resultat1': scan3,
         'diagnostic1': diagnosticconfirmationController.text.toString(),
         'exams': _exam,
         'motif': motifController.text.toString(),
@@ -2285,7 +2414,6 @@ class ConsultationPageState extends State<Consultation51> {
                   }
 
                   return new Stack(
-                    overflow: Overflow.visible,
                     children: <Widget>[
                       Container(
                         color: color,
@@ -2453,7 +2581,7 @@ class ConsultationPageState extends State<Consultation51> {
                                       EdgeInsets.only(left: 10.0, right: 30.0),
                                   child: Column(
                                     children: <Widget>[
-                                      SizedBox(height: 20),
+                                    /*  SizedBox(height: 20),
                                       Text(
                                           allTranslations
                                               .text('diagnostic_title'),
@@ -2510,7 +2638,7 @@ class ConsultationPageState extends State<Consultation51> {
                                                     ),
                                                   ))
                                             ]),
-                                      ),
+                                      ),*/
                                       SizedBox(height: 20),
                                       Text(allTranslations.text('cmt_title'),
                                           style: TextStyle(
@@ -2640,7 +2768,7 @@ class ConsultationPageState extends State<Consultation51> {
                                                                 height: 2,
                                                               ),
                                                               Text(
-                                                                allTranslations.text("z22"),
+                                                                allTranslations.text("z88"),
                                                                 style: TextStyle(
                                                                     color: bleu,
                                                                     height: 1.5,
@@ -2720,44 +2848,117 @@ class ConsultationPageState extends State<Consultation51> {
                                                           .textMultiplier),
                                             ),
                                           )),
-                                              Padding(
-                                        padding: const EdgeInsets.all(10.0),
-                                        child: Container(
-                                          padding: const EdgeInsets.only(
-                                              left: 5.0,
-                                              right: 5.0,
-                                              top: 3.0,
-                                              bottom: 3.0),
-                                          width: double.infinity,
-                                          decoration: new BoxDecoration(
-                                            color: Colors.white70,
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(10.0)),
-                                            border: new Border.all(
-                                                color: Colors.black38),
-                                          ),
-                                          child: TextFormField(
-                                            obscureText: false,
-                                            style: const TextStyle(
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.normal),
-                                            decoration: InputDecoration(
-                                              border: InputBorder.none,
-                                              icon: new Icon(
-                                                Icons.message,
-                                                color: color,
+                                          SizedBox(height: 10,),
+                                            (!is_resultat)
+                                          ? GestureDetector(
+                                              onTap: loadAssets3,
+                                              child: Padding(
+                                                  padding: EdgeInsets.only(
+                                                      left: 10,
+                                                      right: 10,
+                                                      bottom: 5,
+                                                      top: 0),
+                                                  child: DottedBorder(
+                                                    borderType:
+                                                        BorderType.RRect,
+                                                    color: Colors.grey,
+                                                    radius: Radius.circular(12),
+                                                    padding: EdgeInsets.all(1),
+                                                    child: ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                              Radius.circular(
+                                                                  10)),
+                                                      child: Container(
+                                                        width: double.infinity,
+                                                        height: 160,
+                                                        color: clair,
+                                                        child: Center(
+                                                          child: Column(
+                                                            mainAxisSize:
+                                                                MainAxisSize
+                                                                    .min,
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              Image.asset(
+                                                                  "img/path.png",
+                                                                  width: 50.0,
+                                                                  fit: BoxFit
+                                                                      .contain,
+                                                                  alignment:
+                                                                      Alignment
+                                                                          .center),
+                                                              SizedBox(
+                                                                height: 2,
+                                                              ),
+                                                              Text(
+                                                                allTranslations.text("z88"),
+                                                                style: TextStyle(
+                                                                    color: bleu,
+                                                                    height: 1.5,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .normal,
+                                                                    fontSize:
+                                                                        15.0),
+                                                              ),
+                                                              SizedBox(
+                                                                height: 2,
+                                                              ),
+                                                              Text(
+                                                                allTranslations.text("z23"),
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .grey,
+                                                                    height: 1.5,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .normal,
+                                                                    fontSize:
+                                                                        12.0),
+                                                              )
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  )),
+                                            )
+                                          : Container(),
+                                      (is_resultat)
+                                          ? SingleChildScrollView(
+    scrollDirection: Axis.horizontal,
+    child: Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: buildGridView2(),
+                                            ))
+                                          : Container(),
+                                      (is_resultat)
+                                          ? Center(
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  setState(() {
+                                                    is_resultat =  false;
+                                                    l_images2.clear();
+                                                  });
+                                                },
+                                                child: Text(
+                                                  allTranslations.text("z24"),
+                                                  style: TextStyle(
+                                                      color: Colors.red,
+                                                      height: 1.5,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 12.0),
+                                                ),
                                               ),
-                                              labelStyle: TextStyle(
-                                                  color: Colors.grey,
-                                                  fontSize: 16.0,
-                                                  fontWeight:
-                                                      FontWeight.normal),
-                                            ),
-                                            controller: resultatexamenController,
-                                            maxLines: 3,
-                                          ),
-                                        ),
-                                      ),
+                                            )
+                                          : Container(),
                                       SizedBox(height: 20),
                                        Padding(
                                           padding: EdgeInsets.only(
@@ -2947,7 +3148,7 @@ class ConsultationPageState extends State<Consultation51> {
                                                                 height: 2,
                                                               ),
                                                               Text(
-                                                                allTranslations.text("z22"),
+                                                                allTranslations.text("z88"),
                                                                 style: TextStyle(
                                                                     color: bleu,
                                                                     height: 1.5,

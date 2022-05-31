@@ -44,6 +44,7 @@ class _SignupState extends State<SignupForm2> {
   DateTime _datenaiss;
   bool is_cni = false;
   bool is_ordre = false;
+  bool is_image = false;
 
   final _sign = GlobalKey<SignatureState>();
   String signatures = "";
@@ -54,6 +55,7 @@ class _SignupState extends State<SignupForm2> {
 
   List<Asset> l_images = List<Asset>();
   List<Asset> l_images1 = List<Asset>();
+  List<Asset> l_images2 = List<Asset>();
 
   List<Widget> buildGridView() {
     return List.generate(l_images.length, (index) {
@@ -81,6 +83,19 @@ class _SignupState extends State<SignupForm2> {
     });
   }
 
+    List<Widget> buildGridView2() {
+    return List.generate(l_images2.length, (index) {
+      Asset asset = l_images2[index];
+      return Padding(
+          padding: EdgeInsets.all(5),
+          child: AssetThumb(
+            asset: asset,
+            width: 200,
+            height: 200,
+          ));
+    });
+  }
+
   Future<List<File>> convertListAssetToListFile() async {
     List<File> files = List<File>();
     // images from galllery
@@ -98,6 +113,19 @@ class _SignupState extends State<SignupForm2> {
     List<File> files = List<File>();
     // images from galllery
     for (int i = 0; i < l_images1.length; i++) {
+      String imagePath = await FlutterAbsolutePath.getAbsolutePath(
+        l_images1[i].identifier,
+      );
+      File file = File(imagePath);
+      files.add(file);
+    }
+    return files;
+  }
+
+    Future<List<File>> convertListAssetToListFile2() async {
+    List<File> files = List<File>();
+    // images from galllery
+    for (int i = 0; i < l_images2.length; i++) {
       String imagePath = await FlutterAbsolutePath.getAbsolutePath(
         l_images1[i].identifier,
       );
@@ -162,6 +190,35 @@ class _SignupState extends State<SignupForm2> {
     setState(() {
       l_images1 = resultList;
       if (resultList.length != 0) is_ordre = true;
+    });
+  }
+
+    Future<void> loadAssets3() async {
+    List<Asset> resultList = List<Asset>();
+
+    try {
+      resultList = await MultiImagePicker.pickImages(
+        maxImages: 1,
+        enableCamera: true,
+        selectedAssets: l_images2,
+        cupertinoOptions: CupertinoOptions(takePhotoIcon: "chat"),
+        materialOptions: MaterialOptions(
+          actionBarColor: "#abcdef",
+          actionBarTitle: "Example App",
+          allViewTitle: "All Photos",
+          useDetailsView: false,
+          selectCircleStrokeColor: "#000000",
+        ),
+      );
+
+      // await _uploadImage();
+
+    } on Exception catch (e) {}
+    if (!mounted) return;
+
+    setState(() {
+      l_images2 = resultList;
+      if (resultList.length != 0) is_image = true;
     });
   }
 
@@ -366,7 +423,15 @@ class _SignupState extends State<SignupForm2> {
           textColor: Colors.white);
     }else if (l_images1.length == 0) {
       Fluttertoast.showToast(
-          msg: "Veuillez charger votre numéro d'ordre",
+          msg: allTranslations.text('z84'),
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIos: 5,
+          backgroundColor: Colors.blue,
+          textColor: Colors.white);
+    } else if (l_images2.length == 0) {
+      Fluttertoast.showToast(
+          msg: allTranslations.text('z85'),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIos: 5,
@@ -374,7 +439,7 @@ class _SignupState extends State<SignupForm2> {
           textColor: Colors.white);
     } else if (l_images.length != 2) {
       Fluttertoast.showToast(
-          msg: "Veuillez charger les 2 faces de votre CNI",
+          msg: allTranslations.text('z86'),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIos: 5,
@@ -404,9 +469,11 @@ class _SignupState extends State<SignupForm2> {
       // chargement des cni
       String _ordre = "";
       String _signature = "";
+      String _profil = "";
 
       List<File> file = await convertListAssetToListFile();
       List<File> file1 = await convertListAssetToListFile1();
+      List<File> file2 = await convertListAssetToListFile2();
 
       Uri uri = Uri.parse(Setting.apiracine + "comptes/uploaders");
 
@@ -476,12 +543,45 @@ class _SignupState extends State<SignupForm2> {
 
       var res2 = await http.Response.fromStream(response2);
 
-      print(
-          "images : " + res2.body.toString() + " et  " + res1.body.toString());
+
+      MultipartRequest request3 = http.MultipartRequest("POST", uri);
+
+      for (int i = 0; i < file2.length; i++) {
+        ImageCompressService imageCompressService = ImageCompressService(
+          file: file2[i],
+        );
+
+        File afterCompress = await imageCompressService.exec();
+
+        Uint8List bytes = afterCompress.readAsBytesSync();
+
+        ByteData data = ByteData.view(bytes.buffer);
+
+        List<int> imageData = data.buffer.asUint8List();
+
+        MultipartFile multipartFile = MultipartFile.fromBytes(
+          'photo' + i.toString() + "",
+          imageData,
+          filename: 'some-file-name.jpg',
+          //contentType: MediaType("image", "jpg"),
+        );
+
+        // add file to multipart
+        request3.files.add(multipartFile);
+      }
+
+      request3.fields["qte"] = file2.length.toString();
+      request3.fields["types"] = "profil";
+
+      var response3 = await request3.send();
+
+      var res3 = await http.Response.fromStream(response3);
 
       var responseOrdre = json.decode(res2.body.toString());
 
       var responseCni = json.decode(res1.body.toString());
+
+      var responseProfil = json.decode(res3.body.toString());
 
       String _cnifile = responseCni[0]["path"] + "|" + responseCni[1]["path"];
 
@@ -501,7 +601,7 @@ class _SignupState extends State<SignupForm2> {
 
       String meszones = "";
 
-      _ordre = responseOrdre[0]['path'];
+      _ordre = responseOrdre[0]['path'];  _profil = responseProfil[0]['path']; 
 
       String _hospit = '[';
 
@@ -533,7 +633,8 @@ class _SignupState extends State<SignupForm2> {
         'zones': meszones,
         'hopital': _hospit,
         'signature': _signature,
-        'vacation': vac.toString()
+        'vacation': vac.toString(),
+        'image': _profil
       };
 
       print("tosend : " + data.toString());
@@ -2235,7 +2336,7 @@ class _SignupState extends State<SignupForm2> {
                                       height: 2,
                                     ),
                                     Text(
-                                      allTranslations.text("z22"),
+                                      allTranslations.text("z81"),
                                       style: TextStyle(
                                           color: bleu,
                                           height: 1.5,
@@ -2275,6 +2376,104 @@ class _SignupState extends State<SignupForm2> {
                         setState(() {
                           is_ordre = false;
                           l_images1.clear();
+                        });
+                      },
+                      child: Text(
+                        allTranslations.text("z24"),
+                        style: TextStyle(
+                            color: Colors.red,
+                            height: 1.5,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12.0),
+                      ),
+                    ),
+                  )
+                : Container(),
+new Divider(
+              height: 10.0,
+              color: Colors.transparent,
+            ),
+            Padding(
+              padding: EdgeInsets.only(
+                  left: 10.0, right: 8.0, top: 8.0, bottom: 10.0),
+              child: Center(
+                  child: Text(
+                allTranslations.text("z82"),
+                style: TextStyle(
+                    color: color2, fontWeight: FontWeight.bold, fontSize: 16.0),
+                textAlign: TextAlign.left,
+              )),
+            ),
+                (!is_image)
+                ? GestureDetector(
+                    onTap: loadAssets3,
+                    child: Padding(
+                        padding: EdgeInsets.only(
+                            left: 10, right: 10, bottom: 5, top: 0),
+                        child: DottedBorder(
+                          borderType: BorderType.RRect,
+                          color: Colors.grey,
+                          radius: Radius.circular(12),
+                          padding: EdgeInsets.all(1),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            child: Container(
+                              width: double.infinity,
+                              height: 160,
+                              color: clair,
+                              child: Center(
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Image.asset("img/path.png",
+                                        width: 50.0,
+                                        fit: BoxFit.contain,
+                                        alignment: Alignment.center),
+                                    SizedBox(
+                                      height: 2,
+                                    ),
+                                    Text(
+                                      allTranslations.text("z22"),
+                                      style: TextStyle(
+                                          color: bleu,
+                                          height: 1.5,
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: 15.0),
+                                    ),
+                                    SizedBox(
+                                      height: 2,
+                                    ),
+                                    Text(
+                                      allTranslations.text("z23"),
+                                      style: TextStyle(
+                                          color: Colors.grey,
+                                          height: 1.5,
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: 12.0),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        )),
+                  )
+                : Container(),
+            (is_image)
+                ? Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: buildGridView2(),
+                  )
+                : Container(),
+            (is_image)
+                ? Center(
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          is_image = false;
+                          l_images2.clear();
                         });
                       },
                       child: Text(

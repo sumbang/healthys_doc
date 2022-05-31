@@ -664,7 +664,7 @@ class ConsultationPageState extends State<Consultation31> {
   void _submitForms() async {
     Locale myLocale = Localizations.localeOf(context);
 
-    if (histoireController.text.isEmpty || examenController.text.isEmpty) {
+    if (histoireController.text.isEmpty || examenController.text.isEmpty || dropdownValue.toString().isEmpty) {
       Fluttertoast.showToast(
           msg: allTranslations.text('requis1_title'),
           toastLength: Toast.LENGTH_LONG,
@@ -814,8 +814,8 @@ class ConsultationPageState extends State<Consultation31> {
         'histoire': histoireController.text.toString(),
         'examen': examenController.text.toString(),
         'mise1': dropdownValue.toString(),
-        'resultat1': resultatexamenController.text.toString(),
-        'diagnostic1': diagnosticconfirmationController.text.toString(),
+        'resultat1': "",
+        'diagnostic1': "",
         'diagnostic': _diag,
         'scan1': scan1.toString(),
         'scan2': scan2.toString(),
@@ -924,7 +924,7 @@ class ConsultationPageState extends State<Consultation31> {
                         child: Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            "NOUVEAU PARAMETRE",
+                            allTranslations.text("z46"),
                             style: TextStyle(
                                 color: color2, fontWeight: FontWeight.bold),
                           ),
@@ -963,7 +963,7 @@ class ConsultationPageState extends State<Consultation31> {
                             children: [
                               Padding(
                                 padding: EdgeInsets.all(8.0),
-                                child: Text("Libellé du paramètre *"),
+                                child: Text(allTranslations.text("z47")+ " *"),
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
@@ -983,7 +983,7 @@ class ConsultationPageState extends State<Consultation31> {
                                           color: Colors.black,
                                           fontWeight: FontWeight.normal),
                                       decoration: InputDecoration(
-                                        hintText: "nom paramètre (unité)",
+                                        hintText: allTranslations.text("z48"),
                                         border: InputBorder.none,
                                         labelStyle: TextStyle(
                                             color: Colors.grey,
@@ -999,7 +999,7 @@ class ConsultationPageState extends State<Consultation31> {
                               ),
                               Padding(
                                 padding: EdgeInsets.all(8.0),
-                                child: Text("Valeur du paramètre *"),
+                                child: Text(allTranslations.text("z49")+ " *"),
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
@@ -1132,7 +1132,7 @@ class ConsultationPageState extends State<Consultation31> {
                                         ),
                                         child: new Center(
                                           child: new Text(
-                                            'AJOUTER',
+                                           allTranslations.text("z28"),
                                             style: new TextStyle(
                                                 fontSize: 18.0,
                                                 color: Colors.white),
@@ -1162,7 +1162,7 @@ class ConsultationPageState extends State<Consultation31> {
                         child: Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            "NOUVEL EXAMEN",
+                            allTranslations.text("z91"),
                             style: TextStyle(
                                 color: color2, fontWeight: FontWeight.bold),
                           ),
@@ -1201,7 +1201,7 @@ class ConsultationPageState extends State<Consultation31> {
                             children: [
                               Padding(
                                 padding: EdgeInsets.all(8.0),
-                                child: Text("Nom de l'examen *"),
+                                child: Text(allTranslations.text("z91")+" *"),
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
@@ -1331,7 +1331,7 @@ class ConsultationPageState extends State<Consultation31> {
                                         ),
                                         child: new Center(
                                           child: new Text(
-                                            'AJOUTER',
+                                            allTranslations.text("z28"),
                                             style: new TextStyle(
                                                 fontSize: 18.0,
                                                 color: Colors.white),
@@ -1435,7 +1435,7 @@ class ConsultationPageState extends State<Consultation31> {
                               ),
                               Padding(
                                 padding: EdgeInsets.all(8.0),
-                                child: Text(allTranslations.text('z68').toString(),style: TextStyle(fontSize: 8),),
+                                child: Text(allTranslations.text('z68').toString(),style: TextStyle(fontSize: 11, color:color)),
                               ),
                               Padding(
                                   padding: const EdgeInsets.symmetric(
@@ -1616,7 +1616,7 @@ class ConsultationPageState extends State<Consultation31> {
                                 children: [
                                   Padding(
                                     padding: EdgeInsets.all(8.0),
-                                    child: Text("Nom du médicament *"),
+                                    child: Text(allTranslations.text("z101")+" *"),
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
@@ -1650,7 +1650,7 @@ class ConsultationPageState extends State<Consultation31> {
                                   ),
                                   Padding(
                                     padding: EdgeInsets.all(8.0),
-                                    child: Text("Prise *"),
+                                     child: Text(allTranslations.text("z102")+" *"),
                                   ),
                                   Row(
                                     crossAxisAlignment:
@@ -1706,7 +1706,7 @@ class ConsultationPageState extends State<Consultation31> {
                                               value: _value,
                                               items: [
                                                 DropdownMenuItem(
-                                                  child: Text("Comprimé"),
+                                                  child: Text(allTranslations.text("z98")),
                                                   value: 1,
                                                 ),
                                                 DropdownMenuItem(
@@ -1714,7 +1714,7 @@ class ConsultationPageState extends State<Consultation31> {
                                                   value: 2,
                                                 ),
                                                 DropdownMenuItem(
-                                                    child: Text("Sachet"),
+                                                    child: Text(allTranslations.text("z99")),
                                                     value: 3)
                                               ],
                                               onChanged: (value) {
@@ -1728,7 +1728,7 @@ class ConsultationPageState extends State<Consultation31> {
                                   ),
                                   Padding(
                                     padding: EdgeInsets.all(8.0),
-                                    child: Text("Période de prise *"),
+                                    child: Text(allTranslations.text("z103")+ "*"),
                                   ),
                                   Column(children: [
                                     CheckboxListTile(
@@ -1819,7 +1819,7 @@ class ConsultationPageState extends State<Consultation31> {
                                   ]),
                                   Padding(
                                     padding: EdgeInsets.all(8.0),
-                                    child: Text("Pendant *"),
+                                    child: Text(allTranslations.text("z104")+" *"),
                                   ),
                                   Row(
                                     crossAxisAlignment:
@@ -1875,15 +1875,15 @@ class ConsultationPageState extends State<Consultation31> {
                                               value: _value1,
                                               items: [
                                                 DropdownMenuItem(
-                                                  child: Text("Jour"),
+                                                  child: Text(allTranslations.text("z95")),
                                                   value: 1,
                                                 ),
                                                 DropdownMenuItem(
-                                                  child: Text("Semaine"),
+                                                  child: Text(allTranslations.text("z96")),
                                                   value: 2,
                                                 ),
                                                 DropdownMenuItem(
-                                                    child: Text("Mois"),
+                                                    child: Text(allTranslations.text("z97")),
                                                     value: 3)
                                               ],
                                               onChanged: (value) {
@@ -1939,20 +1939,20 @@ class ConsultationPageState extends State<Consultation31> {
                                               String prise1 = "";
 
                                               if (_value1 == 1)
-                                                duree1 = "Jour(s)";
+                                                duree1 = allTranslations.text("z95");
                                               else if (_value1 == 2)
-                                                duree1 = "Semaine(s)";
+                                                duree1 = allTranslations.text("z96");
                                               else if (_value1 == 3)
-                                                duree1 = "Mois";
+                                                duree1 = allTranslations.text("z97");
 
                                               if (_value == 1)
-                                                prise1 = "Comprimé(s)";
+                                                prise1 = allTranslations.text("z98");
                                               else if (_value == 2)
                                                 prise1 = "Ml";
                                               else if (_value == 3)
-                                                prise1 = "Sachet(s)";
+                                                prise1 = allTranslations.text("z99");
                                               else if (_value == 4)
-                                                prise1 = "Unité(s)";
+                                                prise1 = allTranslations.text("z100");
 
                                               String meszones = "";
 
@@ -2053,7 +2053,7 @@ class ConsultationPageState extends State<Consultation31> {
                                                               height: 5.0,
                                                             ),
                                                             new Text(
-                                                                "Pendant : " +
+                                                                allTranslations.text("z93") +
                                                                     dureeController
                                                                         .text
                                                                         .toString()
@@ -2073,7 +2073,7 @@ class ConsultationPageState extends State<Consultation31> {
                                                               height: 5.0,
                                                             ),
                                                             new Text(
-                                                                "Période : " +
+                                                                allTranslations.text("z94") +
                                                                     meszones
                                                                         .toString(),
                                                                 style:
@@ -2134,7 +2134,7 @@ class ConsultationPageState extends State<Consultation31> {
                                             ),
                                             child: new Center(
                                               child: new Text(
-                                                'AJOUTER',
+                                                allTranslations.text("z28"),
                                                 style: new TextStyle(
                                                     fontSize: 18.0,
                                                     color: Colors.white),
@@ -2227,7 +2227,6 @@ class ConsultationPageState extends State<Consultation31> {
                   }
 
                   return new Stack(
-                    overflow: Overflow.visible,
                     children: <Widget>[
                       Container(
                         color: color,
@@ -2789,7 +2788,7 @@ class ConsultationPageState extends State<Consultation31> {
                                                                 height: 2,
                                                               ),
                                                               Text(
-                                                                allTranslations.text("z21"),
+                                                                allTranslations.text("z88"),
                                                                 style: TextStyle(
                                                                     color: bleu,
                                                                     height: 1.5,
@@ -2853,7 +2852,7 @@ class ConsultationPageState extends State<Consultation31> {
                                             )
                                           : Container(), 
                                           SizedBox(height: 20),
-                                      Padding(
+                                    /*  Padding(
                                           padding: EdgeInsets.only(
                                               left: 15.0,
                                               top: 3 *
@@ -2964,7 +2963,7 @@ class ConsultationPageState extends State<Consultation31> {
                                           ),
                                         ),
                                       ),
-                                      SizedBox(height: 20),
+                                      SizedBox(height: 20),*/
                                       Padding(
                                           padding: EdgeInsets.only(
                                               left: 15.0,
@@ -3096,7 +3095,7 @@ class ConsultationPageState extends State<Consultation31> {
                                                                 height: 2,
                                                               ),
                                                               Text(
-                                                                allTranslations.text("z22"),
+                                                                allTranslations.text("z88"),
                                                                 style: TextStyle(
                                                                     color: bleu,
                                                                     height: 1.5,
@@ -3171,7 +3170,7 @@ class ConsultationPageState extends State<Consultation31> {
                                           child: Center(
                                             child: Text(
                                               allTranslations
-                                                  .text('z73'),
+                                                  .text('z73')+" *",
                                               style: TextStyle(
                                                   color: color,
                                                   fontWeight: FontWeight.bold,

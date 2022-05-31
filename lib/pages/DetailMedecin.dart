@@ -180,7 +180,6 @@ class DetailMedecin1State extends State<DetailMedecin1> {
     return Scaffold(
         backgroundColor: Color(0xffF8F8FA),
         body: new Stack(
-          overflow: Overflow.visible,
           children: <Widget>[
             Container(
               color: color2,

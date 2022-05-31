@@ -2568,7 +2568,7 @@ class _SignupState extends State<NewPatientForm> {
             CheckboxListTile(
               title: Center(
                   child: Text(
-                'Avez-vous des enfants ?',
+                allTranslations.text("z90"),
                 style: TextStyle(
                     color: color2, fontWeight: FontWeight.bold, fontSize: 16.0),
                 textAlign: TextAlign.left,
@@ -2734,7 +2734,7 @@ class _SignupState extends State<NewPatientForm> {
                                       height: 2,
                                     ),
                                     Text(
-                                      allTranslations.text("z22"),
+                                      allTranslations.text("z88"),
                                       style: TextStyle(
                                           color: bleu,
                                           height: 1.5,
@@ -2832,7 +2832,7 @@ class _SignupState extends State<NewPatientForm> {
                                       height: 2,
                                     ),
                                     Text(
-                                      allTranslations.text("z26"),
+                                      allTranslations.text("z89"),
                                       style: TextStyle(
                                           color: bleu,
                                           height: 1.5,

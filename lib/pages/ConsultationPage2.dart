@@ -836,7 +836,7 @@ class ConsultationPage2State extends State<ConsultationPage21> {
                               ),
                               maxLines: 1,
                               controller: tension1Controller,
-                              keyboardType: TextInputType.number,
+                              keyboardType: TextInputType.text,
                             ),
                           ),
                         ),

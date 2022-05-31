@@ -349,7 +349,6 @@ class SettingFragmentState extends State<SettingFragment> {
                   );
                 } else {
                   return new Stack(
-                    overflow: Overflow.visible,
                     children: [
                       Container(
                         color: color,

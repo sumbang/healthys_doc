@@ -31,6 +31,7 @@ import 'package:simple_autocomplete_formfield/simple_autocomplete_formfield.dart
 import 'package:unicorndial/unicorndial.dart';
 import 'LoginPage.dart';
 import 'NewPatientPage.dart';
+import 'NewUpdatePage.dart';
 
 class HomePage extends StatelessWidget {
   HomePage();
@@ -450,7 +451,7 @@ class HomePage1State extends State<HomePage1> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('OPTIONS DE MENU'),
+            title: Text(allTranslations.text("z105")),
             content: setupMenuDialog(),
           );
         });
@@ -470,7 +471,7 @@ class HomePage1State extends State<HomePage1> {
 
     maliste1.add(new ListTile(
       leading: Icon(Icons.person),
-      title: Text("Mon compte"),
+      title: Text(allTranslations.text("z106")),
       onTap: () {
         Navigator.of(context, rootNavigator: true).pop('dialog');
         _SecurityBox(new ComptePage());
@@ -479,7 +480,7 @@ class HomePage1State extends State<HomePage1> {
 
     maliste1.add(new ListTile(
       leading: Icon(Icons.help),
-      title: Text("A propos de l'application"),
+      title: Text(allTranslations.text("z107")),
       onTap: () {
         Navigator.of(context, rootNavigator: true).pop('dialog');
         _about();
@@ -488,7 +489,7 @@ class HomePage1State extends State<HomePage1> {
 
     maliste1.add(new ListTile(
       leading: Icon(Icons.person_add),
-      title: Text("Changer de profil"),
+      title: Text(allTranslations.text("z108")),
       onTap: () {
         Navigator.of(context, rootNavigator: true).pop('dialog');
         _SecurityBox(new ChooseProfilePage());
@@ -510,7 +511,7 @@ class HomePage1State extends State<HomePage1> {
 
     maliste1.add(new ListTile(
       leading: Icon(Icons.arrow_back),
-      title: Text("Déconnexion"),
+      title: Text(allTranslations.text("z109")),
       onTap: () {
         Navigator.of(context, rootNavigator: true).pop('dialog');
         _deconnexion(context);
@@ -820,7 +821,17 @@ class HomePage1State extends State<HomePage1> {
                     new MaterialPageRoute(builder: (_) => new MedicalReportPage()),
                   );
                 }
-                 else if (i == 4) {
+                else if (i == 4) {
+                   currentpayer == "0"
+                      ? _OpenBox()
+                      :_SecurityBox(new NewVaccinPage());
+                } 
+                else if (i == 5) {
+                   currentpayer == "0"
+                      ? _OpenBox()
+                      :_SecurityBox(new NewUpdatePage());
+                } 
+                 else if (i == 6) {
                   Navigator.push(
                     context,
                     new MaterialPageRoute(builder: (_) => new NewsPage()),
@@ -956,29 +967,29 @@ class HomePage1State extends State<HomePage1> {
     ];
 
     List<Menu> menus = new List();
-    Menu menu = new Menu(1, "CARTE DIGITALE PRO", 'img/carte-digitale.png');
+    Menu menu = new Menu(1, allTranslations.text("menu28_title"), 'img/carte-digitale.png');
     menus.add(menu);
 
-    Menu menu0 = new Menu(2, "MES CONSULTATIONS", 'img/historique-soins.png');
+    Menu menu0 = new Menu(2, allTranslations.text("mconsultation2_title"), 'img/historique-soins.png');
     menus.add(menu0);
 
-    Menu menu7 = new Menu(4, "MES RENDEZ-VOUS", 'img/prise-rdv2.png');
+    Menu menu7 = new Menu(4, allTranslations.text("rdv_title"), 'img/prise-rdv2.png');
     menus.add(menu7);
     
     Menu menu3 =
-        new Menu(5, "DOSSIERS MEDICAUX", 'img/antecedents-medicaux.png');
+        new Menu(5, allTranslations.text("menu29_title"), 'img/antecedents-medicaux.png');
      menus.add(menu3);
 
-    Menu menu4 = new Menu(4, "MES DOCUMENTS", 'img/identifiants-connexion.png');
-    // menus.add(menu4);
+    Menu menu4 = new Menu(4, allTranslations.text("v1"), 'img/vaccin.png');
+     menus.add(menu4);
 
-    Menu menu2 = new Menu(4, "ACTIVER UN COMPTE", 'img/activation.png');
-    // menus.add(menu2);
+    Menu menu2 = new Menu(4, allTranslations.text("z87"), 'img/laboratoire.png');
+     menus.add(menu2);
 
-    Menu menu5 = new Menu(4, "HEALTH NEWS", 'img/news.png');
+    Menu menu5 = new Menu(4, allTranslations.text("news_title"), 'img/news.png');
     menus.add(menu5);
 
-    Menu menu8 = new Menu(8, "CARNET DE VACCINATION", 'img/vaccin.png');
+    Menu menu8 = new Menu(8, allTranslations.text("vaccin_title"), 'img/vaccin.png');
     //menus.add(menu8);
 
     return new WillPopScope(
@@ -988,7 +999,6 @@ class HomePage1State extends State<HomePage1> {
         child: Scaffold(
           backgroundColor: Color(0xffF8F8FA),
           body: new Stack(
-            overflow: Overflow.visible,
             children: <Widget>[
               Container(
                 color: color3,

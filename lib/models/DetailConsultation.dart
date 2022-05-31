@@ -16,8 +16,9 @@ class DetailConsultation {
   String resultat1;
   String diagnostic1;
   String mise1;
+  var evolution;
 
-  DetailConsultation({this.id,this.motifs,this.dateconsultation,this.diagnostic,this.ordonnance,this.histoire,this.examen,this.resultat,this.conclusion,this.scan1,this.scan2,this.resultat1,this.diagnostic1,this.mise1});
+  DetailConsultation({this.id,this.motifs,this.dateconsultation,this.diagnostic,this.ordonnance,this.histoire,this.examen,this.resultat,this.conclusion,this.scan1,this.scan2,this.resultat1,this.diagnostic1,this.mise1,this.evolution});
 
   factory DetailConsultation.fromJson(Map<String, dynamic> json)=> DetailConsultation(
       id: json['id'],
@@ -33,7 +34,8 @@ class DetailConsultation {
       scan2: json['scan2'],
       resultat1: json['resultat1'],
       diagnostic1: json['diagnostic1'],
-      mise1: json['mise1']
+      mise1: json['mise1'],
+      evolution: json['evolution']
   );
 
 

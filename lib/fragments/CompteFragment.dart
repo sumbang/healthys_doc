@@ -189,7 +189,6 @@ class CompteFragmentState extends State<CompteFragment> {
                       d[0].toString();
 
                   return new Stack(
-                    overflow: Overflow.visible,
                     children: [
                       Container(
                         color: color,
