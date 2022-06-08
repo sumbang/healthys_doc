@@ -11,15 +11,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'config/all_translations.dart';
 
 
-/*void main() {
+void main() {
   runApp(AppLock(
     builder: (args) => MyApp(),
     lockScreen: LockScreen(),
     enabled: true,
     backgroundLockLatency: const Duration(seconds: 30),
   ));
-}*/
-void main() => runApp(new MyApp());
+}
+//void main() => runApp(new MyApp());
 
 class MyApp extends StatelessWidget {
   //final color = const Color(0xFFffffff);

@@ -54,6 +54,7 @@ class NewVaccinFormState extends State<NewVaccinForm> {
   final _priseController = TextEditingController();
   final _numeroController = TextEditingController();
   Future<List<MyItems>> period;
+  String currentpin = "";
   Future<File> imageFile;
   PickedFile _imageFile;
   File _image;
@@ -124,11 +125,13 @@ class NewVaccinFormState extends State<NewVaccinForm> {
   int periode = -1;
   bool _isSaving = true;
   String perso = "";
+  final _pinController = TextEditingController();
 
      _loadUser() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       perso = (prefs.getString('currentperso') ?? "");
+      currentpin = (prefs.getString('currentpin') ?? '');
     });
   }
 
@@ -688,6 +691,46 @@ class NewVaccinFormState extends State<NewVaccinForm> {
               color: Colors.transparent,
             ),
             Padding(
+                    padding: const EdgeInsets.all(0.0),
+                    child: Container(
+                      padding: const EdgeInsets.only(
+                          left: 10.0, right: 5.0, top: 3.0, bottom: 3.0),
+                      width: double.infinity,
+                      decoration: new BoxDecoration(
+                        color: Colors.white70,
+                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        border: new Border.all(color: Colors.black38),
+                      ),
+                      child: TextFormField(
+                        obscureText: false,
+                        style: const TextStyle(
+                            color: Colors.black, fontWeight: FontWeight.normal),
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          icon: new Icon(
+                            Icons.security,
+                            color: color,
+                          ),
+                          labelText: allTranslations.text('s2') + " *",
+                          labelStyle: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.normal),
+                        ),
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return allTranslations.text('requis_title');
+                          }
+                        },
+                        controller: _pinController,
+                        keyboardType: TextInputType.number,
+                      ),
+                    ),
+                  ), Divider(
+              height: 15.0,
+              color: Colors.transparent,
+            ),
+            Padding(
                 padding: const EdgeInsets.symmetric(vertical: 20.0),
                 child: new Center(
                   child: new InkWell(
@@ -719,11 +762,14 @@ class NewVaccinFormState extends State<NewVaccinForm> {
   Future<void> _sentData() async {
     Locale myLocale = Localizations.localeOf(context);
 
+    String pin = _pinController.text.toString();
+
     if (_nomController.text.isEmpty ||
         _importanceController.text.isEmpty ||
         _priseController.text.isEmpty ||
         _dateController.text.isEmpty ||
         _numeroController.text.isEmpty ||
+        _pinController.text.isEmpty ||
         (periode == -1)) {
       Fluttertoast.showToast(
           msg: allTranslations.text('requis1_title'),
@@ -735,6 +781,14 @@ class NewVaccinFormState extends State<NewVaccinForm> {
     } else if (l_images.length == 0) {
       Fluttertoast.showToast(
           msg: allTranslations.text('requis1_title'),
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIos: 5,
+          backgroundColor: Colors.blue,
+          textColor: Colors.white);
+    } else if (pin != currentpin) {
+      Fluttertoast.showToast(
+          msg: allTranslations.text("z30"),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIos: 5,

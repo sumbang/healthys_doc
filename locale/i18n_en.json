@@ -449,6 +449,10 @@
    "z107":"About the app",
    "z108":"Change profile",
    "z109":"Logout",
-   "z110":"Confirmation document"
+   "z110":"Confirmation document",
+   "z111":"End consultation",
+   "z112":"Session locked, please enter your pin code",
+  "z113":"Open",
+  "z114":"You can choose multiple images"
 
 }

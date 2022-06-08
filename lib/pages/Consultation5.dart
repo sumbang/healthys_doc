@@ -156,7 +156,7 @@ class ConsultationPageState extends State<Consultation51> {
         Setting.apiracine +
             "consultations/view2?id=" +
             this.id.toString() +
-            "?type=1&language=" +
+            "&type=1&language=" +
             myLocale.languageCode.toString(),
         headers: {
           "Authorization": basicAuth,

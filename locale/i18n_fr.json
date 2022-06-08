@@ -449,6 +449,10 @@
   "z107":"A propos de l'application",
   "z108":"Changer de profil",
   "z109":"Déconnexion",
-  "z110":"Document de confirmation"
+  "z110":"Document de confirmation",
+  "z111":"Terminer la consultation",
+  "z112":"Session vérouillée, veuilez entrer votre code pin",
+  "z113":"Ouvrir",
+  "z114":"Vous pouvez choisir plusieurs images"
 
 }

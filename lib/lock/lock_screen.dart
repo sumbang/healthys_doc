@@ -150,7 +150,7 @@ class _LockScreenState extends State<LockScreen> {
               height: 60,
             ),
             Center(
-              child: Text("Session vérouillée, veuilez entrer votre code pin",
+              child: Text(allTranslations.text("z112"),
                 textAlign: TextAlign.center,
                 style: new TextStyle(
                     fontSize: 16.0,
@@ -187,7 +187,7 @@ class _LockScreenState extends State<LockScreen> {
                             Icons.lock_open,
                             color: vert,
                           ),
-                          labelText: "Pin de connexion",
+                          labelText: allTranslations.text("s2"),
                           labelStyle: TextStyle(
                               color: gris,
                               fontSize: 16.0,
@@ -236,7 +236,7 @@ class _LockScreenState extends State<LockScreen> {
               children: [
                 RaisedButton(
                   color: rouge,
-                  child: Text("Déconnexion",
+                  child: Text(allTranslations.text("logout1"),
                       style: TextStyle(color: Colors.white)),
                   onPressed: () {
                     _makeLogout();
@@ -247,12 +247,12 @@ class _LockScreenState extends State<LockScreen> {
                 ),
                 RaisedButton(
                   color: color2,
-                  child: Text("Ouvrir",
+                  child: Text(allTranslations.text("z113"),
                       style: TextStyle(color: Colors.white)),
                   onPressed: () {
                     if (this._textEditingController.text.isEmpty) {
                       Fluttertoast.showToast(
-                          msg: "Veuillez saisir votre pin",
+                          msg: allTranslations.text("s1"),
                           toastLength: Toast.LENGTH_LONG,
                           gravity: ToastGravity.BOTTOM,
                           timeInSecForIos: 5,
@@ -262,7 +262,7 @@ class _LockScreenState extends State<LockScreen> {
                       AppLock.of(context).didUnlock('some data');
                     } else {
                       Fluttertoast.showToast(
-                          msg: "Pin incorrect",
+                          msg: allTranslations.text("s5"),
                           toastLength: Toast.LENGTH_LONG,
                           gravity: ToastGravity.BOTTOM,
                           timeInSecForIos: 5,

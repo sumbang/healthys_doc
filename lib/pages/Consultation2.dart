@@ -251,7 +251,20 @@ class ConsultationPageState extends State<Consultation_2> {
     List<Widget> maliste = new List();
 
     maliste.add(new ListTile(
-      leading: Icon(Icons.person_pin),
+      leading: Icon(Icons.file_download),
+      title: Text(
+        allTranslations.text("z111"),
+        style: TextStyle(fontSize: 16),
+      ),
+      onTap: () {
+        Navigator.of(context, rootNavigator: true).pop('dialog');
+
+        _buildRapport(item.id);
+      },
+    )); 
+    
+    maliste.add(new ListTile(
+      leading: Icon(Icons.remove_red_eye_outlined),
       title: Text(
         allTranslations.text("z53"),
         style: TextStyle(fontSize: 16),
@@ -267,7 +280,7 @@ class ConsultationPageState extends State<Consultation_2> {
     ));
 
     maliste.add(new ListTile(
-      leading: Icon(Icons.person_pin),
+      leading: Icon(Icons.update),
       title: Text(
         allTranslations.text("z54"),
         style: TextStyle(fontSize: 16),
@@ -296,24 +309,13 @@ class ConsultationPageState extends State<Consultation_2> {
               builder: (_) => new CertificatPage(item.id.toString())),
         );
       },
-    ));
+    ));*/
 
-    maliste.add(new ListTile(
-      leading: Icon(Icons.person_pin),
-      title: Text(
-        "Rapport de consultation",
-        style: TextStyle(fontSize: 16),
-      ),
-      onTap: () {
-        Navigator.of(context, rootNavigator: true).pop('dialog');
 
-        _buildRapport(item.id);
-      },
-    )); */
 
     return Container(
         // height: double.parse(largeur.toString()), // Change as per your requirement
-        height: 120.0,
+        height: 200.0,
         width: 300.0, // Change as per your requirement
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

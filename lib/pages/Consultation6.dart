@@ -2199,7 +2199,7 @@ class ConsultationPageState extends State<Consultation51> {
 
         var responseOrdre1 = json.decode(res3.body.toString());
 
-        for(int j = 0; j < responseOrdre1[0].length; j++){
+        for(int j = 0; j < responseOrdre1.length; j++){
           if(j == 0) scan3+= responseOrdre1[j]['path'];
           else scan3+= "|"+responseOrdre1[j]['path'];
         }
@@ -2894,7 +2894,7 @@ class ConsultationPageState extends State<Consultation51> {
                                                                 height: 2,
                                                               ),
                                                               Text(
-                                                                allTranslations.text("z88"),
+                                                                allTranslations.text("z89"),
                                                                 style: TextStyle(
                                                                     color: bleu,
                                                                     height: 1.5,
@@ -2908,7 +2908,7 @@ class ConsultationPageState extends State<Consultation51> {
                                                                 height: 2,
                                                               ),
                                                               Text(
-                                                                allTranslations.text("z23"),
+                                                                allTranslations.text("z114"),
                                                                 style: TextStyle(
                                                                     color: Colors
                                                                         .grey,
