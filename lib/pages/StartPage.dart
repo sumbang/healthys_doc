@@ -76,15 +76,15 @@ class _Start1State extends State<Start1> {
     allTranslations.init(myLocale.languageCode.toString());
 
     const List<String> images = [
-      "img/slide1-fr.jpg",
-      "img/slide3-fr.jpg",
-      "img/slide2-fr.jpg"
+      "img/doc1.jpeg",
+      "img/doc2.jpeg",
+      "img/doc3.jpeg"
     ];
 
     const List<String> images1 = [
-      "img/slide1-en.jpg",
-      "img/slide3-en.jpg",
-      "img/slide2-en.jpg"
+      "img/doc1.jpeg",
+      "img/doc2.jpeg",
+      "img/doc4.jpeg"
     ];
 
     List<String> titles = [

@@ -105,15 +105,9 @@ flutter:
  
   assets:
     - img/erreur.png
-    - img/img1.jpg
-    - img/img2.jpg
-    - img/img3.jpg
     - img/success-icon.png
     - img/logo.png
     - img/logo2.png
-    - img/bane1.png
-    - img/bane2.png
-    - img/bane3.png
     - img/carte-digitale.png
     - img/annuaire.png
     - img/antecedents-medicaux.png
@@ -132,12 +126,6 @@ flutter:
     - img/prise-rdv.png
     - img/prise-rdv2.png
     - img/urgence.png
-    - img/slide1.png
-    - img/slide2.png
-    - img/1.png
-    - img/2.png
-    - img/3.png
-    - img/4.png
     - img/news.png
     - img/reseau.png
     - img/confidentialite.png
@@ -148,12 +136,6 @@ flutter:
     - img/assurance1.jpg
     - img/carnet1.jpg
     - img/carnet.jpg
-    - img/slide1-fr.jpg
-    - img/slide2-fr.jpg
-    - img/slide3-fr.jpg
-    - img/slide1-en.jpg
-    - img/slide2-en.jpg
-    - img/slide3-en.jpg
     - img/logo3.png
     - img/hopital.jpg
     - img/work.png
@@ -165,13 +147,6 @@ flutter:
     - locale/i18n_fr.json
     - locale/i18n_es.json
     - img/uploads.png
-    - img/s1.jpg
-    - img/s2.jpg
-    - img/s3.jpg
-    - img/s4.jpg
-    - img/s5.jpg
-    - img/med1.jpg
-    - img/med2.jpg
     - img/doc.png
     - img/patient.png
     - img/doc.jpeg
@@ -188,6 +163,10 @@ flutter:
     - img/enregistrement.png
     - img/vide.png
     - img/path.png
+    - img/doc1.jpeg
+    - img/doc2.jpeg
+    - img/doc3.jpeg
+    - img/doc4.jpeg
  
 
   # An image asset can refer to one or more resolution-specific "variants", see

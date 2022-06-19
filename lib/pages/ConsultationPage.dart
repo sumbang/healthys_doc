@@ -173,6 +173,34 @@ class ConsultationPage1State extends State<ConsultationPage1> {
     return listElementWidgetList;
   }
 
+  List<Widget> _buildExpandableContent2(List<Content> items) {
+    String texte = "";
+
+    List<Widget> listElementWidgetList = new List<Widget>();
+
+    for (int i = 0; i < items.length; i++) {
+      texte += items[i].libelle.toString() + ", ";
+
+      listElementWidgetList.add(new Padding(
+        padding:
+            EdgeInsets.only(left: 20.0, right: 20.0, top: 5.0, bottom: 5.0),
+        child:  Center(child : (items[i].libelle.isNotEmpty)
+                    ? Image.network(Setting.serveurimage1 + '' + items[i].libelle,
+                        width: double.infinity,
+                        fit: BoxFit.contain,
+                        alignment: Alignment.centerLeft)
+                    : Container(),)
+      ));
+
+      listElementWidgetList.add(Divider(
+        height: 5.0,
+        color: Colors.grey,
+      ));
+    }
+    return listElementWidgetList;
+  }
+
+
   List<Widget> _buildList(String datas) {
     List<Widget> listElementWidgetList = new List<Widget>();
     List<String> items = datas.split(";");
@@ -298,12 +326,15 @@ class ConsultationPage1State extends State<ConsultationPage1> {
                       List<Content> parametres = new List();
                       List<Content> antecedents = new List();
                       List<Content> antecedents1 = new List();
+                      List<Content> photos = new List();
 
                       for (int i = 0; i < snapshot.data.length; i++) {
                         if (snapshot.data[i].groupe == 1)
                           identification.add(snapshot.data[i]);
                         else if (snapshot.data[i].groupe == 2)
                           parametres.add(snapshot.data[i]);
+                        else if (snapshot.data[i].groupe == 4)
+                          photos.add(snapshot.data[i]);
                         else if (snapshot.data[i].groupe == 3) {
                           if (snapshot.data[i].famille == 1)
                             antecedents.add(snapshot.data[i]);
@@ -321,6 +352,16 @@ class ConsultationPage1State extends State<ConsultationPage1> {
                               height: 8.0,
                               color: Colors.transparent,
                             ),
+                            
+                            new Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                new Column(
+                                  children:
+                                      _buildExpandableContent2(photos),
+                                ),
+                              ],
+                            ),
                             new Text(
                               allTranslations
                                   .text('consultation2_title')
@@ -332,6 +373,7 @@ class ConsultationPage1State extends State<ConsultationPage1> {
                                   fontStyle: FontStyle.normal,
                                   color: color),
                             ),
+                           
                             Padding(
                               padding: EdgeInsets.only(
                                   left: 20.0,
@@ -348,7 +390,7 @@ class ConsultationPage1State extends State<ConsultationPage1> {
                                           right: 0.0,
                                           top: 5.0,
                                           bottom: 5.0),
-                                      child: Text(allTranslations.text("numpatient_title"),
+                                      child: Text(allTranslations.text("matricule")+" : ",
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 14.5,

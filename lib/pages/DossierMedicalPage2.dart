@@ -228,7 +228,7 @@ class DossierMedicalPageState extends State<DossierMedical> {
                   ),
                   child: new Center(
                     child: new Text(
-                      "Ouvrir",
+                      allTranslations.text("z113"),
                       style: new TextStyle(fontSize: 18.0, color: Colors.white),
                     ),
                   ),
