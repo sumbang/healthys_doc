@@ -5,7 +5,7 @@ import 'package:crypto/crypto.dart';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:healthys_medecin/config/all_translations.dart';
+import 'package:healthys_medecin/config/all_translations.dart'; import 'package:healthys_medecin/config/singleton.dart';
 import 'package:healthys_medecin/pages/NewPassPage.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -43,9 +43,9 @@ class _ResetState extends State<ResetForm> {
   Widget build(BuildContext context) {
     // Build a Form widget using the _formKey we created above
 
-    Locale myLocale = Localizations.localeOf(context);
+    MySingleton mySingleton = new MySingleton();
 
-    allTranslations.init(myLocale.languageCode.toString());
+    allTranslations.init(mySingleton.getLangue.toString());
 
     return Form(
       key: _formKey,
@@ -154,9 +154,11 @@ class _ResetState extends State<ResetForm> {
         'identifiant': _loginController.text.toString(),
       };
 
+       MySingleton mySingleton = new MySingleton();
+
       var res = await http.post(Setting.apiracine + "comptes/reset",
           body: data,
-          headers: {"Language": allTranslations.currentLanguage.toString()});
+          headers: {"Language": mySingleton.getLangue.toString()});
 
       if (res.statusCode == 200) {
         var responseJson = json.decode(res.body);

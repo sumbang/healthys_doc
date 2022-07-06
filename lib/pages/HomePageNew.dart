@@ -8,7 +8,7 @@ import 'package:flutter_fab_dialer/flutter_fab_dialer.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:healthys_medecin/config/Setting.dart';
 import 'package:healthys_medecin/config/SizeConfig.dart';
-import 'package:healthys_medecin/config/all_translations.dart';
+import 'package:healthys_medecin/config/all_translations.dart'; import 'package:healthys_medecin/config/singleton.dart';
 import 'package:healthys_medecin/main.dart';
 import 'package:healthys_medecin/models/Menu.dart';
 import 'package:healthys_medecin/pages/ActivationPage.dart';
@@ -219,14 +219,14 @@ class HomePageNew1State extends State<HomePageNew1> {
     String token1 = (prefs.getString('token') ?? '');
     String role = (prefs.getString('token') ?? '');
 
-    String basicAuth = 'Bearer ' + token1;
+    String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
 
     var res = await http.get(
         Setting.apiracine +
             "comptes/indicateur?role=" +
             currentacces.toString(),
         headers: {
-          "Language": allTranslations.currentLanguage.toString(),
+          "Language": mySingleton.getLangue.toString(),
           "Authorization": basicAuth,
         });
 

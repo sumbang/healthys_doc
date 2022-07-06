@@ -5,7 +5,8 @@ import 'package:crypto/crypto.dart';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:healthys_medecin/config/all_translations.dart';
+import 'package:healthys_medecin/config/all_translations.dart'; import 'package:healthys_medecin/config/singleton.dart';
+import 'package:healthys_medecin/config/singleton.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import '../config/Setting.dart';
@@ -56,7 +57,7 @@ class CertificatFormState extends State<CertificatForm> {
   }
 
   Future<void> _sentData() async {
-    Locale myLocale = Localizations.localeOf(context);
+    MySingleton mySingleton = new MySingleton();
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -105,7 +106,7 @@ class CertificatFormState extends State<CertificatForm> {
       String token1 = (prefs.getString('token') ?? '');
       String currentpatient1 = (prefs.getString('currentpatient') ?? '');
 
-      String basicAuth = 'Bearer ' + token1;
+      String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
 
       Map data = {
         "id": this.consultation.toString(),
@@ -116,7 +117,7 @@ class CertificatFormState extends State<CertificatForm> {
           body: data,
           headers: {
             "Authorization": basicAuth,
-            "Language": allTranslations.currentLanguage.toString()
+            "Language":  mySingleton.getLangue.toString()
           });
 
       if (res.statusCode == 200) {
@@ -155,9 +156,9 @@ class CertificatFormState extends State<CertificatForm> {
   Widget build(BuildContext context) {
     // Build a Form widget using the _formKey we created above
 
-    Locale myLocale = Localizations.localeOf(context);
+    MySingleton mySingleton = new MySingleton();
 
-    allTranslations.init(myLocale.languageCode.toString());
+    allTranslations.init(mySingleton.getLangue.toString());
 
     return Form(
       key: _formKey,

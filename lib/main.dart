@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_lock/flutter_app_lock.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:healthys_medecin/config/singleton.dart';
 import 'package:healthys_medecin/lock/lock_screen.dart';
 import 'package:healthys_medecin/pages/ChooseProfile.dart';
+import 'package:healthys_medecin/pages/chooselanguage.dart';
 import 'package:splashscreen/splashscreen.dart';
 import './pages/HomePage.dart';
 import './pages/StartPage.dart';
@@ -12,12 +14,18 @@ import 'config/all_translations.dart';
 
 
 void main() {
+    MySingleton mySingleton = new MySingleton();
+  if(mySingleton.getLangue == "") {
+    runApp(new MyApp2());
+  }
+  else {
   runApp(AppLock(
     builder: (args) => MyApp(),
     lockScreen: LockScreen(),
     enabled: true,
     backgroundLockLatency: const Duration(seconds: 30),
   ));
+  }
 }
 //void main() => runApp(new MyApp());
 
@@ -29,7 +37,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
-      title: 'Bienvenue sur Healthy',
+      title: 'Bienvenue sur Healthys',
       theme: new ThemeData(
         // Add the 3 lines from here...
         primaryColor: color,
@@ -73,9 +81,9 @@ class HomePagState extends State<HomePag> {
 
   @override
   Widget build(BuildContext context) {
-    Locale myLocale = Localizations.localeOf(context);
+    MySingleton mySingleton = new MySingleton();
 
-    allTranslations.init(myLocale.languageCode.toString());
+    allTranslations.init(mySingleton.getLangue.toString());
 
     return new SplashScreen(
       seconds: 5,
@@ -93,6 +101,35 @@ class HomePagState extends State<HomePag> {
       photoSize: 150.0,
       //onClick: ()=>print("Flutter Egypt"),
       loaderColor: Colors.blue,
+    );
+  }
+}
+
+class MyApp2 extends StatelessWidget {
+  final color = const Color(0xFFffffff);
+  final color2 = const Color(0xFF008dad);
+
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return new MaterialApp(
+      title: 'Bienvenue sur Healthys',
+      theme: new ThemeData(
+        // Add the 3 lines from here...
+        primaryColor: color,
+      ),
+      localizationsDelegates: [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+      ],
+      // Tells the system which are the supported languages
+      supportedLocales: [
+          const Locale('fr', ''), // French, no country code
+          const Locale('en', ''), // English, no country code
+          const Locale('es', ''), // Spanish, no country code
+      ],
+      home: ChooseLanguage(),
     );
   }
 }

@@ -4,7 +4,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:healthys_medecin/config/all_translations.dart';
+import 'package:healthys_medecin/config/all_translations.dart'; import 'package:healthys_medecin/config/singleton.dart';
 import 'package:healthys_medecin/forms/NewPassForm.dart';
 import 'package:healthys_medecin/pages/ResetPage.dart';
 import '../forms/LoginForm.dart';
@@ -49,9 +49,9 @@ class ResetPageState extends State<NewPassPage1> {
 
   @override
   Widget build(BuildContext context) {
-    Locale myLocale = Localizations.localeOf(context);
+    MySingleton mySingleton = new MySingleton();
 
-    allTranslations.init(myLocale.languageCode.toString());
+    allTranslations.init(mySingleton.getLangue.toString());
 
     return new Scaffold(
         appBar: AppBar(

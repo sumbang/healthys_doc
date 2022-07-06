@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:healthys_medecin/config/Setting.dart';
-import 'package:healthys_medecin/config/all_translations.dart';
+import 'package:healthys_medecin/config/all_translations.dart'; import 'package:healthys_medecin/config/singleton.dart';
 import 'package:healthys_medecin/models/Content.dart';
 import 'package:healthys_medecin/pages/NewConsultationPage.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
@@ -68,7 +68,7 @@ class ConsultationPage1State extends State<ConsultationPage1> {
 
     String token1 = (prefs.getString('token') ?? '');
 
-    String basicAuth = 'Bearer ' + token1;
+    String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
 
     var response = await http.get(
         Setting.apiracine +
@@ -76,7 +76,7 @@ class ConsultationPage1State extends State<ConsultationPage1> {
             this.numero.toString(),
         headers: {
           "Authorization": basicAuth,
-          "Language": allTranslations.currentLanguage.toString()
+          "Language": mySingleton.getLangue.toString(),
         });
 
     print("DATA2 :" + response.body.toString());
@@ -180,21 +180,29 @@ class ConsultationPage1State extends State<ConsultationPage1> {
 
     for (int i = 0; i < items.length; i++) {
       texte += items[i].libelle.toString() + ", ";
-
+      print("lien : "+Setting.serveurimage1 + '' + items[i].valeur);  
       listElementWidgetList.add(new Padding(
         padding:
             EdgeInsets.only(left: 20.0, right: 20.0, top: 5.0, bottom: 5.0),
-        child:  Center(child : (items[i].libelle.isNotEmpty)
-                    ? Image.network(Setting.serveurimage1 + '' + items[i].libelle,
-                        width: double.infinity,
-                        fit: BoxFit.contain,
-                        alignment: Alignment.centerLeft)
+        child:  Center(child : (items[i].valeur.isNotEmpty)
+                    ? Container(
+                          width: 150,
+                          height: 150,
+                          decoration: new BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: new DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: new NetworkImage(
+                                    Setting.serveurimage1 +
+                                        '' +
+                                        items[i].valeur.toString(),
+                                  ))))
                     : Container(),)
       ));
 
       listElementWidgetList.add(Divider(
-        height: 5.0,
-        color: Colors.grey,
+        height: 15.0,
+        color: Colors.transparent,
       ));
     }
     return listElementWidgetList;
@@ -236,9 +244,9 @@ class ConsultationPage1State extends State<ConsultationPage1> {
 
   @override
   Widget build(BuildContext context) {
-    Locale myLocale = Localizations.localeOf(context);
+    MySingleton mySingleton = new MySingleton();
 
-    allTranslations.init(myLocale.languageCode.toString());
+    allTranslations.init(mySingleton.getLangue.toString());
 
     return new WillPopScope(
         onWillPop: () {

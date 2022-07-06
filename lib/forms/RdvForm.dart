@@ -5,7 +5,7 @@ import 'package:crypto/crypto.dart';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:healthys_medecin/config/all_translations.dart';
+import 'package:healthys_medecin/config/all_translations.dart'; import 'package:healthys_medecin/config/singleton.dart';
 import 'package:healthys_medecin/models/Employe.dart';
 import 'package:healthys_medecin/models/Medecin.dart';
 import 'package:healthys_medecin/pages/RdvPage.dart';
@@ -93,7 +93,7 @@ class RdvFormState extends State<RdvForm> {
   }
 
   Future<void> _sentData() async {
-    Locale myLocale = Localizations.localeOf(context);
+    MySingleton mySingleton = new MySingleton();
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -145,7 +145,7 @@ class RdvFormState extends State<RdvForm> {
       String token1 = (prefs.getString('token') ?? '');
       String currentpatient1 = (prefs.getString('currentpatient') ?? '');
 
-      String basicAuth = 'Bearer ' + token1;
+      String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
 
       Map data = {
         "medecin": this.med.id.toString(),
@@ -159,7 +159,7 @@ class RdvFormState extends State<RdvForm> {
       var res =
           await http.post(Setting.apiracine + "meetings", body: data, headers: {
         "Authorization": basicAuth,
-        "Language": allTranslations.currentLanguage.toString()
+        "Language": mySingleton.getLangue.toString(),
       });
 
       if (res.statusCode == 200) {
@@ -198,9 +198,8 @@ class RdvFormState extends State<RdvForm> {
   Widget build(BuildContext context) {
     // Build a Form widget using the _formKey we created above
 
-    Locale myLocale = Localizations.localeOf(context);
-
-    allTranslations.init(myLocale.languageCode.toString());
+  MySingleton mySingleton = new MySingleton();
+    allTranslations.init(mySingleton.getLangue.toString());
 
     return Form(
       key: _formKey,
@@ -306,7 +305,7 @@ class RdvFormState extends State<RdvForm> {
                                         .toString() ==
                                     "fr"
                                 ? LocaleType.fr
-                                : allTranslations.currentLanguage.toString() ==
+                                : mySingleton.getLangue.toString(), ==
                                         "es"
                                     ? LocaleType.es
                                     : LocaleType.en); */
@@ -433,7 +432,7 @@ class RdvFormState extends State<RdvForm> {
                                         .toString() ==
                                     "fr"
                                 ? LocaleType.fr
-                                : allTranslations.currentLanguage.toString() ==
+                                : mySingleton.getLangue.toString() ==
                                         "es"
                                     ? LocaleType.es
                                     : LocaleType.en);

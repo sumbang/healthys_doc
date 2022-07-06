@@ -6,7 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:healthys_medecin/config/Setting.dart';
-import 'package:healthys_medecin/config/all_translations.dart';
+import 'package:healthys_medecin/config/all_translations.dart'; import 'package:healthys_medecin/config/singleton.dart';
 import 'package:healthys_medecin/models/MyItems.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -74,14 +74,14 @@ class InfosFragmentState extends State<InfosFragment> {
     String token1 = (prefs.getString('token') ?? '');
     String currentpatient1 = (prefs.getString('currentpatient') ?? '');
 
-    String basicAuth = 'Bearer ' + token1;
+    String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
 
     sit = getElements("2");
 
     var res = await http
         .get(Setting.apiracine + "comptes/" + currentpatient1, headers: {
       "Authorization": basicAuth,
-      "Language": allTranslations.currentLanguage.toString()
+      "Language": mySingleton.getLangue.toString(),
     });
 
     if (res.statusCode == 200) {
@@ -176,7 +176,7 @@ class InfosFragmentState extends State<InfosFragment> {
       String token1 = (prefs.getString('token') ?? '');
       String currentpatient1 = (prefs.getString('currentpatient') ?? '');
 
-      String basicAuth = 'Bearer ' + token1;
+      String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
 
       print("DATA5 :" + Setting.apiracine + "comptes/" + currentpatient1);
 
@@ -184,7 +184,7 @@ class InfosFragmentState extends State<InfosFragment> {
           body: data,
           headers: {
             "Authorization": basicAuth,
-            "Language": allTranslations.currentLanguage.toString()
+            "Language": mySingleton.getLangue.toString(),
           });
 
       print("DATA5 :" + res.body.toString());
@@ -233,9 +233,9 @@ class InfosFragmentState extends State<InfosFragment> {
 
   @override
   Widget build(BuildContext context) {
-    Locale myLocale = Localizations.localeOf(context);
+    MySingleton mySingleton = new MySingleton();
 
-    allTranslations.init(myLocale.languageCode.toString());
+    allTranslations.init(mySingleton.getLangue.toString());
 
     // TODO: implement build
     return SingleChildScrollView(

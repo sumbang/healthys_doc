@@ -4,7 +4,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:healthys_medecin/config/Setting.dart';
-import 'package:healthys_medecin/config/all_translations.dart';
+import 'package:healthys_medecin/config/all_translations.dart'; import 'package:healthys_medecin/config/singleton.dart';
 import 'package:healthys_medecin/models/Medecin.dart';
 import 'package:healthys_medecin/pages/DetailMedecin.dart';
 import 'package:healthys_medecin/pages/NewRdvPage.dart';
@@ -271,19 +271,17 @@ class MedecinFragmentState extends State<MedecinFragment> {
     String user = (prefs.getString('currentid') ?? '');
     String profil = (prefs.getString('currentnumero') ?? '');
 
-    String basicAuth = 'Bearer ' + token1;
+    String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
 
     List<Medecin> liste = List();
-
-    Locale myLocale = Localizations.localeOf(context);
 
     var response = await http.get(
         Setting.apiracine +
             "comptes/docteur?language=" +
-            myLocale.languageCode.toString(),
+            mySingleton.getLangue.toString(),
         headers: {
           "Authorization": basicAuth,
-          "Language": allTranslations.currentLanguage.toString()
+          "Language": mySingleton.getLangue.toString(),
         });
 
     print("DATA4 :" + response.body.toString());
@@ -305,9 +303,9 @@ class MedecinFragmentState extends State<MedecinFragment> {
   Widget build(BuildContext context) {
     // TODO: implement build
 
-    Locale myLocale = Localizations.localeOf(context);
+    MySingleton mySingleton = new MySingleton();
 
-    allTranslations.init(myLocale.languageCode.toString());
+    allTranslations.init(mySingleton.getLangue.toString());
 
     return FutureBuilder<List<Medecin>>(
         future: docteurs, //new

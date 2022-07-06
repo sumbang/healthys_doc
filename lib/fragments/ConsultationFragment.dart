@@ -5,7 +5,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:healthys_medecin/config/Setting.dart';
-import 'package:healthys_medecin/config/all_translations.dart';
+import 'package:healthys_medecin/config/all_translations.dart'; import 'package:healthys_medecin/config/singleton.dart';
 import 'package:healthys_medecin/models/Consultation.dart';
 import 'package:healthys_medecin/pages/Consultation31.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
@@ -69,7 +69,7 @@ class ConsultationFragmentState extends State<ConsultationFragment> {
     String user = (prefs.getString('currentid') ?? '');
     String profil = (prefs.getString('currentnumero') ?? '');
 
-    String basicAuth = 'Bearer ' + token1;
+    String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
 
     List<Consultation> liste = List();
 
@@ -85,7 +85,7 @@ class ConsultationFragmentState extends State<ConsultationFragment> {
             type.toString(),
         headers: {
           "Authorization": basicAuth,
-          "Language": allTranslations.currentLanguage.toString()
+          "Language": mySingleton.getLangue.toString(),
         });
 
     print("DATA4 :" + role + " - " + profil + " - " + user);
@@ -298,9 +298,9 @@ class ConsultationFragmentState extends State<ConsultationFragment> {
   Widget build(BuildContext context) {
     // TODO: implement build
 
-    Locale myLocale = Localizations.localeOf(context);
+    MySingleton mySingleton = new MySingleton();
 
-    allTranslations.init(myLocale.languageCode.toString());
+    allTranslations.init(mySingleton.getLangue.toString());
 
     return new Scaffold(
       body: new FutureBuilder<List<Consultation>>(

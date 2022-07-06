@@ -5,7 +5,8 @@ import 'package:crypto/crypto.dart';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:healthys_medecin/config/all_translations.dart';
+import 'package:healthys_medecin/config/all_translations.dart'; import 'package:healthys_medecin/config/singleton.dart';
+import 'package:healthys_medecin/config/singleton.dart';
 import 'package:healthys_medecin/models/Meeting.dart';
 import 'package:healthys_medecin/pages/RdvPage.dart';
 import 'package:healthys_medecin/pages/Rendezvous2Page.dart';
@@ -65,7 +66,7 @@ class EditRdvFormState extends State<EditRdvForm> {
   }
 
   Future<void> _sentData() async {
-    Locale myLocale = Localizations.localeOf(context);
+    MySingleton mySingleton = new MySingleton();
 
     if (_noteController.text.isEmpty ||
         _symptomeController.text.isEmpty ||
@@ -103,17 +104,18 @@ class EditRdvFormState extends State<EditRdvForm> {
       String token1 = (prefs.getString('token') ?? '');
       String currentpatient1 = (prefs.getString('currentpatient') ?? '');
 
-      String basicAuth = 'Bearer ' + token1;
+      String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
 
       Map data = {
         "meeting": id.id.toString(),
         "commentaire": _noteController.text.toString(),
       };
 
+
       var res = await http
           .post(Setting.apiracine + "meetings/confirm", body: data, headers: {
         "Authorization": basicAuth,
-        "Language": allTranslations.currentLanguage.toString()
+        "Language":  mySingleton.getLangue.toString()
       });
 
       if (res.statusCode == 200) {
@@ -152,9 +154,9 @@ class EditRdvFormState extends State<EditRdvForm> {
   Widget build(BuildContext context) {
     // Build a Form widget using the _formKey we created above
 
-    Locale myLocale = Localizations.localeOf(context);
+    MySingleton mySingleton = new MySingleton();
 
-    allTranslations.init(myLocale.languageCode.toString());
+    allTranslations.init(mySingleton.getLangue.toString());
 
     return Form(
       key: _formKey,

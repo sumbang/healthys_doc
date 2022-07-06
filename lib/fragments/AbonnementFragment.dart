@@ -5,7 +5,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:healthys_medecin/config/Setting.dart';
-import 'package:healthys_medecin/config/all_translations.dart';
+import 'package:healthys_medecin/config/all_translations.dart'; import 'package:healthys_medecin/config/singleton.dart';
 import 'package:healthys_medecin/models/Abonnement.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -66,14 +66,14 @@ class AbonnementFragmentState extends State<AbonnementFragment> {
     String user = (prefs.getString('currentid') ?? '');
     String profil = (prefs.getString('currentnumero') ?? '');
 
-    String basicAuth = 'Bearer ' + token1;
+    String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
 
     List<Abonnement> liste = List();
 
     var response =
         await http.get(Setting.apiracine + "comptes/abonnement", headers: {
       "Authorization": basicAuth,
-      "Language": allTranslations.currentLanguage.toString()
+      "Language": mySingleton.getLangue.toString(),
     });
 
     print("DATA4 :" + response.body.toString());
@@ -193,9 +193,9 @@ class AbonnementFragmentState extends State<AbonnementFragment> {
   Widget build(BuildContext context) {
     // TODO: implement build
 
-    Locale myLocale = Localizations.localeOf(context);
+    MySingleton mySingleton = new MySingleton();
 
-    allTranslations.init(myLocale.languageCode.toString());
+    allTranslations.init(mySingleton.getLangue.toString());
 
     return new Scaffold(
       body: new FutureBuilder<List<Abonnement>>(

@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:healthys_medecin/config/Setting.dart';
-import 'package:healthys_medecin/config/all_translations.dart';
+import 'package:healthys_medecin/config/all_translations.dart'; import 'package:healthys_medecin/config/singleton.dart';
 import 'package:healthys_medecin/pages/HomePageNew.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -192,7 +192,7 @@ class ChooseProfilePageState extends State<ChooseProfilePage1> {
     String role = (prefs.getString('role') ?? '');
     String user = (prefs.getString('currentid') ?? '');
     String profil = (prefs.getString('currentpatient') ?? '');
-    String basicAuth = 'Bearer ' + token1;
+    String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
 
     print("DOC :" + ids[pos].toString());
 
@@ -200,7 +200,7 @@ class ChooseProfilePageState extends State<ChooseProfilePage1> {
         Setting.apiracine + "comptes/check1?medecin=" + ids[pos].toString(),
         headers: {
           "Authorization": basicAuth,
-          "Language": allTranslations.currentLanguage.toString()
+          "Language": mySingleton.getLangue.toString(),
         });
 
     print("DATA4 :" + response.body.toString());
@@ -345,9 +345,9 @@ class ChooseProfilePageState extends State<ChooseProfilePage1> {
 
   @override
   Widget build(BuildContext context) {
-    Locale myLocale = Localizations.localeOf(context);
+    MySingleton mySingleton = new MySingleton();
 
-    allTranslations.init(myLocale.languageCode.toString());
+    allTranslations.init(mySingleton.getLangue.toString());
 
     return new WillPopScope(
         onWillPop: () {

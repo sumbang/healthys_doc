@@ -8,7 +8,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_absolute_path/flutter_absolute_path.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:healthys_medecin/config/all_translations.dart';
+import 'package:healthys_medecin/config/all_translations.dart'; import 'package:healthys_medecin/config/singleton.dart';
 import 'package:healthys_medecin/config/image_compress_service.dart';
 import 'package:healthys_medecin/models/MyItems.dart';
 import 'package:healthys_medecin/pages/HomePageNew.dart';
@@ -206,12 +206,12 @@ class NewVaccinFormState extends State<NewVaccinForm> {
 
     String token1 = (prefs.getString('token') ?? '');
 
-    String basicAuth = 'Bearer ' + token1;
+    String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
     List<MyItems> liste = List();
 
     var response = await http.get(Setting.apiracine + "vaccins/item", headers: {
       "Authorization": basicAuth,
-      "Language": allTranslations.currentLanguage.toString()
+      "Language": mySingleton.getLangue.toString(),
     });
 
     if (response.statusCode == 200) {
@@ -231,9 +231,9 @@ class NewVaccinFormState extends State<NewVaccinForm> {
   Widget build(BuildContext context) {
     // Build a Form widget using the _formKey we created above
 
-    Locale myLocale = Localizations.localeOf(context);
+    MySingleton mySingleton = new MySingleton();
 
-    allTranslations.init(myLocale.languageCode.toString());
+    allTranslations.init(mySingleton.getLangue.toString());
 
     return Form(
       key: _formKey,
@@ -760,7 +760,7 @@ class NewVaccinFormState extends State<NewVaccinForm> {
   }
 
   Future<void> _sentData() async {
-    Locale myLocale = Localizations.localeOf(context);
+    MySingleton mySingleton = new MySingleton();
 
     String pin = _pinController.text.toString();
 
@@ -823,7 +823,7 @@ class NewVaccinFormState extends State<NewVaccinForm> {
       String currentpatient1 = (prefs.getString('currentpatient') ?? '');
       String id = (prefs.getString('currentid') ?? '');
 
-      String basicAuth = 'Bearer ' + token1;
+      String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
 
       Uri uri = Uri.parse(Setting.apiracine + "comptes/uploaders");
 
@@ -870,7 +870,7 @@ class NewVaccinFormState extends State<NewVaccinForm> {
       var res =
           await http.post(Setting.apiracine + "vaccins", body: data, headers: {
         "Authorization": basicAuth,
-        "Language": allTranslations.currentLanguage.toString()
+        "Language": mySingleton.getLangue.toString(),
       });
 
       if (res.statusCode == 200) {

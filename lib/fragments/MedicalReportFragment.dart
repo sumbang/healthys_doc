@@ -5,7 +5,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:healthys_medecin/config/Setting.dart';
-import 'package:healthys_medecin/config/all_translations.dart';
+import 'package:healthys_medecin/config/all_translations.dart'; import 'package:healthys_medecin/config/singleton.dart';
 import 'package:healthys_medecin/pages/DossierMedicalPage2.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -60,7 +60,7 @@ class MedicalReportFragmentState extends State<MedicalReportFragment> {
   }
 
   void _sentData() async {
-    Locale myLocale = Localizations.localeOf(context);
+    MySingleton mySingleton = new MySingleton();
 
     String matricule = _matricule.text.toString();
     String pin = _pincode.text.toString();
@@ -106,7 +106,7 @@ class MedicalReportFragmentState extends State<MedicalReportFragment> {
 
       String token1 = (prefs.getString('token') ?? '');
 
-      String basicAuth = 'Bearer ' + token1;
+      String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
 
       Map data = {
         "search": matricule,
@@ -115,7 +115,7 @@ class MedicalReportFragmentState extends State<MedicalReportFragment> {
       var res = await http
           .put(Setting.apiracine + "comptes/search", body: data, headers: {
         "Authorization": basicAuth,
-        "Language": allTranslations.currentLanguage.toString()
+        "Language": mySingleton.getLangue.toString(),
       });
 
       if (res.statusCode == 200) {
@@ -153,9 +153,9 @@ class MedicalReportFragmentState extends State<MedicalReportFragment> {
 
   @override
   Widget build(BuildContext context) {
-    Locale myLocale = Localizations.localeOf(context);
+    MySingleton mySingleton = new MySingleton();
 
-    allTranslations.init(myLocale.languageCode.toString());
+    allTranslations.init(mySingleton.getLangue.toString());
 
     // TODO: implement build
     return new Center(
@@ -165,8 +165,7 @@ class MedicalReportFragmentState extends State<MedicalReportFragment> {
       children: [
         Padding(
           padding: EdgeInsets.all(15.0),
-          child: Text(
-            "Bien voulour saisir ou scanner le matricule santé du patient pour lequel vous souhaitez accéder au dossier médical",
+          child: Text(allTranslations.text("z118"),
             style: TextStyle(fontSize: 16.0, color: Colors.black, height: 1.5),
           ),
         ),
@@ -206,7 +205,7 @@ class MedicalReportFragmentState extends State<MedicalReportFragment> {
                       ),
                       validator: (value) {
                         if (value.isEmpty) {
-                          return 'Champ obligatoire';
+                          return allTranslations.text("requis_title");
                         }
                       },
                       controller: _matricule,
@@ -262,7 +261,7 @@ class MedicalReportFragmentState extends State<MedicalReportFragment> {
               ),
               validator: (value) {
                 if (value.isEmpty) {
-                  return 'Champ obligatoire';
+                  return allTranslations.text("requis_title");
                 }
               },
               controller: _pincode,
@@ -285,7 +284,7 @@ class MedicalReportFragmentState extends State<MedicalReportFragment> {
                   ),
                   child: new Center(
                     child: new Text(
-                      "Rechercher",
+                      allTranslations.text("titre3_title"),
                       style: new TextStyle(fontSize: 18.0, color: Colors.white),
                     ),
                   ),

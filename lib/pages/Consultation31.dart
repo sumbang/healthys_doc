@@ -14,7 +14,7 @@ import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:image_picker/image_picker.dart';
 //import 'package:qrscan/qrscan.dart' as scanner;
 import 'package:http/http.dart' as http;
-import 'package:healthys_medecin/config/all_translations.dart';
+import 'package:healthys_medecin/config/all_translations.dart'; import 'package:healthys_medecin/config/singleton.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:simple_autocomplete_formfield/simple_autocomplete_formfield.dart';
 
@@ -188,21 +188,21 @@ class ConsultationPageState extends State<Consultation31> {
   Future<List<Content>> _getContent() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    Locale myLocale = Localizations.localeOf(context);
+    MySingleton mySingleton = new MySingleton();
 
     String token1 = (prefs.getString('token') ?? '');
 
-    String basicAuth = 'Bearer ' + token1;
+    String basicAuth = 'Bearer ' + token1; 
 
     var response = await http.get(
         Setting.apiracine +
             "consultations/" +
             this.id.toString() +
             "?type=1&language=" +
-            myLocale.languageCode.toString(),
+            mySingleton.getLangue.toString(),
         headers: {
           "Authorization": basicAuth,
-          "Language": allTranslations.currentLanguage.toString()
+          "Language": mySingleton.getLangue.toString(),
         });
 
     print("DATA2 :" + response.body.toString());
@@ -225,21 +225,20 @@ class ConsultationPageState extends State<Consultation31> {
   Future<DetailConsultation> _getDetail() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    Locale myLocale = Localizations.localeOf(context);
+    MySingleton mySingleton = new MySingleton();
 
     String token1 = (prefs.getString('token') ?? '');
 
-    String basicAuth = 'Bearer ' + token1;
-
+    String basicAuth = 'Bearer ' + token1; 
     var response = await http.get(
         Setting.apiracine +
             "consultations/view2?id=" +
             this.id.toString() +
             "?type=1&language=" +
-            myLocale.languageCode.toString(),
+            mySingleton.getLangue.toString(),
         headers: {
           "Authorization": basicAuth,
-          "Language": allTranslations.currentLanguage.toString()
+          "Language": mySingleton.getLangue.toString(),
         });
 
     print("DATA21 :" + response.body.toString());
@@ -385,9 +384,9 @@ class ConsultationPageState extends State<Consultation31> {
 
   @override
   Widget build(BuildContext context) {
-    Locale myLocale = Localizations.localeOf(context);
+    MySingleton mySingleton = new MySingleton();
 
-    allTranslations.init(myLocale.languageCode.toString());
+    allTranslations.init(mySingleton.getLangue.toString());
 
     return Scaffold(
         backgroundColor: Color(0xffF8F8FA),

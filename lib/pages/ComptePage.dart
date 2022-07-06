@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:healthys_medecin/config/Setting.dart';
-import 'package:healthys_medecin/config/all_translations.dart';
+import 'package:healthys_medecin/config/all_translations.dart'; import 'package:healthys_medecin/config/singleton.dart';
 import 'package:healthys_medecin/models/Compte.dart';
 import 'package:healthys_medecin/pages/NewPassPage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -72,9 +72,7 @@ class ComptePage1State extends State<ComptePage1> {
     String profil = (prefs.getString('currentid') ?? '');
     String role = (prefs.getString('role') ?? '');
 
-    String basicAuth = 'Bearer ' + token1;
-
-    Locale myLocale = Localizations.localeOf(context);
+    String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
 
     print("profil : " + profil + ", compte : " + compte);
 
@@ -88,7 +86,7 @@ class ComptePage1State extends State<ComptePage1> {
             role,
         headers: {
           "Authorization": basicAuth,
-          "Language": allTranslations.currentLanguage.toString()
+          "Language": mySingleton.getLangue.toString(),
         });
 
     print("DATA4 :" + response.body.toString());
@@ -235,9 +233,11 @@ class ComptePage1State extends State<ComptePage1> {
       'identifiant': login,
     };
 
+     MySingleton mySingleton = new MySingleton();
+
     var res = await http.post(Setting.apiracine + "comptes/reset",
         body: data,
-        headers: {"Language": allTranslations.currentLanguage.toString()});
+        headers: {"Language": mySingleton.getLangue.toString(),});
 
     if (res.statusCode == 200) {
       var responseJson = json.decode(res.body);
@@ -273,7 +273,7 @@ class ComptePage1State extends State<ComptePage1> {
   }
 
   Future<void> _sentData() async {
-    Locale myLocale = Localizations.localeOf(context);
+    MySingleton mySingleton = new MySingleton();
 
     // print("hopital : " + hopital.toString());
     if (_nameController.text.isEmpty ||
@@ -311,7 +311,7 @@ class ComptePage1State extends State<ComptePage1> {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String token1 = (prefs.getString('token') ?? '');
       String user = (prefs.getString('currentid') ?? '');
-      String basicAuth = 'Bearer ' + token1;
+      String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
 
       Map data = {
         "nom": _nameController.text.toString(),
@@ -327,7 +327,7 @@ class ComptePage1State extends State<ComptePage1> {
           body: data,
           headers: {
             "Authorization": basicAuth,
-            "Language": allTranslations.currentLanguage.toString()
+            "Language": mySingleton.getLangue.toString(),
           });
 
       print(res.body.toString());
@@ -366,9 +366,9 @@ class ComptePage1State extends State<ComptePage1> {
 
   @override
   Widget build(BuildContext context) {
-    Locale myLocale = Localizations.localeOf(context);
+    MySingleton mySingleton = new MySingleton();
 
-    allTranslations.init(myLocale.languageCode.toString());
+    allTranslations.init(mySingleton.getLangue.toString());
 
     return new Scaffold(
         appBar: AppBar(

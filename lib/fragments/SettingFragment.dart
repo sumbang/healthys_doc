@@ -4,7 +4,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:healthys_medecin/config/Setting.dart';
-import 'package:healthys_medecin/config/all_translations.dart';
+import 'package:healthys_medecin/config/all_translations.dart'; import 'package:healthys_medecin/config/singleton.dart';
 import 'package:healthys_medecin/models/Compte.dart';
 import 'package:healthys_medecin/models/Souscription.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -48,9 +48,7 @@ class SettingFragmentState extends State<SettingFragment> {
     String profil = (prefs.getString('currentid') ?? '');
     String role = (prefs.getString('role') ?? '');
 
-    String basicAuth = 'Bearer ' + token1;
-
-    Locale myLocale = Localizations.localeOf(context);
+    String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
 
     var response = await http.get(
         Setting.apiracine +
@@ -62,7 +60,7 @@ class SettingFragmentState extends State<SettingFragment> {
             role,
         headers: {
           "Authorization": basicAuth,
-          "Language": allTranslations.currentLanguage.toString()
+          "Language": mySingleton.getLangue.toString(),
         });
 
     if (response.statusCode == 200) {
@@ -88,14 +86,12 @@ class SettingFragmentState extends State<SettingFragment> {
 
     String token1 = (prefs.getString('token') ?? '');
 
-    String basicAuth = 'Bearer ' + token1;
-
-    Locale myLocale = Localizations.localeOf(context);
+    String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
 
     var response =
         await http.get(Setting.apiracine + "comptes/souscription", headers: {
       "Authorization": basicAuth,
-      "Language": allTranslations.currentLanguage.toString()
+      "Language": mySingleton.getLangue.toString(),
     });
 
     print("DATA : " + response.body.toString());
@@ -279,9 +275,9 @@ class SettingFragmentState extends State<SettingFragment> {
 
   @override
   Widget build(BuildContext context) {
-    Locale myLocale = Localizations.localeOf(context);
+    MySingleton mySingleton = new MySingleton();
 
-    allTranslations.init(myLocale.languageCode.toString());
+    allTranslations.init(mySingleton.getLangue.toString());
 
     return FutureBuilder(
         future: Future.wait([profil, souscriptions]),

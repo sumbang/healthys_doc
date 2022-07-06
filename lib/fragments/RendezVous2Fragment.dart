@@ -5,7 +5,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:healthys_medecin/config/Setting.dart';
-import 'package:healthys_medecin/config/all_translations.dart';
+import 'package:healthys_medecin/config/all_translations.dart'; import 'package:healthys_medecin/config/singleton.dart';
 import 'package:healthys_medecin/models/Meeting.dart';
 import 'package:healthys_medecin/pages/RdvPage.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
@@ -104,13 +104,13 @@ class RendezVousFragmentState extends State<RendezVous2Fragment>
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     String token1 = (prefs.getString('token') ?? '');
-    String basicAuth = 'Bearer ' + token1;
+    String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
 
     var response = await http.get(
         Setting.apiracine + "meetings/confirm?id=" + pos.toString(),
         headers: {
           "Authorization": basicAuth,
-          "Language": allTranslations.currentLanguage.toString()
+          "Language": mySingleton.getLangue.toString(),
         });
 
     print("DATA4 :" + pos.toString());
@@ -171,13 +171,13 @@ class RendezVousFragmentState extends State<RendezVous2Fragment>
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     String token1 = (prefs.getString('token') ?? '');
-    String basicAuth = 'Bearer ' + token1;
+    String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
 
     var response = await http.get(
         Setting.apiracine + "meetings/rejet?id=" + pos.toString(),
         headers: {
           "Authorization": basicAuth,
-          "Language": allTranslations.currentLanguage.toString()
+          "Language": mySingleton.getLangue.toString(),
         });
 
     print("DATA4 :" + pos.toString());
@@ -381,11 +381,9 @@ class RendezVousFragmentState extends State<RendezVous2Fragment>
     String profil = (prefs.getString('currentpatient') ?? '');
     String id = (prefs.getString('currentid') ?? '');
 
-    String basicAuth = 'Bearer ' + token1;
+    String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
 
     List<Meeting> liste = List();
-
-    Locale myLocale = Localizations.localeOf(context);
 
     print("DATA4 :" + role + " - " + id);
 
@@ -393,7 +391,7 @@ class RendezVousFragmentState extends State<RendezVous2Fragment>
         Setting.apiracine + "meetings?role=" + role + "&hopital=" + id + "",
         headers: {
           "Authorization": basicAuth,
-          "Language": allTranslations.currentLanguage.toString()
+          "Language": mySingleton.getLangue.toString(),
         });
 
     print("DATA4 :" + response.body.toString());
@@ -415,9 +413,9 @@ class RendezVousFragmentState extends State<RendezVous2Fragment>
 
   @override
   Widget build(BuildContext context) {
-    Locale myLocale = Localizations.localeOf(context);
+    MySingleton mySingleton = new MySingleton();
 
-    allTranslations.init(myLocale.languageCode.toString());
+    allTranslations.init(mySingleton.getLangue.toString());
 
     final color = const Color(0xFFcd005f);
     final color2 = const Color(0xFF008dad);

@@ -6,7 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:healthys_medecin/config/Setting.dart';
-import 'package:healthys_medecin/config/all_translations.dart';
+import 'package:healthys_medecin/config/all_translations.dart'; import 'package:healthys_medecin/config/singleton.dart';
 import 'package:healthys_medecin/models/MyItems.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -74,7 +74,7 @@ class ParametreFragmentState extends State<ParametreFragment> {
     String token1 = (prefs.getString('token') ?? '');
     String currentpatient1 = (prefs.getString('currentpatient') ?? '');
 
-    String basicAuth = 'Bearer ' + token1;
+    String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
 
     emato = getElements("6");
     groupe = getElements("4");
@@ -83,7 +83,7 @@ class ParametreFragmentState extends State<ParametreFragment> {
         Setting.apiracine + "comptes/donnee?patient=" + currentpatient1,
         headers: {
           "Authorization": basicAuth,
-          "Language": allTranslations.currentLanguage.toString()
+          "Language": mySingleton.getLangue.toString(),
         });
 
     print("DATA5 :" + res.body.toString());
@@ -159,7 +159,7 @@ class ParametreFragmentState extends State<ParametreFragment> {
       String currentpatient1 = (prefs.getString('currentpatient') ?? '');
       String id = (prefs.getString('id') ?? '');
 
-      String basicAuth = 'Bearer ' + token1;
+      String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
 
       var res = await http.put(
           Setting.apiracine +
@@ -170,7 +170,7 @@ class ParametreFragmentState extends State<ParametreFragment> {
           body: data,
           headers: {
             "Authorization": basicAuth,
-            "Language": allTranslations.currentLanguage.toString()
+            "Language": mySingleton.getLangue.toString(),
           });
 
       print("DATA5 :" + token1);
@@ -206,9 +206,9 @@ class ParametreFragmentState extends State<ParametreFragment> {
 
   @override
   Widget build(BuildContext context) {
-    Locale myLocale = Localizations.localeOf(context);
+    MySingleton mySingleton = new MySingleton();
 
-    allTranslations.init(myLocale.languageCode.toString());
+    allTranslations.init(mySingleton.getLangue.toString());
 
     // TODO: implement build
     return SingleChildScrollView(

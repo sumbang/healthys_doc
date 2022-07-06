@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:healthys_medecin/config/Setting.dart';
-import 'package:healthys_medecin/config/all_translations.dart';
+import 'package:healthys_medecin/config/all_translations.dart'; import 'package:healthys_medecin/config/singleton.dart';
 import 'package:healthys_medecin/models/Document.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:image_picker/image_picker.dart';
@@ -100,14 +100,14 @@ class DocumentPageState extends State<DocumentPage_2> {
     String user = (prefs.getString('currentid') ?? '');
     String profil = (prefs.getString('currentpatient') ?? '');
 
-    String basicAuth = 'Bearer ' + token1;
+    String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
 
     List<Document> liste = List();
 
     var response =
         await http.get(Setting.apiracine + "consultation/document", headers: {
       "Authorization": basicAuth,
-      "Language": allTranslations.currentLanguage.toString()
+      "Language": mySingleton.getLangue.toString(),
     });
 
     print("DATA4 :" + role + " - " + profil + " - " + user);
@@ -265,9 +265,9 @@ class DocumentPageState extends State<DocumentPage_2> {
 
   @override
   Widget build(BuildContext context) {
-    Locale myLocale = Localizations.localeOf(context);
+    MySingleton mySingleton = new MySingleton();
 
-    allTranslations.init(myLocale.languageCode.toString());
+    allTranslations.init(mySingleton.getLangue.toString());
 
     return new WillPopScope(
         onWillPop: () {

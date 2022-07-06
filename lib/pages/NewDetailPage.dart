@@ -9,7 +9,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:healthys_medecin/config/Setting.dart';
 import 'package:healthys_medecin/config/SizeConfig.dart';
 import 'package:healthys_medecin/models/News.dart';
-import 'package:healthys_medecin/config/all_translations.dart';
+import 'package:healthys_medecin/config/all_translations.dart'; import 'package:healthys_medecin/config/singleton.dart';
 
 import 'HomePage.dart';
 
@@ -66,9 +66,9 @@ class NewDetailPage1State extends State<NewDetailPage1> {
 
   @override
   Widget build(BuildContext context) {
-    Locale myLocale = Localizations.localeOf(context);
+    MySingleton mySingleton = new MySingleton();
 
-    allTranslations.init(myLocale.languageCode.toString());
+    allTranslations.init(mySingleton.getLangue.toString());
 
     return Scaffold(
         backgroundColor: Color(0xffF8F8FA),

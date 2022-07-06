@@ -9,7 +9,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:healthys_medecin/config/Setting.dart';
 import 'package:healthys_medecin/config/SizeConfig.dart';
-import 'package:healthys_medecin/config/all_translations.dart';
+import 'package:healthys_medecin/config/all_translations.dart'; import 'package:healthys_medecin/config/singleton.dart';
 import 'package:healthys_medecin/models/Employe.dart';
 import 'package:healthys_medecin/models/Medecin.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
@@ -173,9 +173,9 @@ class DetailMedecin1State extends State<DetailMedecin1> {
 
   @override
   Widget build(BuildContext context) {
-    Locale myLocale = Localizations.localeOf(context);
+    MySingleton mySingleton = new MySingleton();
 
-    allTranslations.init(myLocale.languageCode.toString());
+    allTranslations.init(mySingleton.getLangue.toString());
 
     return Scaffold(
         backgroundColor: Color(0xffF8F8FA),

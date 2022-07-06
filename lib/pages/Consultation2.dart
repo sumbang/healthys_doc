@@ -12,7 +12,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 //import 'package:qrscan/qrscan.dart' as scanner;
 import 'package:http/http.dart' as http;
-import 'package:healthys_medecin/config/all_translations.dart';
+import 'package:healthys_medecin/config/all_translations.dart'; import 'package:healthys_medecin/config/singleton.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:simple_autocomplete_formfield/simple_autocomplete_formfield.dart';
 import '../models/Consultation2.dart';
@@ -142,7 +142,7 @@ class ConsultationPageState extends State<Consultation_2> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String token1 = (prefs.getString('token') ?? '');
 
-    String basicAuth = 'Bearer ' + token1;
+    String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
 
     print("token : " + token1);
 
@@ -152,7 +152,7 @@ class ConsultationPageState extends State<Consultation_2> {
             consultation.toString(),
         headers: {
           "Authorization": basicAuth,
-          "Language": allTranslations.currentLanguage.toString()
+          "Language": mySingleton.getLangue.toString(),
         });
 
     print("DATA : " + res.body.toString());
@@ -196,7 +196,7 @@ class ConsultationPageState extends State<Consultation_2> {
     String user = (prefs.getString('currentid') ?? '');
     String profil = (prefs.getString('currentpatient') ?? '');
 
-    String basicAuth = 'Bearer ' + token1;
+    String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
 
     List<Mconsultation2> liste = List();
 
@@ -210,7 +210,7 @@ class ConsultationPageState extends State<Consultation_2> {
             type.toString(),
         headers: {
           "Authorization": basicAuth,
-          "Language": allTranslations.currentLanguage.toString()
+          "Language": mySingleton.getLangue.toString(),
         });
 
     print("DATA4 :" +
@@ -717,9 +717,9 @@ class ConsultationPageState extends State<Consultation_2> {
 
   @override
   Widget build(BuildContext context) {
-    Locale myLocale = Localizations.localeOf(context);
+    MySingleton mySingleton = new MySingleton();
 
-    allTranslations.init(myLocale.languageCode.toString());
+    allTranslations.init(mySingleton.getLangue.toString());
 
     return new WillPopScope(
         onWillPop: () {

@@ -4,7 +4,8 @@ import 'dart:io';
 import 'package:crypto/crypto.dart';
 
 import 'package:flutter/material.dart';
-import 'package:healthys_medecin/config/all_translations.dart';
+import 'package:healthys_medecin/config/all_translations.dart'; import 'package:healthys_medecin/config/singleton.dart';
+import 'package:healthys_medecin/config/singleton.dart';
 import 'package:healthys_medecin/models/MyItems.dart';
 import 'package:healthys_medecin/models/Profil.dart';
 import 'package:healthys_medecin/pages/ChooseProfile.dart';
@@ -47,9 +48,9 @@ class _LoginState extends State<LoginForm> {
   Widget build(BuildContext context) {
     // Build a Form widget using the _formKey we created above
 
-    Locale myLocale = Localizations.localeOf(context);
+    MySingleton mySingleton = new MySingleton();
 
-    allTranslations.init(myLocale.languageCode.toString());
+    allTranslations.init(mySingleton.getLangue.toString());
 
     return Form(
       key: _formKey,
@@ -202,7 +203,7 @@ class _LoginState extends State<LoginForm> {
   }
 
   Future<void> _makeLogin() async {
-    Locale myLocale = Localizations.localeOf(context);
+    MySingleton mySingleton = new MySingleton();
 
     if (_formKey.currentState.validate()) {
       // If the form is valid, we want to show a Snackbar
@@ -239,10 +240,12 @@ class _LoginState extends State<LoginForm> {
 
       print("DATA :" + data.toString());
 
+      MySingleton mySingleton = new MySingleton();
+
       var res = await http.post(Setting.apiracine + "compte/login",
           body: data,
           headers: {
-            "Language": allTranslations.currentLanguage.toString(),
+            "Language": mySingleton.getLangue.toString(),
             "plateforme": "medecin"
           });
 

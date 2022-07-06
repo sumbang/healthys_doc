@@ -5,7 +5,7 @@ import 'package:crypto/crypto.dart';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:healthys_medecin/config/all_translations.dart';
+import 'package:healthys_medecin/config/all_translations.dart'; import 'package:healthys_medecin/config/singleton.dart';
 import 'package:healthys_medecin/models/MyItems.dart';
 import 'package:healthys_medecin/pages/HomePageNew.dart';
 import 'package:healthys_medecin/pages/VaccinPage.dart';
@@ -155,12 +155,12 @@ class NewUpdateFormState extends State<NewUpdateForm> {
 
     String token1 = (prefs.getString('token') ?? '');
 
-    String basicAuth = 'Bearer ' + token1;
+    String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
     List<MyItems> liste = List();
 
     var response = await http.get(Setting.apiracine + "comptes/data?types=4", headers: {
       "Authorization": basicAuth,
-      "Language": allTranslations.currentLanguage.toString()
+      "Language": mySingleton.getLangue.toString(),
     });
 
     if (response.statusCode == 200) {
@@ -181,12 +181,12 @@ class NewUpdateFormState extends State<NewUpdateForm> {
 
     String token1 = (prefs.getString('token') ?? '');
 
-    String basicAuth = 'Bearer ' + token1;
+    String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
     List<MyItems> liste = List();
 
     var response = await http.get(Setting.apiracine + "comptes/data?types=6", headers: {
       "Authorization": basicAuth,
-      "Language": allTranslations.currentLanguage.toString()
+      "Language": mySingleton.getLangue.toString(),
     });
 
     if (response.statusCode == 200) {
@@ -207,9 +207,9 @@ class NewUpdateFormState extends State<NewUpdateForm> {
   Widget build(BuildContext context) {
     // Build a Form widget using the _formKey we created above
 
-    Locale myLocale = Localizations.localeOf(context);
+    MySingleton mySingleton = new MySingleton();
 
-    allTranslations.init(myLocale.languageCode.toString());
+    allTranslations.init(mySingleton.getLangue.toString());
 
     return Form(
       key: _formKey,
@@ -380,7 +380,7 @@ class NewUpdateFormState extends State<NewUpdateForm> {
   }
 
   Future<void> _sentData() async {
-    Locale myLocale = Localizations.localeOf(context);
+    MySingleton mySingleton = new MySingleton();
 
     if (_numeroController.text.isEmpty || 
         (group == -1)||
@@ -419,7 +419,7 @@ class NewUpdateFormState extends State<NewUpdateForm> {
       String currentpatient1 = (prefs.getString('currentpatient') ?? '');
       String id = (prefs.getString('currentid') ?? '');
 
-      String basicAuth = 'Bearer ' + token1;
+      String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
 
       Map data = {
         "groupe": group.toString(),
@@ -431,7 +431,7 @@ class NewUpdateFormState extends State<NewUpdateForm> {
       var res =
           await http.post(Setting.apiracine + "comptes/update3", body: data, headers: {
         "Authorization": basicAuth,
-        "Language": allTranslations.currentLanguage.toString()
+        "Language": mySingleton.getLangue.toString(),
       });
 
       print(res.body.toString());

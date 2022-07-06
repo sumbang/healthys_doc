@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_lock/flutter_app_lock.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:healthys_medecin/config/Setting.dart';
-import 'package:healthys_medecin/config/all_translations.dart';
+import 'package:healthys_medecin/config/all_translations.dart'; import 'package:healthys_medecin/config/singleton.dart';
+import 'package:healthys_medecin/config/singleton.dart';
 import 'package:healthys_medecin/pages/LoginPage.dart';
 import 'package:healthys_medecin/pages/StartPage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -128,9 +129,9 @@ class _LockScreenState extends State<LockScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Locale myLocale = Localizations.localeOf(context);
+   MySingleton singleton = new MySingleton();
 
-    allTranslations.init(myLocale.languageCode.toString());
+    allTranslations.init(singleton.getLangue);
 
     return Scaffold(
       backgroundColor: color,

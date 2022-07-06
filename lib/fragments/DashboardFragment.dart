@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:healthys_medecin/config/Setting.dart';
-import 'package:healthys_medecin/config/all_translations.dart';
+import 'package:healthys_medecin/config/all_translations.dart'; import 'package:healthys_medecin/config/singleton.dart';
 import 'package:healthys_medecin/models/Indice.dart';
 import 'package:healthys_medecin/models/Menu.dart';
 import 'package:healthys_medecin/pages/AnnuairePage.dart';
@@ -440,9 +440,9 @@ class DashboardFragmentState extends State<DashboardFragment> {
   Widget build(BuildContext context) {
     // TODO: implement build
 
-    Locale myLocale = Localizations.localeOf(context);
+    MySingleton mySingleton = new MySingleton();
 
-    allTranslations.init(myLocale.languageCode.toString());
+    allTranslations.init(mySingleton.getLangue.toString());
 
     List<Menu> menus = new List();
     Menu menu1 = new Menu(
@@ -606,13 +606,13 @@ class DashboardFragmentState extends State<DashboardFragment> {
 
     String token1 = (prefs.getString('token') ?? '');
 
-    String basicAuth = 'Bearer ' + token1;
+    String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
 
     var response = await http.get(
         Setting.apiracine + "consultations/check?numero=" + barcode.toString(),
         headers: {
           "Authorization": basicAuth,
-          "Language": allTranslations.currentLanguage.toString()
+          "Language": mySingleton.getLangue.toString(),
         });
 
     if (response.statusCode == 200) {

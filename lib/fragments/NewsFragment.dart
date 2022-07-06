@@ -4,7 +4,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:healthys_medecin/config/Setting.dart';
-import 'package:healthys_medecin/config/all_translations.dart';
+import 'package:healthys_medecin/config/all_translations.dart'; import 'package:healthys_medecin/config/singleton.dart';
 import 'package:healthys_medecin/models/News.dart';
 import 'package:healthys_medecin/pages/NewDetailPage.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
@@ -190,14 +190,12 @@ class NewsFragmentState extends State<NewsFragment> {
 
     String token1 = (prefs.getString('token') ?? '');
 
-    String basicAuth = 'Bearer ' + token1;
+    String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
     List<News> liste = List();
-
-    Locale myLocale = Localizations.localeOf(context);
 
     var response = await http.get(Setting.apiracine + "news", headers: {
       "Authorization": basicAuth,
-      "Language": allTranslations.currentLanguage.toString()
+      "Language": mySingleton.getLangue.toString(),
     });
 
     print("DATA4 :" + response.body.toString());
@@ -219,9 +217,9 @@ class NewsFragmentState extends State<NewsFragment> {
   Widget build(BuildContext context) {
     // TODO: implement build
 
-    Locale myLocale = Localizations.localeOf(context);
+    MySingleton mySingleton = new MySingleton();
 
-    allTranslations.init(myLocale.languageCode.toString());
+    allTranslations.init(mySingleton.getLangue.toString());
 
     return FutureBuilder<List<News>>(
         future: news, //new

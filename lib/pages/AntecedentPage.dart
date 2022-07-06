@@ -8,7 +8,7 @@ import 'package:healthys_medecin/config/Setting.dart';
 import 'package:healthys_medecin/models/Items.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/services.dart';
-import 'package:healthys_medecin/config/all_translations.dart';
+import 'package:healthys_medecin/config/all_translations.dart'; import 'package:healthys_medecin/config/singleton.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AntecedentPage extends StatefulWidget {
@@ -78,15 +78,15 @@ class AntecedentPage1 extends State<AntecedentPage> {
   Future<List<MyItems>> getElements(String nature) async {
     List<MyItems> liste = List();
 
-    Locale myLocale = Localizations.localeOf(context);
+    MySingleton mySingleton = new MySingleton();
 
     var response = await http.get(
         Setting.apiracine +
             "comptes/data?types=" +
             nature.toString() +
             "&language=" +
-            myLocale.languageCode.toString(),
-        headers: {"Language": allTranslations.currentLanguage.toString()});
+            mySingleton.getLangue.toString(),
+        headers: {"Language": mySingleton.getLangue.toString(),});
 
     print("DATA :" + response.body.toString());
 
@@ -123,7 +123,7 @@ class AntecedentPage1 extends State<AntecedentPage> {
 
     String token1 = (prefs.getString('token') ?? '');
 
-    String basicAuth = 'Bearer ' + token1;
+    String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
 
     print("patient : "+this.patient.toString());
 
@@ -131,7 +131,7 @@ class AntecedentPage1 extends State<AntecedentPage> {
         Setting.apiracine + "comptes/donnee2?patient=" + this.patient,
         headers: {
           "Authorization": basicAuth,
-          "Language": allTranslations.currentLanguage.toString()
+          "Language": mySingleton.getLangue.toString(),
         });
 
     print("DATA5 :" + res.body.toString());
@@ -458,7 +458,7 @@ class AntecedentPage1 extends State<AntecedentPage> {
 
     String token1 = (prefs.getString('token') ?? '');
 
-    String basicAuth = 'Bearer ' + token1;
+    String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
 
     print("DATA4 :" + data.toString());
 
@@ -495,9 +495,9 @@ class AntecedentPage1 extends State<AntecedentPage> {
 
   @override
   Widget build(BuildContext context) {
-    Locale myLocale = Localizations.localeOf(context);
+    MySingleton mySingleton = new MySingleton();
 
-    allTranslations.init(myLocale.languageCode.toString());
+    allTranslations.init(mySingleton.getLangue.toString());
 
     return WillPopScope(
         onWillPop: () async => false,

@@ -13,7 +13,7 @@ import 'package:healthys_medecin/models/MyItems.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:image_picker/image_picker.dart';
 //import 'package:qrscan/qrscan.dart' as scanner;
-import 'package:healthys_medecin/config/all_translations.dart';
+import 'package:healthys_medecin/config/all_translations.dart'; import 'package:healthys_medecin/config/singleton.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:simple_autocomplete_formfield/simple_autocomplete_formfield.dart';
@@ -88,9 +88,11 @@ class ConsultationPageState extends State<Consultation_1> {
   Future<List<MyItems>> getElements(String nature) async {
     List<MyItems> liste = List();
 
+     MySingleton mySingleton = new MySingleton();
+
     var response = await http.get(
         Setting.apiracine + "comptes/data?types=" + nature.toString(),
-        headers: {"Language": allTranslations.currentLanguage.toString()});
+        headers: {"Language": mySingleton.getLangue.toString(),});
 
     print("DATA :" + response.body.toString());
 
@@ -113,7 +115,7 @@ class ConsultationPageState extends State<Consultation_1> {
     String token1 = (prefs.getString('token') ?? '');
     String user = (prefs.getString('currentid') ?? '');
 
-    String basicAuth = 'Bearer ' + token1;
+    String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
 
     List<Docteur> liste = List();
 
@@ -123,7 +125,7 @@ class ConsultationPageState extends State<Consultation_1> {
         Setting.apiracine + "consultations/medecin?user=" + user.toString(),
         headers: {
           "Authorization": basicAuth,
-          "Language": allTranslations.currentLanguage.toString()
+          "Language": mySingleton.getLangue.toString(),
         });
 
     print("DATA :" + response.body.toString());
@@ -228,7 +230,7 @@ class ConsultationPageState extends State<Consultation_1> {
       String user = (prefs.getString('currentid') ?? '');
       String id = (prefs.getString('id') ?? '');
 
-      String basicAuth = 'Bearer ' + token1;
+      String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
 
       String _para = '[';
       for (int i = 0; i < para.length; i++) {
@@ -259,7 +261,7 @@ class ConsultationPageState extends State<Consultation_1> {
           body: data,
           headers: {
             "Authorization": basicAuth,
-            "Language": allTranslations.currentLanguage.toString()
+            "Language": mySingleton.getLangue.toString(),
           });
 
       print("DATA5 :" + token1);
@@ -549,9 +551,9 @@ class ConsultationPageState extends State<Consultation_1> {
 
   @override
   Widget build(BuildContext context) {
-    Locale myLocale = Localizations.localeOf(context);
+    MySingleton mySingleton = new MySingleton();
 
-    allTranslations.init(myLocale.languageCode.toString());
+    allTranslations.init(mySingleton.getLangue.toString());
 
     return new WillPopScope(
         onWillPop: () {

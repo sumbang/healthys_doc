@@ -9,7 +9,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:healthys_medecin/config/Setting.dart';
 import 'package:healthys_medecin/config/SizeConfig.dart';
-import 'package:healthys_medecin/config/all_translations.dart';
+import 'package:healthys_medecin/config/all_translations.dart'; import 'package:healthys_medecin/config/singleton.dart';
 import 'package:healthys_medecin/models/Content.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:image_picker/image_picker.dart';
@@ -192,21 +192,21 @@ class DossierMedicalPageState extends State<DossierMedical> {
   Future<List<Content>> _getContent() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    Locale myLocale = Localizations.localeOf(context);
+    MySingleton mySingleton = new MySingleton();
 
     String token1 = (prefs.getString('token') ?? '');
 
-    String basicAuth = 'Bearer ' + token1;
+    String basicAuth = 'Bearer ' + token1; 
 
     var response = await http.get(
         Setting.apiracine +
             "comptes/patient?id=" +
             this.id.toString() +
             "&type=1&language=" +
-            myLocale.languageCode.toString(),
+           mySingleton.getLangue.toString(),
         headers: {
           "Authorization": basicAuth,
-          "Language": allTranslations.currentLanguage.toString()
+          "Language": mySingleton.getLangue.toString(),
         });
 
     print("DATA2 :" + response.body.toString());
@@ -294,9 +294,9 @@ class DossierMedicalPageState extends State<DossierMedical> {
 
   @override
   Widget build(BuildContext context) {
-    Locale myLocale = Localizations.localeOf(context);
+    MySingleton mySingleton = new MySingleton();
 
-    allTranslations.init(myLocale.languageCode.toString());
+    allTranslations.init(mySingleton.getLangue.toString());
 
     return Scaffold(
         backgroundColor: Color(0xffF8F8FA),

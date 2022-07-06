@@ -13,7 +13,9 @@ import 'package:flutter_absolute_path/flutter_absolute_path.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_signature_pad/flutter_signature_pad.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:healthys_medecin/config/all_translations.dart';
+import 'package:healthys_medecin/config/all_translations.dart'; 
+import 'package:healthys_medecin/config/singleton.dart';
+import 'package:healthys_medecin/config/singleton.dart';
 import 'package:healthys_medecin/models/MyItems.dart';
 import 'package:healthys_medecin/pages/SuccessPage.dart';
 import 'package:healthys_medecin/pages/UserCondition1.dart';
@@ -867,9 +869,11 @@ class _SignupState extends State<NewPatientForm> {
   Future<List<MyItems>> getElements(String nature) async {
     List<MyItems> liste = List();
 
+    MySingleton mySingleton = new MySingleton();
+
     var response = await http.get(
         Setting.apiracine + "comptes/data?types=" + nature.toString(),
-        headers: {"Language": allTranslations.currentLanguage.toString()});
+        headers: {"Language":  mySingleton.getLangue.toString()});
 
     print("DATA " + nature + " : " + response.body.toString());
 
@@ -971,7 +975,7 @@ class _SignupState extends State<NewPatientForm> {
     });
 
 
-    Locale myLocale = Localizations.localeOf(context);
+    MySingleton mySingleton = new MySingleton();
 
     if (_nomController.text.isEmpty ||
         civilite == null ||
@@ -1220,11 +1224,12 @@ class _SignupState extends State<NewPatientForm> {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String token1 = (prefs.getString('token') ?? '');
 
-      String basicAuth = 'Bearer ' + token1;
+      String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
+
 
       var res = await http
           .post(Setting.apiracine + "comptes/jointure7", body: data, headers: {
-        "Language": allTranslations.currentLanguage.toString(),
+        "Language": mySingleton.getLangue.toString(),
         "Authorization": basicAuth,
       });
 
@@ -1695,9 +1700,9 @@ class _SignupState extends State<NewPatientForm> {
   Widget build(BuildContext context) {
     // Build a Form widget using the _formKey we created above
 
-    Locale myLocale = Localizations.localeOf(context);
+    MySingleton mySingleton = new MySingleton();
 
-    allTranslations.init(myLocale.languageCode.toString());
+    allTranslations.init(mySingleton.getLangue.toString());
 
     return Form(
       key: _formKey,
@@ -2956,7 +2961,7 @@ class _SignupState extends State<NewPatientForm> {
                     ),
                     child: new Center(
                       child: new Text(
-                        "Effacer",
+                        allTranslations.text("z117"),
                         style: new TextStyle(
                             fontFamily: 'Candara',
                             fontSize: 14.0,

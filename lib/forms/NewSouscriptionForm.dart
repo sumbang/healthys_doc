@@ -6,7 +6,8 @@ import 'package:flutter/foundation.dart';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:healthys_medecin/config/all_translations.dart';
+import 'package:healthys_medecin/config/all_translations.dart'; import 'package:healthys_medecin/config/singleton.dart';
+import 'package:healthys_medecin/config/singleton.dart';
 import 'package:healthys_medecin/models/MyItems.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
@@ -63,9 +64,11 @@ class _ResetState extends State<NewSouscriptionForm> {
   Future<List<MyItems>> getElements(String nature) async {
     List<MyItems> liste = List();
 
+    MySingleton mySingleton = new MySingleton();
+
     var response = await http.get(
         Setting.apiracine + "comptes/data?types=" + nature.toString(),
-        headers: {"Language": allTranslations.currentLanguage.toString()});
+        headers: {"Language": mySingleton.getLangue.toString()});
 
     if (response.statusCode == 200) {
       final responseJson = json.decode(response.body.toString());
@@ -138,11 +141,11 @@ class _ResetState extends State<NewSouscriptionForm> {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String token1 = (prefs.getString('token') ?? '');
 
-      String basicAuth = 'Bearer ' + token1;
+      String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
 
       var res = await http
           .post(Setting.apiracine + "comptes/jointure", body: data, headers: {
-        "Language": allTranslations.currentLanguage.toString(),
+        "Language":  mySingleton.getLangue.toString(),
         "Authorization": basicAuth,
       });
 
@@ -211,12 +214,12 @@ class _ResetState extends State<NewSouscriptionForm> {
           SharedPreferences prefs = await SharedPreferences.getInstance();
           String token1 = (prefs.getString('token') ?? '');
 
-          String basicAuth = 'Bearer ' + token1;
+          String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
 
           var res = await http.post(Setting.apiracine + "comptes/jointure",
               body: data,
               headers: {
-                "Language": allTranslations.currentLanguage.toString(),
+                "Language": mySingleton.getLangue.toString(),,
                 "Authorization": basicAuth,
               });
 
@@ -301,12 +304,12 @@ class _ResetState extends State<NewSouscriptionForm> {
       String token1 = (prefs.getString('token') ?? '');
       String currentpatient1 = (prefs.getString('currentpatient') ?? '');
 
-      String basicAuth = 'Bearer ' + token1;
+      String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
 
       var response = await http.get(
           Setting.apiracine + "comptes/check?matricule=" + matricule.toString(),
           headers: {
-            "Language": allTranslations.currentLanguage.toString(),
+            "Language":  mySingleton.getLangue.toString(),
             "Authorization": basicAuth,
           });
 
@@ -347,9 +350,9 @@ class _ResetState extends State<NewSouscriptionForm> {
   Widget build(BuildContext context) {
     // Build a Form widget using the _formKey we created above
 
-    Locale myLocale = Localizations.localeOf(context);
+    MySingleton mySingleton = new MySingleton();
 
-    allTranslations.init(myLocale.languageCode.toString());
+    allTranslations.init(mySingleton.getLangue.toString());
 
     return Form(
       key: _formKey,

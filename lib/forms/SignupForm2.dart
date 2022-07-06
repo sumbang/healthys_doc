@@ -11,6 +11,7 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_signature_pad/flutter_signature_pad.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:healthys_medecin/config/image_compress_service.dart';
+import 'package:healthys_medecin/config/singleton.dart';
 import 'package:healthys_medecin/models/MyItems.dart';
 import 'package:healthys_medecin/pages/LoginPage.dart';
 import 'package:healthys_medecin/pages/UserCondition.dart';
@@ -127,7 +128,7 @@ class _SignupState extends State<SignupForm2> {
     // images from galllery
     for (int i = 0; i < l_images2.length; i++) {
       String imagePath = await FlutterAbsolutePath.getAbsolutePath(
-        l_images1[i].identifier,
+        l_images2[i].identifier,
       );
       File file = File(imagePath);
       files.add(file);
@@ -301,9 +302,11 @@ class _SignupState extends State<SignupForm2> {
   Future<List<MyItems>> getElements(String nature) async {
     List<MyItems> liste = List();
 
+     MySingleton mySingleton = new MySingleton();
+
     var response = await http.get(
         Setting.apiracine + "comptes/data?types=" + nature.toString(),
-        headers: {"Language": allTranslations.currentLanguage.toString()});
+        headers: {"Language": mySingleton.getLangue.toString(),});
 
     if (response.statusCode == 200) {
       final responseJson = json.decode(response.body.toString());
@@ -323,9 +326,11 @@ class _SignupState extends State<SignupForm2> {
 
     print("search zone");
 
+     MySingleton mySingleton = new MySingleton();
+
     var response = await http.get(
         Setting.apiracine + "comptes/zone?pays=" + nature.toString(),
-        headers: {"Language": allTranslations.currentLanguage.toString()});
+        headers: {"Language": mySingleton.getLangue.toString(),});
 
     print("zone : " + response.body.toString());
 
@@ -383,7 +388,7 @@ class _SignupState extends State<SignupForm2> {
   bool _multiPick = false;
 
   void _submitForms() async {
-    Locale myLocale = Localizations.localeOf(context);
+    MySingleton mySingleton = new MySingleton();
 
 
     // recuperation de l'objet signature
@@ -609,6 +614,8 @@ class _SignupState extends State<SignupForm2> {
 
       if(vaca != null) vac = vaca.id;
 
+       MySingleton mySingleton = new MySingleton();
+
       Map data = {
         'civilite': civilite.id.toString(),
         'nom': _nomController.text.toString(),
@@ -628,7 +635,7 @@ class _SignupState extends State<SignupForm2> {
         'role': '2',
         'photo': '',
         'photo1': _ordre,
-        'language': myLocale.languageCode.toString(),
+        'language': mySingleton.getLangue.toString(),
         'cnifile': _cnifile,
         'zones': meszones,
         'hopital': _hospit,
@@ -641,7 +648,7 @@ class _SignupState extends State<SignupForm2> {
 
       var res = await http.post(Setting.apiracine + "comptes",
           body: data,
-          headers: {"Language": allTranslations.currentLanguage.toString()});
+          headers: {"Language": mySingleton.getLangue.toString(),});
 
       if (res.statusCode == 200) {
         var responseJson = json.decode(res.body);
@@ -1431,9 +1438,9 @@ class _SignupState extends State<SignupForm2> {
   Widget build(BuildContext context) {
     // Build a Form widget using the _formKey we created above
 
-    Locale myLocale = Localizations.localeOf(context);
+    MySingleton mySingleton = new MySingleton();
 
-    allTranslations.init(myLocale.languageCode.toString());
+    allTranslations.init(mySingleton.getLangue.toString());
 
     List<DropdownMenuItem<MyItems>> items1 = List();
     for (int i = 0; i < vacation.length; i++) {
@@ -2593,7 +2600,7 @@ new Divider(
                     ),
                     child: new Center(
                       child: new Text(
-                        "Effacer",
+                        allTranslations.text("z117"),
                         style: new TextStyle(
                             fontFamily: 'Candara',
                             fontSize: 14.0,

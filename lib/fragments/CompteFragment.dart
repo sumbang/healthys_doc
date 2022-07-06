@@ -4,7 +4,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:healthys_medecin/config/Setting.dart';
-import 'package:healthys_medecin/config/all_translations.dart';
+import 'package:healthys_medecin/config/all_translations.dart'; import 'package:healthys_medecin/config/singleton.dart';
 import 'package:healthys_medecin/models/Compte.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -48,9 +48,7 @@ class CompteFragmentState extends State<CompteFragment> {
     String profil = (prefs.getString('currentid') ?? '');
     String role = (prefs.getString('role') ?? '');
 
-    String basicAuth = 'Bearer ' + token1;
-
-    Locale myLocale = Localizations.localeOf(context);
+    String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
 
     print("profil : " + profil + ", compte : " + compte);
 
@@ -64,7 +62,7 @@ class CompteFragmentState extends State<CompteFragment> {
             role,
         headers: {
           "Authorization": basicAuth,
-          "Language": allTranslations.currentLanguage.toString()
+          "Language": mySingleton.getLangue.toString(),
         });
 
     print("DATA4 :" + response.body.toString());
@@ -112,9 +110,9 @@ class CompteFragmentState extends State<CompteFragment> {
 
   @override
   Widget build(BuildContext context) {
-    Locale myLocale = Localizations.localeOf(context);
+    MySingleton mySingleton = new MySingleton();
 
-    allTranslations.init(myLocale.languageCode.toString());
+    allTranslations.init(mySingleton.getLangue.toString());
 
     return FutureBuilder<Compte>(
         future: profil, //new

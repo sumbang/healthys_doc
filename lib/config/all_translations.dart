@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:ui';
 import 'package:flutter/services.dart';
+import 'package:healthys_medecin/config/singleton.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 ///
@@ -23,7 +24,7 @@ class GlobalTranslations {
 
   ///
   /// Returns the translation that corresponds to the [key]
-  ///
+  /// 
   String text(String key) {
     // Return the requested string
     return (_localizedValues == null || _localizedValues[key] == null) ? '** $key not found' : _localizedValues[key];
@@ -44,7 +45,7 @@ class GlobalTranslations {
   ///
   Future<Null> init([String language]) async {
     if (_locale == null){
-      await setNewLanguage(language);
+      await setNewLanguage();
     }
     return null;
   }
@@ -62,23 +63,11 @@ class GlobalTranslations {
   ///
   /// Routine to change the language
   ///
-  Future<Null> setNewLanguage([String newLanguage, bool saveInPrefs = false]) async {
-    String language = newLanguage;
+  Future<Null> setNewLanguage([bool saveInPrefs = false]) async {
+ 
+    MySingleton mySingleton = new MySingleton();
+    String language = mySingleton.getLangue.toString();
 
-    if (language == null){
-
-      language = await getPreferredLanguage();
-
-    }
-
-    // Set the locale
-  // Set the locale
-    if (language == ""){
-      language = "fr";
-    }
-    
-    language = "fr";
-    
     _locale = Locale(language, "");
 
     // Load the language strings

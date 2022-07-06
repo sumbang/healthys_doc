@@ -6,7 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:healthys_medecin/config/Setting.dart';
-import 'package:healthys_medecin/config/all_translations.dart';
+import 'package:healthys_medecin/config/all_translations.dart'; import 'package:healthys_medecin/config/singleton.dart';
 import 'package:healthys_medecin/models/Contact.dart';
 import 'package:healthys_medecin/pages/HomePage.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
@@ -43,7 +43,7 @@ class UrgenceFragmentState extends State<UrgenceFragment> {
     String token1 = (prefs.getString('token') ?? '');
     String currentpatient1 = (prefs.getString('currentpatient') ?? '');
 
-    String basicAuth = 'Bearer ' + token1;
+    String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
 
     print("DATA5 :" + "comptes/urgence?patient=" + currentpatient1);
 
@@ -51,7 +51,7 @@ class UrgenceFragmentState extends State<UrgenceFragment> {
         Setting.apiracine + "comptes/urgence?patient=" + currentpatient1,
         headers: {
           "Authorization": basicAuth,
-          "Language": allTranslations.currentLanguage.toString()
+          "Language": mySingleton.getLangue.toString(),
         });
 
     print("DATA5 :" + response.body.toString());
@@ -118,14 +118,14 @@ class UrgenceFragmentState extends State<UrgenceFragment> {
       String token1 = (prefs.getString('token') ?? '');
       String currentpatient1 = (prefs.getString('currentpatient') ?? '');
 
-      String basicAuth = 'Bearer ' + token1;
+      String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
 
       var res = await http.put(
           Setting.apiracine + "comptes/urgence1?patient=" + currentpatient1,
           body: data,
           headers: {
             "Authorization": basicAuth,
-            "Language": allTranslations.currentLanguage.toString()
+            "Language": mySingleton.getLangue.toString(),
           });
 
       print("DATA5 :" + res.body.toString());
@@ -170,9 +170,9 @@ class UrgenceFragmentState extends State<UrgenceFragment> {
 
   @override
   Widget build(BuildContext context) {
-    Locale myLocale = Localizations.localeOf(context);
+    MySingleton mySingleton = new MySingleton();
 
-    allTranslations.init(myLocale.languageCode.toString());
+    allTranslations.init(mySingleton.getLangue.toString());
 
     return FutureBuilder<List<Contact>>(
         future: urgent,

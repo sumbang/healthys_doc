@@ -167,6 +167,9 @@ flutter:
     - img/doc2.jpeg
     - img/doc3.jpeg
     - img/doc4.jpeg
+    - img/flag_en.png
+    - img/flag_es.png
+    - img/flag_fr.png
  
 
   # An image asset can refer to one or more resolution-specific "variants", see

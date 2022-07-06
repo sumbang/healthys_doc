@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:flutter_page_indicator/flutter_page_indicator.dart';
-import 'package:healthys_medecin/config/all_translations.dart';
+import 'package:healthys_medecin/config/all_translations.dart'; import 'package:healthys_medecin/config/singleton.dart';
 
 import 'LoginPage.dart';
 
@@ -71,35 +71,18 @@ class _Start1State extends State<Start1> {
 
   @override
   Widget build(BuildContext context) {
-    Locale myLocale = Localizations.localeOf(context);
+    MySingleton mySingleton = new MySingleton();
 
-    allTranslations.init(myLocale.languageCode.toString());
+    allTranslations.init(mySingleton.getLangue.toString());
 
     const List<String> images = [
       "img/doc1.jpeg",
-      "img/doc2.jpeg",
       "img/doc3.jpeg"
     ];
 
     const List<String> images1 = [
-      "img/doc1.jpeg",
       "img/doc2.jpeg",
       "img/doc4.jpeg"
-    ];
-
-    List<String> titles = [
-      allTranslations.text('dossier_title'),
-      allTranslations.text('slide2_title'),
-    ];
-
-    List<String> description = [
-      allTranslations.text('slidec1_title'),
-      allTranslations.text('slidec2_title'),
-    ];
-
-    List<String> titres = [
-      allTranslations.text('slide_1'),
-      allTranslations.text('slide_2'),
     ];
 
     return new Scaffold(
@@ -145,7 +128,7 @@ class _Start1State extends State<Start1> {
                       new Column(
                         children: _texte(description[index]),
                       ),*/
-                      myLocale.languageCode.toString() == "fr"
+                      mySingleton.getLangue.toString() == "fr"
                           ? new Image.asset(
                               images[index],
                               height: 500,

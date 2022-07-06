@@ -15,7 +15,7 @@ import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:image_picker/image_picker.dart';
 //import 'package:qrscan/qrscan.dart' as scanner;
 import 'package:http/http.dart' as http;
-import 'package:healthys_medecin/config/all_translations.dart';
+import 'package:healthys_medecin/config/all_translations.dart'; import 'package:healthys_medecin/config/singleton.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:simple_autocomplete_formfield/simple_autocomplete_formfield.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -23,6 +23,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../models/DetailConsultation.dart';
 import 'ConsultationPage.dart';
 import 'HomePage.dart';
+import 'HomePageNew.dart';
 import 'NewDossierPage.dart';
 
 class DossierMedicalPage2 extends StatelessWidget {
@@ -82,8 +83,18 @@ class DossierMedicalPageState extends State<DossierMedical> {
   List<Contenu> consultation = new List();
 
   void initState() {
+    _loadUser();
     super.initState();
     contenu = _getDossier();
+  }
+
+    String perso = "";
+
+     _loadUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      perso = (prefs.getString('currentperso') ?? "");
+    });
   }
 
   Future<void> _launchInWebViewOrVC(String url) async {
@@ -110,6 +121,21 @@ class DossierMedicalPageState extends State<DossierMedical> {
 
     if (await canLaunch(url)) {
       await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
+  Future<void> _launchInWebViewWithJavaScript(String file) async {
+     String url = Setting.serveurpdf + file;
+     print("lien : " + url);
+    if (await canLaunch(url)) {
+      await launch(
+        url,
+        forceSafariVC: true,
+        forceWebView: true,
+        enableJavaScript: true,
+      );
     } else {
       throw 'Could not launch $url';
     }
@@ -249,21 +275,21 @@ class DossierMedicalPageState extends State<DossierMedical> {
   Future<String> _getDossier() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    Locale myLocale = Localizations.localeOf(context);
+    MySingleton mySingleton = new MySingleton();
 
     String token1 = (prefs.getString('token') ?? '');
 
-    String basicAuth = 'Bearer ' + token1;
+    String basicAuth = 'Bearer ' + token1; 
 
     var response = await http.get(
         Setting.apiracine +
             "consultation/dossier?numero=" +
             this.id.toString() +
             "&type=1&language=" +
-            myLocale.languageCode.toString(),
+            mySingleton.getLangue.toString(),
         headers: {
           "Authorization": basicAuth,
-          "Language": allTranslations.currentLanguage.toString()
+          "Language": mySingleton.getLangue.toString(),
         });
 
     print("DATA2 :" + response.body.toString());
@@ -277,9 +303,9 @@ class DossierMedicalPageState extends State<DossierMedical> {
 
   @override
   Widget build(BuildContext context) {
-    Locale myLocale = Localizations.localeOf(context);
+    MySingleton mySingleton = new MySingleton();
 
-    allTranslations.init(myLocale.languageCode.toString());
+    allTranslations.init(mySingleton.getLangue.toString());
 
     return Scaffold(
         backgroundColor: Color(0xffF8F8FA),
@@ -392,11 +418,17 @@ class DossierMedicalPageState extends State<DossierMedical> {
                                       color: Colors.white,
                                     ),
                                     onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        new MaterialPageRoute(
-                                            builder: (_) => new HomePage()),
-                                      );
+                                      if(perso == "1") {
+                  Navigator.push(
+                    context,
+                    new MaterialPageRoute(builder: (_) => new HomePageNew()),
+                  );
+                  }else {
+                  Navigator.push(
+                    context,
+                    new MaterialPageRoute(builder: (_) => new HomePage()),
+                  );
+                  }
                                     },
                                   ),
                                   SizedBox(

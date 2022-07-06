@@ -12,6 +12,7 @@ import 'package:flutter_absolute_path/flutter_absolute_path.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:healthys_medecin/config/image_compress_service.dart';
+import 'package:healthys_medecin/config/singleton.dart';
 import 'package:healthys_medecin/models/Items.dart';
 import 'package:healthys_medecin/pages/Consultation4.dart';
 import 'package:http/http.dart' as http;
@@ -857,9 +858,11 @@ class _SignupState extends State<NewPatientForm1> {
   Future<List<MyItems>> getElements(String nature) async {
     List<MyItems> liste = List();
 
+    MySingleton mySingleton = new MySingleton();
+
     var response = await http.get(
         Setting.apiracine + "comptes/data?types=" + nature.toString(),
-        headers: {"Language": allTranslations.currentLanguage.toString()});
+        headers: {"Language":  mySingleton.getLangue.toString()});
 
     print("DATA " + nature + " : " + response.body.toString());
 
@@ -950,7 +953,7 @@ class _SignupState extends State<NewPatientForm1> {
   }
 
   void _submitForms() async {
-    Locale myLocale = Localizations.localeOf(context);
+    MySingleton mySingleton = new MySingleton();
 
     if (_nomController.text.isEmpty ||
         civilite == null ||
@@ -1181,11 +1184,12 @@ class _SignupState extends State<NewPatientForm1> {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String token1 = (prefs.getString('token') ?? '');
 
-      String basicAuth = 'Bearer ' + token1;
+      String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
+
 
       var res = await http
           .post(Setting.apiracine + "comptes/jointure4", body: data, headers: {
-        "Language": allTranslations.currentLanguage.toString(),
+        "Language":  mySingleton.getLangue.toString(),
         "Authorization": basicAuth,
       });
 
@@ -1648,9 +1652,9 @@ class _SignupState extends State<NewPatientForm1> {
   Widget build(BuildContext context) {
     // Build a Form widget using the _formKey we created above
 
-    Locale myLocale = Localizations.localeOf(context);
+    MySingleton mySingleton = new MySingleton();
 
-    allTranslations.init(myLocale.languageCode.toString());
+    allTranslations.init(mySingleton.getLangue.toString());
 
     return Form(
       key: _formKey,

@@ -8,6 +8,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:healthys_medecin/config/singleton.dart';
 import 'package:healthys_medecin/models/Items.dart';
 import 'package:healthys_medecin/pages/LoginPage.dart';
 import 'package:healthys_medecin/pages/UserCondition.dart';
@@ -133,9 +134,11 @@ class _SignupState extends State<SignupForm> {
   Future<List<MyItems>> getElements(String nature) async {
     List<MyItems> liste = List();
 
+     MySingleton mySingleton = new MySingleton();
+
     var response = await http.get(
         Setting.apiracine + "comptes/data?types=" + nature.toString(),
-        headers: {"Language": allTranslations.currentLanguage.toString()});
+        headers: {"Language": mySingleton.getLangue.toString(),});
 
     print("DATA " + nature + " : " + response.body.toString());
 
@@ -226,7 +229,7 @@ class _SignupState extends State<SignupForm> {
   }
 
   void _submitForms() async {
-    Locale myLocale = Localizations.localeOf(context);
+    MySingleton mySingleton = new MySingleton();
 
     if (_nomController.text.isEmpty ||
         _datnaissController.text.isEmpty ||
@@ -392,7 +395,7 @@ class _SignupState extends State<SignupForm> {
           var res = await http.post(Setting.apiracine + "comptes",
               body: data,
               headers: {
-                "Language": allTranslations.currentLanguage.toString()
+                "Language": mySingleton.getLangue.toString(),
               });
 
           if (res.statusCode == 200) {
@@ -509,7 +512,7 @@ class _SignupState extends State<SignupForm> {
             var res = await http.post(Setting.apiracine + "comptes",
                 body: data,
                 headers: {
-                  "Language": allTranslations.currentLanguage.toString()
+                  "Language": mySingleton.getLangue.toString(),
                 });
 
             print("retour1 : " + res.body.toString());
@@ -792,9 +795,9 @@ class _SignupState extends State<SignupForm> {
   Widget build(BuildContext context) {
     // Build a Form widget using the _formKey we created above
 
-    Locale myLocale = Localizations.localeOf(context);
+    MySingleton mySingleton = new MySingleton();
 
-    allTranslations.init(myLocale.languageCode.toString());
+    allTranslations.init(mySingleton.getLangue.toString());
 
     return Form(
       key: _formKey,

@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:healthys_medecin/config/Setting.dart';
-import 'package:healthys_medecin/config/all_translations.dart';
+import 'package:healthys_medecin/config/all_translations.dart'; import 'package:healthys_medecin/config/singleton.dart';
 import 'package:healthys_medecin/models/MyItems.dart';
 import 'package:healthys_medecin/pages/DossierMedicalPage2.dart';
 import 'package:http/http.dart' as http;
@@ -52,15 +52,15 @@ class AntecedentPatient1 extends State<AntecedentPatient> {
   Future<List<MyItems>> getElements(String nature) async {
     List<MyItems> liste = List();
 
-    Locale myLocale = Localizations.localeOf(context);
+    MySingleton mySingleton = new MySingleton();
 
     var response = await http.get(
         Setting.apiracine +
             "comptes/data?types=" +
             nature.toString() +
             "&language=" +
-            myLocale.languageCode.toString(),
-        headers: {"Language": allTranslations.currentLanguage.toString()});
+            mySingleton.getLangue.toString(),
+        headers: {"Language": mySingleton.getLangue.toString(),});
 
     print("DATA :" + response.body.toString());
 
@@ -82,7 +82,7 @@ class AntecedentPatient1 extends State<AntecedentPatient> {
 
     String token1 = (prefs.getString('token') ?? '');
 
-    String basicAuth = 'Bearer ' + token1;
+    String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
 
     print("id : " + this.patient.toString());
 
@@ -90,7 +90,7 @@ class AntecedentPatient1 extends State<AntecedentPatient> {
         Setting.apiracine + "comptes/donnee2?patient=" + this.patient,
         headers: {
           "Authorization": basicAuth,
-          "Language": allTranslations.currentLanguage.toString()
+          "Language": mySingleton.getLangue.toString(),
         });
 
     print("DATA6 :" + res.body.toString());
@@ -231,9 +231,9 @@ class AntecedentPatient1 extends State<AntecedentPatient> {
 
   @override
   Widget build(BuildContext context) {
-    Locale myLocale = Localizations.localeOf(context);
+    MySingleton mySingleton = new MySingleton();
 
-    allTranslations.init(myLocale.languageCode.toString());
+    allTranslations.init(mySingleton.getLangue.toString());
 
     return WillPopScope(
         onWillPop: () async => false,

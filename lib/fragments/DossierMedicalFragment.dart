@@ -6,7 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:healthys_medecin/config/Setting.dart';
-import 'package:healthys_medecin/config/all_translations.dart';
+import 'package:healthys_medecin/config/all_translations.dart'; import 'package:healthys_medecin/config/singleton.dart';
 import 'package:healthys_medecin/models/MyItems.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -76,15 +76,15 @@ class DossierMedicalFragmentState extends State<DossierMedicalFragment> {
   Future<List<MyItems>> getElements(String nature) async {
     List<MyItems> liste = List();
 
-    Locale myLocale = Localizations.localeOf(context);
+    MySingleton mySingleton = new MySingleton();
 
     var response = await http.get(
         Setting.apiracine +
             "comptes/data?types=" +
             nature.toString() +
             "&language=" +
-            myLocale.languageCode.toString(),
-        headers: {"Language": allTranslations.currentLanguage.toString()});
+            mySingleton.getLangue.toString(),
+        headers: {"Language": mySingleton.getLangue.toString(),});
 
     print("DATA2 :" + response.body.toString());
 
@@ -110,13 +110,13 @@ class DossierMedicalFragmentState extends State<DossierMedicalFragment> {
     String token1 = (prefs.getString('token') ?? '');
     String currentpatient1 = (prefs.getString('currentpatient') ?? '');
 
-    String basicAuth = 'Bearer ' + token1;
+    String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
 
     var res = await http.get(
         Setting.apiracine + "comptes/donnee2?patient=" + currentpatient1,
         headers: {
           "Authorization": basicAuth,
-          "Language": allTranslations.currentLanguage.toString()
+          "Language": mySingleton.getLangue.toString(),
         });
 
     print("DATA5 :" + res.body.toString());
@@ -342,7 +342,7 @@ class DossierMedicalFragmentState extends State<DossierMedicalFragment> {
     String id = (prefs.getString('id') ?? '');
     String currentpatient1 = (prefs.getString('currentpatient') ?? '');
 
-    String basicAuth = 'Bearer ' + token1;
+    String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
 
     print("DATA5 :" + data.toString());
 
@@ -355,7 +355,7 @@ class DossierMedicalFragmentState extends State<DossierMedicalFragment> {
         body: data,
         headers: {
           "Authorization": basicAuth,
-          "Language": allTranslations.currentLanguage.toString()
+          "Language": mySingleton.getLangue.toString(),
         });
 
     print("DATA5 :" + res.body.toString());
@@ -388,9 +388,9 @@ class DossierMedicalFragmentState extends State<DossierMedicalFragment> {
 
   @override
   Widget build(BuildContext context) {
-    Locale myLocale = Localizations.localeOf(context);
+    MySingleton mySingleton = new MySingleton();
 
-    allTranslations.init(myLocale.languageCode.toString());
+    allTranslations.init(mySingleton.getLangue.toString());
 
     // TODO: implement build
     return SingleChildScrollView(

@@ -7,7 +7,8 @@ import 'package:file_picker/file_picker.dart';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:healthys_medecin/config/all_translations.dart';
+import 'package:healthys_medecin/config/all_translations.dart'; import 'package:healthys_medecin/config/singleton.dart';
+import 'package:healthys_medecin/config/singleton.dart';
 import 'package:healthys_medecin/pages/DossierMedicalPage2.dart';
 import 'package:http/http.dart' as http;
 import 'package:mime/mime.dart';
@@ -95,7 +96,7 @@ class DossierFormState extends State<DossierForm> {
   }
 
   Future<void> _sentData() async {
-    Locale myLocale = Localizations.localeOf(context);
+    MySingleton mySingleton = new MySingleton();
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -147,7 +148,7 @@ class DossierFormState extends State<DossierForm> {
       String token1 = (prefs.getString('token') ?? '');
       String currentpatient1 = (prefs.getString('currentpatient') ?? '');
 
-      String basicAuth = 'Bearer ' + token1;
+      String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
 
       // uploads du fichier
 
@@ -173,10 +174,12 @@ class DossierFormState extends State<DossierForm> {
           "fichier": response1Json['path'],
         };
 
+        MySingleton mySingleton = new MySingleton();
+
         var res = await http
             .post(Setting.apiracine + "comptes/dossier", body: data, headers: {
           "Authorization": basicAuth,
-          "Language": allTranslations.currentLanguage.toString()
+          "Language":  mySingleton.getLangue.toString()
         });
 
         if (res.statusCode == 200) {
@@ -228,9 +231,9 @@ class DossierFormState extends State<DossierForm> {
   Widget build(BuildContext context) {
     // Build a Form widget using the _formKey we created above
 
-    Locale myLocale = Localizations.localeOf(context);
+    MySingleton mySingleton = new MySingleton();
 
-    allTranslations.init(myLocale.languageCode.toString());
+    allTranslations.init(mySingleton.getLangue.toString());
 
     return Form(
       key: _formKey,

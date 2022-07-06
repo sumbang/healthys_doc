@@ -4,7 +4,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:healthys_medecin/config/Setting.dart';
-import 'package:healthys_medecin/config/all_translations.dart';
+import 'package:healthys_medecin/config/all_translations.dart'; import 'package:healthys_medecin/config/singleton.dart';
 import 'package:healthys_medecin/models/Meeting.dart';
 import 'package:healthys_medecin/pages/ViewRdvPage1.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
@@ -232,17 +232,16 @@ class RendezVousFragmentState extends State<RendezVousFragment>
     String role = (prefs.getString('role') ?? '');
     String profil = (prefs.getString('currentpatient') ?? '');
 
-    String basicAuth = 'Bearer ' + token1;
+    String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
 
     List<Meeting> liste = List();
 
-    Locale myLocale = Localizations.localeOf(context);
 
     var response = await http.get(
         Setting.apiracine + "meetings?role=" + role + "&profil=" + profil + "",
         headers: {
           "Authorization": basicAuth,
-          "Language": allTranslations.currentLanguage.toString()
+          "Language": mySingleton.getLangue.toString(),
         });
 
     print("DATA4 :" + response.body.toString());
@@ -264,9 +263,9 @@ class RendezVousFragmentState extends State<RendezVousFragment>
 
   @override
   Widget build(BuildContext context) {
-    Locale myLocale = Localizations.localeOf(context);
+    MySingleton mySingleton = new MySingleton();
 
-    allTranslations.init(myLocale.languageCode.toString());
+    allTranslations.init(mySingleton.getLangue.toString());
 
     final color = const Color(0xFFcd005f);
     final color2 = const Color(0xFF008dad);
