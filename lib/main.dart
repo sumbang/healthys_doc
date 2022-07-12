@@ -16,7 +16,12 @@ import 'config/all_translations.dart';
 void main() {
     MySingleton mySingleton = new MySingleton();
   if(mySingleton.getLangue == "") {
-    runApp(new MyApp2());
+       runApp(AppLock(
+      builder: (args) => MyApp2(),
+      lockScreen: LockScreen(),
+      enabled: false,
+      backgroundLockLatency: const Duration(seconds: 30),
+    ));
   }
   else {
   runApp(AppLock(

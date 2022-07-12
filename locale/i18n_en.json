@@ -19,7 +19,7 @@
   "progress_title": "Processing...",
   "login_title": "Login ID",
   "login_title1": "Order number",
-  "required_title": "Required field",
+  "requis_title": "Required field",
   "password_title": "Password *",
   "connect_title": "CONNECT ME",
   "passnew_title": "New password *",
@@ -175,14 +175,14 @@
   "titre8_title": "Contact",
   "titre9_title": "Category or type",
   "titre10_title": "Location",
-  "history_title": "Medical History",
+  "histoire_title": "Medical History",
   "code_title": "An access code has been communicated to the patient, please enter it to view.",
   "observation_title": "Observations",
   "cmt_title": "Balance Sheet",
-  "physics_title": "Physical exam",
+  "physique_title": "Physical exam",
   "res_title": "Request for exams",
-  "prescription_title": "Treatment",
-  "cancel_title": "CANCEL",
+  "ordonnance_title": "Treatment",
+  "annul_title": "CANCEL",
   "save1_title": "SAVE",
   "scan2_title": "Patient Information",
   "para3_title": "GENERAL SETTINGS",
@@ -457,6 +457,9 @@
   "z115":"Session locked, please enter your pin code",
   "z116":"About app",
   "z117":"Clear",
-  "z118":"Please enter or scan the health number of the patient for whom you wish to access the medical file"
+  "z118":"Please enter or scan the health number of the patient for whom you wish to access the medical file",
+  "z119":"Profile loaded",
+  "z220":"Born on ",
+  "z221":"Add a consultation"
 
 }

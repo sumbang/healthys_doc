@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_lock/flutter_app_lock.dart';
 import 'package:healthys_medecin/config/singleton.dart';
 
 import '../main.dart';
@@ -62,6 +63,8 @@ class ChooseLanguagePageState extends State<ChooseLanguage1> {
                       Center(child : GestureDetector(onTap: (){
                             MySingleton mySingleton = new MySingleton();
                             mySingleton.setLangue("fr");
+                          AppLock.of(context).enable();
+                          AppLock.of(context).showLockScreen();
                              Navigator.push(
                               context,
                               new MaterialPageRoute(builder: (_) => new MyApp()),
@@ -80,6 +83,9 @@ class ChooseLanguagePageState extends State<ChooseLanguage1> {
                       Center(child :  GestureDetector(onTap: (){
                            MySingleton mySingleton = new MySingleton();
                             mySingleton.setLangue("en");
+                            
+                          AppLock.of(context).enable();
+                          AppLock.of(context).showLockScreen();
                              Navigator.push(
                               context,
                               new MaterialPageRoute(builder: (_) => new MyApp()),
@@ -98,6 +104,9 @@ class ChooseLanguagePageState extends State<ChooseLanguage1> {
                         Center(child : GestureDetector(onTap: (){
                              MySingleton mySingleton = new MySingleton();
                             mySingleton.setLangue("es");
+                            
+                          AppLock.of(context).enable();
+                          AppLock.of(context).showLockScreen();
                              Navigator.push(
                               context,
                               new MaterialPageRoute(builder: (_) => new MyApp()),

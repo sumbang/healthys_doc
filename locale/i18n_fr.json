@@ -457,7 +457,10 @@
   "z115":"Session vérouillée, veuilez entrer votre code pin",
   "z116":"A propos de l'application",
   "z117":"Effacer",
-  "z118":"Bien voulour saisir ou scanner le matricule santé du patient pour lequel vous souhaitez accéder au dossier médical"
+  "z118":"Bien voulour saisir ou scanner le matricule santé du patient pour lequel vous souhaitez accéder au dossier médical",
+  "z119":"Profil chargé",
+  "z220":"Née le ",
+  "z221":"Ajouter une consultation"
   
 
 }

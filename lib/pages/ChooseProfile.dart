@@ -211,7 +211,7 @@ class ChooseProfilePageState extends State<ChooseProfilePage1> {
       Navigator.of(context, rootNavigator: true).pop('dialog');
 
       Fluttertoast.showToast(
-          msg: "Profil chargé",
+          msg: allTranslations.text("z119"),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIos: 3,

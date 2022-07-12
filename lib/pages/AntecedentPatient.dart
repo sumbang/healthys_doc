@@ -144,37 +144,37 @@ class AntecedentPatient1 extends State<AntecedentPatient> {
 
           if (responseJson["tabac"] == null) {
           } else if (responseJson["tabac"].toString() != "0") {
-            toxico += "Tabac, ";
+            toxico += "Tabac : "+responseJson["tabac"].toString()+", ";
           }
 
           if (responseJson["alcool"] == null) {
           } else if (responseJson["alcool"].toString() != "0") {
-            toxico += "Alcool, ";
+            toxico += "Alcool : "+responseJson["alcool"].toString() +", ";
           }
 
           if (responseJson["hta"] == null) {
           } else if (responseJson["hta"].toString() != "0") {
-            medicalist += "HTA (Hypertension Arterielle), ";
+            medicalist += "HTA (Hypertension Arterielle) : "+responseJson["hta"].toString()+", ";
           }
 
           if (responseJson["diabete"] == null) {
           } else if (responseJson["diabete"].toString() != "0") {
-            medicalist += "Diabète, ";
+            medicalist += "Diabète : "+responseJson["diabete"].toString() +", ";
           }
 
           if (responseJson["dysledemie"] == null) {
           } else if (responseJson["dysledemie"].toString() != "0") {
-            medicalist += "Dyslipidémie, ";
+            medicalist += "Dyslipidémie : "+responseJson["dysledemie"].toString()+", ";
           }
 
           if (responseJson["asmatique"] == null) {
           } else if (responseJson["asmatique"].toString() != "0") {
-            medicalist += "Asméthique, ";
+            medicalist += "Asméthique : "+responseJson["asmatique"].toString()+", ";
           }
 
           if (responseJson["seropositif"] == null) {
           } else if (responseJson["seropositif"].toString() != "0") {
-            medicalist += "Séropositif, ";
+            medicalist += "Séropositif : "+responseJson["seropositif"].toString()+", ";
           }
 
           if (responseJson["autre"] == null) {

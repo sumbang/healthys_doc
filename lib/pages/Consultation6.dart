@@ -2491,7 +2491,7 @@ class ConsultationPageState extends State<Consultation51> {
                                         height: 5,
                                       ),
                                       Text(
-                                        "Née le " + truedate,
+                                        allTranslations.text("z220") + truedate,
                                         style: TextStyle(
                                             color: Colors.white,
                                             fontSize: 16,
