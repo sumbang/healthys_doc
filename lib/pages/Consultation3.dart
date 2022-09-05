@@ -12,7 +12,10 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:healthys_medecin/config/Setting.dart';
 import 'package:healthys_medecin/config/SizeConfig.dart';
 import 'package:healthys_medecin/config/image_compress_service.dart';
+import 'package:healthys_medecin/models/Affection.dart';
 import 'package:healthys_medecin/models/Content.dart';
+import 'package:healthys_medecin/models/Medicament.dart';
+import 'package:healthys_medecin/models/soins.dart';
 import 'package:http/http.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:image_picker/image_picker.dart';
@@ -122,7 +125,15 @@ class ConsultationPageState extends State<Consultation31> {
   dynamic _pickImageError1;
   Future<List<Content>> contenu;
   String dropdownValue = "";
-
+  Soins currentSoin;
+  Affection currentAffection;
+  Medicament currentMedoc;
+  Future<List<Soins>> _soins;
+  List<Soins> listSoins = [];
+  List<Medicament> listMedocs = [];
+  Future<List<Medicament>> _medocs;
+  List<Affection> listAffection = [];
+  Future<List<Affection>> _affections;
   List<Content> identification = new List();
   List<Content> parametres = new List();
   List<Content> antecedents = new List();
@@ -545,6 +556,9 @@ class ConsultationPageState extends State<Consultation31> {
   void initState() {
     super.initState();
     contenu = _getContent();
+    _soins = _getSoins();
+    _medocs = _getMedocs();
+    _affections = _getAffections();
   }
 
   void _buildExpandableContent(List<Content> items) {
@@ -660,6 +674,112 @@ class ConsultationPageState extends State<Consultation31> {
 
     return listElementWidgetList;
   }
+
+  
+ Future<List<Soins>> _getSoins() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    MySingleton mySingleton = new MySingleton();
+
+    String token1 = (prefs.getString('token') ?? '');
+
+    String basicAuth = 'Bearer ' + token1;
+
+    var response = await http.get(
+        Setting.apiracine +
+            "comptes/soins",
+        headers: {
+          "Authorization": basicAuth,
+          "Language": mySingleton.getLangue.toString(),
+        });
+
+    print("DATA21 :" + response.body.toString());
+
+    List<Soins> maliste = List(); listSoins.clear();
+
+    if (response.statusCode == 200) {
+      final responseJson = json.decode(response.body);
+
+      for (int i = 0; i < responseJson.length; i++) {
+        maliste.add(Soins.fromJson(responseJson[i]));
+        listSoins.add(Soins.fromJson(responseJson[i]));
+      }
+      return maliste;
+    }
+
+    return null;
+  }
+
+   Future<List<Medicament>> _getMedocs() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    MySingleton mySingleton = new MySingleton();
+
+    String token1 = (prefs.getString('token') ?? '');
+
+    String basicAuth = 'Bearer ' + token1;
+
+    var response = await http.get(
+        Setting.apiracine +
+            "comptes/medicament",
+        headers: {
+          "Authorization": basicAuth,
+          "Language": mySingleton.getLangue.toString(),
+        });
+
+    print("DATA21 :" + response.body.toString());
+
+    List<Medicament> maliste = List(); listMedocs.clear();
+
+    if (response.statusCode == 200) {
+      final responseJson = json.decode(response.body);
+
+      for (int i = 0; i < responseJson.length; i++) {
+        maliste.add(Medicament.fromJson(responseJson[i]));
+        listMedocs.add(Medicament.fromJson(responseJson[i]));
+      }
+      return maliste;
+    }
+
+    return null;
+  }
+
+  
+   Future<List<Affection>> _getAffections() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    MySingleton mySingleton = new MySingleton();
+
+    String token1 = (prefs.getString('token') ?? '');
+
+    String basicAuth = 'Bearer ' + token1;
+
+    var response = await http.get(
+        Setting.apiracine +
+            "comptes/affection",
+        headers: {
+          "Authorization": basicAuth,
+          "Language": mySingleton.getLangue.toString(),
+        });
+
+    print("DATA21 :" + response.body.toString());
+
+    List<Affection> maliste = List(); listAffection.clear();
+
+    if (response.statusCode == 200) {
+      final responseJson = json.decode(response.body);
+
+      for (int i = 0; i < responseJson.length; i++) {
+        maliste.add(Affection.fromJson(responseJson[i]));
+        listAffection.add(Affection.fromJson(responseJson[i]));
+      }
+      return maliste;
+    }
+
+    return null;
+  }
+
+
 
   void _submitForms() async {
     MySingleton mySingleton = new MySingleton();
@@ -1195,7 +1315,7 @@ class ConsultationPageState extends State<Consultation31> {
                   child: ConstrainedBox(
                       constraints: BoxConstraints(),
                       child: Container(
-                          height: 220.0,
+                         // height: 250.0,
                           width: 300.0, // Change as per your requirement
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -1205,20 +1325,44 @@ class ConsultationPageState extends State<Consultation31> {
                                 padding: EdgeInsets.all(8.0),
                                 child: Text(allTranslations.text("z91")+" *"),
                               ),
+                              Divider(height: 10, color: Colors.transparent,),
                               Padding(
-                                padding: const EdgeInsets.all(8.0),
+                                padding: const EdgeInsets.all(0.0),
                                 child: Container(
-                                  padding: const EdgeInsets.all(12.0),
+                                  padding: const EdgeInsets.all(0.0),
                                   width: double.infinity,
-                                  height: 70,
-                                  decoration: new BoxDecoration(
+                                  /*decoration: new BoxDecoration(
                                     color: Colors.white70,
                                     borderRadius:
-                                        BorderRadius.all(Radius.circular(1.0)),
+                                        BorderRadius.all(Radius.circular(0.0)),
                                     border:
                                         new Border.all(color: Colors.black38),
-                                  ),
-                                  child: TextFormField(
+                                  ),*/
+                                  child:SimpleAutocompleteFormField<Soins>(
+               decoration: InputDecoration(labelText: "Saisir un examen ", border: OutlineInputBorder()),
+                //suggestionsHeight: 300.0,
+                maxSuggestions: 5,
+                itemBuilder: (context, person) => Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                    Text(person.nom, style: TextStyle(fontWeight: FontWeight.normal)),
+                  ]),
+                ),
+                onSearch: (search) async => listSoins
+                    .where((person) =>
+                        person.nom.toLowerCase().contains(search.toLowerCase()))
+                    .toList(),
+                itemFromString: (string) {
+                  final matches = listSoins.where((person) => person.nom.toLowerCase() == string.toLowerCase());
+                  return matches.isEmpty ? null : matches.first;
+                },
+                initialValue: null,
+                controller: examController,
+                onChanged: (value) => setState(() => currentSoin = value),
+                onSaved: (value) => setState(() => currentSoin = value),
+                //validator: (person) => person == null ? 'Invalid person.' : null,
+              )
+                                 /* child: TextFormField(
                                       maxLines: 3,
                                       style: const TextStyle(
                                           color: Colors.black,
@@ -1231,7 +1375,7 @@ class ConsultationPageState extends State<Consultation31> {
                                             fontWeight: FontWeight.normal),
                                       ),
                                       controller: examController,
-                                      keyboardType: TextInputType.multiline),
+                                      keyboardType: TextInputType.multiline),*/
                                 ),
                               ),
                               Padding(
@@ -1394,7 +1538,7 @@ class ConsultationPageState extends State<Consultation31> {
                   child: ConstrainedBox(
                       constraints: BoxConstraints(),
                       child: Container(
-                          height: 250.0,
+                         // height: 250.0,
                           width: 300.0, // Change as per your requirement
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -1407,9 +1551,9 @@ class ConsultationPageState extends State<Consultation31> {
                                         "*"),
                               ),
                               Padding(
-                                padding: const EdgeInsets.all(8.0),
+                                padding: const EdgeInsets.all(0.0),
                                 child: Container(
-                                  padding: const EdgeInsets.all(12.0),
+                                  padding: const EdgeInsets.all(0.0),
                                   width: double.infinity,
                                   height: 70,
                                   decoration: new BoxDecoration(
@@ -1419,7 +1563,31 @@ class ConsultationPageState extends State<Consultation31> {
                                     border:
                                         new Border.all(color: Colors.black38),
                                   ),
-                                  child: TextFormField(
+                                   child:SimpleAutocompleteFormField<Affection>(
+               decoration: InputDecoration(labelText: "Saisir un diagnostic ", border: OutlineInputBorder()),
+                //suggestionsHeight: 300.0,
+                maxSuggestions: 5,
+                itemBuilder: (context, person) => Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                    Text(person.lib_affection, style: TextStyle(fontWeight: FontWeight.normal)),
+                  ]),
+                ),
+                onSearch: (search) async => listAffection
+                    .where((person) =>
+                        person.lib_affection.toLowerCase().contains(search.toLowerCase()))
+                    .toList(),
+                itemFromString: (string) {
+                  final matches = listAffection.where((person) => person.lib_affection.toLowerCase() == string.toLowerCase());
+                  return matches.isEmpty ? null : matches.first;
+                },
+                initialValue: null,
+                controller: diagnosticController,
+                onChanged: (value) => setState(() => currentAffection = value),
+                onSaved: (value) => setState(() => currentAffection = value),
+                //validator: (person) => person == null ? 'Invalid person.' : null,
+              )
+                                /*  child: TextFormField(
                                       maxLines: 3,
                                       style: const TextStyle(
                                           color: Colors.black,
@@ -1432,7 +1600,7 @@ class ConsultationPageState extends State<Consultation31> {
                                             fontWeight: FontWeight.normal),
                                       ),
                                       controller: diagnosticController,
-                                      keyboardType: TextInputType.multiline),
+                                      keyboardType: TextInputType.multiline),*/
                                 ),
                               ),
                               Padding(
@@ -1623,17 +1791,41 @@ class ConsultationPageState extends State<Consultation31> {
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Container(
-                                      padding: const EdgeInsets.all(12.0),
+                                      padding: const EdgeInsets.all(0.0),
                                       width: double.infinity,
-                                      height: 70,
-                                      decoration: new BoxDecoration(
+                                      //height: 70,
+                                     /* decoration: new BoxDecoration(
                                         color: Colors.white70,
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(1.0)),
                                         border: new Border.all(
                                             color: Colors.black38),
-                                      ),
-                                      child: TextFormField(
+                                      ),*/
+                                             child:SimpleAutocompleteFormField<Medicament>(
+                decoration: InputDecoration(labelText: "Saisir un medicament *", border: OutlineInputBorder()),
+                //suggestionsHeight: 80.0,
+                maxSuggestions: 5,
+                itemBuilder: (context, person) => Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                    Text(person.nom, style: TextStyle(fontWeight: FontWeight.normal)),
+                  ]),
+                ),
+                onSearch: (search) async => listMedocs
+                    .where((person) =>
+                        person.nom.toLowerCase().contains(search.toLowerCase()))
+                    .toList(),
+                itemFromString: (string) {
+                  final matches = listMedocs.where((person) => person.nom.toLowerCase() == string.toLowerCase());
+                  return matches.isEmpty ? null : matches.first;
+                },
+                initialValue: null,
+                controller: medocController,
+                onChanged: (value) => setState(() => currentMedoc = value),
+                onSaved: (value) => setState(() => currentMedoc = value),
+               // validator: (person) => person == null ? 'Invalid person.' : null,
+              )
+                                     /* child: TextFormField(
                                           maxLines: 3,
                                           style: const TextStyle(
                                               color: Colors.black,
@@ -1647,7 +1839,7 @@ class ConsultationPageState extends State<Consultation31> {
                                           ),
                                           controller: medocController,
                                           keyboardType:
-                                              TextInputType.multiline),
+                                              TextInputType.multiline),*/
                                     ),
                                   ),
                                   Padding(

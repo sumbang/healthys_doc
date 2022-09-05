@@ -283,7 +283,7 @@ class HomePageNew1State extends State<HomePageNew1> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('A propos de l\'application'),
+            title: Text(allTranslations.text("z107")),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -330,7 +330,7 @@ class HomePageNew1State extends State<HomePageNew1> {
                   color: Colors.transparent,
                 ),
                 new Text(
-                  "© 2021 HEALTH'YS MEDECIN",
+                  "©2022 HEALTH'YS MEDECIN",
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 16.0,
