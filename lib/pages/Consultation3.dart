@@ -1550,19 +1550,20 @@ class ConsultationPageState extends State<Consultation31> {
                                     allTranslations.text('para8').toString() +
                                         "*"),
                               ),
+                              SizedBox(height: 20,),
                               Padding(
                                 padding: const EdgeInsets.all(0.0),
                                 child: Container(
                                   padding: const EdgeInsets.all(0.0),
                                   width: double.infinity,
-                                  height: 70,
-                                  decoration: new BoxDecoration(
+                                 // height: 70,
+                              /*    decoration: new BoxDecoration(
                                     color: Colors.white70,
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(1.0)),
                                     border:
                                         new Border.all(color: Colors.black38),
-                                  ),
+                                  ),*/
                                    child:SimpleAutocompleteFormField<Affection>(
                decoration: InputDecoration(labelText: "Saisir un diagnostic ", border: OutlineInputBorder()),
                 //suggestionsHeight: 300.0,
