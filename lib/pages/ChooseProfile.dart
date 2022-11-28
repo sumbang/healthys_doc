@@ -49,15 +49,15 @@ class ChooseProfilePageState extends State<ChooseProfilePage1> {
   String token = "";
   String datemembre = "";
   bool _isSaving = true;
-  List<String> ids;
-  List<String> noms;
-  List<String> patients;
-  List<String> pins;
-  List<String> numeros;
-  List<String> photos;
-  List<String> payer;
-  List<String> integral;
-  List<String> perso;
+  List<String>? ids;
+  List<String>? noms;
+  List<String>? patients;
+  List<String>? pins;
+  List<String>? numeros;
+  List<String>? photos;
+  List<String>? payer;
+  List<String>? integral;
+  List<String>? perso;
   String currentid = "1";
   String currentpatient = "";
   String currentacces = "";
@@ -86,7 +86,7 @@ class ChooseProfilePageState extends State<ChooseProfilePage1> {
       token = (prefs.getString('token') ?? '');
     });
 
-    print("taille : " + photos.length.toString());
+    print("taille : " + photos!.length.toString());
   }
 
   void initState() {
@@ -194,10 +194,10 @@ class ChooseProfilePageState extends State<ChooseProfilePage1> {
     String profil = (prefs.getString('currentpatient') ?? '');
     String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
 
-    print("DOC :" + ids[pos].toString());
+    print("DOC :" + ids![pos].toString());
 
     var response = await http.get(
-        Setting.apiracine + "comptes/check1?medecin=" + ids[pos].toString(),
+        Setting.apiracine + "comptes/check1?medecin=" + ids![pos].toString(),
         headers: {
           "Authorization": basicAuth,
           "Language": mySingleton.getLangue.toString(),
@@ -218,17 +218,17 @@ class ChooseProfilePageState extends State<ChooseProfilePage1> {
           backgroundColor: Colors.green,
           textColor: Colors.white);
 
-      prefs.setString('currentid', ids[pos].toString());
-      prefs.setString('currentpatient', patients[pos].toString());
-      prefs.setString('currentnom', noms[pos].toString());
-      prefs.setString('currentnumero', numeros[pos].toString());
-      prefs.setString('currentphoto', photos[pos].toString());
-      prefs.setString('currentpin', pins[pos].toString());
-      prefs.setString('currentperso', perso[pos].toString());
+      prefs.setString('currentid', ids![pos].toString());
+      prefs.setString('currentpatient', patients![pos].toString());
+      prefs.setString('currentnom', noms![pos].toString());
+      prefs.setString('currentnumero', numeros![pos].toString());
+      prefs.setString('currentphoto', photos![pos].toString());
+      prefs.setString('currentpin', pins![pos].toString());
+      prefs.setString('currentperso', perso![pos].toString());
       prefs.setString('currentpayer', responseJson["payer"].toString());
       prefs.setString('currentint', responseJson["integral"].toString());
 
-      if(perso[pos].toString() == "1") {
+      if(perso![pos].toString() == "1") {
 
       Navigator.push(
         context,
@@ -259,9 +259,9 @@ class ChooseProfilePageState extends State<ChooseProfilePage1> {
   List<Widget> _buildProfile(BuildContext) {
     List<Widget> listElement = [];
 
-    print("taille : " + patients.length.toString());
+    print("taille : " + patients!.length.toString());
 
-    for (int i = 0; i < photos.length; i++) {
+    for (int i = 0; i < photos!.length; i++) {
 
          listElement.add(new GestureDetector(
           onTap: () {
@@ -288,7 +288,7 @@ class ChooseProfilePageState extends State<ChooseProfilePage1> {
                                   image: new NetworkImage(
                                     Setting.serveurimage1 +
                                         '' +
-                                        photos[i].toString(),
+                                        photos![i].toString(),
                                   )))),
                     ),
                     flex: 1,
@@ -298,7 +298,7 @@ class ChooseProfilePageState extends State<ChooseProfilePage1> {
                     child: Padding(
                       padding: EdgeInsets.only(
                           left: 0.0, right: 0.0, top: 5.0, bottom: 5.0),
-                      child: Text(noms[i].toString().toUpperCase(),
+                      child: Text(noms![i].toString().toUpperCase(),
                           style: TextStyle(
                               fontWeight: FontWeight.normal,
                               fontSize: 19,

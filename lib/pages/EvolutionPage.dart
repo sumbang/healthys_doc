@@ -30,10 +30,10 @@ class EvolutionPage1 extends State<EvolutionPage> {
 
   bool _isChecked = true;
   bool _isSaving = true;
-  Future<String> data;
+  Future<String>? data;
 
   List<Widget> _buildList(String datas) {
-    List<Widget> listElementWidgetList = new List<Widget>();
+    List<Widget> listElementWidgetList = <Widget>[];
     List<String> items = datas.split(";");
 
     for (int i = 0; i < items.length; i++) {
@@ -66,7 +66,7 @@ class EvolutionPage1 extends State<EvolutionPage> {
   }
 
   List<Widget> _buildList2(String datas) {
-    List<Widget> listElementWidgetList = new List<Widget>();
+    List<Widget> listElementWidgetList = <Widget>[];
     List<String> items = datas.split("|");
 
     for (int i = 0; i < items.length; i++) {
@@ -99,7 +99,7 @@ class EvolutionPage1 extends State<EvolutionPage> {
   }
 
   List<Widget> _buildImage(String datas) {
-    List<Widget> listElementWidgetList = new List<Widget>();
+    List<Widget> listElementWidgetList = <Widget>[];
     List<String> items = datas.split("|");
     
     for (int i = 0; i < items.length; i++) {
@@ -145,11 +145,9 @@ class EvolutionPage1 extends State<EvolutionPage> {
 
     print("DATA :" + response.body.toString());
 
-    if (response.statusCode == 200) {
-      return response.body.toString();
-    }
 
-    return null;
+      return response.body.toString();
+ 
   }
 
   void initState() {
@@ -257,12 +255,12 @@ class EvolutionPage1 extends State<EvolutionPage> {
                                       json.decode(snapshot.data.toString());
 
                                   List<Widget> listElementWidgetList =
-                                      new List<Widget>();
+                                      <Widget>[];
 
                                   for (int i = 0;
                                       i < responseJson.length;
                                       i++) {
-                                    List<Widget> liste = new List<Widget>();
+                                    List<Widget> liste = <Widget>[];
                                     liste.add(new Padding(
                                         padding: EdgeInsets.only(
                                             left: 10.0,

@@ -62,7 +62,7 @@ class _ResetState extends State<NewSouscriptionForm> {
   }
 
   Future<List<MyItems>> getElements(String nature) async {
-    List<MyItems> liste = List();
+    List<MyItems> liste = [];
 
     MySingleton mySingleton = new MySingleton();
 
@@ -70,7 +70,7 @@ class _ResetState extends State<NewSouscriptionForm> {
         Setting.apiracine + "comptes/data?types=" + nature.toString(),
         headers: {"Language": mySingleton.getLangue.toString()});
 
-    if (response.statusCode == 200) {
+
       final responseJson = json.decode(response.body.toString());
 
       for (int i = 0; i < responseJson.length; i++) {
@@ -78,9 +78,7 @@ class _ResetState extends State<NewSouscriptionForm> {
       }
 
       return liste;
-    }
-
-    return null;
+   
   }
 
   @override
@@ -390,7 +388,7 @@ class _ResetState extends State<NewSouscriptionForm> {
                         fontWeight: FontWeight.normal),
                   ),
                   validator: (value) {
-                    if (value.isEmpty) {
+                    if (value!.isEmpty) {
                        return allTranslations.text('requis_title');
                     }
                   },
@@ -432,7 +430,7 @@ class _ResetState extends State<NewSouscriptionForm> {
                         fontWeight: FontWeight.normal),
                   ),
                   validator: (value) {
-                    if (value.isEmpty) {
+                    if (value!.isEmpty) {
                       return allTranslations.text('requis_title');
                     }
                   },
@@ -473,7 +471,7 @@ class _ResetState extends State<NewSouscriptionForm> {
                         fontWeight: FontWeight.normal),
                   ),
                   validator: (value) {
-                    if (value.isEmpty) {
+                    if (value!.isEmpty) {
                        return allTranslations.text('requis_title');
                     }
                   },

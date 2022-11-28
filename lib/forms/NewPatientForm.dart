@@ -39,16 +39,16 @@ class NewPatientForm extends StatefulWidget {
 }
 
 class _SignupState extends State<NewPatientForm> {
-  MyItems civilite;
-  MyItems situation;
-  MyItems pays;
-  MyItems sexe;
-  MyItems rhesus;
-  MyItems electro;
-  MyItems sanguin;
-  String currentstatus;
-  DateTime _dateTime;
-  DateTime _dateTime1;
+  MyItems? civilite;
+  MyItems? situation;
+  MyItems? pays;
+  MyItems? sexe;
+  MyItems? rhesus;
+  MyItems? electro;
+  MyItems? sanguin;
+  String? currentstatus;
+  DateTime? _dateTime;
+  DateTime? _dateTime1;
 
   final _sign = GlobalKey<SignatureState>();
   String signatures = "";
@@ -67,8 +67,8 @@ class _SignupState extends State<NewPatientForm> {
 
   /** image pour uploads */
 
-  List<Asset> l_images = List<Asset>();
-  List<Asset> l_images1 = List<Asset>();
+  List<Asset> l_images = <Asset>[];
+  List<Asset> l_images1 = <Asset>[];
 
   List<Widget> buildGridView() {
     return List.generate(l_images.length, (index) {
@@ -97,7 +97,7 @@ class _SignupState extends State<NewPatientForm> {
   }
 
   Future<List<File>> convertListAssetToListFile() async {
-    List<File> files = List<File>();
+    List<File> files = <File>[];
     // images from galllery
     for (int i = 0; i < l_images.length; i++) {
       String imagePath = await FlutterAbsolutePath.getAbsolutePath(
@@ -110,7 +110,7 @@ class _SignupState extends State<NewPatientForm> {
   }
 
   Future<List<File>> convertListAssetToListFile1() async {
-    List<File> files = List<File>();
+    List<File> files = <File>[];
     // images from galllery
     for (int i = 0; i < l_images1.length; i++) {
       String imagePath = await FlutterAbsolutePath.getAbsolutePath(
@@ -123,7 +123,7 @@ class _SignupState extends State<NewPatientForm> {
   }
 
   Future<void> loadAssets1() async {
-    List<Asset> resultList = List<Asset>();
+    List<Asset> resultList = <Asset>[];
 
     try {
       resultList = await MultiImagePicker.pickImages(
@@ -152,7 +152,7 @@ class _SignupState extends State<NewPatientForm> {
   }
 
   Future<void> loadAssets2() async {
-    List<Asset> resultList = List<Asset>();
+    List<Asset> resultList = <Asset>[];
 
     try {
       resultList = await MultiImagePicker.pickImages(
@@ -252,10 +252,10 @@ class _SignupState extends State<NewPatientForm> {
   final _pinController = TextEditingController();
   final _enfantController = TextEditingController();
 
-  var _listMedecin = List<Widget>();
-  var _listPersonne = List<Widget>();
-  List<String> _liste_medecin = new List();
-  List<String> _liste_personne = new List();
+  var _listMedecin = <Widget>[];
+  var _listPersonne = <Widget>[];
+  List<String> _liste_medecin = [];
+  List<String> _liste_personne = [];
 
   bool visible = false;
   String code = "";
@@ -282,36 +282,36 @@ class _SignupState extends State<NewPatientForm> {
   bool autre = false;
   bool autre2 = false;
   bool _isChecked = true;
-  List<String> sitmat = new List();
+  List<String> sitmat = [];
 
   String payslocalisation = "";
   String codepays = "";
 
-  void _handleRadioValueCiv(MyItems value) {
+  void _handleRadioValueCiv(MyItems? value) {
     setState(() {
       civilite = value;
     });
   }
 
-  void _handleRadioValueElect(MyItems value) {
+  void _handleRadioValueElect(MyItems? value) {
     setState(() {
       electro = value;
     });
   }
 
-  void _handleRadioValueSang(MyItems value) {
+  void _handleRadioValueSang(MyItems? value) {
     setState(() {
       sanguin = value;
     });
   }
 
-  void _handleRadioValueSit(MyItems value) {
+  void _handleRadioValueSit(MyItems? value) {
     setState(() {
       situation = value;
     });
   }
 
-  Widget _addPersonne({@required Function refresh}) {
+  Widget _addPersonne({required Function refresh}) {
     return SingleChildScrollView(
         child: ConstrainedBox(
             constraints: BoxConstraints(),
@@ -354,7 +354,7 @@ class _SignupState extends State<NewPatientForm> {
                                 fontWeight: FontWeight.normal),
                           ),
                           validator: (value) {
-                            if (value.isEmpty) {
+                            if (value!.isEmpty) {
                               return allTranslations.text('requis_title');
                             }
                           },
@@ -577,7 +577,7 @@ class _SignupState extends State<NewPatientForm> {
     });
   }
 
-  Widget _addMedecin({@required Function refresh}) {
+  Widget _addMedecin({required Function refresh}) {
     return SingleChildScrollView(
         child: ConstrainedBox(
             constraints: BoxConstraints(),
@@ -620,7 +620,7 @@ class _SignupState extends State<NewPatientForm> {
                                 fontWeight: FontWeight.normal),
                           ),
                           validator: (value) {
-                            if (value.isEmpty) {
+                            if (value!.isEmpty) {
                               return allTranslations.text('requis_title');
                             }
                           },
@@ -843,31 +843,31 @@ class _SignupState extends State<NewPatientForm> {
     });
   }
 
-  String base64Image;
-  String _fileName;
+  String? base64Image;
+  String? _fileName;
 
-  String base64Image1;
-  String _fileName1;
+  String? base64Image1;
+  String? _fileName1;
 
-  String base64Image2;
-  String _fileName2;
+  String? base64Image2;
+  String? _fileName2;
 
-  String _path;
-  Map<String, String> _paths;
+  String? _path;
+  Map<String, String>? _paths;
   String _extension = "png, jpg, jpeg, pdf";
   bool _loadingPath = false;
   bool _multiPick = false;
-  Future<List<MyItems>> civi;
-  Future<List<MyItems>> elect;
-  Future<List<MyItems>> sang;
-  Future<List<MyItems>> sit;
-  Future<List<MyItems>> toxico;
-  MyItems filiation;
-  Future<List<MyItems>> filiations;
-  Future<List<MyItems>> medical;
+  Future<List<MyItems>>? civi;
+  Future<List<MyItems>>? elect;
+  Future<List<MyItems>>? sang;
+  Future<List<MyItems>>? sit;
+  Future<List<MyItems>>? toxico;
+  MyItems? filiation;
+  Future<List<MyItems>>? filiations;
+  Future<List<MyItems>>? medical;
 
   Future<List<MyItems>> getElements(String nature) async {
-    List<MyItems> liste = List();
+    List<MyItems> liste = [];
 
     MySingleton mySingleton = new MySingleton();
 
@@ -877,7 +877,7 @@ class _SignupState extends State<NewPatientForm> {
 
     print("DATA " + nature + " : " + response.body.toString());
 
-    if (response.statusCode == 200) {
+
       final responseJson = json.decode(response.body.toString());
 
       for (int i = 0; i < responseJson.length; i++) {
@@ -885,25 +885,23 @@ class _SignupState extends State<NewPatientForm> {
       }
 
       return liste;
-    }
-
-    return null;
+   
   }
 
   List<MyItems> selectedToxico = [];
   List<MyItems> selectedMedical = [];
 
   Widget _buildToxico(List<MyItems> list) {
-    List<Widget> mList = new List();
+    List<Widget> mList = [];
 
     for (int b = 0; b < list.length; b++) {
       MyItems cmap = list[b];
 
       mList.add(CheckboxListTile(
-        onChanged: (bool value) {
+        onChanged: (bool? value) {
           if (mounted) {
             setState(() {
-              if (value) {
+              if (value!) {
                 selectedToxico.add(cmap);
                 if (cmap.id == 23) autre2 = true;
               } else {
@@ -929,16 +927,16 @@ class _SignupState extends State<NewPatientForm> {
   }
 
   Widget _buildMedical(List<MyItems> list) {
-    List<Widget> mList = new List();
+    List<Widget> mList = [];
 
     for (int b = 0; b < list.length; b++) {
       MyItems cmap = list[b];
 
       mList.add(CheckboxListTile(
-        onChanged: (bool value) {
+        onChanged: (bool? value) {
           if (mounted) {
             setState(() {
-              if (value) {
+              if (value!) {
                 selectedMedical.add(cmap);
                 if (cmap.id == 28) autre = true;
               } else {
@@ -967,9 +965,9 @@ class _SignupState extends State<NewPatientForm> {
 
       // recuperation de l'objet signature
     final sign2 = _sign.currentState;
-    final image = await sign2.getData();
+    final image = await sign2!.getData();
     var data = await image.toByteData(format: ui.ImageByteFormat.png);
-    final encoded = base64.encode(data.buffer.asUint8List());
+    final encoded = base64.encode(data!.buffer.asUint8List());
     setState(() {
       _img = data;
     });
@@ -1196,7 +1194,7 @@ class _SignupState extends State<NewPatientForm> {
       _b2 += ']';
 
       Map data = {
-        'civilite': civilite.id.toString(),
+        'civilite': civilite!.id.toString(),
         'nom': _nomController.text.toString(),
         'prenom': _prenomController.text.toString(),
         'datnaiss': _datnaissController.text.toString(),
@@ -1216,7 +1214,7 @@ class _SignupState extends State<NewPatientForm> {
         'sport': _sport,
         'enfant': _enfantController.text.toString(),
         'profession': _professionController.text.toString(),
-        'sitmat': situation.id.toString(),
+        'sitmat': situation!.id.toString(),
         'photo': _profil,
         'signature': _signature
       };
@@ -1320,25 +1318,25 @@ class _SignupState extends State<NewPatientForm> {
   }
 
   bool isVideo = false;
-  String _retrieveDataError;
+  String? _retrieveDataError;
 
   final TextEditingController maxWidthController = TextEditingController();
   final TextEditingController maxHeightController = TextEditingController();
   final TextEditingController qualityController = TextEditingController();
-  Future<File> imageFile;
-  PickedFile _imageFile;
-  File _image;
-  File tmpFile;
+  Future<File>? imageFile;
+  PickedFile? _imageFile;
+  File? _image;
+  File? tmpFile;
 
-  Future<File> imageFile1;
-  PickedFile _imageFile1;
-  File _image1;
-  File tmpFile1;
+  Future<File>? imageFile1;
+  PickedFile? _imageFile1;
+  File? _image1;
+  File? tmpFile1;
 
-  Future<File> imageFile2;
-  PickedFile _imageFile2;
-  File _image2;
-  File tmpFile2;
+  Future<File>? imageFile2;
+  PickedFile? _imageFile2;
+  File? _image2;
+  File? tmpFile2;
 
   final ImagePicker _picker = ImagePicker();
   final ImagePicker _picker1 = ImagePicker();
@@ -1355,7 +1353,7 @@ class _SignupState extends State<NewPatientForm> {
         onTap: () {
           _showSelectionDialog(context);
         },
-        child: Image.file(File(_imageFile.path)),
+        child: Image.file(File(_imageFile!.path)),
       );
     } else if (_pickImageError != null) {
       return Center(child: Text(""));
@@ -1374,7 +1372,7 @@ class _SignupState extends State<NewPatientForm> {
         onTap: () {
           _showSelectionDialog1(context);
         },
-        child: Image.file(File(_imageFile1.path)),
+        child: Image.file(File(_imageFile1!.path)),
       );
     } else if (_pickImageError != null) {
       return Center(child: Text(""));
@@ -1394,7 +1392,7 @@ class _SignupState extends State<NewPatientForm> {
         onTap: () {
           _showSelectionDialog2(context);
         },
-        child: Image.file(File(_imageFile2.path)),
+        child: Image.file(File(_imageFile2!.path)),
       );
     } else if (_pickImageError != null) {
       return Center(child: Text(""));
@@ -1405,22 +1403,22 @@ class _SignupState extends State<NewPatientForm> {
 
   Future<void> _displayPickImageDialog(
       BuildContext context, OnPickImageCallback onPick) async {
-    double width = maxWidthController.text.isNotEmpty
+    double? width = maxWidthController.text.isNotEmpty
         ? double.parse(maxWidthController.text)
         : null;
 
-    double height = maxHeightController.text.isNotEmpty
+    double? height = maxHeightController.text.isNotEmpty
         ? double.parse(maxHeightController.text)
         : null;
 
-    int quality = qualityController.text.isNotEmpty
+    int? quality = qualityController.text.isNotEmpty
         ? int.parse(qualityController.text)
         : null;
 
-    onPick(width, height, quality);
+    onPick(width!, height!, quality!);
   }
 
-  pickImageFromGallery(ImageSource source, {BuildContext context}) async {
+  pickImageFromGallery(ImageSource source, {required BuildContext context}) async {
     await _displayPickImageDialog(context,
         (double maxWidth, double maxHeight, int quality) async {
       try {
@@ -1445,7 +1443,7 @@ class _SignupState extends State<NewPatientForm> {
     });
   }
 
-  pickImageFromGallery1(ImageSource source, {BuildContext context}) async {
+  pickImageFromGallery1(ImageSource source, {required BuildContext context}) async {
     await _displayPickImageDialog(context,
         (double maxWidth, double maxHeight, int quality) async {
       try {
@@ -1470,7 +1468,7 @@ class _SignupState extends State<NewPatientForm> {
     });
   }
 
-  pickImageFromGallery2(ImageSource source, {BuildContext context}) async {
+  pickImageFromGallery2(ImageSource source, {required BuildContext context}) async {
     await _displayPickImageDialog(context,
         (double maxWidth, double maxHeight, int quality) async {
       try {
@@ -1496,12 +1494,10 @@ class _SignupState extends State<NewPatientForm> {
   }
 
   Text _getRetrieveErrorWidget() {
-    if (_retrieveDataError != null) {
-      final Text result = Text(_retrieveDataError);
+      final Text result = Text(_retrieveDataError!);
       _retrieveDataError = null;
       return result;
-    }
-    return null;
+  
   }
 
   Future<void> retrieveLostData() async {
@@ -1651,12 +1647,12 @@ class _SignupState extends State<NewPatientForm> {
         });
   }
 
-  List<String> _fichier = new List();
-  List<Asset> images = List<Asset>();
+  List<String> _fichier = [];
+  List<Asset> images = <Asset>[];
   String _error = 'No Error Dectected';
 
   Future<void> loadAssets() async {
-    List<Asset> resultList = List<Asset>();
+    List<Asset> resultList = <Asset>[];
     String error = 'No Error Dectected';
 
     try {
@@ -1752,11 +1748,11 @@ class _SignupState extends State<NewPatientForm> {
                           if (snapshot.hasError) {
                             return new Container();
                           } else if (snapshot.hasData) {
-                            List<Widget> civ = new List();
+                            List<Widget> civ = [];
 
-                            for (int i = 0; i < snapshot.data.length; i++) {
+                            for (int i = 0; i < snapshot.data!.length; i++) {
                               Widget radio = new Radio(
-                                value: snapshot.data[i],
+                                value: snapshot.data![i],
                                 groupValue: civilite,
                                 onChanged: _handleRadioValueCiv,
                               );
@@ -1764,7 +1760,7 @@ class _SignupState extends State<NewPatientForm> {
                               Widget pad = new Padding(
                                   padding: EdgeInsets.only(top: 15.0),
                                   child: Text(
-                                    snapshot.data[i].libelle.toString(),
+                                    snapshot.data![i].libelle.toString(),
                                     style: new TextStyle(
                                         fontSize: 16.0,
                                         color: Colors.black,
@@ -1819,7 +1815,7 @@ class _SignupState extends State<NewPatientForm> {
                               fontWeight: FontWeight.normal),
                         ),
                         validator: (value) {
-                          if (value.isEmpty) {
+                          if (value!.isEmpty) {
                             return allTranslations.text('requis_title');
                           }
                         },
@@ -1859,7 +1855,7 @@ class _SignupState extends State<NewPatientForm> {
                               fontWeight: FontWeight.normal),
                         ),
                         validator: (value) {
-                          if (value.isEmpty) {
+                          if (value!.isEmpty) {
                             return allTranslations.text('requis_title');
                           }
                         },
@@ -1884,7 +1880,7 @@ class _SignupState extends State<NewPatientForm> {
                                       context: context,
                                       initialDate: _dateTime == null
                                           ? DateTime.now()
-                                          : _dateTime,
+                                          : _dateTime!,
                                       firstDate: DateTime(1920),
                                       lastDate: DateTime.now())
                                   .then((date) {
@@ -1967,7 +1963,7 @@ class _SignupState extends State<NewPatientForm> {
                                     fontWeight: FontWeight.normal),
                               ),
                               validator: (value) {
-                                if (value.isEmpty) {
+                                if (value!.isEmpty) {
                                   return allTranslations.text('requis_title');
                                 }
                               },
@@ -2074,7 +2070,7 @@ class _SignupState extends State<NewPatientForm> {
                               fontWeight: FontWeight.normal),
                         ),
                         validator: (value) {
-                          if (value.isEmpty) {
+                          if (value!.isEmpty) {
                             return allTranslations.text('requis_title');
                           }
                         },
@@ -2114,7 +2110,7 @@ class _SignupState extends State<NewPatientForm> {
                               fontWeight: FontWeight.normal),
                         ),
                         validator: (value) {
-                          if (value.isEmpty) {
+                          if (value!.isEmpty) {
                             return allTranslations.text('requis_title');
                           }
                         },
@@ -2154,7 +2150,7 @@ class _SignupState extends State<NewPatientForm> {
                               fontWeight: FontWeight.normal),
                         ),
                         validator: (value) {
-                          if (value.isEmpty) {
+                          if (value!.isEmpty) {
                             return allTranslations.text('requis_title');
                           }
                         },
@@ -2194,7 +2190,7 @@ class _SignupState extends State<NewPatientForm> {
                               fontWeight: FontWeight.normal),
                         ),
                         validator: (value) {
-                          if (value.isEmpty) {
+                          if (value!.isEmpty) {
                             return allTranslations.text('requis_title');
                           }
                         },
@@ -2220,7 +2216,7 @@ class _SignupState extends State<NewPatientForm> {
                                 context: context,
                                 initialDate: _dateTime1 == null
                                     ? DateTime.now()
-                                    : _dateTime1,
+                                    : _dateTime1!,
                                 firstDate: DateTime.now(),
                                 lastDate: DateTime(2050))
                             .then((date) {
@@ -2330,7 +2326,7 @@ class _SignupState extends State<NewPatientForm> {
                                     fontWeight: FontWeight.normal),
                               ),
                               validator: (value) {
-                                if (value.isEmpty) {
+                                if (value!.isEmpty) {
                                   return allTranslations.text('requis_title');
                                 }
                               },
@@ -2492,11 +2488,11 @@ class _SignupState extends State<NewPatientForm> {
                     if (snapshot.hasError) {
                       return new Container();
                     } else if (snapshot.hasData) {
-                      List<Widget> civ = new List();
+                      List<Widget> civ = [];
 
-                      for (int i = 0; i < snapshot.data.length; i++) {
+                      for (int i = 0; i < snapshot.data!.length; i++) {
                         Widget radio = new Radio(
-                          value: snapshot.data[i],
+                          value: snapshot.data![i],
                           groupValue: situation,
                           onChanged: _handleRadioValueSit,
                         );
@@ -2504,7 +2500,7 @@ class _SignupState extends State<NewPatientForm> {
                         Widget pad = new Padding(
                             padding: EdgeInsets.only(top: 15.0),
                             child: Text(
-                              snapshot.data[i].libelle.toString(),
+                              snapshot.data![i].libelle.toString(),
                               style: new TextStyle(
                                   fontSize: 16.0,
                                   color: Colors.black,
@@ -2558,7 +2554,7 @@ class _SignupState extends State<NewPatientForm> {
                         fontWeight: FontWeight.normal),
                   ),
                   validator: (value) {
-                    if (value.isEmpty) {
+                    if (value!.isEmpty) {
                       return allTranslations.text('requis_title');
                     }
                   },
@@ -2580,7 +2576,7 @@ class _SignupState extends State<NewPatientForm> {
               )),
               value: enfant,
               onChanged: (newValue) {
-                if (newValue)
+                if (newValue!)
                   setState(() {
                     enfant = true;
                   });
@@ -2622,7 +2618,7 @@ class _SignupState extends State<NewPatientForm> {
                               fontWeight: FontWeight.normal),
                         ),
                         validator: (value) {
-                          if (value.isEmpty) {
+                          if (value!.isEmpty) {
                             return allTranslations.text('requis_title');
                           }
                         },
@@ -2642,7 +2638,7 @@ class _SignupState extends State<NewPatientForm> {
               )),
               value: sport,
               onChanged: (newValue) {
-                if (newValue)
+                if (newValue!)
                   setState(() {
                     sport = true;
                   });
@@ -2685,7 +2681,7 @@ class _SignupState extends State<NewPatientForm> {
                               fontWeight: FontWeight.normal),
                         ),
                         validator: (value) {
-                          if (value.isEmpty) {
+                          if (value!.isEmpty) {
                             return allTranslations.text('requis_title');
                           }
                         },
@@ -2944,7 +2940,7 @@ class _SignupState extends State<NewPatientForm> {
                     //ui.Image image = _signaturePadKey.currentState.clear();
                     //_signaturePadKey.currentState.clear();
                     final sign = _sign.currentState;
-                    sign.clear();
+                    sign!.clear();
                     setState(() {
                       _img = ByteData(0);
                       signatures = "";

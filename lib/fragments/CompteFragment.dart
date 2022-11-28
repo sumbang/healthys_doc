@@ -25,9 +25,9 @@ class CompteFragmentState extends State<CompteFragment> {
   String nomuser = "";
   String token = "";
   bool _isSaving = true;
-  List<String> ids;
-  List<String> noms;
-  List<String> patients;
+  List<String>? ids;
+  List<String>? noms;
+  List<String>? patients;
   String currentid = "1";
   String currentpatient = "";
   String currentacces = "";
@@ -35,7 +35,7 @@ class CompteFragmentState extends State<CompteFragment> {
   String currentnom = "";
   String currentpin = "";
   String currentphoto = "";
-  Future<Compte> profil;
+  Future<Compte>? profil;
   bool _isChecked = false;
   bool isSwitched = false;
 
@@ -67,7 +67,7 @@ class CompteFragmentState extends State<CompteFragment> {
 
     print("DATA4 :" + response.body.toString());
 
-    if (response.statusCode == 200) {
+ 
       final responseJson = json.decode(response.body.toString());
 
       setState(() {
@@ -87,9 +87,9 @@ class CompteFragmentState extends State<CompteFragment> {
       });
 
       return Compte.fromJson(responseJson);
-    }
+    
 
-    return null;
+   
   }
 
   final color = const Color(0xFFcd005f);
@@ -328,7 +328,7 @@ class CompteFragmentState extends State<CompteFragment> {
                                             fontWeight: FontWeight.normal),
                                       ),
                                       validator: (value) {
-                                        if (value.isEmpty) {
+                                        if (value!.isEmpty) {
                                           return allTranslations.text("requis_title");
                                         }
                                       },
@@ -372,7 +372,7 @@ class CompteFragmentState extends State<CompteFragment> {
                                             fontWeight: FontWeight.normal),
                                       ),
                                       validator: (value) {
-                                        if (value.isEmpty) {
+                                        if (value!.isEmpty) {
                                           return allTranslations.text("requis_title");
                                         }
                                       },
@@ -529,7 +529,7 @@ class CompteFragmentState extends State<CompteFragment> {
                                             fontWeight: FontWeight.normal),
                                       ),
                                       validator: (value) {
-                                        if (value.isEmpty) {
+                                        if (value!.isEmpty) {
                                           return allTranslations.text("requis_title");
                                         }
                                       },
@@ -574,7 +574,7 @@ class CompteFragmentState extends State<CompteFragment> {
                                             fontWeight: FontWeight.normal),
                                       ),
                                       validator: (value) {
-                                        if (value.isEmpty) {
+                                        if (value!.isEmpty) {
                                           return allTranslations.text("requis_title");
                                         }
                                       },
@@ -619,7 +619,7 @@ class CompteFragmentState extends State<CompteFragment> {
                                             fontWeight: FontWeight.normal),
                                       ),
                                       validator: (value) {
-                                        if (value.isEmpty) {
+                                        if (value!.isEmpty) {
                                           return allTranslations.text("requis_title");
                                         }
                                       },
@@ -637,7 +637,7 @@ class CompteFragmentState extends State<CompteFragment> {
                                   value: _isChecked,
                                   onChanged: (newValue) {
                                     setState(() {
-                                      _isChecked = newValue;
+                                      _isChecked = newValue!;
                                     });
                                   },
                                   controlAffinity: ListTileControlAffinity
@@ -682,7 +682,7 @@ class CompteFragmentState extends State<CompteFragment> {
             // You can reach your snapshot.data['url'] in here
           }
 
-          return null;
+      
         });
   }
 }

@@ -24,10 +24,10 @@ class MaCarteFragmentState extends State<MaCarteFragment> {
   String nomuser = "";
   String token = "";
   bool _isSaving = true;
-  List<String> ids;
-  List<String> noms;
-  List<String> patients;
-  List<String> numeros;
+  List<String>? ids;
+  List<String>? noms;
+  List<String>? patients;
+  List<String>? numeros;
   String currentid = "1";
   String currentpatient = "";
   String currentacces = "";

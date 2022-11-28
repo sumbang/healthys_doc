@@ -10,11 +10,11 @@ class News {
 
   News(
       {this.id,
-      this.titre,
-      this.description,
-      this.date,
-      this.contenu,
-      this.image});
+     required  this.titre,
+      required this.description,
+      required this.date,
+      required this.contenu,
+      required this.image});
 
   factory News.fromJson(Map<String, dynamic> json) => News(
       id: json['id'],

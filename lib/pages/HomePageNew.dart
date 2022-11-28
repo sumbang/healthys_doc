@@ -30,7 +30,6 @@ import 'package:healthys_medecin/pages/VaccinPage.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:simple_autocomplete_formfield/simple_autocomplete_formfield.dart';
-import 'package:unicorndial/unicorndial.dart';
 import 'LoginPage.dart';
 import 'NewConsultationPage.dart';
 import 'NewPatientPage.dart';
@@ -85,12 +84,12 @@ class HomePageNew1State extends State<HomePageNew1> {
   String token = "";
   String datemembre = "";
   bool _isSaving = true;
-  List<String> ids;
-  List<String> noms;
-  List<String> patients;
-  List<String> pins;
-  List<String> numeros;
-  List<String> photos;
+  List<String>? ids;
+  List<String>? noms;
+  List<String>? patients;
+  List<String>? pins;
+  List<String>? numeros;
+  List<String>? photos;
   String currentid = "1";
   String currentpatient = "";
   String currentacces = "";
@@ -240,7 +239,7 @@ class HomePageNew1State extends State<HomePageNew1> {
 
       final prefs = await SharedPreferences.getInstance();
 
-      print("photo : " + photos[0].toString());
+      print("photo : " + photos![0].toString());
 
       setState(() {
         prefs.setString('enregistrer', enregistrer);
@@ -414,13 +413,13 @@ class HomePageNew1State extends State<HomePageNew1> {
 
   _deconnexion(BuildContext context) {
     // set up the buttons
-    Widget cancelButton = FlatButton(
+    Widget cancelButton = TextButton(
       child: Text(allTranslations.text('logout3')),
       onPressed: () {
         Navigator.of(context, rootNavigator: true).pop('dialog');
       },
     );
-    Widget continueButton = FlatButton(
+    Widget continueButton = TextButton(
       child: Text(allTranslations.text('logout2')),
       onPressed: () {
         _makeLogout();
@@ -460,7 +459,7 @@ class HomePageNew1State extends State<HomePageNew1> {
   }
 
   Widget setupMenuDialog() {
-    List<Widget> maliste1 = new List();
+    List<Widget> maliste1 = [];
 
     /*  maliste1.add(new ListTile(
       leading: Icon(Icons.refresh),
@@ -790,7 +789,7 @@ class HomePageNew1State extends State<HomePageNew1> {
   }
 
   List<Card> getStructuredGridCell(List<Menu> menu) {
-    List<Card> list = new List();
+    List<Card> list = [];
 
     for (int i = 0; i < menu.length; i++) {
       list.add(new Card(
@@ -875,7 +874,7 @@ class HomePageNew1State extends State<HomePageNew1> {
   @override
   Widget build(BuildContext context) {
     Widget setup1AlertDialoadContainer1() {
-      List<Widget> maliste = new List();
+      List<Widget> maliste = [];
 
       maliste.add(new ListTile(
         leading: Icon(Icons.person_pin),
@@ -959,7 +958,7 @@ class HomePageNew1State extends State<HomePageNew1> {
           "nc", _addVaccin, "Nouveau vaccin", Colors.green, Colors.white, true), */
     ];
 
-    List<Menu> menus = new List();
+    List<Menu> menus = [];
     Menu menu = new Menu(1, allTranslations.text("menu28_title"), 'img/carte-digitale.png');
     menus.add(menu);
 

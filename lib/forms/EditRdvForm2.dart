@@ -45,8 +45,8 @@ class EditRdvFormState extends State<EditRdvForm2> {
   final _noteController = TextEditingController();
   final _dateController = TextEditingController();
   final _symptomeController = TextEditingController();
-  DateTime _dateTime;
-  Meeting meet;
+  DateTime? _dateTime;
+  Meeting? meet;
 
   void initState() {
     super.initState();

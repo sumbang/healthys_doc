@@ -63,23 +63,23 @@ class _ResetState extends State<NewConsultationForm> {
     });
   }
 
-  MyItems filiation;
-  Future<List<MyItems>> filiations;
-  String base64Image;
-  String _fileName;
-  String _path;
-  Map<String, String> _paths;
+  MyItems? filiation;
+  Future<List<MyItems>>? filiations;
+  String? base64Image;
+  String? _fileName;
+  String? _path;
+  Map<String, String>? _paths;
   String _extension = "png, jpg, jpeg, pdf";
   bool _loadingPath = false;
   bool _multiPick = false;
-  Future<File> imageFile;
-  PickedFile _imageFile;
-  File _image;
-  File tmpFile;
+  Future<File>? imageFile;
+  PickedFile? _imageFile;
+  File? _image;
+  File? tmpFile;
   final ImagePicker _picker = ImagePicker();
   dynamic _pickImageError;
 
-  String _retrieveDataError;
+  String? _retrieveDataError;
   bool isVideo = false;
 
   final TextEditingController maxWidthController = TextEditingController();
@@ -87,7 +87,7 @@ class _ResetState extends State<NewConsultationForm> {
   final TextEditingController qualityController = TextEditingController();
 
   Widget _previewImage() {
-    final Text retrieveError = _getRetrieveErrorWidget();
+    final Text? retrieveError = _getRetrieveErrorWidget();
     if (retrieveError != null) {
       return retrieveError;
     }
@@ -96,7 +96,7 @@ class _ResetState extends State<NewConsultationForm> {
         onTap: () {
           _showSelectionDialog(context);
         },
-        child: Image.file(File(_imageFile.path)),
+        child: Image.file(File(_imageFile!.path)),
       );
     } else if (_pickImageError != null) {
       return Center(
@@ -110,22 +110,22 @@ class _ResetState extends State<NewConsultationForm> {
 
   Future<void> _displayPickImageDialog(
       BuildContext context, OnPickImageCallback onPick) async {
-    double width = maxWidthController.text.isNotEmpty
+    double? width = maxWidthController.text.isNotEmpty
         ? double.parse(maxWidthController.text)
         : null;
 
-    double height = maxHeightController.text.isNotEmpty
+    double? height = maxHeightController.text.isNotEmpty
         ? double.parse(maxHeightController.text)
         : null;
 
-    int quality = qualityController.text.isNotEmpty
+    int? quality = qualityController.text.isNotEmpty
         ? int.parse(qualityController.text)
         : null;
 
-    onPick(width, height, quality);
+    onPick(width!, height!, quality!);
   }
 
-  pickImageFromGallery(ImageSource source, {BuildContext context}) async {
+  pickImageFromGallery(ImageSource source, {required BuildContext context}) async {
     await _displayPickImageDialog(context,
         (double maxWidth, double maxHeight, int quality) async {
       try {
@@ -150,13 +150,12 @@ class _ResetState extends State<NewConsultationForm> {
     });
   }
 
-  Text _getRetrieveErrorWidget() {
-    if (_retrieveDataError != null) {
-      final Text result = Text(_retrieveDataError);
+  Text? _getRetrieveErrorWidget() {
+   
+      final Text result = Text(_retrieveDataError!);
       _retrieveDataError = null;
       return result;
-    }
-    return null;
+   
   }
 
   Future<void> retrieveLostData() async {
@@ -208,8 +207,8 @@ class _ResetState extends State<NewConsultationForm> {
         });
   }
 
-  Future<List<MyItems>> getElements(String nature) async {
-    List<MyItems> liste = List();
+  Future<List<MyItems>>? getElements(String nature) async {
+    List<MyItems> liste = [];
 
     MySingleton mySingleton = new MySingleton();
 
@@ -217,7 +216,7 @@ class _ResetState extends State<NewConsultationForm> {
         Setting.apiracine + "comptes/data?types=" + nature.toString(),
         headers: {"Language":  mySingleton.getLangue.toString()});
 
-    if (response.statusCode == 200) {
+  
       final responseJson = json.decode(response.body.toString());
 
       for (int i = 0; i < responseJson.length; i++) {
@@ -225,9 +224,7 @@ class _ResetState extends State<NewConsultationForm> {
       }
 
       return liste;
-    }
-
-    return null;
+   
   }
 
   @override
@@ -446,7 +443,7 @@ class _ResetState extends State<NewConsultationForm> {
                               fontWeight: FontWeight.normal),
                         ),
                         validator: (value) {
-                          if (value.isEmpty) {
+                          if (value!.isEmpty) {
                            return allTranslations.text('requis_title');
                           }
                         },
@@ -508,7 +505,7 @@ class _ResetState extends State<NewConsultationForm> {
                               fontWeight: FontWeight.normal),
                         ),
                         validator: (value) {
-                          if (value.isEmpty) {
+                          if (value!.isEmpty) {
                             return allTranslations.text('requis_title');
                           }
                         },

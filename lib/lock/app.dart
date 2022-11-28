@@ -4,7 +4,7 @@ import 'package:healthys_medecin/lock/my_homepage.dart';
 class MyApp extends StatelessWidget {
   final String data;
 
-  const MyApp({Key key, this.data}) : super(key: key);
+  const MyApp({required Key key, required this.data}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

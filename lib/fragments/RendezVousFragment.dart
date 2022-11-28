@@ -29,11 +29,11 @@ class RendezVousFragmentState extends State<RendezVousFragment>
   String token = "";
   String currentnom = "";
   String currentphoto = "";
-  TabController _controller;
+  TabController? _controller;
 
-  Future<List<Meeting>> meetings;
-  Future<List<Meeting>> meetings1;
-  Future<List<Meeting>> meetings2;
+  Future<List<Meeting>>? meetings;
+  Future<List<Meeting>>? meetings1;
+  Future<List<Meeting>>? meetings2;
 
   _loadUser() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -134,7 +134,7 @@ class RendezVousFragmentState extends State<RendezVousFragment>
   }
 
   List<Widget> MeetingItem(List<Meeting> maliste, BuildContext context) {
-    List<Widget> listElementWidgetList = new List<Widget>();
+    List<Widget> listElementWidgetList = <Widget>[];
 
     if (maliste != null) {
       var lengthOfList = maliste.length;
@@ -234,7 +234,7 @@ class RendezVousFragmentState extends State<RendezVousFragment>
 
     String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
 
-    List<Meeting> liste = List();
+    List<Meeting> liste = [];
 
 
     var response = await http.get(
@@ -246,7 +246,6 @@ class RendezVousFragmentState extends State<RendezVousFragment>
 
     print("DATA4 :" + response.body.toString());
 
-    if (response.statusCode == 200) {
       final responseJson = json.decode(response.body.toString());
 
       for (int i = 0; i < responseJson.length; i++) {
@@ -256,9 +255,7 @@ class RendezVousFragmentState extends State<RendezVousFragment>
       }
 
       return liste;
-    }
-
-    return null;
+   
   }
 
   @override
@@ -372,7 +369,7 @@ class RendezVousFragmentState extends State<RendezVousFragment>
                                       // This next line does the trick.
                                       scrollDirection: Axis.vertical,
                                       children:
-                                          MeetingItem(snapshot.data, context),
+                                          MeetingItem(snapshot.data!.cast<Meeting>(), context),
                                     )),
                               ),
                             ],
@@ -381,7 +378,7 @@ class RendezVousFragmentState extends State<RendezVousFragment>
                       }
                   }
 
-                  return null;
+               
                 }),
             new FutureBuilder<List<Meeting>>(
                 future: meetings1, //new
@@ -458,7 +455,7 @@ class RendezVousFragmentState extends State<RendezVousFragment>
                                       // This next line does the trick.
                                       scrollDirection: Axis.vertical,
                                       children:
-                                          MeetingItem(snapshot.data, context),
+                                          MeetingItem(snapshot.data!.cast<Meeting>(), context),
                                     )),
                               ),
                             ],
@@ -467,7 +464,7 @@ class RendezVousFragmentState extends State<RendezVousFragment>
                       }
                   }
 
-                  return null;
+                  
                 }),
             new FutureBuilder<List<Meeting>>(
                 future: meetings2, //new
@@ -544,7 +541,7 @@ class RendezVousFragmentState extends State<RendezVousFragment>
                                       // This next line does the trick.
                                       scrollDirection: Axis.vertical,
                                       children:
-                                          MeetingItem(snapshot.data, context),
+                                          MeetingItem(snapshot.data!.cast<Meeting>(), context),
                                     )),
                               ),
                             ],
@@ -553,7 +550,7 @@ class RendezVousFragmentState extends State<RendezVousFragment>
                       }
                   }
 
-                  return null;
+               
                 }),
           ],
         ),

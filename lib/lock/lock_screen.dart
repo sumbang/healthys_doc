@@ -195,7 +195,7 @@ class _LockScreenState extends State<LockScreen> {
                               fontWeight: FontWeight.normal),
                         ),
                         validator: (value) {
-                          if (value.isEmpty) {
+                          if (value!.isEmpty) {
                             return allTranslations.text('requis_title');
                           }
                         },
@@ -235,8 +235,8 @@ class _LockScreenState extends State<LockScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                RaisedButton(
-                  color: rouge,
+                ElevatedButton(
+                 // color: rouge,
                   child: Text(allTranslations.text("logout1"),
                       style: TextStyle(color: Colors.white)),
                   onPressed: () {
@@ -246,8 +246,8 @@ class _LockScreenState extends State<LockScreen> {
                 SizedBox(
                   width: 20,
                 ),
-                RaisedButton(
-                  color: color2,
+                ElevatedButton(
+                  //color: color2,
                   child: Text(allTranslations.text("z113"),
                       style: TextStyle(color: Colors.white)),
                   onPressed: () {

@@ -6,7 +6,7 @@ class Contact {
   String pays;
   String urgence;
 
-  Contact({this.nom, this.phone, this.pays, this.urgence});
+  Contact({required this.nom, required this.phone, required this.pays, required this.urgence});
 
   factory Contact.fromJson(Map<String, dynamic> json) => Contact(
       nom: json['nom'],

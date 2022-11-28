@@ -12,7 +12,7 @@ class Consultation {
   String dateconsultation;
   String photo;
 
-  Consultation({this.id,this.medecin,this.phone,this.motif,this.specialite,this.diagnostic,this.lieu,this.dateconsultation,this.photo});
+  Consultation({this.id,required this.medecin,required this.phone,required this.motif,required this.specialite,required this.diagnostic,required this.lieu,required this.dateconsultation,required this.photo});
 
   factory Consultation.fromJson(Map<String, dynamic> json)=> Consultation(
       id: json['id'],

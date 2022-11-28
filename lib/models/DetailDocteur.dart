@@ -16,17 +16,17 @@ class DetailDocteur {
 
   DetailDocteur(
       {this.id,
-      this.nom,
-      this.prenom,
-      this.phone,
-      this.phone2,
-      this.specialite,
-      this.email,
-      this.datnaiss,
-      this.adresse,
-      this.hopital,
-      this.horaire,
-      this.photo});
+      required this.nom,
+     required  this.prenom,
+     required  this.phone,
+      required this.phone2,
+     required  this.specialite,
+     required  this.email,
+      required this.datnaiss,
+      required this.adresse,
+     required  this.hopital,
+     required  this.horaire,
+     required  this.photo});
 
   factory DetailDocteur.fromJson(Map<String, dynamic> json) => DetailDocteur(
         id: json['id'],

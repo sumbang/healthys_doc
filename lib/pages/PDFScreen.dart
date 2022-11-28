@@ -13,7 +13,7 @@ import 'package:permission_handler/permission_handler.dart';
 class PDFScreen extends StatefulWidget {
   final String path;
 
-  PDFScreen({Key key, this.path}) : super(key: key);
+  PDFScreen({Key? key, required this.path}) : super(key: key);
 
   _PDFScreenState createState() => _PDFScreenState(this.path);
 }
@@ -98,7 +98,7 @@ class _PDFScreenState extends State<PDFScreen> with WidgetsBindingObserver {
                 false, // if set to true the link is handled in flutter
             onRender: (_pages) {
               setState(() {
-                pages = _pages;
+                pages = _pages!;
                 isReady = true;
               });
             },
@@ -117,13 +117,13 @@ class _PDFScreenState extends State<PDFScreen> with WidgetsBindingObserver {
             onViewCreated: (PDFViewController pdfViewController) {
               _controller.complete(pdfViewController);
             },
-            onLinkHandler: (String uri) {
+            onLinkHandler: (String? uri) {
               print('goto uri: $uri');
             },
-            onPageChanged: (int page, int total) {
+            onPageChanged: (int? page, int? total) {
               print('page change: $page/$total');
               setState(() {
-                currentPage = page;
+                currentPage = page!;
               });
             },
           ),

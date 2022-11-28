@@ -44,10 +44,10 @@ class AntecedentPage1 extends State<AntecedentPage> {
   bool seropositif = false;
   bool autre = false;
   bool autre2 = false;
-  String currentstatus;
-  List<String> sitmat = new List();
-  MyItems situation;
-  String masituation;
+  String? currentstatus;
+  List<String> sitmat = [];
+  MyItems? situation;
+  String? masituation;
 
   final _diabeteController = TextEditingController();
   final _htaController = TextEditingController();
@@ -76,7 +76,7 @@ class AntecedentPage1 extends State<AntecedentPage> {
   bool _isSaving = true;
 
   Future<List<MyItems>> getElements(String nature) async {
-    List<MyItems> liste = List();
+    List<MyItems> liste = [];
 
     MySingleton mySingleton = new MySingleton();
 
@@ -90,7 +90,6 @@ class AntecedentPage1 extends State<AntecedentPage> {
 
     print("DATA :" + response.body.toString());
 
-    if (response.statusCode == 200) {
       final responseJson = json.decode(response.body.toString());
 
       for (int i = 0; i < responseJson.length; i++) {
@@ -98,9 +97,7 @@ class AntecedentPage1 extends State<AntecedentPage> {
       }
 
       return liste;
-    }
-
-    return null;
+  
   }
 
   _loadUser() async {
@@ -596,7 +593,7 @@ class AntecedentPage1 extends State<AntecedentPage> {
                               ),
                               value: enable5,
                               onChanged: (newValue) {
-                                if (newValue)
+                                if (newValue!)
                                   setState(() {
                                     enable5 = true;
                                   });
@@ -647,7 +644,7 @@ class AntecedentPage1 extends State<AntecedentPage> {
                               ),
                               value: enable6,
                               onChanged: (newValue) {
-                                if (newValue)
+                                if (newValue!)
                                   setState(() {
                                     enable6 = true;
                                   });
@@ -740,7 +737,7 @@ class AntecedentPage1 extends State<AntecedentPage> {
                                   Text(allTranslations.text('toxico6_title')),
                               value: hta,
                               onChanged: (newValue) {
-                                if (newValue)
+                                if (newValue!)
                                   setState(() {
                                     hta = true;
                                   });
@@ -789,7 +786,7 @@ class AntecedentPage1 extends State<AntecedentPage> {
                                   Text(allTranslations.text('toxico7_title')),
                               value: diabete,
                               onChanged: (newValue) {
-                                if (newValue)
+                                if (newValue!)
                                   setState(() {
                                     diabete = true;
                                   });
@@ -838,7 +835,7 @@ class AntecedentPage1 extends State<AntecedentPage> {
                                   Text(allTranslations.text('toxico8_title')),
                               value: dsylipedemie,
                               onChanged: (newValue) {
-                                if (newValue)
+                                if (newValue!)
                                   setState(() {
                                     dsylipedemie = true;
                                   });
@@ -887,7 +884,7 @@ class AntecedentPage1 extends State<AntecedentPage> {
                                   Text(allTranslations.text('toxico9_title')),
                               value: asmathique,
                               onChanged: (newValue) {
-                                if (newValue)
+                                if (newValue!)
                                   setState(() {
                                     asmathique = true;
                                   });
@@ -936,7 +933,7 @@ class AntecedentPage1 extends State<AntecedentPage> {
                                   Text(allTranslations.text('toxico10_title')),
                               value: seropositif,
                               onChanged: (newValue) {
-                                if (newValue)
+                                if (newValue!)
                                   setState(() {
                                     seropositif = true;
                                   });
@@ -985,7 +982,7 @@ class AntecedentPage1 extends State<AntecedentPage> {
                                   Text(allTranslations.text('toxico3_title')),
                               value: autre,
                               onChanged: (newValue) {
-                                if (newValue)
+                                if (newValue!)
                                   setState(() {
                                     autre = true;
                                   });
@@ -1319,7 +1316,7 @@ class AntecedentPage1 extends State<AntecedentPage> {
                                   allTranslations.text('antecedent11_title')),
                               value: enable1,
                               onChanged: (newValue) {
-                                if (newValue)
+                                if (newValue!)
                                   setState(() {
                                     enable1 = true;
                                   });
@@ -1368,7 +1365,7 @@ class AntecedentPage1 extends State<AntecedentPage> {
                                   allTranslations.text('antecedent12_title')),
                               value: enable2,
                               onChanged: (newValue) {
-                                if (newValue)
+                                if (newValue!)
                                   setState(() {
                                     enable2 = true;
                                   });
@@ -1417,7 +1414,7 @@ class AntecedentPage1 extends State<AntecedentPage> {
                                   allTranslations.text('antecedent13_title')),
                               value: enable3,
                               onChanged: (newValue) {
-                                if (newValue)
+                                if (newValue!)
                                   setState(() {
                                     enable3 = true;
                                   });
@@ -1466,7 +1463,7 @@ class AntecedentPage1 extends State<AntecedentPage> {
                                   allTranslations.text('antecedent14_title')),
                               value: enable4,
                               onChanged: (newValue) {
-                                if (newValue)
+                                if (newValue!)
                                   setState(() {
                                     enable4 = true;
                                   });
@@ -1530,7 +1527,7 @@ class AntecedentPage1 extends State<AntecedentPage> {
                                   Text(allTranslations.text('toxico1_title')),
                               value: tabac,
                               onChanged: (newValue) {
-                                if (newValue)
+                                if (newValue!)
                                   setState(() {
                                     tabac = true;
                                   });
@@ -1579,7 +1576,7 @@ class AntecedentPage1 extends State<AntecedentPage> {
                                   Text(allTranslations.text('toxico2_title')),
                               value: alcool,
                               onChanged: (newValue) {
-                                if (newValue)
+                                if (newValue!)
                                   setState(() {
                                     alcool = true;
                                   });
@@ -1628,7 +1625,7 @@ class AntecedentPage1 extends State<AntecedentPage> {
                                   Text(allTranslations.text('toxico3_title')),
                               value: autre2,
                               onChanged: (newValue) {
-                                if (newValue)
+                                if (newValue!)
                                   setState(() {
                                     autre2 = true;
                                   });

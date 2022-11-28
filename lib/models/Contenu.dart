@@ -5,7 +5,7 @@ class Contenu {
   String valeur;
   String date;
 
-  Contenu({this.libelle, this.valeur, this.date});
+  Contenu({required this.libelle, required this.valeur,required  this.date});
 
   factory Contenu.fromJson(Map<String, dynamic> json) => Contenu(
       libelle: json['libelle'].toString(),

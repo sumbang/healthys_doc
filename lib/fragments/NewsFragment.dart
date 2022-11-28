@@ -28,9 +28,9 @@ class NewsFragmentState extends State<NewsFragment> {
   String token = "";
   String currentnom = "";
   String currentphoto = "";
-  TabController _controller;
+  TabController? _controller;
 
-  Future<List<News>> news;
+  Future<List<News>>? news;
   List<News> _searchResult = [];
   TextEditingController controller = new TextEditingController();
 
@@ -61,7 +61,7 @@ class NewsFragmentState extends State<NewsFragment> {
   }
 
   List<Widget> NewsItem(List<News> maliste, BuildContext context) {
-    List<Widget> listElementWidgetList = new List<Widget>();
+    List<Widget> listElementWidgetList = <Widget>[];
 
     if (maliste != null) {
       var lengthOfList = maliste.length;
@@ -191,7 +191,7 @@ class NewsFragmentState extends State<NewsFragment> {
     String token1 = (prefs.getString('token') ?? '');
 
     String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
-    List<News> liste = List();
+    List<News> liste = [];
 
     var response = await http.get(Setting.apiracine + "news", headers: {
       "Authorization": basicAuth,
@@ -200,7 +200,7 @@ class NewsFragmentState extends State<NewsFragment> {
 
     print("DATA4 :" + response.body.toString());
 
-    if (response.statusCode == 200) {
+
       final responseJson = json.decode(response.body.toString());
 
       for (int i = 0; i < responseJson.length; i++) {
@@ -208,9 +208,7 @@ class NewsFragmentState extends State<NewsFragment> {
       }
 
       return liste;
-    }
-
-    return null;
+  
   }
 
   @override
@@ -293,7 +291,7 @@ class NewsFragmentState extends State<NewsFragment> {
                       return;
                     }
 
-                    snapshot.data.forEach((userDetail) {
+                    snapshot.data!.forEach((userDetail) {
                       if (userDetail.titre
                               .toString()
                               .toLowerCase()
@@ -357,7 +355,7 @@ class NewsFragmentState extends State<NewsFragment> {
                                 child: ListView(
                                   // This next line does the trick.
                                   scrollDirection: Axis.vertical,
-                                  children: NewsItem(snapshot.data, context),
+                                  children: NewsItem(snapshot.data!.cast<News>(), context),
                                 )),
                       )
                     ],
@@ -369,7 +367,7 @@ class NewsFragmentState extends State<NewsFragment> {
             // You can reach your snapshot.data['url'] in here
           }
 
-          return null;
+         
         });
   }
 }

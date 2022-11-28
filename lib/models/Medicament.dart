@@ -7,7 +7,7 @@ class Medicament {
   String quantite;
   String prix;
 
-  Medicament({this.id, this.nom, this.forme, this.quantite, this.prix});
+  Medicament({this.id, required this.nom, required this.forme, required this.quantite,required  this.prix});
 
   factory Medicament.fromJson(Map<String, dynamic> json) => Medicament(
         id: json['id'],

@@ -39,11 +39,11 @@ class NewUpdateFormState extends State<NewUpdateForm> {
   final _periodeController = TextEditingController();
   final _priseController = TextEditingController();
   final _numeroController = TextEditingController();
-  Future<List<MyItems>> groupes;
-  Future<List<MyItems>> electros;
+  Future<List<MyItems>>? groupes;
+  Future<List<MyItems>>? electros;
 
-  MyItems e_groupe;
-  MyItems e_electro;
+  MyItems? e_groupe;
+  MyItems? e_electro;
   int group = -1;
   int elect = -1;
   String perso = "";
@@ -75,7 +75,7 @@ class NewUpdateFormState extends State<NewUpdateForm> {
   }
 
   Widget _buildPeriode(List<MyItems> list) {
-    List<Widget> mList = new List();
+    List<Widget> mList = [];
 
     for (int b = 0; b < list.length; b++) {
       MyItems cmap = list[b];
@@ -102,7 +102,7 @@ class NewUpdateFormState extends State<NewUpdateForm> {
   }
 
   Widget _buildPeriode1(List<MyItems> list) {
-    List<Widget> mList = new List();
+    List<Widget> mList = [];
 
     for (int b = 0; b < list.length; b++) {
       MyItems cmap = list[b];
@@ -156,14 +156,14 @@ class NewUpdateFormState extends State<NewUpdateForm> {
     String token1 = (prefs.getString('token') ?? '');
 
     String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
-    List<MyItems> liste = List();
+    List<MyItems> liste = [];
 
     var response = await http.get(Setting.apiracine + "comptes/data?types=4", headers: {
       "Authorization": basicAuth,
       "Language": mySingleton.getLangue.toString(),
     });
 
-    if (response.statusCode == 200) {
+   
       final responseJson = json.decode(response.body.toString());
 
       for (int i = 0; i < responseJson.length; i++) {
@@ -171,9 +171,7 @@ class NewUpdateFormState extends State<NewUpdateForm> {
       }
 
       return liste;
-    }
-
-    return null;
+   
   }
 
     Future<List<MyItems>> getElements1() async {
@@ -182,14 +180,13 @@ class NewUpdateFormState extends State<NewUpdateForm> {
     String token1 = (prefs.getString('token') ?? '');
 
     String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
-    List<MyItems> liste = List();
+    List<MyItems> liste = [];
 
     var response = await http.get(Setting.apiracine + "comptes/data?types=6", headers: {
       "Authorization": basicAuth,
       "Language": mySingleton.getLangue.toString(),
     });
 
-    if (response.statusCode == 200) {
       final responseJson = json.decode(response.body.toString());
 
       for (int i = 0; i < responseJson.length; i++) {
@@ -197,9 +194,7 @@ class NewUpdateFormState extends State<NewUpdateForm> {
       }
 
       return liste;
-    }
-
-    return null;
+   
   }
 
 
@@ -252,7 +247,7 @@ class NewUpdateFormState extends State<NewUpdateForm> {
                               fontWeight: FontWeight.normal),
                         ),
                         validator: (value) {
-                          if (value.isEmpty) {
+                          if (value!.isEmpty) {
                             return allTranslations.text('requis_title');
                           }
                         },
@@ -306,7 +301,7 @@ class NewUpdateFormState extends State<NewUpdateForm> {
                     if (snapshot.hasError) {
                       return new Container();
                     } else if (snapshot.hasData) {
-                      return _buildPeriode(snapshot.data);
+                      return _buildPeriode(snapshot.data!);
                     } else {
                       return CircularProgressIndicator();
                     }
@@ -340,7 +335,7 @@ class NewUpdateFormState extends State<NewUpdateForm> {
                     if (snapshot.hasError) {
                       return new Container();
                     } else if (snapshot.hasData) {
-                      return _buildPeriode1(snapshot.data);
+                      return _buildPeriode1(snapshot.data!);
                     } else {
                       return CircularProgressIndicator();
                     }

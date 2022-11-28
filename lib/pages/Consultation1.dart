@@ -59,8 +59,8 @@ class ConsultationPageState extends State<Consultation_1> {
 
   bool _isSaving = true;
 
-  MyItems specialite;
-  Future<List<MyItems>> special;
+  MyItems? specialite;
+  Future<List<MyItems>>? special;
   bool _isShow = false;
 
   Uint8List bytes = Uint8List(0);
@@ -72,12 +72,12 @@ class ConsultationPageState extends State<Consultation_1> {
   TextEditingController tension1Controller = TextEditingController();
   TextEditingController temperatureController = TextEditingController();
   TextEditingController suggestionController = TextEditingController();
-  Docteur _docteur;
+  Docteur? _docteur;
 
-  var _listPara1 = List<Widget>();
+  var _listPara1 = <Widget>[];
   final TextEditingController libelleController = TextEditingController();
   final TextEditingController valeurController = TextEditingController();
-  List<String> para = new List();
+  List<String> para = [];
 
   void initState() {
     super.initState();
@@ -86,7 +86,7 @@ class ConsultationPageState extends State<Consultation_1> {
   }
 
   Future<List<MyItems>> getElements(String nature) async {
-    List<MyItems> liste = List();
+    List<MyItems> liste = [];
 
      MySingleton mySingleton = new MySingleton();
 
@@ -96,7 +96,7 @@ class ConsultationPageState extends State<Consultation_1> {
 
     print("DATA :" + response.body.toString());
 
-    if (response.statusCode == 200) {
+
       final responseJson = json.decode(response.body.toString());
 
       for (int i = 0; i < responseJson.length; i++) {
@@ -104,9 +104,7 @@ class ConsultationPageState extends State<Consultation_1> {
       }
 
       return liste;
-    }
-
-    return null;
+   
   }
 
   Future<List<Docteur>> getDocteur() async {
@@ -117,7 +115,7 @@ class ConsultationPageState extends State<Consultation_1> {
 
     String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
 
-    List<Docteur> liste = List();
+    List<Docteur> liste = [];
 
     print("DATA :" + user.toString());
 
@@ -130,7 +128,7 @@ class ConsultationPageState extends State<Consultation_1> {
 
     print("DATA :" + response.body.toString());
 
-    if (response.statusCode == 200) {
+
       final responseJson = json.decode(response.body.toString());
 
       for (int i = 0; i < responseJson.length; i++) {
@@ -138,9 +136,7 @@ class ConsultationPageState extends State<Consultation_1> {
       }
 
       return liste;
-    }
-
-    return null;
+    
   }
 
   void _submitForms() async {

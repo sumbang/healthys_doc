@@ -27,9 +27,9 @@ class HopitauxFragmentState extends State<HopitauxFragment> {
   String token = "";
   String currentnom = "";
   String currentphoto = "";
-  TabController _controller;
+  TabController? _controller;
 
-  Future<List<Partenaire>> datas;
+  Future<List<Partenaire>>? datas;
   List<Partenaire> _searchResult = [];
   TextEditingController controller = new TextEditingController();
 
@@ -60,7 +60,7 @@ class HopitauxFragmentState extends State<HopitauxFragment> {
   }
 
   List<Widget> PartenaireItem(List<Partenaire> maliste, BuildContext context) {
-    List<Widget> listElementWidgetList = new List<Widget>();
+    List<Widget> listElementWidgetList = <Widget>[];
 
     if (maliste != null) {
       var lengthOfList = maliste.length;
@@ -193,7 +193,7 @@ class HopitauxFragmentState extends State<HopitauxFragment> {
     String token1 = (prefs.getString('token') ?? '');
 
     String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
-    List<Partenaire> liste = List();
+    List<Partenaire> liste = [];
 
     var response =
         await http.get(Setting.apiracine + "partners?types=2", headers: {
@@ -203,7 +203,6 @@ class HopitauxFragmentState extends State<HopitauxFragment> {
 
     print("DATA4 :" + response.body.toString());
 
-    if (response.statusCode == 200) {
       final responseJson = json.decode(response.body.toString());
 
       for (int i = 0; i < responseJson.length; i++) {
@@ -211,9 +210,7 @@ class HopitauxFragmentState extends State<HopitauxFragment> {
       }
 
       return liste;
-    }
-
-    return null;
+   
   }
 
   @override
@@ -296,7 +293,7 @@ class HopitauxFragmentState extends State<HopitauxFragment> {
                       return;
                     }
 
-                    snapshot.data.forEach((userDetail) {
+                    snapshot.data!.forEach((userDetail) {
                       if (userDetail.nom
                               .toString()
                               .toLowerCase()
@@ -370,7 +367,7 @@ class HopitauxFragmentState extends State<HopitauxFragment> {
                                   // This next line does the trick.
                                   scrollDirection: Axis.vertical,
                                   children:
-                                      PartenaireItem(snapshot.data, context),
+                                      PartenaireItem(snapshot.data!.cast<Partenaire>(), context),
                                 )),
                       )
                     ],
@@ -381,8 +378,7 @@ class HopitauxFragmentState extends State<HopitauxFragment> {
               return Text('Result1: ${snapshot.data}');
             // You can reach your snapshot.data['url'] in here
           }
-
-          return null;
+;
         });
   }
 }

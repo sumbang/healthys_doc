@@ -53,16 +53,16 @@ class NewVaccinFormState extends State<NewVaccinForm> {
   final _periodeController = TextEditingController();
   final _priseController = TextEditingController();
   final _numeroController = TextEditingController();
-  Future<List<MyItems>> period;
+  Future<List<MyItems>>? period;
   String currentpin = "";
-  Future<File> imageFile;
-  PickedFile _imageFile;
-  File _image;
-  File tmpFile;
+  Future<File>? imageFile;
+  PickedFile? _imageFile;
+  File? _image;
+  File? tmpFile;
   final ImagePicker _picker = ImagePicker();
   dynamic _pickImageError;
   bool is_image = false;
-  List<Asset> l_images = List<Asset>();
+  List<Asset> l_images = <Asset>[];
 
   List<Widget> buildGridView() {
     return List.generate(l_images.length, (index) {
@@ -78,7 +78,7 @@ class NewVaccinFormState extends State<NewVaccinForm> {
   }
 
   Future<List<File>> convertListAssetToListFile() async {
-    List<File> files = List<File>();
+    List<File> files = <File>[];
     // images from galllery
     for (int i = 0; i < l_images.length; i++) {
       String imagePath = await FlutterAbsolutePath.getAbsolutePath(
@@ -91,7 +91,7 @@ class NewVaccinFormState extends State<NewVaccinForm> {
   }
 
   Future<void> loadAssets1() async {
-    List<Asset> resultList = List<Asset>();
+    List<Asset> resultList = <Asset>[];
 
     try {
       resultList = await MultiImagePicker.pickImages(
@@ -119,9 +119,9 @@ class NewVaccinFormState extends State<NewVaccinForm> {
     });
   }
 
-  MyItems c_exist;
+  MyItems? c_exist;
 
-  DateTime _dateTime;
+  DateTime? _dateTime;
   int periode = -1;
   bool _isSaving = true;
   String perso = "";
@@ -154,7 +154,7 @@ class NewVaccinFormState extends State<NewVaccinForm> {
   }
 
   Widget _buildPeriode(List<MyItems> list) {
-    List<Widget> mList = new List();
+    List<Widget> mList = [];
 
     for (int b = 0; b < list.length; b++) {
       MyItems cmap = list[b];
@@ -207,14 +207,13 @@ class NewVaccinFormState extends State<NewVaccinForm> {
     String token1 = (prefs.getString('token') ?? '');
 
     String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
-    List<MyItems> liste = List();
+    List<MyItems> liste = [];
 
     var response = await http.get(Setting.apiracine + "vaccins/item", headers: {
       "Authorization": basicAuth,
       "Language": mySingleton.getLangue.toString(),
     });
 
-    if (response.statusCode == 200) {
       final responseJson = json.decode(response.body.toString());
 
       for (int i = 0; i < responseJson.length; i++) {
@@ -222,9 +221,7 @@ class NewVaccinFormState extends State<NewVaccinForm> {
       }
 
       return liste;
-    }
-
-    return null;
+   
   }
 
   @override
@@ -276,7 +273,7 @@ class NewVaccinFormState extends State<NewVaccinForm> {
                               fontWeight: FontWeight.normal),
                         ),
                         validator: (value) {
-                          if (value.isEmpty) {
+                          if (value!.isEmpty) {
                             return allTranslations.text('requis_title');
                           }
                         },
@@ -454,7 +451,7 @@ class NewVaccinFormState extends State<NewVaccinForm> {
                                 context: context,
                                 initialDate: _dateTime == null
                                     ? DateTime.now()
-                                    : _dateTime,
+                                    : _dateTime!,
                                 firstDate: DateTime(1950),
                                 lastDate: DateTime(2030))
                             .then((date) {
@@ -511,7 +508,7 @@ class NewVaccinFormState extends State<NewVaccinForm> {
                     if (snapshot.hasError) {
                       return new Container();
                     } else if (snapshot.hasData) {
-                      return _buildPeriode(snapshot.data);
+                      return _buildPeriode(snapshot.data!);
                     } else {
                       return CircularProgressIndicator();
                     }
@@ -718,7 +715,7 @@ class NewVaccinFormState extends State<NewVaccinForm> {
                               fontWeight: FontWeight.normal),
                         ),
                         validator: (value) {
-                          if (value.isEmpty) {
+                          if (value!.isEmpty) {
                             return allTranslations.text('requis_title');
                           }
                         },

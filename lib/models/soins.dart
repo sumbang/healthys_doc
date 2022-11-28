@@ -8,7 +8,7 @@ class Soins {
   String code;
   String ref;
 
-  Soins({this.id, this.nom, this.cat_id, this.cat_nom, this.code,this.ref});
+  Soins({this.id,required  this.nom, this.cat_id, required this.cat_nom, required this.code,required this.ref});
 
   factory Soins.fromJson(Map<String, dynamic> json) => Soins(
         id: json['id'],

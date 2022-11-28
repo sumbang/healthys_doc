@@ -10,6 +10,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:healthys_medecin/config/Setting.dart';
 import 'package:healthys_medecin/config/SizeConfig.dart';
 import 'package:healthys_medecin/models/Content.dart';
+import 'package:healthys_medecin/models/Contenu.dart';
 import 'package:healthys_medecin/models/DetailConsultation.dart';
 import 'package:healthys_medecin/pages/Consultation2.dart';
 import 'package:healthys_medecin/pages/Consultation6.dart';
@@ -72,8 +73,8 @@ class ConsultationPageState extends State<Consultation51> {
   final color2 = const Color(0xFF008dad);
 
   bool isVideo = false;
-  String _retrieveDataError;
-  String _retrieveDataError1;
+  String? _retrieveDataError;
+  String? _retrieveDataError1;
   bool _isSaving = true;
 
   final TextEditingController maxWidthController = TextEditingController();
@@ -94,18 +95,18 @@ class ConsultationPageState extends State<Consultation51> {
   final TextEditingController priseController = TextEditingController();
   final TextEditingController dureeController = TextEditingController();
 
-  List<String> exa = new List();
-  List<String> para = new List();
-  List<String> soins = new List();
-  List<String> diag = new List();
-  var _listPara = List<Widget>();
-  var _listPara1 = List<Widget>();
-  var _listExam = List<Widget>();
-  var _listSoin = List<Widget>();
-  var _listDiag = List<Widget>();
+  List<String> exa = [];
+  List<String> para = [];
+  List<String> soins =[];
+  List<String> diag = [];
+  var _listPara = [];
+  var _listPara1 = [];
+  var _listExam = [];
+  var _listSoin = [];
+  var _listDiag = [];
 
-  Future<List<Content>> contenu;
-  Future<DetailConsultation> details;
+  Future<List<Content>>? contenu;
+  Future<DetailConsultation>? details;
   Future<List<Content>> _getContent() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -128,9 +129,8 @@ class ConsultationPageState extends State<Consultation51> {
 
     print("DATA2 :" + response.body.toString());
 
-    List<Content> maliste = List();
+    List<Content> maliste = [];
 
-    if (response.statusCode == 200) {
       final responseJson = json.decode(response.body);
 
       for (int i = 0; i < responseJson.length; i++) {
@@ -138,9 +138,7 @@ class ConsultationPageState extends State<Consultation51> {
       }
 
       return maliste;
-    }
-
-    return null;
+  
   }
 
   Future<DetailConsultation> _getDetail() async {
@@ -164,15 +162,12 @@ class ConsultationPageState extends State<Consultation51> {
 
     print("DATA21 :" + response.body.toString());
 
-    List<Content> maliste = List();
+    List<Content> maliste = [];
 
-    if (response.statusCode == 200) {
       final responseJson = json.decode(response.body);
 
       return DetailConsultation.fromJson(responseJson);
-    }
-
-    return null;
+   
   }
 
   void initState() {
@@ -182,7 +177,7 @@ class ConsultationPageState extends State<Consultation51> {
   }
 
   List<Widget> _buildList(String datas) {
-    List<Widget> listElementWidgetList = new List<Widget>();
+    List<Widget> listElementWidgetList = <Widget>[];
     List<String> items = datas.split(";");
 
     for (int i = 0; i < items.length; i++) {
@@ -215,7 +210,7 @@ class ConsultationPageState extends State<Consultation51> {
   }
 
   List<Widget> _buildList2(String datas) {
-    List<Widget> listElementWidgetList = new List<Widget>();
+    List<Widget> listElementWidgetList = <Widget>[];
     List<String> items = datas.split("|");
 
     for (int i = 0; i < items.length; i++) {
@@ -248,7 +243,7 @@ class ConsultationPageState extends State<Consultation51> {
   }
 
   List<Widget> _buildExpandableContent(List<Content> items) {
-    List<Widget> listElementWidgetList = new List<Widget>();
+    List<Widget> listElementWidgetList = <Widget>[];
 
     for (int i = 0; i < items.length; i++) {
       listElementWidgetList.add(new Padding(
@@ -292,7 +287,7 @@ class ConsultationPageState extends State<Consultation51> {
   List<Widget> _buildExpandableContent1(List<Content> items) {
     String texte = "";
 
-    List<Widget> listElementWidgetList = new List<Widget>();
+    List<Widget> listElementWidgetList = <Widget>[];
 
     for (int i = 0; i < items.length; i++) {
       texte += items[i].libelle.toString() + ", ";
@@ -343,7 +338,7 @@ class ConsultationPageState extends State<Consultation51> {
   }
 
   List<Widget> _buildImage(String datas) {
-    List<Widget> listElementWidgetList = new List<Widget>();
+    List<Widget> listElementWidgetList = <Widget>[];
     List<String> items = datas.split("|");
     
     for (int i = 0; i < items.length; i++) {
@@ -382,11 +377,11 @@ class ConsultationPageState extends State<Consultation51> {
     return Scaffold(
         backgroundColor: Color(0xffF8F8FA),
         body: FutureBuilder(
-            future: Future.wait([contenu, details]),
-            builder: (context, snapshot) {
+            future: Future.wait([contenu!, details!]),
+            builder: (context, AsyncSnapshot snapshot) {
               if (snapshot.hasError) print(snapshot.error);
               if (snapshot.hasData) {
-                if (snapshot.data[0] == null) {
+                if (snapshot.data![0] == null) {
                   return Container(
                     child: Center(
                         child: Column(
@@ -411,7 +406,7 @@ class ConsultationPageState extends State<Consultation51> {
                       ],
                     )),
                   );
-                } else if (snapshot.data[0].toString().contains("PHP Notice")) {
+                } else if (snapshot.data![0].toString().contains("PHP Notice")) {
                   return Container(
                     child: Center(
                         child: Column(
@@ -437,19 +432,19 @@ class ConsultationPageState extends State<Consultation51> {
                     )),
                   );
                 } else {
-                  List<Content> identification = new List();
-                  List<Content> parametres = new List();
-                  List<Content> antecedents = new List();
-                  List<Content> antecedents1 = new List();
+                  List<Content> identification =  [];
+                  List<Content> parametres = [];
+                  List<Content> antecedents = [];
+                  List<Content> antecedents1 = [];
                   String motif = "";
                   String photo = "";
                   String nom = "";
                   String adresse = "";
                   String datnaiss = "";
 
-                  for (int i = 0; i < snapshot.data[0].length; i++) {
-                    if (snapshot.data[0][i].groupe == 1) {
-                      if (snapshot.data[0][i].libelle == "Nom")
+                  for (int i = 0; i < snapshot.data![0].length; i++) {
+                    if (snapshot.data![0][i]!.cast<Content>().groupe == 1) {
+                      if (snapshot.data![0][i].libelle == "Nom")
                         nom = snapshot.data[0][i].valeur.toString();
                       else if (snapshot.data[0][i].libelle == "photo")
                         photo = snapshot.data[0][i].valeur.toString();
@@ -964,19 +959,19 @@ class ConsultationPageState extends State<Consultation51> {
 
   Future<void> _displayPickImageDialog(
       BuildContext context, OnPickImageCallback onPick) async {
-    double width = maxWidthController.text.isNotEmpty
+    double? width = maxWidthController.text.isNotEmpty
         ? double.parse(maxWidthController.text)
         : null;
 
-    double height = maxHeightController.text.isNotEmpty
+    double? height = maxHeightController.text.isNotEmpty
         ? double.parse(maxHeightController.text)
         : null;
 
-    int quality = qualityController.text.isNotEmpty
+    int? quality = qualityController.text.isNotEmpty
         ? int.parse(qualityController.text)
         : null;
 
-    onPick(width, height, quality);
+    onPick(width!, height!, quality!);
   }
 }
 

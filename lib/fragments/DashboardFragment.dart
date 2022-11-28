@@ -58,8 +58,8 @@ class DashboardFragmentState extends State<DashboardFragment> {
   String currentpin = "";
   String currentacces = "";
   String token = "";
-  Future<List<Indice>> indicateurs;
-  TextEditingController _outputController;
+  Future<List<Indice>>? indicateurs;
+  TextEditingController? _outputController;
   TextEditingController _securityController = TextEditingController();
 
   @override
@@ -97,9 +97,8 @@ class DashboardFragmentState extends State<DashboardFragment> {
 
     print("DATA1 :" + response.body.toString());
 
-    List<Indice> maliste = List();
+    List<Indice> maliste = [];
 
-    if (response.statusCode == 200) {
       final responseJson = json.decode(response.body);
 
       for (int i = 0; i < responseJson.length; i++) {
@@ -107,9 +106,7 @@ class DashboardFragmentState extends State<DashboardFragment> {
       }
 
       return maliste;
-    }
-
-    return null;
+   ;
   }
 
   @override
@@ -246,7 +243,7 @@ class DashboardFragmentState extends State<DashboardFragment> {
                               fontWeight: FontWeight.normal),
                         ),
                         validator: (value) {
-                          if (value.isEmpty) {
+                          if (value!.isEmpty) {
                             return allTranslations.text('requis_title');
                           }
                         },
@@ -307,7 +304,7 @@ class DashboardFragmentState extends State<DashboardFragment> {
   }
 
   Widget setup1AlertDialoadContainer() {
-    List<Widget> maliste = new List();
+    List<Widget> maliste = [];
 
     maliste.add(new ListTile(
       leading: Icon(Icons.person_pin),
@@ -391,7 +388,7 @@ class DashboardFragmentState extends State<DashboardFragment> {
   }
 
   List<Card> getStructuredGridCell(List<Menu> menu) {
-    List<Card> list = new List();
+    List<Card> list = [];
 
     for (int i = 0; i < menu.length; i++) {
       list.add(new Card(
@@ -444,7 +441,7 @@ class DashboardFragmentState extends State<DashboardFragment> {
 
     allTranslations.init(mySingleton.getLangue.toString());
 
-    List<Menu> menus = new List();
+    List<Menu> menus = [];
     Menu menu1 = new Menu(
         9, allTranslations.text('macarte_title'), 'img/carte-digitale.png');
     menus.add(menu1);
@@ -477,7 +474,7 @@ class DashboardFragmentState extends State<DashboardFragment> {
         'img/informations-personnelles.png');
     menus.add(menu8);
 
-    List<Menu> mens = new List();
+    List<Menu> mens = [];
     Menu men1 = new Menu(
         14, allTranslations.text('macartepro_title'), 'img/carte-digitale.png');
     mens.add(men1);

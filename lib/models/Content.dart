@@ -7,7 +7,7 @@ class Content {
   var groupe;
   var famille;
 
-  Content({this.libelle, this.valeur, this.groupe, this.famille});
+  Content({required this.libelle, required this.valeur, this.groupe, this.famille});
 
   factory Content.fromJson(Map<String, dynamic> json)=> Content(
       libelle: json['libelle'].toString(),

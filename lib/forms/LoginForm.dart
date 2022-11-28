@@ -91,7 +91,7 @@ class _LoginState extends State<LoginForm> {
                         fontWeight: FontWeight.normal),
                   ),
                   validator: (value) {
-                    if (value.isEmpty) {
+                    if (value!.isEmpty) {
                       return allTranslations.text('requis_title');
                     }
                   },
@@ -136,7 +136,7 @@ class _LoginState extends State<LoginForm> {
                               fontWeight: FontWeight.normal),
                         ),
                         validator: (value) {
-                          if (value.isEmpty) {
+                          if (value!.isEmpty) {
                             return allTranslations.text('requis_title');
                           }
                         },
@@ -205,7 +205,7 @@ class _LoginState extends State<LoginForm> {
   Future<void> _makeLogin() async {
     MySingleton mySingleton = new MySingleton();
 
-    if (_formKey.currentState.validate()) {
+    if (_formKey.currentState!.validate()) {
       // If the form is valid, we want to show a Snackbar
 
       showDialog(
@@ -223,7 +223,7 @@ class _LoginState extends State<LoginForm> {
         },
       );
 
-      _formKey.currentState.save();
+      _formKey.currentState!.save();
 
       // dismiss keyboard during async call
       FocusScope.of(context).requestFocus(new FocusNode());
@@ -267,15 +267,15 @@ class _LoginState extends State<LoginForm> {
         String voir = responseJson['voir'].toString();
         String consulter = responseJson['consulter'].toString();
 
-        List<String> ids = new List();
-        List<String> patients = new List();
-        List<String> noms = new List();
-        List<String> numeros = new List();
-        List<String> photos = new List();
-        List<String> pins = new List();
-        List<String> payer = new List();
-        List<String> integral = new List();
-        List<String> perso =  new List();
+        List<String> ids = [];
+        List<String> patients = [];
+        List<String> noms = [];
+        List<String> numeros = [];
+        List<String> photos = [];
+        List<String> pins = [];
+        List<String> payer = [];
+        List<String> integral =  [];
+        List<String> perso = [];
 
         String res1 = res.body.toString();
 

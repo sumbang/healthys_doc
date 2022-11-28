@@ -11,14 +11,14 @@ class Souscription {
   String numero;
 
   Souscription(
-      {this.nom,
-      this.libelle,
-      this.debut,
-      this.fin,
+      {required this.nom,
+      required this.libelle,
+     required  this.debut,
+      required this.fin,
       this.duree,
       this.statut,
-      this.numero,
-      this.photo});
+      required this.numero,
+      required this.photo});
 
   factory Souscription.fromJson(Map<String, dynamic> json) => Souscription(
       nom: json['nom'],

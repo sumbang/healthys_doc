@@ -5,7 +5,7 @@ class Indice {
   String libelle;
   String valeur;
 
-  Indice({this.libelle,this.valeur});
+  Indice({required this.libelle,required this.valeur});
 
   factory Indice.fromJson(Map<String, dynamic> json)=> Indice(
       libelle: json['label'],

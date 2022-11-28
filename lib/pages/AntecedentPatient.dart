@@ -50,7 +50,7 @@ class AntecedentPatient1 extends State<AntecedentPatient> {
   String token = "";
 
   Future<List<MyItems>> getElements(String nature) async {
-    List<MyItems> liste = List();
+    List<MyItems> liste = [];
 
     MySingleton mySingleton = new MySingleton();
 
@@ -64,7 +64,6 @@ class AntecedentPatient1 extends State<AntecedentPatient> {
 
     print("DATA :" + response.body.toString());
 
-    if (response.statusCode == 200) {
       final responseJson = json.decode(response.body.toString());
 
       for (int i = 0; i < responseJson.length; i++) {
@@ -72,9 +71,7 @@ class AntecedentPatient1 extends State<AntecedentPatient> {
       }
 
       return liste;
-    }
-
-    return null;
+  
   }
 
   _loadUser() async {

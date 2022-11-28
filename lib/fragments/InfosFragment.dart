@@ -21,10 +21,10 @@ class InfosFragment extends StatefulWidget {
 class InfosFragmentState extends State<InfosFragment> {
   InfosFragmentState();
 
-  MyItems civilite;
-  MyItems pays;
-  MyItems sexe;
-  DateTime _datenaiss;
+  MyItems? civilite;
+  MyItems? pays;
+  MyItems? sexe;
+  DateTime? _datenaiss;
   String civ = "";
   String pay = "";
 
@@ -48,14 +48,14 @@ class InfosFragmentState extends State<InfosFragment> {
   bool _isSaving = true;
 
   Future<List<MyItems>> getElements(String nature) async {
-    List<MyItems> liste = List();
+    List<MyItems> liste = [];
 
     var response = await http
         .get(Setting.apiracine + "comptes/data?types=" + nature.toString());
 
     print("DATA :" + response.body.toString());
 
-    if (response.statusCode == 200) {
+  
       final responseJson = json.decode(response.body.toString());
 
       for (int i = 0; i < responseJson.length; i++) {
@@ -63,9 +63,7 @@ class InfosFragmentState extends State<InfosFragment> {
       }
 
       return liste;
-    }
-
-    return null;
+   
   }
 
   _loadUser() async {
@@ -108,9 +106,9 @@ class InfosFragmentState extends State<InfosFragment> {
   }
 
   int _groupValue1 = -1;
-  Future<List<MyItems>> sit;
-  List<String> sitmat = new List();
-  MyItems situation;
+  Future<List<MyItems>>? sit;
+  List<String> sitmat = [];
+  MyItems? situation;
 
   void _handleRadioValueSit(MyItems value) {
     setState(() {
@@ -264,14 +262,14 @@ class InfosFragmentState extends State<InfosFragment> {
                     if (snapshot.hasError) {
                       return new Container();
                     } else if (snapshot.hasData) {
-                      List<Widget> civ = new List();
+                      List<Widget> civ = [];
 
-                      for (int i = 0; i < snapshot.data.length; i++) {
+                      for (int i = 0; i < snapshot.data!.length; i++) {
                         Widget radio = new RadioListTile(
-                          value: snapshot.data[i].id,
+                          value: snapshot.data![i].id,
                           groupValue: _groupValue1,
                           title: Text(
-                            snapshot.data[i].libelle.toString(),
+                            snapshot.data![i].libelle.toString(),
                             style: new TextStyle(
                                 fontSize: 16.0,
                                 color: Colors.black,
@@ -280,7 +278,7 @@ class InfosFragmentState extends State<InfosFragment> {
                           onChanged: (newValue) =>
                               setState(() => _groupValue1 = newValue),
                           activeColor: color,
-                          selected: snapshot.data[i].id == _groupValue1
+                          selected: snapshot.data![i].id == _groupValue1
                               ? true
                               : false,
                         );
@@ -420,12 +418,12 @@ class InfosFragmentState extends State<InfosFragment> {
                                 context: context,
                                 initialDate: _datenaiss == null
                                     ? DateTime.now()
-                                    : _datenaiss,
+                                    : _datenaiss!,
                                 firstDate: DateTime(1950),
                                 lastDate: DateTime.now())
                             .then((date) {
                           setState(() {
-                            _datenaiss = date;
+                            _datenaiss = date!;
                             String vj = "";
                             String vm = "";
                             var date1 = DateTime.parse(_datenaiss.toString());

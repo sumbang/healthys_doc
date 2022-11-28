@@ -13,14 +13,14 @@ class Assurance {
 
   Assurance(
       {this.id,
-      this.assureur,
-      this.police,
-      this.couverture,
-      this.plafond,
-      this.prime,
-      this.echeance,
+      required this.assureur,
+      required this.police,
+      required this.couverture,
+      required this.plafond,
+      required this.prime,
+      required this.echeance,
       this.profil,
-      this.assure});
+      required this.assure});
 
   factory Assurance.fromJson(Map<String, dynamic> json) => Assurance(
       id: json['id'],

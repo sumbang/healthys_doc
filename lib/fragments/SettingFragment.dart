@@ -26,9 +26,9 @@ class SettingFragmentState extends State<SettingFragment> {
   String nomuser = "";
   String token = "";
   bool _isSaving = true;
-  List<String> ids;
-  List<String> noms;
-  List<String> patients;
+  List<String>? ids;
+  List<String>? noms;
+  List<String>? patients;
   String currentid = "1";
   String currentpatient = "";
   String currentacces = "";
@@ -36,8 +36,8 @@ class SettingFragmentState extends State<SettingFragment> {
   String currentnom = "";
   String currentpin = "";
   String currentphoto = "";
-  Future<Compte> profil;
-  Future<List<Souscription>> souscriptions;
+  Future<Compte>? profil;
+  Future<List<Souscription>>? souscriptions;
 
   Future<Compte> getCompte() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -63,7 +63,7 @@ class SettingFragmentState extends State<SettingFragment> {
           "Language": mySingleton.getLangue.toString(),
         });
 
-    if (response.statusCode == 200) {
+
       final responseJson = json.decode(response.body.toString());
 
       setState(() {
@@ -76,9 +76,9 @@ class SettingFragmentState extends State<SettingFragment> {
         _addressController.text = responseJson["quartier"].toString();
       });
       return Compte.fromJson(responseJson);
-    }
+    
 
-    return null;
+  
   }
 
   Future<List<Souscription>> getSouscriptions() async {
@@ -95,19 +95,17 @@ class SettingFragmentState extends State<SettingFragment> {
     });
 
     print("DATA : " + response.body.toString());
-    if (response.statusCode == 200) {
+  
       final responseJson = json.decode(response.body.toString());
 
       return List<Souscription>.from(
           responseJson.map((x) => Souscription.fromJson(x)));
-    }
-
-    return null;
+   
   }
 
   List<Widget> SouscriptionItem(
       List<Souscription> maliste, BuildContext context) {
-    List<Widget> listElementWidgetList = new List<Widget>();
+    List<Widget> listElementWidgetList = <Widget>[];
 
     if (maliste != null) {
       var lengthOfList = maliste.length;
@@ -280,7 +278,7 @@ class SettingFragmentState extends State<SettingFragment> {
     allTranslations.init(mySingleton.getLangue.toString());
 
     return FutureBuilder(
-        future: Future.wait([profil, souscriptions]),
+        future: Future.wait([profil!, souscriptions!]),
         builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.none:
@@ -368,7 +366,7 @@ class SettingFragmentState extends State<SettingFragment> {
                                             image: NetworkImage(
                                                 Setting.serveurimage +
                                                     '' +
-                                                    snapshot.data[0].profil
+                                                    snapshot.data![0].profil
                                                         .photo))),
                                   ),
                                   SizedBox(
@@ -383,7 +381,7 @@ class SettingFragmentState extends State<SettingFragment> {
                                         height: 5,
                                       ),
                                       Text(
-                                        snapshot.data[0].nom,
+                                        snapshot.data![0].nom,
                                         style: TextStyle(
                                             color: Colors.white,
                                             fontSize: 22,
@@ -395,7 +393,7 @@ class SettingFragmentState extends State<SettingFragment> {
                                       ),
                                       Text(
                                         "Membre depuis le " +
-                                            snapshot.data[0].date,
+                                            snapshot.data![0].date,
                                         style: TextStyle(
                                             color: Colors.white,
                                             fontSize: 18,
@@ -406,7 +404,7 @@ class SettingFragmentState extends State<SettingFragment> {
                                         height: 10,
                                       ),
                                       Text(
-                                        "Sexe : " + snapshot.data[0].sexenom,
+                                        "Sexe : " + snapshot.data![0].sexenom,
                                         style: TextStyle(
                                             color: Colors.white,
                                             fontSize: 18,
@@ -455,7 +453,7 @@ class SettingFragmentState extends State<SettingFragment> {
                                         EdgeInsets.only(left: 15.0, top: 10),
                                     child: Column(
                                         children: SouscriptionItem(
-                                            snapshot.data[1], context))),
+                                            snapshot.data![1], context))),
                               ]))))
                     ],
                   );
@@ -466,7 +464,7 @@ class SettingFragmentState extends State<SettingFragment> {
             // You can reach your snapshot.data['url'] in here
           }
 
-          return null;
+          
         });
   }
 }

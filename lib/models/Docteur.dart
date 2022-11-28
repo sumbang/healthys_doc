@@ -7,7 +7,7 @@ class Docteur {
   String phone;
   String specialite;
 
-  Docteur({this.id, this.nom, this.prenom, this.phone, this.specialite});
+  Docteur({this.id, required this.nom, required  this.prenom, required this.phone,required  this.specialite});
 
   factory Docteur.fromJson(Map<String, dynamic> json) => Docteur(
       id: json['id'],

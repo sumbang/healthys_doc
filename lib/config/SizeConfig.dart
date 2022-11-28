@@ -1,17 +1,18 @@
 import 'package:flutter/cupertino.dart';
 
 class SizeConfig {
-  static double _screenWidth;
-  static double _screenHeight;
+  static double _screenWidth = 0;
+  static double _screenHeight = 0;
   static double _blockSizeHorizontal = 0;
   static double _blockSizeVertical = 0;
 
-  static double textMultiplier;
-  static double imageSizeMultiplier;
-  static double heightMultiplier;
-  static double widthMultiplier;
+  static double textMultiplier = 0;
+  static double imageSizeMultiplier = 0;
+  static double heightMultiplier = 0;
+  static double widthMultiplier = 0;
   static bool isPortrait = true;
   static bool isMobilePortrait = false;
+  static bool isMobile = true;
 
   void init(BoxConstraints constraints, Orientation orientation) {
     if (orientation == Orientation.portrait) {
@@ -21,11 +22,19 @@ class SizeConfig {
       if (_screenWidth < 450) {
         isMobilePortrait = true;
       }
+
+      if(_screenWidth < 500) isMobile = true;
+      else isMobile = false;
+
     } else {
       _screenWidth = constraints.maxHeight;
       _screenHeight = constraints.maxWidth;
       isPortrait = false;
       isMobilePortrait = false;
+
+      if(_screenWidth < 500) isMobile = true;
+      else isMobile = false;
+
     }
 
     _blockSizeHorizontal = _screenWidth / 100;

@@ -5,7 +5,7 @@ class MyItems {
   var id;
   String libelle;
 
-  MyItems({this.id,this.libelle});
+  MyItems({this.id,required this.libelle});
 
   factory MyItems.fromJson(Map<String, dynamic> json)=> MyItems(
       id: json['id'],

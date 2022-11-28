@@ -40,8 +40,8 @@ class ConsultationFragmentState extends State<ConsultationFragment> {
   int currentLength = 0;
   final int increment = 10;
   bool isLoading = false;
-  Future<List<Consultation>> consultations;
-  Future<List<Consultation>> consultations2;
+  Future<List<Consultation>>? consultations;
+  Future<List<Consultation>>? consultations2;
   List<Consultation> _searchResult = [];
   TextEditingController controller = new TextEditingController();
 
@@ -71,7 +71,7 @@ class ConsultationFragmentState extends State<ConsultationFragment> {
 
     String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
 
-    List<Consultation> liste = List();
+    List<Consultation> liste = [];
 
     var response = await http.get(
         Setting.apiracine +
@@ -91,7 +91,7 @@ class ConsultationFragmentState extends State<ConsultationFragment> {
     print("DATA4 :" + role + " - " + profil + " - " + user);
     print("DATA4 :" + response.body.toString());
 
-    if (response.statusCode == 200) {
+  
       final responseJson = json.decode(response.body.toString());
 
       for (int i = 0; i < responseJson.length; i++) {
@@ -99,14 +99,12 @@ class ConsultationFragmentState extends State<ConsultationFragment> {
       }
 
       return liste;
-    }
-
-    return null;
+   
   }
 
   List<Widget> ConsultationItem(
       List<Consultation> maliste, BuildContext context) {
-    List<Widget> listElementWidgetList = new List<Widget>();
+    List<Widget> listElementWidgetList = <Widget>[];
 
     if (maliste != null) {
       var lengthOfList = maliste.length;
@@ -114,7 +112,7 @@ class ConsultationFragmentState extends State<ConsultationFragment> {
       for (int i = 0; i < lengthOfList; i++) {
         Consultation item = maliste[i];
 
-        List<Widget> actions = new List<Widget>();
+        List<Widget> actions = <Widget>[];
 
         var listItem = new Container(
           padding: new EdgeInsets.all(0.0),
@@ -375,7 +373,7 @@ class ConsultationFragmentState extends State<ConsultationFragment> {
                         return;
                       }
 
-                      snapshot.data.forEach((userDetail) {
+                      snapshot.data!.forEach((userDetail) {
                         if (userDetail.dateconsultation
                                 .toString()
                                 .toLowerCase()
@@ -445,7 +443,7 @@ class ConsultationFragmentState extends State<ConsultationFragment> {
                                     // This next line does the trick.
                                     scrollDirection: Axis.vertical,
                                     children: ConsultationItem(
-                                        snapshot.data, context),
+                                        snapshot.data!.cast<Consultation>(), context),
                                   )),
                         )
                       ],
@@ -457,7 +455,7 @@ class ConsultationFragmentState extends State<ConsultationFragment> {
               // You can reach your snapshot.data['url'] in here
             }
 
-            return null;
+          
           }),
     );
   }

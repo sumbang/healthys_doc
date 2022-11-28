@@ -5,7 +5,7 @@ class Affection {
   String lib_affection;
   var statut;
 
-  Affection({this.code_affection, this.lib_affection, this.statut});
+  Affection({required this.code_affection, required this.lib_affection, this.statut});
 
   factory Affection.fromJson(Map<String, dynamic> json) => Affection(
         code_affection: json['id'],

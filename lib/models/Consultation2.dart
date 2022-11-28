@@ -14,15 +14,15 @@ class Mconsultation2 {
 
   Mconsultation2(
       {this.id,
-      this.photo,
-      this.dateconsultation,
-      this.infirmiere,
-      this.patient,
-      this.phone,
-      this.motif,
-      this.diagnostic,
-      this.malade,
-      this.numero});
+      required this.photo,
+      required this.dateconsultation,
+      required this.infirmiere,
+      required this.patient,
+      required this.phone,
+      required this.motif,
+      required this.diagnostic,
+      required this.malade,
+      required this.numero});
 
   factory Mconsultation2.fromJson(Map<String, dynamic> json) => Mconsultation2(
       id: json['id'],

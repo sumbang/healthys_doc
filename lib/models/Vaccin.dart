@@ -11,12 +11,12 @@ class Vaccin {
 
   Vaccin(
       {this.id,
-      this.nom,
-      this.importance,
-      this.date,
-      this.periode,
+     required  this.nom,
+     required  this.importance,
+     required  this.date,
+     required  this.periode,
       this.prise,
-      this.personne});
+    required   this.personne});
 
   factory Vaccin.fromJson(Map<String, dynamic> json) => Vaccin(
       id: json['id'],

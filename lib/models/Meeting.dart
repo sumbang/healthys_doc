@@ -20,15 +20,15 @@ class Meeting {
       this.idprofil,
       this.idcentresoins,
       this.idmedecin,
-      this.datemeeting,
-      this.heuremeeting,
-      this.statut,
-      this.symptome,
-      this.docname,
-      this.specialite,
-      this.patientname,
-      this.patientmatricule,
-      this.notes});
+      required this.datemeeting,
+      required this.heuremeeting,
+      required this.statut,
+      required this.symptome,
+      required this.docname,
+     required  this.specialite,
+      required this.patientname,
+     required  this.patientmatricule,
+     required  this.notes});
 
   factory Meeting.fromJson(Map<String, dynamic> json) => Meeting(
         id: json['id'],

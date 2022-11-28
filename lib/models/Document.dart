@@ -6,7 +6,7 @@ class Document {
   String datecreation;
   String fichier;
 
-  Document({this.titre, this.patient, this.datecreation, this.fichier});
+  Document({required this.titre, required this.patient, required this.datecreation, required this.fichier});
 
   factory Document.fromJson(Map<String, dynamic> json) => Document(
       titre: json['titre'],

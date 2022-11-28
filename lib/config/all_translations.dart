@@ -13,9 +13,9 @@ const List<String> _supportedLanguages = ['en','fr','es'];
 Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
 class GlobalTranslations {
-  Locale _locale;
-  Map<dynamic, dynamic> _localizedValues;
-  VoidCallback _onLocaleChangedCallback;
+  Locale? _locale;
+  Map<dynamic, dynamic> ?_localizedValues;
+  VoidCallback? _onLocaleChangedCallback;
 
   ///
   /// Returns the list of supported Locales
@@ -27,13 +27,13 @@ class GlobalTranslations {
   /// 
   String text(String key) {
     // Return the requested string
-    return (_localizedValues == null || _localizedValues[key] == null) ? '** $key not found' : _localizedValues[key];
+    return (_localizedValues == null || _localizedValues![key] == null) ? '** $key not found' : _localizedValues![key];
   }
 
   ///
   /// Returns the current language code
   ///
-  get currentLanguage => _locale == null ? '' : _locale.languageCode;
+  get currentLanguage => _locale == null ? '' : _locale!.languageCode;
 
   ///
   /// Returns the current Locale
@@ -43,12 +43,20 @@ class GlobalTranslations {
   ///
   /// One-time initialization
   ///
-  Future<Null> init([String language]) async {
+  Future<Null> init([String? language]) async {
     if (_locale == null){
       await setNewLanguage();
     }
     return null;
   }
+
+    Future<Null> init1([String? language]) async {
+    if (_locale == null){
+      await setNewLanguage1(language!);
+    }
+    return null;
+  }
+
 
   /// ----------------------------------------------------------
   /// Method that saves/restores the preferred language
@@ -67,11 +75,10 @@ class GlobalTranslations {
  
     MySingleton mySingleton = new MySingleton();
     String language = mySingleton.getLangue.toString();
-
     _locale = Locale(language, "");
 
     // Load the language strings
-    String jsonContent = await rootBundle.loadString("locale/i18n_${_locale.languageCode}.json");
+    String jsonContent = await rootBundle.loadString("locale/i18n_${_locale!.languageCode}.json");
     _localizedValues = json.decode(jsonContent);
 
     // If we are asked to save the new language in the application preferences
@@ -81,7 +88,28 @@ class GlobalTranslations {
 
     // If there is a callback to invoke to notify that a language has changed
     if (_onLocaleChangedCallback != null){
-      _onLocaleChangedCallback();
+      _onLocaleChangedCallback!();
+    }
+
+    return null;
+  }
+
+   Future<Null> setNewLanguage1(String language) async {
+
+    _locale = Locale(language, ""); bool saveInPrefs = false;
+
+    // Load the language strings
+    String jsonContent = await rootBundle.loadString("locale/i18n_${_locale!.languageCode}.json");
+    _localizedValues = json.decode(jsonContent);
+
+    // If we are asked to save the new language in the application preferences
+    if (saveInPrefs){
+      await setPreferredLanguage(language);
+    }
+
+    // If there is a callback to invoke to notify that a language has changed
+    if (_onLocaleChangedCallback != null){
+      _onLocaleChangedCallback!();
     }
 
     return null;
@@ -119,7 +147,7 @@ class GlobalTranslations {
   ///
   /// Singleton Factory
   ///
-  static final GlobalTranslations _translations = new GlobalTranslations._internal();
+  static final GlobalTranslations  _translations = new GlobalTranslations._internal();
   factory GlobalTranslations() {
     return _translations;
   }

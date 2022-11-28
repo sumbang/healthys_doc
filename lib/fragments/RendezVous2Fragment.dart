@@ -30,11 +30,11 @@ class RendezVousFragmentState extends State<RendezVous2Fragment>
   String token = "";
   String currentnom = "";
   String currentphoto = "";
-  TabController _controller;
+  TabController? _controller;
 
-  Future<List<Meeting>> meetings;
-  Future<List<Meeting>> meetings1;
-  Future<List<Meeting>> meetings2;
+  Future<List<Meeting>>? meetings;
+  Future<List<Meeting>>? meetings1;
+  Future<List<Meeting>>? meetings2;
   List<Meeting> _searchResult = [];
   TextEditingController controller = new TextEditingController();
 
@@ -215,7 +215,7 @@ class RendezVousFragmentState extends State<RendezVous2Fragment>
   }
 
   List<Widget> MeetingItem(List<Meeting> maliste, BuildContext context) {
-    List<Widget> listElementWidgetList = new List<Widget>();
+    List<Widget> listElementWidgetList = <Widget>[];
 
     if (maliste != null) {
       var lengthOfList = maliste.length;
@@ -383,7 +383,7 @@ class RendezVousFragmentState extends State<RendezVous2Fragment>
 
     String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
 
-    List<Meeting> liste = List();
+    List<Meeting> liste = [];
 
     print("DATA4 :" + role + " - " + id);
 
@@ -396,7 +396,7 @@ class RendezVousFragmentState extends State<RendezVous2Fragment>
 
     print("DATA4 :" + response.body.toString());
 
-    if (response.statusCode == 200) {
+   
       final responseJson = json.decode(response.body.toString());
 
       for (int i = 0; i < responseJson.length; i++) {
@@ -406,9 +406,7 @@ class RendezVousFragmentState extends State<RendezVous2Fragment>
       }
 
       return liste;
-    }
-
-    return null;
+   
   }
 
   @override
@@ -494,7 +492,7 @@ class RendezVousFragmentState extends State<RendezVous2Fragment>
                         return;
                       }
 
-                      snapshot.data.forEach((userDetail) {
+                      snapshot.data!.forEach((userDetail) {
                         if (userDetail.docname
                                 .toString()
                                 .toLowerCase()
@@ -570,7 +568,7 @@ class RendezVousFragmentState extends State<RendezVous2Fragment>
                                       // This next line does the trick.
                                       scrollDirection: Axis.vertical,
                                       children: MeetingItem(
-                                        snapshot.data,
+                                        snapshot.data!.cast<Meeting>(),
                                         context,
                                       ),
                                     ))),
@@ -580,7 +578,7 @@ class RendezVousFragmentState extends State<RendezVous2Fragment>
                 }
             }
 
-            return null;
+           
           }),
     );
   }

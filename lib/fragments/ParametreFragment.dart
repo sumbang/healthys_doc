@@ -24,9 +24,9 @@ class ParametreFragmentState extends State<ParametreFragment> {
   final color = const Color(0xFFcd005f);
   final color2 = const Color(0xFF008dad);
 
-  MyItems rhesus;
-  MyItems sanguin;
-  MyItems electro;
+  MyItems? rhesus;
+  MyItems? sanguin;
+  MyItems? electro;
 
   final _poidsController = TextEditingController();
   final _tailleController = TextEditingController();
@@ -42,14 +42,13 @@ class ParametreFragmentState extends State<ParametreFragment> {
   bool _isSaving = true;
 
   Future<List<MyItems>> getElements(String nature) async {
-    List<MyItems> liste = List();
+    List<MyItems> liste = [];
 
     var response = await http
         .get(Setting.apiracine + "comptes/data?types=" + nature.toString());
 
     print("DATA :" + response.body.toString());
 
-    if (response.statusCode == 200) {
       final responseJson = json.decode(response.body.toString());
 
       for (int i = 0; i < responseJson.length; i++) {
@@ -57,16 +56,14 @@ class ParametreFragmentState extends State<ParametreFragment> {
       }
 
       return liste;
-    }
-
-    return null;
+  
   }
 
   int _groupValue1 = -1;
   int _groupValue2 = -1;
 
-  Future<List<MyItems>> emato;
-  Future<List<MyItems>> groupe;
+  Future<List<MyItems>>? emato;
+  Future<List<MyItems>>? groupe;
 
   _loadUser() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -101,8 +98,8 @@ class ParametreFragmentState extends State<ParametreFragment> {
           rhesus1 = responseJson["rhesus"].toString();
           groupe1 = responseJson["groupe"].toString();
           electro1 = responseJson["electro"].toString();
-          _groupValue1 = int.tryParse(responseJson["groupe"].toString());
-          _groupValue2 = int.tryParse(responseJson["electro"].toString());
+          _groupValue1 = int.tryParse(responseJson["groupe"].toString())!;
+          _groupValue2 = int.tryParse(responseJson["electro"].toString())!;
         });
       });
     }
@@ -354,14 +351,14 @@ class ParametreFragmentState extends State<ParametreFragment> {
                     if (snapshot.hasError) {
                       return new Container();
                     } else if (snapshot.hasData) {
-                      List<Widget> civ = new List();
+                      List<Widget> civ = [];
 
-                      for (int i = 0; i < snapshot.data.length; i++) {
+                      for (int i = 0; i < snapshot.data!.length; i++) {
                         Widget radio = new RadioListTile(
-                          value: snapshot.data[i].id,
+                          value: snapshot.data![i].id,
                           groupValue: _groupValue2,
                           title: Text(
-                            snapshot.data[i].libelle.toString(),
+                            snapshot.data![i].libelle.toString(),
                             style: new TextStyle(
                                 fontSize: 16.0,
                                 color: Colors.black,
@@ -370,7 +367,7 @@ class ParametreFragmentState extends State<ParametreFragment> {
                           onChanged: (newValue) =>
                               setState(() => _groupValue2 = newValue),
                           activeColor: color,
-                          selected: snapshot.data[i].id == _groupValue2
+                          selected: snapshot.data![i].id == _groupValue2
                               ? true
                               : false,
                         );
@@ -422,14 +419,14 @@ class ParametreFragmentState extends State<ParametreFragment> {
                               if (snapshot.hasError) {
                                 return new Container();
                               } else if (snapshot.hasData) {
-                                List<Widget> civ = new List();
+                                List<Widget> civ = [];
 
-                                for (int i = 0; i < snapshot.data.length; i++) {
+                                for (int i = 0; i < snapshot.data!.length; i++) {
                                   Widget radio = new RadioListTile(
-                                    value: snapshot.data[i].id,
+                                    value: snapshot.data![i].id,
                                     groupValue: _groupValue1,
                                     title: Text(
-                                      snapshot.data[i].libelle.toString(),
+                                      snapshot.data![i].libelle.toString(),
                                       style: new TextStyle(
                                           fontSize: 16.0,
                                           color: Colors.black,
@@ -439,7 +436,7 @@ class ParametreFragmentState extends State<ParametreFragment> {
                                         setState(() => _groupValue1 = newValue),
                                     activeColor: color,
                                     selected:
-                                        snapshot.data[i].id == _groupValue1
+                                        snapshot.data![i].id == _groupValue1
                                             ? true
                                             : false,
                                   );

@@ -12,13 +12,13 @@ class Programme {
 
   Programme(
       {this.id,
-      this.pays,
-      this.paysname,
-      this.titre,
-      this.description,
-      this.image,
-      this.message,
-      this.date});
+     required  this.pays,
+     required  this.paysname,
+     required  this.titre,
+     required  this.description,
+     required  this.image,
+     required  this.message,
+     required  this.date});
 
   factory Programme.fromJson(Map<String, dynamic> json) => Programme(
       id: json['id'],

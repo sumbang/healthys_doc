@@ -33,10 +33,10 @@ class UrgenceFragmentState extends State<UrgenceFragment> {
   String pays1 = "";
   String pays2 = "";
   bool urgence = false;
-  Future<List<Contact>> urgent;
+  Future<List<Contact>>? urgent;
 
   Future<List<Contact>> getUrgence() async {
-    List<Contact> liste = List();
+    List<Contact> liste = [];
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -56,7 +56,6 @@ class UrgenceFragmentState extends State<UrgenceFragment> {
 
     print("DATA5 :" + response.body.toString());
 
-    if (response.statusCode == 200) {
       final responseJson = json.decode(response.body.toString());
 
       for (int i = 0; i < responseJson.length; i++) {
@@ -64,9 +63,7 @@ class UrgenceFragmentState extends State<UrgenceFragment> {
       }
 
       return liste;
-    }
-
-    return null;
+   
   }
 
   bool _isChecked = true;
@@ -180,21 +177,21 @@ class UrgenceFragmentState extends State<UrgenceFragment> {
           if (snapshot.hasError) {
             return new Container();
           } else if (snapshot.hasData) {
-            _nom1Controller.text = snapshot.data[0].nom;
-            pays1 = snapshot.data[0].pays;
-            _numero1Controller.text = snapshot.data[0].phone;
+            _nom1Controller.text = snapshot.data![0].nom;
+            pays1 = snapshot.data![0].pays;
+            _numero1Controller.text = snapshot.data![0].phone;
 
-            if (snapshot.data.length > 1) {
-              _nom2Controller.text = snapshot.data[1].nom;
-              pays2 = snapshot.data[1].pays;
-              _numero2Controller.text = snapshot.data[1].phone;
+            if (snapshot.data!.length > 1) {
+              _nom2Controller.text = snapshot.data![1].nom;
+              pays2 = snapshot.data![1].pays;
+              _numero2Controller.text = snapshot.data![1].phone;
             } else {
               _nom2Controller.text = "";
               pays2 = "CM";
               _numero2Controller.text = "";
             }
 
-            List<Widget> liste = new List();
+            List<Widget> liste = [];
 
             liste.add(new Divider(
               height: 15.0,
@@ -244,7 +241,7 @@ class UrgenceFragmentState extends State<UrgenceFragment> {
                         fontWeight: FontWeight.normal),
                   ),
                   validator: (value) {
-                    if (value.isEmpty) {
+                    if (value!.isEmpty) {
                       return 'Champ obligatoire';
                     }
                   },
@@ -336,7 +333,7 @@ class UrgenceFragmentState extends State<UrgenceFragment> {
                         fontWeight: FontWeight.normal),
                   ),
                   validator: (value) {
-                    if (value.isEmpty) {
+                    if (value!.isEmpty) {
                       return 'Champ obligatoire';
                     }
                   },

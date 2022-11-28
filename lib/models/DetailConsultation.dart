@@ -18,7 +18,7 @@ class DetailConsultation {
   String mise1;
   var evolution;
 
-  DetailConsultation({this.id,this.motifs,this.dateconsultation,this.diagnostic,this.ordonnance,this.histoire,this.examen,this.resultat,this.conclusion,this.scan1,this.scan2,this.resultat1,this.diagnostic1,this.mise1,this.evolution});
+  DetailConsultation({this.id,required this.motifs,required this.dateconsultation,required this.diagnostic,required this.ordonnance,required this.histoire,required this.examen,required this.resultat,required this.conclusion,required this.scan1,required this.scan2,required this.resultat1,required this.diagnostic1,required this.mise1,this.evolution});
 
   factory DetailConsultation.fromJson(Map<String, dynamic> json)=> DetailConsultation(
       id: json['id'],

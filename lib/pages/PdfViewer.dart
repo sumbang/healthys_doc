@@ -35,7 +35,7 @@ class PdfViewer1 extends State<PdfViewer> {
   int _totalPages = 0;
   int _currentPage = 0;
   bool pdfReady = false;
-  PDFViewController _pdfViewController;
+  PDFViewController? _pdfViewController;
   bool loaded = false;
   String urlPDFPath = "";
 
@@ -143,7 +143,7 @@ class PdfViewer1 extends State<PdfViewer> {
           },
           onRender: (_pages) {
             setState(() {
-              _totalPages = _pages;
+              _totalPages = _pages!;
               pdfReady = true;
             });
           },
@@ -152,9 +152,9 @@ class PdfViewer1 extends State<PdfViewer> {
               _pdfViewController = vc;
             });
           },
-          onPageChanged: (int page, int total) {
+          onPageChanged: (int? page, int? total) {
             setState(() {
-              _currentPage = page;
+              _currentPage = page!;
             });
           },
           onPageError: (page, e) {},
@@ -170,7 +170,7 @@ class PdfViewer1 extends State<PdfViewer> {
                 setState(() {
                   if (_currentPage > 0) {
                     _currentPage--;
-                    _pdfViewController.setPage(_currentPage);
+                    _pdfViewController!.setPage(_currentPage!);
                   }
                 });
               },
@@ -187,7 +187,7 @@ class PdfViewer1 extends State<PdfViewer> {
                 setState(() {
                   if (_currentPage < _totalPages - 1) {
                     _currentPage++;
-                    _pdfViewController.setPage(_currentPage);
+                    _pdfViewController!.setPage(_currentPage);
                   }
                 });
               },

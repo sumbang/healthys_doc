@@ -44,8 +44,8 @@ class DossierMedicalFragmentState extends State<DossierMedicalFragment> {
   bool autre = false;
   bool autre2 = false;
   int currentstatus = 0;
-  List<String> sitmat = new List();
-  MyItems situation;
+  List<String> sitmat = [];
+  MyItems? situation;
 
   void _handleRadioValueSit(MyItems value) {
     setState(() {
@@ -71,10 +71,10 @@ class DossierMedicalFragmentState extends State<DossierMedicalFragment> {
 
   bool _isChecked = true;
   bool _isSaving = true;
-  Future<List<MyItems>> sit;
+  Future<List<MyItems>>? sit;
 
   Future<List<MyItems>> getElements(String nature) async {
-    List<MyItems> liste = List();
+    List<MyItems> liste = [];
 
     MySingleton mySingleton = new MySingleton();
 
@@ -88,7 +88,7 @@ class DossierMedicalFragmentState extends State<DossierMedicalFragment> {
 
     print("DATA2 :" + response.body.toString());
 
-    if (response.statusCode == 200) {
+ 
       final responseJson = json.decode(response.body.toString());
 
       for (int i = 0; i < responseJson.length; i++) {
@@ -96,9 +96,7 @@ class DossierMedicalFragmentState extends State<DossierMedicalFragment> {
       }
 
       return liste;
-    }
-
-    return null;
+   
   }
 
   int _groupValue = -1;
@@ -187,8 +185,8 @@ class DossierMedicalFragmentState extends State<DossierMedicalFragment> {
           setState(() {
             //currentstatus = int.parse(responseJson["sitmat"].toString());
             situation = MyItems.fromJson(responseJson["sitmat"]);
-            print("current : " + situation.libelle.toString());
-            _groupValue1 = situation.id;
+            print("current : " + situation!.libelle.toString());
+            _groupValue1 = situation!.id;
           });
           //}
 
@@ -459,14 +457,14 @@ class DossierMedicalFragmentState extends State<DossierMedicalFragment> {
                     if (snapshot.hasError) {
                       return new Container();
                     } else if (snapshot.hasData) {
-                      List<Widget> civ = new List();
+                      List<Widget> civ = [];
 
-                      for (int i = 0; i < snapshot.data.length; i++) {
+                      for (int i = 0; i < snapshot.data!.length; i++) {
                         Widget radio = new RadioListTile(
-                          value: snapshot.data[i].id,
+                          value: snapshot.data![i].id,
                           groupValue: _groupValue1,
                           title: Text(
-                            snapshot.data[i].libelle.toString(),
+                            snapshot.data![i].libelle.toString(),
                             style: new TextStyle(
                                 fontSize: 16.0,
                                 color: Colors.black,
@@ -475,7 +473,7 @@ class DossierMedicalFragmentState extends State<DossierMedicalFragment> {
                           onChanged: (newValue) =>
                               setState(() => _groupValue1 = newValue),
                           activeColor: color,
-                          selected: snapshot.data[i].id == situation.id
+                          selected: snapshot.data![i].id == situation!.id
                               ? true
                               : false,
                         );
@@ -497,7 +495,7 @@ class DossierMedicalFragmentState extends State<DossierMedicalFragment> {
               title: Text(allTranslations.text('sport_title')),
               value: sport,
               onChanged: (newValue) {
-                if (newValue)
+                if (newValue!)
                   setState(() {
                     sport = true;
                   });

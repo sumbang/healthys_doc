@@ -59,8 +59,8 @@ class ConsultationPageState extends State<Consultation_2> {
   int currentLength = 0;
   final int increment = 10;
   bool isLoading = false;
-  Future<List<Mconsultation2>> consultations;
-  Future<List<Mconsultation2>> consultations2;
+  Future<List<Mconsultation2>>? consultations;
+  Future<List<Mconsultation2>>? consultations2;
   List<Mconsultation2> _searchResult = [];
   TextEditingController controller = new TextEditingController();
 
@@ -198,7 +198,7 @@ class ConsultationPageState extends State<Consultation_2> {
 
     String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
 
-    List<Mconsultation2> liste = List();
+    List<Mconsultation2> liste = [];
 
     var response = await http.get(
         Setting.apiracine +
@@ -223,7 +223,7 @@ class ConsultationPageState extends State<Consultation_2> {
         type.toString());
     print("DATA4 :" + response.body.toString());
 
-    if (response.statusCode == 200) {
+
       final responseJson = json.decode(response.body.toString());
 
       for (int i = 0; i < responseJson.length; i++) {
@@ -231,9 +231,7 @@ class ConsultationPageState extends State<Consultation_2> {
       }
 
       return liste;
-    }
-
-    return null;
+  
   }
 
   void _viewConsultation(Mconsultation2 item) {
@@ -248,7 +246,7 @@ class ConsultationPageState extends State<Consultation_2> {
   }
 
   Widget setup1AlertDialoadContainer1(Mconsultation2 item) {
-    List<Widget> maliste = new List();
+    List<Widget> maliste = [];
 
     maliste.add(new ListTile(
       leading: Icon(Icons.file_download),
@@ -326,7 +324,7 @@ class ConsultationPageState extends State<Consultation_2> {
 
   List<Widget> ConsultationItem(
       List<Mconsultation2> maliste, BuildContext context) {
-    List<Widget> listElementWidgetList = new List<Widget>();
+    List<Widget> listElementWidgetList = <Widget>[];
 
     if (maliste != null) {
       var lengthOfList = maliste.length;
@@ -334,7 +332,7 @@ class ConsultationPageState extends State<Consultation_2> {
       for (int i = 0; i < lengthOfList; i++) {
         Mconsultation2 item = maliste[i];
 
-        List<Widget> actions = new List<Widget>();
+        List<Widget> actions = <Widget>[];
         var truedate = "";
 
         if (item.dateconsultation != null) {
@@ -515,7 +513,7 @@ class ConsultationPageState extends State<Consultation_2> {
 
   List<Widget> ConsultationItem1(
       List<Mconsultation2> maliste, BuildContext context) {
-    List<Widget> listElementWidgetList = new List<Widget>();
+    List<Widget> listElementWidgetList = <Widget>[];
 
     if (maliste != null) {
       var lengthOfList = maliste.length;
@@ -532,7 +530,7 @@ class ConsultationPageState extends State<Consultation_2> {
               truedate = item.dateconsultation.toString();
         }
 
-        List<Widget> actions = new List<Widget>();
+        List<Widget> actions = <Widget>[];
 
         var listItem = new Container(
           padding: new EdgeInsets.all(0.0),
@@ -845,7 +843,7 @@ class ConsultationPageState extends State<Consultation_2> {
                                     return;
                                   }
 
-                                  snapshot.data.forEach((userDetail) {
+                                  snapshot.data!.forEach((userDetail) {
                                     if (userDetail.dateconsultation
                                             .toString()
                                             .toLowerCase()
@@ -904,7 +902,7 @@ class ConsultationPageState extends State<Consultation_2> {
                                             // This next line does the trick.
                                             scrollDirection: Axis.vertical,
                                             children: ConsultationItem(
-                                                snapshot.data, context),
+                                                snapshot.data!.cast<Mconsultation2>(), context),
                                           )),
                                     ),
                                   ],
@@ -916,7 +914,6 @@ class ConsultationPageState extends State<Consultation_2> {
                           // You can reach your snapshot.data['url'] in here
                         }
 
-                        return null;
                       }),
                   new FutureBuilder<List<Mconsultation2>>(
                       future: consultations2, //new
@@ -991,7 +988,7 @@ class ConsultationPageState extends State<Consultation_2> {
                                     return;
                                   }
 
-                                  snapshot.data.forEach((userDetail) {
+                                  snapshot.data!.forEach((userDetail) {
                                     if (userDetail.dateconsultation
                                             .toString()
                                             .toLowerCase()
@@ -1050,7 +1047,7 @@ class ConsultationPageState extends State<Consultation_2> {
                                             // This next line does the trick.
                                             scrollDirection: Axis.vertical,
                                             children: ConsultationItem1(
-                                                snapshot.data, context),
+                                                snapshot.data!.cast<Mconsultation2>(), context),
                                           )),
                                     ),
                                   ],
@@ -1062,7 +1059,7 @@ class ConsultationPageState extends State<Consultation_2> {
                           // You can reach your snapshot.data['url'] in here
                         }
 
-                        return null;
+                     
                       }),
                 ],
               ),

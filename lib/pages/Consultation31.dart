@@ -69,19 +69,19 @@ class ConsultationPageState extends State<Consultation31> {
   final color2 = const Color(0xFF008dad);
 
   bool isVideo = false;
-  String _retrieveDataError;
+  String? _retrieveDataError;
 
   final TextEditingController maxWidthController = TextEditingController();
   final TextEditingController maxHeightController = TextEditingController();
   final TextEditingController qualityController = TextEditingController();
-  Future<File> imageFile;
-  PickedFile _imageFile;
-  File _image;
-  File tmpFile;
+  Future<File>? imageFile;
+  PickedFile? _imageFile;
+  File? _image;
+  File? tmpFile;
   final ImagePicker _picker = ImagePicker();
-  dynamic _pickImageError;
-  Future<List<Content>> contenu;
-  Future<DetailConsultation> details;
+  dynamic? _pickImageError;
+  Future<List<Content>>? contenu;
+  Future<DetailConsultation>? details;
 
   Widget _previewImage() {
     final Text retrieveError = _getRetrieveErrorWidget();
@@ -89,7 +89,7 @@ class ConsultationPageState extends State<Consultation31> {
       return retrieveError;
     }
     if (_imageFile != null) {
-      return Image.file(File(_imageFile.path));
+      return Image.file(File(_imageFile!.path));
     } else if (_pickImageError != null) {
       return Text(
         'Erreur : $_pickImageError',
@@ -103,7 +103,7 @@ class ConsultationPageState extends State<Consultation31> {
     }
   }
 
-  pickImageFromGallery(ImageSource source, {BuildContext context}) async {
+  pickImageFromGallery(ImageSource source, {required BuildContext context}) async {
     await _displayPickImageDialog(context,
         (double maxWidth, double maxHeight, int quality) async {
       try {
@@ -128,12 +128,10 @@ class ConsultationPageState extends State<Consultation31> {
   }
 
   Text _getRetrieveErrorWidget() {
-    if (_retrieveDataError != null) {
-      final Text result = Text(_retrieveDataError);
+      final Text result = Text(_retrieveDataError!);
       _retrieveDataError = null;
       return result;
-    }
-    return null;
+    
   }
 
   Future<void> retrieveLostData() async {
@@ -207,9 +205,8 @@ class ConsultationPageState extends State<Consultation31> {
 
     print("DATA2 :" + response.body.toString());
 
-    List<Content> maliste = List();
+    List<Content> maliste = [];
 
-    if (response.statusCode == 200) {
       final responseJson = json.decode(response.body);
 
       for (int i = 0; i < responseJson.length; i++) {
@@ -217,9 +214,7 @@ class ConsultationPageState extends State<Consultation31> {
       }
 
       return maliste;
-    }
-
-    return null;
+   
   }
 
   Future<DetailConsultation> _getDetail() async {
@@ -243,15 +238,13 @@ class ConsultationPageState extends State<Consultation31> {
 
     print("DATA21 :" + response.body.toString());
 
-    List<Content> maliste = List();
+    List<Content> maliste = [];
 
-    if (response.statusCode == 200) {
+  
       final responseJson = json.decode(response.body);
 
       return DetailConsultation.fromJson(responseJson);
-    }
-
-    return null;
+   
   }
 
   void initState() {
@@ -261,7 +254,7 @@ class ConsultationPageState extends State<Consultation31> {
   }
 
   List<Widget> _buildExpandableContent(List<Content> items) {
-    List<Widget> listElementWidgetList = new List<Widget>();
+    List<Widget> listElementWidgetList = <Widget>[];
 
     for (int i = 0; i < items.length; i++) {
       listElementWidgetList.add(new Padding(
@@ -303,7 +296,7 @@ class ConsultationPageState extends State<Consultation31> {
   }
 
   List<Widget> _buildList(String datas) {
-    List<Widget> listElementWidgetList = new List<Widget>();
+    List<Widget> listElementWidgetList = <Widget>[];
     List<String> items = datas.split(";");
 
     for (int i = 0; i < items.length; i++) {
@@ -338,7 +331,7 @@ class ConsultationPageState extends State<Consultation31> {
   List<Widget> _buildExpandableContent1(List<Content> items) {
     String texte = "";
 
-    List<Widget> listElementWidgetList = new List<Widget>();
+    List<Widget> listElementWidgetList = <Widget>[];
 
     for (int i = 0; i < items.length; i++) {
       texte += items[i].libelle.toString() + ", ";
@@ -391,8 +384,8 @@ class ConsultationPageState extends State<Consultation31> {
     return Scaffold(
         backgroundColor: Color(0xffF8F8FA),
         body: FutureBuilder(
-            future: Future.wait([contenu, details]),
-            builder: (context, snapshot) {
+            future: Future.wait([contenu!, details!]),
+            builder: (context, AsyncSnapshot snapshot) {
               if (snapshot.hasError) print(snapshot.error);
               if (snapshot.hasData) {
                 if (snapshot.data == null) {
@@ -446,10 +439,10 @@ class ConsultationPageState extends State<Consultation31> {
                     )),
                   );
                 } else {
-                  List<Content> identification = new List();
-                  List<Content> parametres = new List();
-                  List<Content> antecedents = new List();
-                  List<Content> antecedents1 = new List();
+                  List<Content> identification = [];
+                  List<Content> parametres = [];
+                  List<Content> antecedents = [];
+                  List<Content> antecedents1 = [];
                   String motif = "";
                   String photo = "";
                   String nom = "";
@@ -893,19 +886,19 @@ class ConsultationPageState extends State<Consultation31> {
 
   Future<void> _displayPickImageDialog(
       BuildContext context, OnPickImageCallback onPick) async {
-    double width = maxWidthController.text.isNotEmpty
+    double? width = maxWidthController.text.isNotEmpty
         ? double.parse(maxWidthController.text)
         : null;
 
-    double height = maxHeightController.text.isNotEmpty
+    double? height = maxHeightController.text.isNotEmpty
         ? double.parse(maxHeightController.text)
         : null;
 
-    int quality = qualityController.text.isNotEmpty
+    int? quality = qualityController.text.isNotEmpty
         ? int.parse(qualityController.text)
         : null;
 
-    onPick(width, height, quality);
+    onPick(width!, height!, quality!);
   }
 }
 

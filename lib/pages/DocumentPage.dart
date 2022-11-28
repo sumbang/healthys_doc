@@ -58,7 +58,7 @@ class DocumentPageState extends State<DocumentPage_2> {
   int currentLength = 0;
   final int increment = 10;
   bool isLoading = false;
-  Future<List<Document>> documents;
+  Future<List<Document>>? documents;
   List<Document> _searchResult = [];
   TextEditingController controller = new TextEditingController();
 
@@ -102,7 +102,7 @@ class DocumentPageState extends State<DocumentPage_2> {
 
     String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
 
-    List<Document> liste = List();
+    List<Document> liste = [];
 
     var response =
         await http.get(Setting.apiracine + "consultation/document", headers: {
@@ -113,7 +113,7 @@ class DocumentPageState extends State<DocumentPage_2> {
     print("DATA4 :" + role + " - " + profil + " - " + user);
     print("DATA4 :" + response.body.toString());
 
-    if (response.statusCode == 200) {
+
       final responseJson = json.decode(response.body.toString());
 
       for (int i = 0; i < responseJson.length; i++) {
@@ -121,13 +121,11 @@ class DocumentPageState extends State<DocumentPage_2> {
       }
 
       return liste;
-    }
-
-    return null;
+   
   }
 
   List<Widget> DocumentItem(List<Document> maliste, BuildContext context) {
-    List<Widget> listElementWidgetList = new List<Widget>();
+    List<Widget> listElementWidgetList = <Widget>[];
 
     if (maliste != null) {
       var lengthOfList = maliste.length;
@@ -135,7 +133,7 @@ class DocumentPageState extends State<DocumentPage_2> {
       for (int i = 0; i < lengthOfList; i++) {
         Document item = maliste[i];
 
-        List<Widget> actions = new List<Widget>();
+        List<Widget> actions = <Widget>[];
 
         var listItem = new Container(
           padding: new EdgeInsets.all(0.0),
@@ -363,7 +361,7 @@ class DocumentPageState extends State<DocumentPage_2> {
                                 return;
                               }
 
-                              snapshot.data.forEach((userDetail) {
+                              snapshot.data!.forEach((userDetail) {
                                 if (userDetail.patient
                                         .toString()
                                         .toLowerCase()
@@ -423,7 +421,7 @@ class DocumentPageState extends State<DocumentPage_2> {
                                           child: ListView(
                                             scrollDirection: Axis.vertical,
                                             children: DocumentItem(
-                                                snapshot.data, context),
+                                                snapshot.data!.cast<Document>(), context),
                                           )),
                                 ),
                               ],
@@ -435,7 +433,7 @@ class DocumentPageState extends State<DocumentPage_2> {
                       // You can reach your snapshot.data['url'] in here
                     }
 
-                    return null;
+                  
                   })),
         ));
   }

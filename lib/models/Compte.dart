@@ -21,20 +21,20 @@ class Compte {
 
   Compte(
       {this.id,
-      this.nom,
-      this.login,
-      this.datnaiss,
-      this.paysid,
-      this.paysnom,
-      this.ville,
-      this.email,
-      this.sexeid,
-      this.sexenom,
-      this.quartier,
-      this.date,
-      this.biometrie,
-      this.profil,
-      this.profils});
+      required this.nom,
+      required this.login,
+      required this.datnaiss,
+      required this.paysid,
+      required this.paysnom,
+      required this.ville,
+      required this.email,
+      required this.sexeid,
+      required this.sexenom,
+      required this.quartier,
+      required this.date,
+      required this.biometrie,
+      required this.profil,
+      required this.profils});
 
   factory Compte.fromJson(Map<String, dynamic> json) => Compte(
       id: json['id'],

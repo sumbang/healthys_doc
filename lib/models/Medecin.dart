@@ -14,13 +14,13 @@ class Medecin {
 
   Medecin(
       {this.id,
-      this.nom,
-      this.phone,
-      this.email,
-      this.adresse,
-      this.specialite,
-      this.photo,
-      this.emplois});
+    required   this.nom,
+     required  this.phone,
+     required  this.email,
+     required  this.adresse,
+     required  this.specialite,
+     required  this.photo,
+      required this.emplois});
 
   factory Medecin.fromJson(Map<String, dynamic> json) => Medecin(
       id: json['id'],

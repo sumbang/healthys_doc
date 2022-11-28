@@ -204,7 +204,7 @@ class MedicalReportFragmentState extends State<MedicalReportFragment> {
                             fontWeight: FontWeight.normal),
                       ),
                       validator: (value) {
-                        if (value.isEmpty) {
+                        if (value!.isEmpty) {
                           return allTranslations.text("requis_title");
                         }
                       },
@@ -260,7 +260,7 @@ class MedicalReportFragmentState extends State<MedicalReportFragment> {
                     fontWeight: FontWeight.normal),
               ),
               validator: (value) {
-                if (value.isEmpty) {
+                if (value!.isEmpty) {
                   return allTranslations.text("requis_title");
                 }
               },

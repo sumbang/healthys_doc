@@ -45,13 +45,13 @@ class _ResetState extends State<ActivationForm> {
   String currentpin = "";
   String currentpatient = "";
   bool isVisible = true;
-  MyItems abonnement;
-  Future<List<MyItems>> abonnements;
-  MyItems mode;
-  Future<List<MyItems>> modes;
+  MyItems? abonnement;
+  Future<List<MyItems>>? abonnements;
+  MyItems? mode;
+  Future<List<MyItems>>? modes;
 
-  Future<List<MyItems>> getAbo() async {
-    List<MyItems> liste = List();
+  Future<List<MyItems>>? getAbo() async {
+    List<MyItems> liste = [];
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String token1 = (prefs.getString('token') ?? '');
@@ -64,7 +64,6 @@ class _ResetState extends State<ActivationForm> {
       "Authorization": basicAuth,
     });
 
-    if (response.statusCode == 200) {
       final responseJson = json.decode(response.body.toString());
 
       for (int i = 0; i < responseJson.length; i++) {
@@ -72,13 +71,11 @@ class _ResetState extends State<ActivationForm> {
       }
 
       return liste;
-    }
-
-    return null;
+  
   }
 
-  Future<List<MyItems>> getMode() async {
-    List<MyItems> liste = List();
+  Future<List<MyItems>>? getMode() async {
+    List<MyItems> liste = [];
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String token1 = (prefs.getString('token') ?? '');
@@ -92,7 +89,6 @@ class _ResetState extends State<ActivationForm> {
       "Authorization": basicAuth,
     });
 
-    if (response.statusCode == 200) {
       final responseJson = json.decode(response.body.toString());
 
       for (int i = 0; i < responseJson.length; i++) {
@@ -100,9 +96,7 @@ class _ResetState extends State<ActivationForm> {
       }
 
       return liste;
-    }
-
-    return null;
+   
   }
 
   @override
@@ -122,7 +116,7 @@ class _ResetState extends State<ActivationForm> {
     });
   }
 
-  String _retrieveDataError;
+  String? _retrieveDataError;
   bool isVideo = false;
 
   final TextEditingController referenceController = TextEditingController();
@@ -165,7 +159,7 @@ class _ResetState extends State<ActivationForm> {
           timeInSecForIos: 5,
           backgroundColor: Colors.red,
           textColor: Colors.white);
-    } else if ((mode.id == 2) && (reference.isEmpty)) {
+    } else if ((mode!.id == 2) && (reference.isEmpty)) {
       Fluttertoast.showToast(
           msg: allTranslations.text("z4"),
           toastLength: Toast.LENGTH_LONG,
@@ -248,8 +242,8 @@ class _ResetState extends State<ActivationForm> {
       // if (_imageFile == null) {
       Map data = {
         'matricule': matricule.toString(),
-        'abonnement': abonnement.id.toString(),
-        'mode': mode.id.toString(),
+        'abonnement': abonnement!.id.toString(),
+        'mode': mode!.id.toString(),
         'reference': reference.toString()
       };
 
@@ -370,7 +364,7 @@ class _ResetState extends State<ActivationForm> {
                               fontWeight: FontWeight.normal),
                         ),
                         validator: (value) {
-                          if (value.isEmpty) {
+                          if (value!.isEmpty) {
                             return allTranslations.text("requis_title");
                           }
                         },
@@ -419,13 +413,13 @@ class _ResetState extends State<ActivationForm> {
                     if (snapshot.hasError) {
                       return new Container();
                     } else if (snapshot.hasData) {
-                      List<DropdownMenuItem<MyItems>> items = List();
+                      List<DropdownMenuItem<MyItems>> items = [];
 
-                      for (int i = 0; i < snapshot.data.length; i++) {
+                      for (int i = 0; i < snapshot.data!.length; i++) {
                         items.add(
                           DropdownMenuItem(
-                              child: Text(snapshot.data[i].libelle),
-                              value: snapshot.data[i]),
+                              child: Text(snapshot.data![i].libelle),
+                              value: snapshot.data![i]),
                         );
                       }
 
@@ -481,13 +475,13 @@ class _ResetState extends State<ActivationForm> {
                     if (snapshot.hasError) {
                       return new Container();
                     } else if (snapshot.hasData) {
-                      List<DropdownMenuItem<MyItems>> items = List();
+                      List<DropdownMenuItem<MyItems>> items = [];
 
-                      for (int i = 0; i < snapshot.data.length; i++) {
+                      for (int i = 0; i < snapshot.data!.length; i++) {
                         items.add(
                           DropdownMenuItem(
-                              child: Text(snapshot.data[i].libelle),
-                              value: snapshot.data[i]),
+                              child: Text(snapshot.data![i].libelle),
+                              value: snapshot.data![i]),
                         );
                       }
 
@@ -549,7 +543,7 @@ class _ResetState extends State<ActivationForm> {
                         fontWeight: FontWeight.normal),
                   ),
                   validator: (value) {
-                    if (value.isEmpty) {
+                    if (value!.isEmpty) {
                          return allTranslations.text("requis_title");
                     }
                   },
@@ -590,7 +584,7 @@ class _ResetState extends State<ActivationForm> {
                         fontWeight: FontWeight.normal),
                   ),
                   validator: (value) {
-                    if (value.isEmpty) {
+                    if (value!.isEmpty) {
                          return allTranslations.text("requis_title");
                     }
                   },

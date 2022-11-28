@@ -89,8 +89,8 @@ class ConsultationPageState extends State<Consultation31> {
   final clair = const Color(0xFFF9FAFB);
 
   bool isVideo = false;
-  String _retrieveDataError;
-  String _retrieveDataError1;
+  String? _retrieveDataError;
+  String? _retrieveDataError1;
   bool _isSaving = true;
 
   final TextEditingController maxWidthController = TextEditingController();
@@ -115,38 +115,38 @@ class ConsultationPageState extends State<Consultation31> {
   final TextEditingController momentController = TextEditingController();
   final TextEditingController resultatexamenController = TextEditingController();
   final TextEditingController diagnosticconfirmationController = TextEditingController();
-  Future<File> imageFile, imageFile1;
-  PickedFile _imageFile, _imageFile1;
-  File _image, _image1;
-  File tmpFile, tmpFile1;
+  Future<File>? imageFile, imageFile1;
+  PickedFile? _imageFile, _imageFile1;
+  File? _image, _image1;
+  File? tmpFile, tmpFile1;
   final ImagePicker _picker = ImagePicker();
   dynamic _pickImageError;
   final ImagePicker _picker1 = ImagePicker();
-  dynamic _pickImageError1;
-  Future<List<Content>> contenu;
+  dynamic? _pickImageError1;
+  Future<List<Content>>? contenu;
   String dropdownValue = "";
-  Soins currentSoin;
-  Affection currentAffection;
-  Medicament currentMedoc;
-  Future<List<Soins>> _soins;
+  Soins? currentSoin;
+  Affection? currentAffection;
+  Medicament? currentMedoc;
+  Future<List<Soins>>? _soins;
   List<Soins> listSoins = [];
   List<Medicament> listMedocs = [];
-  Future<List<Medicament>> _medocs;
+  Future<List<Medicament>>? _medocs;
   List<Affection> listAffection = [];
-  Future<List<Affection>> _affections;
-  List<Content> identification = new List();
-  List<Content> parametres = new List();
-  List<Content> antecedents = new List();
-  List<Content> antecedents1 = new List();
-  List<String> exa = new List();
-  List<String> para = new List();
-  List<String> soins = new List();
-  List<String> diag = new List();
-  var _listPara = List<Widget>();
-  var _listPara1 = List<Widget>();
-  var _listExam = List<Widget>();
-  var _listSoin = List<Widget>();
-  var _listDiag = List<Widget>();
+  Future<List<Affection>>? _affections;
+  List<Content> identification = [];
+  List<Content> parametres = [];
+  List<Content> antecedents = [];
+  List<Content> antecedents1 = [];
+  List<String> exa =[];
+  List<String> para = [];
+  List<String> soins = [];
+  List<String> diag = [];
+  var _listPara = <Widget>[];
+  var _listPara1 = <Widget>[];
+  var _listExam = <Widget>[];
+  var _listSoin = <Widget>[];
+  var _listDiag = <Widget>[];
   String motif = "";
   String photo = "";
   String nom = "";
@@ -162,8 +162,8 @@ class ConsultationPageState extends State<Consultation31> {
     super.dispose();
   }
 
-  List<Asset> l_images = List<Asset>();
-  List<Asset> l_images1 = List<Asset>();
+  List<Asset> l_images = <Asset>[];
+  List<Asset> l_images1 = <Asset>[];
 
   List<Widget> buildGridView() {
     return List.generate(l_images.length, (index) {
@@ -192,7 +192,7 @@ class ConsultationPageState extends State<Consultation31> {
   }
 
   Future<List<File>> convertListAssetToListFile() async {
-    List<File> files = List<File>();
+    List<File> files = <File>[];
     // images from galllery
     for (int i = 0; i < l_images.length; i++) {
       String imagePath = await FlutterAbsolutePath.getAbsolutePath(
@@ -205,7 +205,7 @@ class ConsultationPageState extends State<Consultation31> {
   }
 
   Future<List<File>> convertListAssetToListFile1() async {
-    List<File> files = List<File>();
+    List<File> files = <File>[];
     // images from galllery
     for (int i = 0; i < l_images1.length; i++) {
       String imagePath = await FlutterAbsolutePath.getAbsolutePath(
@@ -218,7 +218,7 @@ class ConsultationPageState extends State<Consultation31> {
   }
 
   Future<void> loadAssets1() async {
-    List<Asset> resultList = List<Asset>();
+    List<Asset> resultList = <Asset>[];
 
     try {
       resultList = await MultiImagePicker.pickImages(
@@ -247,7 +247,7 @@ class ConsultationPageState extends State<Consultation31> {
   }
 
   Future<void> loadAssets2() async {
-    List<Asset> resultList = List<Asset>();
+    List<Asset> resultList = <Asset>[];
 
     try {
       resultList = await MultiImagePicker.pickImages(
@@ -275,13 +275,13 @@ class ConsultationPageState extends State<Consultation31> {
     });
   }
 
-  String base64Image;
-  String _fileName;
-  String _path;
-  String base64Image1;
-  String _fileName1;
-  String _path1;
-  Map<String, String> _paths;
+  String? base64Image;
+  String? _fileName;
+  String? _path;
+  String? base64Image1;
+  String? _fileName1;
+  String? _path1;
+  Map<String, String>? _paths;
   String _extension = "png, jpg, jpeg, pdf";
   bool _loadingPath = false;
   bool _multiPick = false;
@@ -292,7 +292,7 @@ class ConsultationPageState extends State<Consultation31> {
       return retrieveError;
     }
     if (_imageFile != null) {
-      return Image.file(File(_imageFile.path));
+      return Image.file(File(_imageFile!.path));
     } else if (_pickImageError != null) {
       return Text(
         'Erreur : $_pickImageError',
@@ -312,7 +312,7 @@ class ConsultationPageState extends State<Consultation31> {
       return retrieveError;
     }
     if (_imageFile1 != null) {
-      return Image.file(File(_imageFile1.path));
+      return Image.file(File(_imageFile1!.path));
     } else if (_pickImageError1 != null) {
       return Text(
         'Erreur : $_pickImageError1',
@@ -326,7 +326,7 @@ class ConsultationPageState extends State<Consultation31> {
     }
   }
 
-  pickImageFromGallery(ImageSource source, {BuildContext context}) async {
+  pickImageFromGallery(ImageSource source, {required BuildContext context}) async {
     await _displayPickImageDialog(context,
         (double maxWidth, double maxHeight, int quality) async {
       try {
@@ -350,7 +350,7 @@ class ConsultationPageState extends State<Consultation31> {
     });
   }
 
-  pickImageFromGallery1(ImageSource source, {BuildContext context}) async {
+  pickImageFromGallery1(ImageSource source, {required BuildContext context}) async {
     await _displayPickImageDialog(context,
         (double maxWidth, double maxHeight, int quality) async {
       try {
@@ -375,12 +375,10 @@ class ConsultationPageState extends State<Consultation31> {
   }
 
   Text _getRetrieveErrorWidget() {
-    if (_retrieveDataError != null) {
-      final Text result = Text(_retrieveDataError);
+      final Text result = Text(_retrieveDataError!);
       _retrieveDataError = null;
       return result;
-    }
-    return null;
+   
   }
 
   Future<void> retrieveLostData() async {
@@ -503,9 +501,8 @@ class ConsultationPageState extends State<Consultation31> {
 
     print("DATA21 :" + response.body.toString());
 
-    List<Content> maliste = List();
+    List<Content> maliste = [];
 
-    if (response.statusCode == 200) {
       final responseJson = json.decode(response.body);
 
       for (int i = 0; i < responseJson.length; i++) {
@@ -548,9 +545,7 @@ class ConsultationPageState extends State<Consultation31> {
       _buildExpandableContent(parametres);
 
       return maliste;
-    }
-
-    return null;
+   
   }
 
   void initState() {
@@ -562,7 +557,7 @@ class ConsultationPageState extends State<Consultation31> {
   }
 
   void _buildExpandableContent(List<Content> items) {
-    List<Widget> listElementWidgetList = new List<Widget>();
+    List<Widget> listElementWidgetList = <Widget>[];
 
     for (int i = 0; i < items.length; i++) {
       _listPara.add(new Padding(
@@ -604,7 +599,7 @@ class ConsultationPageState extends State<Consultation31> {
   }
 
   List<Widget> _buildList(String datas) {
-    List<Widget> listElementWidgetList = new List<Widget>();
+    List<Widget> listElementWidgetList = <Widget>[];
     List<String> items = datas.split(",");
 
     for (int i = 0; i < items.length; i++) {
@@ -639,7 +634,7 @@ class ConsultationPageState extends State<Consultation31> {
   List<Widget> _buildExpandableContent1(List<Content> items) {
     String texte = "";
 
-    List<Widget> listElementWidgetList = new List<Widget>();
+    List<Widget> listElementWidgetList = <Widget>[];
 
     for (int i = 0; i < items.length; i++) {
       texte += items[i].libelle.toString() + ", ";
@@ -695,9 +690,9 @@ class ConsultationPageState extends State<Consultation31> {
 
     print("DATA21 :" + response.body.toString());
 
-    List<Soins> maliste = List(); listSoins.clear();
+    List<Soins> maliste = []; listSoins.clear();
 
-    if (response.statusCode == 200) {
+
       final responseJson = json.decode(response.body);
 
       for (int i = 0; i < responseJson.length; i++) {
@@ -705,9 +700,7 @@ class ConsultationPageState extends State<Consultation31> {
         listSoins.add(Soins.fromJson(responseJson[i]));
       }
       return maliste;
-    }
-
-    return null;
+   
   }
 
    Future<List<Medicament>> _getMedocs() async {
@@ -729,9 +722,8 @@ class ConsultationPageState extends State<Consultation31> {
 
     print("DATA21 :" + response.body.toString());
 
-    List<Medicament> maliste = List(); listMedocs.clear();
+    List<Medicament> maliste = []; listMedocs.clear();
 
-    if (response.statusCode == 200) {
       final responseJson = json.decode(response.body);
 
       for (int i = 0; i < responseJson.length; i++) {
@@ -739,9 +731,7 @@ class ConsultationPageState extends State<Consultation31> {
         listMedocs.add(Medicament.fromJson(responseJson[i]));
       }
       return maliste;
-    }
-
-    return null;
+   
   }
 
   
@@ -764,9 +754,8 @@ class ConsultationPageState extends State<Consultation31> {
 
     print("DATA21 :" + response.body.toString());
 
-    List<Affection> maliste = List(); listAffection.clear();
+    List<Affection> maliste = []; listAffection.clear();
 
-    if (response.statusCode == 200) {
       final responseJson = json.decode(response.body);
 
       for (int i = 0; i < responseJson.length; i++) {
@@ -774,9 +763,7 @@ class ConsultationPageState extends State<Consultation31> {
         listAffection.add(Affection.fromJson(responseJson[i]));
       }
       return maliste;
-    }
-
-    return null;
+   
   }
 
 
@@ -1345,7 +1332,7 @@ class ConsultationPageState extends State<Consultation31> {
                 itemBuilder: (context, person) => Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                    Text(person.nom, style: TextStyle(fontWeight: FontWeight.normal)),
+                    Text(person!.nom, style: TextStyle(fontWeight: FontWeight.normal)),
                   ]),
                 ),
                 onSearch: (search) async => listSoins
@@ -1571,7 +1558,7 @@ class ConsultationPageState extends State<Consultation31> {
                 itemBuilder: (context, person) => Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                    Text(person.lib_affection, style: TextStyle(fontWeight: FontWeight.normal)),
+                    Text(person!.lib_affection, style: TextStyle(fontWeight: FontWeight.normal)),
                   ]),
                 ),
                 onSearch: (search) async => listAffection
@@ -1809,7 +1796,7 @@ class ConsultationPageState extends State<Consultation31> {
                 itemBuilder: (context, person) => Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                    Text(person.nom, style: TextStyle(fontWeight: FontWeight.normal)),
+                    Text(person!.nom, style: TextStyle(fontWeight: FontWeight.normal)),
                   ]),
                 ),
                 onSearch: (search) async => listMedocs
@@ -1915,7 +1902,7 @@ class ConsultationPageState extends State<Consultation31> {
                                               onChanged: (value) {
                                                 refresh(() {
                                                   setState(() {
-                                                    _value = value;
+                                                    _value = value!;
                                                   });
                                                 });
                                               }))
@@ -1927,10 +1914,10 @@ class ConsultationPageState extends State<Consultation31> {
                                   ),
                                   Column(children: [
                                     CheckboxListTile(
-                                      onChanged: (bool value) {
+                                      onChanged: (bool? value) {
                                         if (mounted) {
                                           setState(() {
-                                            if (value) {
+                                            if (value!) {
                                               selectedZone.add(matin);
                                             } else {
                                               selectedZone.remove(matin);
@@ -1944,10 +1931,10 @@ class ConsultationPageState extends State<Consultation31> {
                                       title: new Text(matin),
                                     ),
                                     CheckboxListTile(
-                                      onChanged: (bool value) {
+                                      onChanged: (bool? value) {
                                         if (mounted) {
                                           setState(() {
-                                            if (value) {
+                                            if (value!) {
                                               selectedZone.add(midi);
                                             } else {
                                               selectedZone.remove(midi);
@@ -1961,10 +1948,10 @@ class ConsultationPageState extends State<Consultation31> {
                                       title: new Text(midi),
                                     ),
                                     CheckboxListTile(
-                                      onChanged: (bool value) {
+                                      onChanged: (bool? value) {
                                         if (mounted) {
                                           setState(() {
-                                            if (value) {
+                                            if (value!) {
                                               selectedZone.add(apresmidi);
                                             } else {
                                               selectedZone.remove(apresmidi);
@@ -1978,10 +1965,10 @@ class ConsultationPageState extends State<Consultation31> {
                                       title: new Text(apresmidi),
                                     ),
                                     CheckboxListTile(
-                                      onChanged: (bool value) {
+                                      onChanged: (bool? value) {
                                         if (mounted) {
                                           setState(() {
-                                            if (value) {
+                                            if (value!) {
                                               selectedZone.add(soir);
                                             } else {
                                               selectedZone.remove(soir);
@@ -1995,10 +1982,10 @@ class ConsultationPageState extends State<Consultation31> {
                                       title: new Text(soir),
                                     ),
                                     CheckboxListTile(
-                                      onChanged: (bool value) {
+                                      onChanged: (bool? value) {
                                         if (mounted) {
                                           setState(() {
-                                            if (value) {
+                                            if (value!) {
                                               selectedZone.add(coucher);
                                             } else {
                                               selectedZone.remove(coucher);
@@ -2084,7 +2071,7 @@ class ConsultationPageState extends State<Consultation31> {
                                               onChanged: (value) {
                                                 refresh(() {
                                                   setState(() {
-                                                    _value1 = value;
+                                                    _value1 = value!;
                                                   });
                                                 });
                                               }))
@@ -3395,9 +3382,9 @@ class ConsultationPageState extends State<Consultation31> {
                                                       height: 2,
                                                       color: Colors.deepPurpleAccent,
                                                     ),
-                                                    onChanged: (String newValue) {
+                                                    onChanged: (String? newValue) {
                                                       setState(() {
-                                                        dropdownValue = newValue;
+                                                        dropdownValue = newValue!;
                                                       });
                                                     },
                                                     items: <String>['', 'Observation', 'Hospitalisation', 'Ambulatoire']
@@ -3498,19 +3485,19 @@ class ConsultationPageState extends State<Consultation31> {
 
   Future<void> _displayPickImageDialog(
       BuildContext context, OnPickImageCallback onPick) async {
-    double width = maxWidthController.text.isNotEmpty
+    double? width = maxWidthController.text.isNotEmpty
         ? double.parse(maxWidthController.text)
         : null;
 
-    double height = maxHeightController.text.isNotEmpty
+    double? height = maxHeightController.text.isNotEmpty
         ? double.parse(maxHeightController.text)
         : null;
 
-    int quality = qualityController.text.isNotEmpty
+    int? quality = qualityController.text.isNotEmpty
         ? int.parse(qualityController.text)
         : null;
 
-    onPick(width, height, quality);
+    onPick(width!, height!, quality!);
   }
 }
 

@@ -31,15 +31,15 @@ class SignupForm extends StatefulWidget {
 }
 
 class _SignupState extends State<SignupForm> {
-  MyItems civilite;
-  MyItems situation;
-  MyItems pays;
-  MyItems sexe;
-  MyItems rhesus;
-  MyItems electro;
-  MyItems sanguin;
-  DateTime _datenaiss;
-  String currentstatus;
+  MyItems? civilite;
+  MyItems? situation;
+  MyItems? pays;
+  MyItems? sexe;
+  MyItems? rhesus;
+  MyItems? electro;
+  MyItems? sanguin;
+  DateTime? _datenaiss;
+  String? currentstatus;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -83,7 +83,7 @@ class _SignupState extends State<SignupForm> {
   bool autre2 = false;
   bool _isChecked = true;
   bool _isSaving = true;
-  List<String> sitmat = new List();
+  List<String> sitmat = [];
 
   String payslocalisation = "";
   String codepays = "";
@@ -92,47 +92,47 @@ class _SignupState extends State<SignupForm> {
   String codepays1 = "";
   String codepays2 = "";
 
-  void _handleRadioValueCiv(MyItems value) {
+  void _handleRadioValueCiv(MyItems? value) {
     setState(() {
       civilite = value;
     });
   }
 
-  void _handleRadioValueElect(MyItems value) {
+  void _handleRadioValueElect(MyItems? value) {
     setState(() {
       electro = value;
     });
   }
 
-  void _handleRadioValueSang(MyItems value) {
+  void _handleRadioValueSang(MyItems? value) {
     setState(() {
       sanguin = value;
     });
   }
 
-  void _handleRadioValueSit(MyItems value) {
+  void _handleRadioValueSit(MyItems? value) {
     setState(() {
       situation = value;
     });
   }
 
-  String base64Image;
-  String _fileName;
-  String _path;
-  Map<String, String> _paths;
+  String? base64Image;
+  String? _fileName;
+  String? _path;
+  Map<String, String>? _paths;
   String _extension = "png, jpg, jpeg, pdf";
   bool _loadingPath = false;
   bool _multiPick = false;
-  Future<List<MyItems>> civi;
-  Future<List<MyItems>> elect;
-  Future<List<MyItems>> sang;
-  Future<List<MyItems>> sit;
-  Future<List<MyItems>> toxico;
-  Future<List<MyItems>> medical;
-  DateTime _dateTime;
+  Future<List<MyItems>>? civi;
+  Future<List<MyItems>>? elect;
+  Future<List<MyItems>>? sang;
+  Future<List<MyItems>>? sit;
+  Future<List<MyItems>>? toxico;
+  Future<List<MyItems>>? medical;
+  DateTime? _dateTime;
 
   Future<List<MyItems>> getElements(String nature) async {
-    List<MyItems> liste = List();
+    List<MyItems> liste = [];
 
      MySingleton mySingleton = new MySingleton();
 
@@ -142,7 +142,7 @@ class _SignupState extends State<SignupForm> {
 
     print("DATA " + nature + " : " + response.body.toString());
 
-    if (response.statusCode == 200) {
+
       final responseJson = json.decode(response.body.toString());
 
       for (int i = 0; i < responseJson.length; i++) {
@@ -150,25 +150,23 @@ class _SignupState extends State<SignupForm> {
       }
 
       return liste;
-    }
-
-    return null;
+   
   }
 
   List<MyItems> selectedToxico = [];
   List<MyItems> selectedMedical = [];
 
   Widget _buildToxico(List<MyItems> list) {
-    List<Widget> mList = new List();
+    List<Widget> mList = [];
 
     for (int b = 0; b < list.length; b++) {
       MyItems cmap = list[b];
 
       mList.add(CheckboxListTile(
-        onChanged: (bool value) {
+        onChanged: (bool? value) {
           if (mounted) {
             setState(() {
-              if (value) {
+              if (value!) {
                 selectedToxico.add(cmap);
                 if (cmap.id == 23) autre2 = true;
               } else {
@@ -194,16 +192,16 @@ class _SignupState extends State<SignupForm> {
   }
 
   Widget _buildMedical(List<MyItems> list) {
-    List<Widget> mList = new List();
+    List<Widget> mList = [];
 
     for (int b = 0; b < list.length; b++) {
       MyItems cmap = list[b];
 
       mList.add(CheckboxListTile(
-        onChanged: (bool value) {
+        onChanged: (bool? value) {
           if (mounted) {
             setState(() {
-              if (value) {
+              if (value!) {
                 selectedMedical.add(cmap);
                 if (cmap.id == 28) autre = true;
               } else {
@@ -356,7 +354,7 @@ class _SignupState extends State<SignupForm> {
           }
 
           Map data = {
-            'civilite': civilite.id.toString(),
+            'civilite': civilite!.id.toString(),
             'nom': _nomController.text.toString(),
             'prenom': _prenomController.text.toString(),
             'datnaiss': _datnaissController.text.toString(),
@@ -372,8 +370,8 @@ class _SignupState extends State<SignupForm> {
             'email': _emailController.text.toString(),
             'poids': _poidsController.text.toString(),
             'taille': _tailleController.text.toString(),
-            'electro': electro.id.toString(),
-            'sanguin': sanguin.id.toString(),
+            'electro': electro!.id.toString(),
+            'sanguin': sanguin!.id.toString(),
             'role': '1',
             'cni': _cniController.text.toString(),
             'datedeliv': _datedelivController.text.toString(),
@@ -386,7 +384,7 @@ class _SignupState extends State<SignupForm> {
             'medical': medicalvalue,
             'autre': _autre,
             'profession': _professionController.text.toString(),
-            'sitmat': situation.id.toString(),
+            'sitmat': situation!.id.toString(),
             'autre2': _autre2,
             'photo': '',
             'cnifile': _cnifile
@@ -429,13 +427,13 @@ class _SignupState extends State<SignupForm> {
                 textColor: Colors.white);
           }
         } else {
-          tmpFile = File(_imageFile.path);
+          tmpFile = File(_imageFile!.path);
 
-          base64Image = base64Encode(tmpFile.readAsBytesSync());
+          base64Image = base64Encode(tmpFile!.readAsBytesSync());
 
-          String fileName = tmpFile.path.split('/').last;
+          String fileName = tmpFile!.path.split('/').last;
 
-          String ext = lookupMimeType(tmpFile.path).split('/').last;
+          String ext = lookupMimeType(tmpFile!.path).split('/').last;
 
           Map data = {
             "image": base64Image,
@@ -473,7 +471,7 @@ class _SignupState extends State<SignupForm> {
             }
 
             Map data = {
-              'civilite': civilite.id.toString(),
+              'civilite': civilite!.id.toString(),
               'nom': _nomController.text.toString(),
               'prenom': _prenomController.text.toString(),
               'datnaiss': _datnaissController.text.toString(),
@@ -485,8 +483,8 @@ class _SignupState extends State<SignupForm> {
               'email': _emailController.text.toString(),
               'poids': _poidsController.text.toString(),
               'taille': _tailleController.text.toString(),
-              'electro': electro.id.toString(),
-              'sanguin': sanguin.id.toString(),
+              'electro': electro!.id.toString(),
+              'sanguin': sanguin!.id.toString(),
               'role': '1',
               'cni': _cniController.text.toString(),
               'datedeliv': _datedelivController.text.toString(),
@@ -501,7 +499,7 @@ class _SignupState extends State<SignupForm> {
               'medical': medicalvalue,
               'autre': _autre,
               'profession': _professionController.text.toString(),
-              'sitmat': situation.id.toString(),
+              'sitmat': situation!.id.toString(),
               'autre2': _autre2,
               'photo': response1Json['path'],
               'cnifile': _cnifile
@@ -611,16 +609,16 @@ class _SignupState extends State<SignupForm> {
   }
 
   bool isVideo = false;
-  String _retrieveDataError;
+  String? _retrieveDataError;
   bool isVisible = true;
 
   final TextEditingController maxWidthController = TextEditingController();
   final TextEditingController maxHeightController = TextEditingController();
   final TextEditingController qualityController = TextEditingController();
-  Future<File> imageFile;
-  PickedFile _imageFile;
-  File _image;
-  File tmpFile;
+  Future<File>? imageFile;
+  PickedFile? _imageFile;
+  File? _image;
+  File? tmpFile;
   final ImagePicker _picker = ImagePicker();
   dynamic _pickImageError;
 
@@ -634,7 +632,7 @@ class _SignupState extends State<SignupForm> {
         onTap: () {
           _showSelectionDialog(context);
         },
-        child: Image.file(File(_imageFile.path)),
+        child: Image.file(File(_imageFile!.path)),
       );
     } else if (_pickImageError != null) {
       return Center(
@@ -648,22 +646,22 @@ class _SignupState extends State<SignupForm> {
 
   Future<void> _displayPickImageDialog(
       BuildContext context, OnPickImageCallback onPick) async {
-    double width = maxWidthController.text.isNotEmpty
+    double? width = maxWidthController.text.isNotEmpty
         ? double.parse(maxWidthController.text)
         : null;
 
-    double height = maxHeightController.text.isNotEmpty
+    double? height = maxHeightController.text.isNotEmpty
         ? double.parse(maxHeightController.text)
         : null;
 
-    int quality = qualityController.text.isNotEmpty
+    int? quality = qualityController.text.isNotEmpty
         ? int.parse(qualityController.text)
         : null;
 
-    onPick(width, height, quality);
+    onPick(width!, height!, quality!);
   }
 
-  pickImageFromGallery(ImageSource source, {BuildContext context}) async {
+  pickImageFromGallery(ImageSource source, {required BuildContext context}) async {
     await _displayPickImageDialog(context,
         (double maxWidth, double maxHeight, int quality) async {
       try {
@@ -689,12 +687,10 @@ class _SignupState extends State<SignupForm> {
   }
 
   Text _getRetrieveErrorWidget() {
-    if (_retrieveDataError != null) {
-      final Text result = Text(_retrieveDataError);
+      final Text result = Text(_retrieveDataError!);
       _retrieveDataError = null;
       return result;
-    }
-    return null;
+    
   }
 
   Future<void> retrieveLostData() async {
@@ -712,12 +708,12 @@ class _SignupState extends State<SignupForm> {
     }
   }
 
-  List<String> _fichier = new List();
-  List<Asset> images = List<Asset>();
+  List<String> _fichier = [];
+  List<Asset> images = <Asset>[];
   String _error = 'No Error Dectected';
 
   Future<void> loadAssets() async {
-    List<Asset> resultList = List<Asset>();
+    List<Asset> resultList = <Asset>[];
     String error = 'No Error Dectected';
 
     try {
@@ -847,11 +843,11 @@ class _SignupState extends State<SignupForm> {
                           if (snapshot.hasError) {
                             return new Container();
                           } else if (snapshot.hasData) {
-                            List<Widget> civ = new List();
+                            List<Widget> civ = [];
 
-                            for (int i = 0; i < snapshot.data.length; i++) {
+                            for (int i = 0; i < snapshot.data!.length; i++) {
                               Widget radio = new Radio(
-                                value: snapshot.data[i],
+                                value: snapshot.data![i],
                                 groupValue: civilite,
                                 onChanged: _handleRadioValueCiv,
                               );
@@ -859,7 +855,7 @@ class _SignupState extends State<SignupForm> {
                               Widget pad = new Padding(
                                   padding: EdgeInsets.only(top: 15.0),
                                   child: Text(
-                                    snapshot.data[i].libelle.toString(),
+                                    snapshot.data![i].libelle.toString(),
                                     style: new TextStyle(
                                         fontSize: 16.0,
                                         color: Colors.black,
@@ -914,7 +910,7 @@ class _SignupState extends State<SignupForm> {
                               fontWeight: FontWeight.normal),
                         ),
                         validator: (value) {
-                          if (value.isEmpty) {
+                          if (value!.isEmpty) {
                             return allTranslations.text('requis_title');
                           }
                         },
@@ -954,7 +950,7 @@ class _SignupState extends State<SignupForm> {
                               fontWeight: FontWeight.normal),
                         ),
                         validator: (value) {
-                          if (value.isEmpty) {
+                          if (value!.isEmpty) {
                             return allTranslations.text('requis_title');
                           }
                         },
@@ -1026,7 +1022,7 @@ class _SignupState extends State<SignupForm> {
                               fontWeight: FontWeight.normal),
                         ),
                         validator: (value) {
-                          if (value.isEmpty) {
+                          if (value!.isEmpty) {
                             return allTranslations.text('requis_title');
                           }
                         },
@@ -1066,7 +1062,7 @@ class _SignupState extends State<SignupForm> {
                               fontWeight: FontWeight.normal),
                         ),
                         validator: (value) {
-                          if (value.isEmpty) {
+                          if (value!.isEmpty) {
                             return allTranslations.text('requis_title');
                           }
                         },
@@ -1123,7 +1119,7 @@ class _SignupState extends State<SignupForm> {
                                        locale:  Locale("fr","FR"),
                                       initialDate: _dateTime == null
                                           ? DateTime.now()
-                                          : _dateTime,
+                                          : _dateTime!,
                                       firstDate: DateTime(1920),
                                       lastDate: DateTime(2030))
                                   .then((date) {
@@ -1205,7 +1201,7 @@ class _SignupState extends State<SignupForm> {
                                     fontWeight: FontWeight.normal),
                               ),
                               validator: (value) {
-                                if (value.isEmpty) {
+                                if (value!.isEmpty) {
                                   return allTranslations.text('requis_title');
                                 }
                               },
@@ -1250,7 +1246,7 @@ class _SignupState extends State<SignupForm> {
                               fontWeight: FontWeight.normal),
                         ),
                         validator: (value) {
-                          if (value.isEmpty) {
+                          if (value!.isEmpty) {
                            return allTranslations.text('requis_title');
                           }
                         },
@@ -1290,7 +1286,7 @@ class _SignupState extends State<SignupForm> {
                               fontWeight: FontWeight.normal),
                         ),
                         validator: (value) {
-                          if (value.isEmpty) {
+                          if (value!.isEmpty) {
                            return allTranslations.text('requis_title');
                           }
                         },
@@ -1350,7 +1346,7 @@ class _SignupState extends State<SignupForm> {
                                        locale:  Locale("fr","FR"),
                                       initialDate: _dateTime == null
                                           ? DateTime.now()
-                                          : _dateTime,
+                                          : _dateTime!,
                                       firstDate: DateTime(2010),
                                       lastDate: DateTime(2030))
                                   .then((date) {
@@ -1432,7 +1428,7 @@ class _SignupState extends State<SignupForm> {
                                     fontWeight: FontWeight.normal),
                               ),
                               validator: (value) {
-                                if (value.isEmpty) {
+                                if (value!.isEmpty) {
                                  return allTranslations.text('requis_title');
                                 }
                               },
@@ -1546,7 +1542,7 @@ class _SignupState extends State<SignupForm> {
                         fontWeight: FontWeight.normal),
                   ),
                   validator: (value) {
-                    if (value.isEmpty) {
+                    if (value!.isEmpty) {
                       return allTranslations.text('requis_title');
                     }
                   },
@@ -1630,7 +1626,7 @@ class _SignupState extends State<SignupForm> {
                         fontWeight: FontWeight.normal),
                   ),
                   validator: (value) {
-                    if (value.isEmpty) {
+                    if (value!.isEmpty) {
                       return allTranslations.text('requis_title');
                     }
                   },
@@ -1710,7 +1706,7 @@ class _SignupState extends State<SignupForm> {
                         fontWeight: FontWeight.normal),
                   ),
                   validator: (value) {
-                    if (value.isEmpty) {
+                    if (value!.isEmpty) {
                       return allTranslations.text('requis_title');
                     }
                   },
@@ -1750,7 +1746,7 @@ class _SignupState extends State<SignupForm> {
                         fontWeight: FontWeight.normal),
                   ),
                   validator: (value) {
-                    if (value.isEmpty) {
+                    if (value!.isEmpty) {
                       return allTranslations.text('requis_title');
                     }
                   },
@@ -1781,11 +1777,11 @@ class _SignupState extends State<SignupForm> {
                     if (snapshot.hasError) {
                       return new Container();
                     } else if (snapshot.hasData) {
-                      List<Widget> civ = new List();
+                      List<Widget> civ = [];
 
-                      for (int i = 0; i < snapshot.data.length; i++) {
+                      for (int i = 0; i < snapshot.data!.length; i++) {
                         Widget radio = new Radio(
-                          value: snapshot.data[i],
+                          value: snapshot.data![i],
                           groupValue: electro,
                           onChanged: _handleRadioValueElect,
                         );
@@ -1793,7 +1789,7 @@ class _SignupState extends State<SignupForm> {
                         Widget pad = new Padding(
                             padding: EdgeInsets.only(top: 15.0),
                             child: Text(
-                              snapshot.data[i].libelle.toString(),
+                              snapshot.data![i].libelle.toString(),
                               style: new TextStyle(
                                   fontSize: 16.0,
                                   color: Colors.black,
@@ -1837,11 +1833,11 @@ class _SignupState extends State<SignupForm> {
                     if (snapshot.hasError) {
                       return new Container();
                     } else if (snapshot.hasData) {
-                      List<Widget> civ = new List();
+                      List<Widget> civ = [];
 
-                      for (int i = 0; i < snapshot.data.length; i++) {
+                      for (int i = 0; i < snapshot.data!.length; i++) {
                         Widget radio = new Radio(
-                          value: snapshot.data[i],
+                          value: snapshot.data![i],
                           groupValue: sanguin,
                           onChanged: _handleRadioValueSang,
                         );
@@ -1849,7 +1845,7 @@ class _SignupState extends State<SignupForm> {
                         Widget pad = new Padding(
                             padding: EdgeInsets.only(top: 15.0),
                             child: Text(
-                              snapshot.data[i].libelle.toString(),
+                              snapshot.data![i].libelle.toString(),
                               style: new TextStyle(
                                   fontSize: 16.0,
                                   color: Colors.black,
@@ -1927,7 +1923,7 @@ class _SignupState extends State<SignupForm> {
                         fontWeight: FontWeight.normal),
                   ),
                   validator: (value) {
-                    if (value.isEmpty) {
+                    if (value!.isEmpty) {
                      return allTranslations.text('requis_title');
                     }
                   },
@@ -1957,11 +1953,11 @@ class _SignupState extends State<SignupForm> {
                     if (snapshot.hasError) {
                       return new Container();
                     } else if (snapshot.hasData) {
-                      List<Widget> civ = new List();
+                      List<Widget> civ = [];
 
-                      for (int i = 0; i < snapshot.data.length; i++) {
+                      for (int i = 0; i < snapshot.data!.length; i++) {
                         Widget radio = new Radio(
-                          value: snapshot.data[i],
+                          value: snapshot.data![i],
                           groupValue: situation,
                           onChanged: _handleRadioValueSit,
                         );
@@ -1969,7 +1965,7 @@ class _SignupState extends State<SignupForm> {
                         Widget pad = new Padding(
                             padding: EdgeInsets.only(top: 15.0),
                             child: Text(
-                              snapshot.data[i].libelle.toString(),
+                              snapshot.data![i].libelle.toString(),
                               style: new TextStyle(
                                   fontSize: 16.0,
                                   color: Colors.black,
@@ -2002,7 +1998,7 @@ class _SignupState extends State<SignupForm> {
               )),
               value: sport,
               onChanged: (newValue) {
-                if (newValue)
+                if (newValue!)
                   setState(() {
                     sport = true;
                   });
@@ -2044,7 +2040,7 @@ class _SignupState extends State<SignupForm> {
                               fontWeight: FontWeight.normal),
                         ),
                         validator: (value) {
-                          if (value.isEmpty) {
+                          if (value!.isEmpty) {
                             return allTranslations.text('requis_title');
                           }
                         },
@@ -2076,7 +2072,7 @@ class _SignupState extends State<SignupForm> {
                     if (snapshot.hasError) {
                       return new Container();
                     } else if (snapshot.hasData) {
-                      return _buildToxico(snapshot.data);
+                      return _buildToxico(snapshot.data!);
                     } else {
                       return CircularProgressIndicator();
                     }
@@ -2112,7 +2108,7 @@ class _SignupState extends State<SignupForm> {
                               fontWeight: FontWeight.normal),
                         ),
                         validator: (value) {
-                          if (value.isEmpty) {
+                          if (value!.isEmpty) {
                             return allTranslations.text('requis_title');
                           }
                         },
@@ -2144,7 +2140,7 @@ class _SignupState extends State<SignupForm> {
                     if (snapshot.hasError) {
                       return new Container();
                     } else if (snapshot.hasData) {
-                      return _buildMedical(snapshot.data);
+                      return _buildMedical(snapshot.data!);
                     } else {
                       return CircularProgressIndicator();
                     }
@@ -2180,7 +2176,7 @@ class _SignupState extends State<SignupForm> {
                               fontWeight: FontWeight.normal),
                         ),
                         validator: (value) {
-                          if (value.isEmpty) {
+                          if (value!.isEmpty) {
                             return allTranslations.text('requis_title');
                           }
                         },

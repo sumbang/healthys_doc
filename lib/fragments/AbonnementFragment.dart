@@ -38,7 +38,7 @@ class AbonnementFragmentState extends State<AbonnementFragment> {
   int currentLength = 0;
   final int increment = 10;
   bool isLoading = false;
-  Future<List<Abonnement>> consultations;
+  Future<List<Abonnement>>? consultations;
   List<Abonnement> _searchResult = [];
   TextEditingController controller = new TextEditingController();
 
@@ -68,7 +68,7 @@ class AbonnementFragmentState extends State<AbonnementFragment> {
 
     String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
 
-    List<Abonnement> liste = List();
+    List<Abonnement> liste = [];
 
     var response =
         await http.get(Setting.apiracine + "comptes/abonnement", headers: {
@@ -78,7 +78,7 @@ class AbonnementFragmentState extends State<AbonnementFragment> {
 
     print("DATA4 :" + response.body.toString());
 
-    if (response.statusCode == 200) {
+
       final responseJson = json.decode(response.body.toString());
 
       for (int i = 0; i < responseJson.length; i++) {
@@ -86,13 +86,11 @@ class AbonnementFragmentState extends State<AbonnementFragment> {
       }
 
       return liste;
-    }
-
-    return null;
+    
   }
 
-  List<Widget> AbonnementItem(List<Abonnement> maliste, BuildContext context) {
-    List<Widget> listElementWidgetList = new List<Widget>();
+  List<Widget> AbonnementItem(List<Abonnement>? maliste, BuildContext context) {
+    List<Widget> listElementWidgetList = <Widget>[];
 
     if (maliste != null) {
       var lengthOfList = maliste.length;
@@ -100,7 +98,7 @@ class AbonnementFragmentState extends State<AbonnementFragment> {
       for (int i = 0; i < lengthOfList; i++) {
         Abonnement item = maliste[i];
 
-        List<Widget> actions = new List<Widget>();
+        List<Widget> actions = <Widget>[];
 
         var listItem = new Container(
           padding: new EdgeInsets.all(0.0),
@@ -270,7 +268,7 @@ class AbonnementFragmentState extends State<AbonnementFragment> {
                         return;
                       }
 
-                      snapshot.data.forEach((userDetail) {
+                      snapshot.data!.forEach((userDetail) {
                         if (userDetail.dateconsultation
                                 .toString()
                                 .toLowerCase()
@@ -329,7 +327,7 @@ class AbonnementFragmentState extends State<AbonnementFragment> {
                                 // This next line does the trick.
                                 scrollDirection: Axis.vertical,
                                 children:
-                                    AbonnementItem(snapshot.data, context),
+                                    AbonnementItem(snapshot.data!.cast<Abonnement>(), context),
                               )),
                         ),
                       ],
@@ -341,7 +339,6 @@ class AbonnementFragmentState extends State<AbonnementFragment> {
               // You can reach your snapshot.data['url'] in here
             }
 
-            return null;
           }),
     );
   }

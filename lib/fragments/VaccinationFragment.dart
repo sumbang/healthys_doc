@@ -29,10 +29,10 @@ class VaccinationFragmentState extends State<VaccinationFragment>
   String token = "";
   String currentnom = "";
   String currentphoto = "";
-  TabController _controller;
+  TabController? _controller;
 
-  Future<List<Vaccin>> vaccins;
-  Future<List<Programme>> programmes;
+  Future<List<Vaccin>>? vaccins;
+  Future<List<Programme>>? programmes;
 
   _loadUser() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -77,7 +77,7 @@ class VaccinationFragmentState extends State<VaccinationFragment>
   }
 
   List<Widget> VaccinItem(List<Vaccin> maliste, BuildContext context) {
-    List<Widget> listElementWidgetList = new List<Widget>();
+    List<Widget> listElementWidgetList = <Widget>[];
 
     if (maliste != null) {
       var lengthOfList = maliste.length;
@@ -199,7 +199,7 @@ class VaccinationFragmentState extends State<VaccinationFragment>
   }
 
   List<Widget> ProgrammeItem(List<Programme> maliste) {
-    List<Widget> listElementWidgetList = new List<Widget>();
+    List<Widget> listElementWidgetList = <Widget>[];
 
     if (maliste != null) {
       var lengthOfList = maliste.length;
@@ -329,7 +329,7 @@ class VaccinationFragmentState extends State<VaccinationFragment>
 
     String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
 
-    List<Vaccin> liste = List();
+    List<Vaccin> liste = [];
 
 
     var response = await http
@@ -340,7 +340,7 @@ class VaccinationFragmentState extends State<VaccinationFragment>
 
     print("DATA4 :" + response.body.toString());
 
-    if (response.statusCode == 200) {
+
       final responseJson = json.decode(response.body.toString());
 
       for (int i = 0; i < responseJson.length; i++) {
@@ -348,9 +348,7 @@ class VaccinationFragmentState extends State<VaccinationFragment>
       }
 
       return liste;
-    }
-
-    return null;
+ 
   }
 
   Future<List<Programme>> getProgamme() async {
@@ -361,7 +359,7 @@ class VaccinationFragmentState extends State<VaccinationFragment>
 
     String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
 
-    List<Programme> liste = List();
+    List<Programme> liste = [];
     
     var response =
         await http.get(Setting.apiracine + "vaccins/programme", headers: {
@@ -371,7 +369,7 @@ class VaccinationFragmentState extends State<VaccinationFragment>
 
     print("DATA4 :" + response.body.toString());
 
-    if (response.statusCode == 200) {
+
       final responseJson = json.decode(response.body.toString());
 
       for (int i = 0; i < responseJson.length; i++) {
@@ -379,9 +377,7 @@ class VaccinationFragmentState extends State<VaccinationFragment>
       }
 
       return liste;
-    }
-
-    return null;
+   
   }
 
   Widget setupAlertDialoadContainer() {
@@ -583,7 +579,7 @@ class VaccinationFragmentState extends State<VaccinationFragment>
                                           // This next line does the trick.
                                           scrollDirection: Axis.vertical,
                                           children: VaccinItem(
-                                              snapshot.data, context),
+                                              snapshot.data!.cast<Vaccin>(), context),
                                         )),
                                   ),
                                 ],
@@ -591,8 +587,6 @@ class VaccinationFragmentState extends State<VaccinationFragment>
                             }
                           }
                       }
-
-                      return null;
                     }),
                 new FutureBuilder<List<Programme>>(
                     future: programmes, //new
@@ -670,7 +664,7 @@ class VaccinationFragmentState extends State<VaccinationFragment>
                                           // This next line does the trick.
                                           scrollDirection: Axis.vertical,
                                           children:
-                                              ProgrammeItem(snapshot.data),
+                                              ProgrammeItem(snapshot.data!.cast<Programme>()),
                                         )),
                                   ),
                                 ],
@@ -682,7 +676,6 @@ class VaccinationFragmentState extends State<VaccinationFragment>
                         // You can reach your snapshot.data['url'] in here
                       }
 
-                      return null;
                     }),
               ],
             ),

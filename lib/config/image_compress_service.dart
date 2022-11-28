@@ -6,7 +6,7 @@ import 'package:path_provider/path_provider.dart' as path_provider;
 class ImageCompressService {
   final File file;
 
-  ImageCompressService({@required this.file});
+  ImageCompressService({required this.file});
 
   exec() async {
     return await _getFileImage(this.file);

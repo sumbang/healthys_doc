@@ -30,7 +30,7 @@ class StartPage extends StatelessWidget {
 }
 
 class Start1 extends StatefulWidget {
-  Start1({Key key, this.title}) : super(key: key);
+  Start1({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
@@ -39,7 +39,7 @@ class Start1 extends StatefulWidget {
 }
 
 class _Start1State extends State<Start1> {
-  SwiperController _controller;
+  SwiperController? _controller;
 
   final color = const Color(0xFFcd005f);
   final color2 = const Color(0xFF008dad);
@@ -53,7 +53,7 @@ class _Start1State extends State<Start1> {
   List<Widget> _texte(String description) {
     List<String> tab = description.split(";");
 
-    List<Widget> maliste = new List();
+    List<Widget> maliste = [];
 
     for (int i = 0; i < tab.length; i++) {
       maliste.add(new Padding(

@@ -72,20 +72,20 @@ class DossierMedicalPageState extends State<DossierMedical> {
   bool isVideo = false;
   bool isVisible = false;
   bool isAccess = true;
-  String _retrieveDataError;
+  String? _retrieveDataError;
 
   final TextEditingController maxWidthController = TextEditingController();
   final TextEditingController maxHeightController = TextEditingController();
   final TextEditingController qualityController = TextEditingController();
   final TextEditingController _securityController = TextEditingController();
-  Future<File> imageFile;
-  PickedFile _imageFile;
-  File _image;
-  File tmpFile;
+  Future<File>? imageFile;
+  PickedFile? _imageFile;
+  File? _image;
+  File? tmpFile;
   final ImagePicker _picker = ImagePicker();
-  dynamic _pickImageError;
-  Future<List<Content>> contenu;
-  Future<DetailConsultation> details;
+  dynamic? _pickImageError;
+  Future<List<Content>>? contenu;
+  Future<DetailConsultation>? details;
 
   Widget _previewImage() {
     final Text retrieveError = _getRetrieveErrorWidget();
@@ -93,7 +93,7 @@ class DossierMedicalPageState extends State<DossierMedical> {
       return retrieveError;
     }
     if (_imageFile != null) {
-      return Image.file(File(_imageFile.path));
+      return Image.file(File(_imageFile!.path));
     } else if (_pickImageError != null) {
       return Text(
         'Erreur : $_pickImageError',
@@ -107,7 +107,7 @@ class DossierMedicalPageState extends State<DossierMedical> {
     }
   }
 
-  pickImageFromGallery(ImageSource source, {BuildContext context}) async {
+  pickImageFromGallery(ImageSource source, {required BuildContext context}) async {
     await _displayPickImageDialog(context,
         (double maxWidth, double maxHeight, int quality) async {
       try {
@@ -132,12 +132,10 @@ class DossierMedicalPageState extends State<DossierMedical> {
   }
 
   Text _getRetrieveErrorWidget() {
-    if (_retrieveDataError != null) {
-      final Text result = Text(_retrieveDataError);
+      final Text result = Text(_retrieveDataError!);
       _retrieveDataError = null;
       return result;
-    }
-    return null;
+   
   }
 
   Future<void> retrieveLostData() async {
@@ -211,9 +209,8 @@ class DossierMedicalPageState extends State<DossierMedical> {
 
     print("DATA2 :" + response.body.toString());
 
-    List<Content> maliste = List();
+    List<Content> maliste = [];
 
-    if (response.statusCode == 200) {
       final responseJson = json.decode(response.body);
 
       for (int i = 0; i < responseJson.length; i++) {
@@ -221,9 +218,7 @@ class DossierMedicalPageState extends State<DossierMedical> {
       }
 
       return maliste;
-    }
-
-    return null;
+   
   }
 
   void initState() {
@@ -232,7 +227,7 @@ class DossierMedicalPageState extends State<DossierMedical> {
   }
 
   List<Widget> _buildExpandableContent(List<Content> items) {
-    List<Widget> listElementWidgetList = new List<Widget>();
+    List<Widget> listElementWidgetList = <Widget>[];
 
     for (int i = 0; i < items.length; i++) {
       listElementWidgetList.add(new Padding(
@@ -892,19 +887,19 @@ class DossierMedicalPageState extends State<DossierMedical> {
 
   Future<void> _displayPickImageDialog(
       BuildContext context, OnPickImageCallback onPick) async {
-    double width = maxWidthController.text.isNotEmpty
+    double? width = maxWidthController.text.isNotEmpty
         ? double.parse(maxWidthController.text)
         : null;
 
-    double height = maxHeightController.text.isNotEmpty
+    double? height = maxHeightController.text.isNotEmpty
         ? double.parse(maxHeightController.text)
         : null;
 
-    int quality = qualityController.text.isNotEmpty
+    int? quality = qualityController.text.isNotEmpty
         ? int.parse(qualityController.text)
         : null;
 
-    onPick(width, height, quality);
+    onPick(width!, height!, quality!);
   }
 }
 

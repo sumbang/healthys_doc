@@ -11,12 +11,12 @@ class Prescription {
 
   Prescription(
       {this.id,
-      this.patient,
+      required this.patient,
       this.consultation,
       this.soin,
       this.qte,
       this.posologie,
-      this.datep});
+      required this.datep});
 
   factory Prescription.fromJson(Map<String, dynamic> json) => Prescription(
       id: json['id'],

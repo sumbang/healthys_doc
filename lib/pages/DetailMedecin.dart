@@ -78,7 +78,7 @@ class DetailMedecin1State extends State<DetailMedecin1> {
   }
 
   Widget _buildSchedule(List<Employe> list) {
-    List<Widget> mList = new List();
+    List<Widget> mList = [];
 
     for (int b = 0; b < list.length; b++) {
       Employe cmap = list[b];

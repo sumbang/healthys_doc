@@ -11,7 +11,7 @@ class Abonnement {
   String profil;
   String payeur;
 
-  Abonnement({this.id,this.photo,this.nom,this.abonnement,this.debut,this.fin,this.profil,this.payeur});
+  Abonnement({this.id,required this.photo,required this.nom,required this.abonnement,required this.debut,required this.fin,required this.profil,required this.payeur});
 
   factory Abonnement.fromJson(Map<String, dynamic> json)=> Abonnement(
       id: json['id'],

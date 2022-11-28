@@ -14,10 +14,10 @@ class Profil {
   Profil(
       {this.id,
       this.patient,
-      this.nom,
-      this.numero,
-      this.photo,
-      this.pin,
+     required  this.nom,
+     required  this.numero,
+      required this.photo,
+      required this.pin,
       this.payer,
       this.integral,
       this.perso

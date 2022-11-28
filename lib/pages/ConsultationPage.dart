@@ -53,7 +53,7 @@ class ConsultationPage1 extends StatefulWidget {
 class ConsultationPage1State extends State<ConsultationPage1> {
   String numero;
   ConsultationPage1State(this.numero);
-  Future<List<Content>> contenu;
+  Future<List<Content>>? contenu;
 
   final color = const Color(0xFFcd005f);
   final color2 = const Color(0xFF008dad);
@@ -81,9 +81,8 @@ class ConsultationPage1State extends State<ConsultationPage1> {
 
     print("DATA2 :" + response.body.toString());
 
-    List<Content> maliste = List();
+    List<Content> maliste = [];
 
-    if (response.statusCode == 200) {
       final responseJson = json.decode(response.body);
 
       for (int i = 0; i < responseJson.length; i++) {
@@ -91,13 +90,11 @@ class ConsultationPage1State extends State<ConsultationPage1> {
       }
 
       return maliste;
-    }
-
-    return null;
+  
   }
 
   List<Widget> _buildExpandableContent(List<Content> items) {
-    List<Widget> listElementWidgetList = new List<Widget>();
+    List<Widget> listElementWidgetList = <Widget>[];
 
     for (int i = 0; i < items.length; i++) {
       listElementWidgetList.add(new Padding(
@@ -141,7 +138,7 @@ class ConsultationPage1State extends State<ConsultationPage1> {
   List<Widget> _buildExpandableContent1(List<Content> items) {
     String texte = "";
 
-    List<Widget> listElementWidgetList = new List<Widget>();
+    List<Widget> listElementWidgetList = <Widget>[];
 
     for (int i = 0; i < items.length; i++) {
       texte += items[i].libelle.toString() + ", ";
@@ -176,7 +173,7 @@ class ConsultationPage1State extends State<ConsultationPage1> {
   List<Widget> _buildExpandableContent2(List<Content> items) {
     String texte = "";
 
-    List<Widget> listElementWidgetList = new List<Widget>();
+    List<Widget> listElementWidgetList = <Widget>[];
 
     for (int i = 0; i < items.length; i++) {
       texte += items[i].libelle.toString() + ", ";
@@ -210,7 +207,7 @@ class ConsultationPage1State extends State<ConsultationPage1> {
 
 
   List<Widget> _buildList(String datas) {
-    List<Widget> listElementWidgetList = new List<Widget>();
+    List<Widget> listElementWidgetList = <Widget>[];
     List<String> items = datas.split(";");
 
     for (int i = 0; i < items.length; i++) {
@@ -330,24 +327,24 @@ class ConsultationPage1State extends State<ConsultationPage1> {
                         )),
                       );
                     } else {
-                      List<Content> identification = new List();
-                      List<Content> parametres = new List();
-                      List<Content> antecedents = new List();
-                      List<Content> antecedents1 = new List();
-                      List<Content> photos = new List();
+                      List<Content> identification = [];
+                      List<Content> parametres = [];
+                      List<Content> antecedents = [];
+                      List<Content> antecedents1 = [];
+                      List<Content> photos = [];
 
-                      for (int i = 0; i < snapshot.data.length; i++) {
-                        if (snapshot.data[i].groupe == 1)
-                          identification.add(snapshot.data[i]);
-                        else if (snapshot.data[i].groupe == 2)
-                          parametres.add(snapshot.data[i]);
-                        else if (snapshot.data[i].groupe == 4)
-                          photos.add(snapshot.data[i]);
-                        else if (snapshot.data[i].groupe == 3) {
-                          if (snapshot.data[i].famille == 1)
-                            antecedents.add(snapshot.data[i]);
+                      for (int i = 0; i < snapshot.data!.length; i++) {
+                        if (snapshot.data![i].groupe == 1)
+                          identification.add(snapshot.data![i]);
+                        else if (snapshot.data![i].groupe == 2)
+                          parametres.add(snapshot.data![i]);
+                        else if (snapshot.data![i].groupe == 4)
+                          photos.add(snapshot.data![i]);
+                        else if (snapshot.data![i].groupe == 3) {
+                          if (snapshot.data![i].famille == 1)
+                            antecedents.add(snapshot.data![i]);
                           else
-                            antecedents1.add(snapshot.data[i]);
+                            antecedents1.add(snapshot.data![i]);
                         }
                       }
 

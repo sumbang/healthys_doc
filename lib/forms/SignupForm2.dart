@@ -37,12 +37,12 @@ class SignupForm2 extends StatefulWidget {
 }
 
 class _SignupState extends State<SignupForm2> {
-  MyItems civilite;
-  MyItems pays;
-  MyItems sexe;
-  MyItems specialite;
-  MyItems vaca;
-  DateTime _datenaiss;
+  MyItems? civilite;
+  MyItems? pays;
+  MyItems? sexe;
+  MyItems? specialite;
+  MyItems? vaca;
+  DateTime? _datenaiss;
   bool is_cni = false;
   bool is_ordre = false;
   bool is_image = false;
@@ -54,9 +54,9 @@ class _SignupState extends State<SignupForm2> {
 
   /** image pour uploads */
 
-  List<Asset> l_images = List<Asset>();
-  List<Asset> l_images1 = List<Asset>();
-  List<Asset> l_images2 = List<Asset>();
+  List<Asset> l_images = <Asset>[];
+  List<Asset> l_images1 = <Asset>[];
+  List<Asset> l_images2 = <Asset>[];
 
   List<Widget> buildGridView() {
     return List.generate(l_images.length, (index) {
@@ -98,7 +98,7 @@ class _SignupState extends State<SignupForm2> {
   }
 
   Future<List<File>> convertListAssetToListFile() async {
-    List<File> files = List<File>();
+    List<File> files = <File>[];
     // images from galllery
     for (int i = 0; i < l_images.length; i++) {
       String imagePath = await FlutterAbsolutePath.getAbsolutePath(
@@ -111,7 +111,7 @@ class _SignupState extends State<SignupForm2> {
   }
 
   Future<List<File>> convertListAssetToListFile1() async {
-    List<File> files = List<File>();
+    List<File> files = <File>[];
     // images from galllery
     for (int i = 0; i < l_images1.length; i++) {
       String imagePath = await FlutterAbsolutePath.getAbsolutePath(
@@ -124,7 +124,7 @@ class _SignupState extends State<SignupForm2> {
   }
 
     Future<List<File>> convertListAssetToListFile2() async {
-    List<File> files = List<File>();
+    List<File> files = <File>[];
     // images from galllery
     for (int i = 0; i < l_images2.length; i++) {
       String imagePath = await FlutterAbsolutePath.getAbsolutePath(
@@ -137,7 +137,7 @@ class _SignupState extends State<SignupForm2> {
   }
 
   Future<void> loadAssets1() async {
-    List<Asset> resultList = List<Asset>();
+    List<Asset> resultList = <Asset>[];
 
     try {
       resultList = await MultiImagePicker.pickImages(
@@ -166,7 +166,7 @@ class _SignupState extends State<SignupForm2> {
   }
 
   Future<void> loadAssets2() async {
-    List<Asset> resultList = List<Asset>();
+    List<Asset> resultList = <Asset>[];
 
     try {
       resultList = await MultiImagePicker.pickImages(
@@ -195,7 +195,7 @@ class _SignupState extends State<SignupForm2> {
   }
 
     Future<void> loadAssets3() async {
-    List<Asset> resultList = List<Asset>();
+    List<Asset> resultList = <Asset>[];
 
     try {
       resultList = await MultiImagePicker.pickImages(
@@ -292,15 +292,15 @@ class _SignupState extends State<SignupForm2> {
 
   bool _isChecked = false;
   bool _isSaving = true;
-  DateTime _dateTime;
-  DateTime _dateTime1;
+  DateTime? _dateTime;
+  DateTime? _dateTime1;
 
-  MyItems zone;
-  Future<List<MyItems>> _listZone;
+  MyItems? zone;
+  Future<List<MyItems>>? _listZone;
   List<MyItems> selectedZone = [];
 
   Future<List<MyItems>> getElements(String nature) async {
-    List<MyItems> liste = List();
+    List<MyItems> liste = [];
 
      MySingleton mySingleton = new MySingleton();
 
@@ -308,7 +308,6 @@ class _SignupState extends State<SignupForm2> {
         Setting.apiracine + "comptes/data?types=" + nature.toString(),
         headers: {"Language": mySingleton.getLangue.toString(),});
 
-    if (response.statusCode == 200) {
       final responseJson = json.decode(response.body.toString());
 
       for (int i = 0; i < responseJson.length; i++) {
@@ -316,13 +315,11 @@ class _SignupState extends State<SignupForm2> {
       }
 
       return liste;
-    }
-
-    return null;
+    
   }
 
   Future<List<MyItems>> getZone(String nature) async {
-    List<MyItems> liste = List();
+    List<MyItems> liste = [];
 
     print("search zone");
 
@@ -334,7 +331,7 @@ class _SignupState extends State<SignupForm2> {
 
     print("zone : " + response.body.toString());
 
-    if (response.statusCode == 200) {
+
       final responseJson = json.decode(response.body.toString());
 
       for (int i = 0; i < responseJson.length; i++) {
@@ -342,22 +339,20 @@ class _SignupState extends State<SignupForm2> {
       }
 
       return liste;
-    }
-
-    return null;
+   
   }
 
   Widget _builZone(List<MyItems> list) {
-    List<Widget> mList = new List();
+    List<Widget> mList = [];
 
     for (int b = 0; b < list.length; b++) {
       MyItems cmap = list[b];
 
       mList.add(CheckboxListTile(
-        onChanged: (bool value) {
+        onChanged: (bool? value) {
           if (mounted) {
             setState(() {
-              if (value) {
+              if (value!) {
                 selectedZone.add(cmap);
               } else {
                 selectedZone.remove(cmap);
@@ -377,12 +372,12 @@ class _SignupState extends State<SignupForm2> {
     );
   }
 
-  String base64Image;
-  String base64Image1;
-  String base64Image2;
-  String _fileName;
-  String _path;
-  Map<String, String> _paths;
+  String? base64Image;
+  String? base64Image1;
+  String? base64Image2;
+  String? _fileName;
+  String? _path;
+  Map<String, String>? _paths;
   String _extension = "png, jpg, jpeg, pdf";
   bool _loadingPath = false;
   bool _multiPick = false;
@@ -393,9 +388,9 @@ class _SignupState extends State<SignupForm2> {
 
     // recuperation de l'objet signature
     final sign2 = _sign.currentState;
-    final image = await sign2.getData();
+    final image = await sign2!.getData();
     var data = await image.toByteData(format: ui.ImageByteFormat.png);
-    final encoded = base64.encode(data.buffer.asUint8List());
+    final encoded = base64.encode(data!.buffer.asUint8List());
     setState(() {
       _img = data;
     });
@@ -612,12 +607,12 @@ class _SignupState extends State<SignupForm2> {
 
       _hospit += ']'; int vac = 0;
 
-      if(vaca != null) vac = vaca.id;
+      if(vaca != null) vac = vaca!.id;
 
        MySingleton mySingleton = new MySingleton();
 
       Map data = {
-        'civilite': civilite.id.toString(),
+        'civilite': civilite!.id.toString(),
         'nom': _nomController.text.toString(),
         'prenom': _prenomController.text.toString(),
         'datnaiss': _datnaissController.text.toString(),
@@ -630,7 +625,7 @@ class _SignupState extends State<SignupForm2> {
         'email': _emailController.text.toString(),
         'cni': _cniController.text.toString(),
         'datedeliv': _datedelivController.text.toString(),
-        'specialite': specialite.id.toString(),
+        'specialite': specialite!.id.toString(),
         'ordre': _ordreController.text.toString(),
         'role': '2',
         'photo': '',
@@ -683,7 +678,7 @@ class _SignupState extends State<SignupForm2> {
   }
 
   bool isVideo = false;
-  String _retrieveDataError;
+  String? _retrieveDataError;
 
   final TextEditingController maxWidthController = TextEditingController();
   final TextEditingController maxHeightController = TextEditingController();
@@ -691,26 +686,26 @@ class _SignupState extends State<SignupForm2> {
   final TextEditingController hopitalController = TextEditingController();
   final TextEditingController heureController = TextEditingController();
 
-  List<String> hopital = new List();
-  var _listHopital = List<Widget>();
+  List<String> hopital = [];
+  var _listHopital = <Widget>[];
 
-  Future<File> imageFile;
-  Future<File> imageFile1;
-  Future<File> imageFile2;
-  PickedFile _imageFile;
-  PickedFile _imageFile1;
-  PickedFile _imageFile2;
-  File _image;
-  File tmpFile;
-  File _image1;
-  File tmpFile1;
-  File _image2;
-  File tmpFile2;
+  Future<File>? imageFile;
+  Future<File>? imageFile1;
+  Future<File>? imageFile2;
+  PickedFile? _imageFile;
+  PickedFile? _imageFile1;
+  PickedFile? _imageFile2;
+  File? _image;
+  File? tmpFile;
+  File? _image1;
+  File? tmpFile1;
+  File? _image2;
+  File? tmpFile2;
   final ImagePicker _picker = ImagePicker();
   final ImagePicker _picker1 = ImagePicker();
   final ImagePicker _picker2 = ImagePicker();
   dynamic _pickImageError;
-  Future<List<MyItems>> special;
+  Future<List<MyItems>>? special;
   List<MyItems> vacation = [];
   
   Widget _previewImage() {
@@ -723,7 +718,7 @@ class _SignupState extends State<SignupForm2> {
         onTap: () {
           _showSelectionDialog(context);
         },
-        child: Image.file(File(_imageFile.path)),
+        child: Image.file(File(_imageFile!.path)),
       );
     } else if (_pickImageError != null) {
       return Center(child: Text(""));
@@ -743,7 +738,7 @@ class _SignupState extends State<SignupForm2> {
         onTap: () {
           _showSelectionDialog2(context);
         },
-        child: Image.file(File(_imageFile2.path)),
+        child: Image.file(File(_imageFile2!.path)),
       );
     } else if (_pickImageError != null) {
       return Center(child: Text(""));
@@ -763,7 +758,7 @@ class _SignupState extends State<SignupForm2> {
         onTap: () {
           _showSelectionDialog1(context);
         },
-        child: Image.file(File(_imageFile1.path)),
+        child: Image.file(File(_imageFile1!.path)),
       );
     } else if (_pickImageError != null) {
       return Center(child: Text(""));
@@ -773,12 +768,12 @@ class _SignupState extends State<SignupForm2> {
     }
   }
 
-  List<String> _fichier = new List();
-  List<Asset> images = List<Asset>();
+  List<String> _fichier = [];
+  List<Asset> images = <Asset>[];
   String _error = 'No Error Dectected';
 
   Future<void> loadAssets() async {
-    List<Asset> resultList = List<Asset>();
+    List<Asset> resultList = <Asset>[];
     String error = 'No Error Dectected';
 
     try {
@@ -1067,26 +1062,26 @@ class _SignupState extends State<SignupForm2> {
 
   Future<void> _displayPickImageDialog(
       BuildContext context, OnPickImageCallback onPick) async {
-    double width = maxWidthController.text.isNotEmpty
+    double? width = maxWidthController.text.isNotEmpty
         ? double.parse(maxWidthController.text)
         : null;
 
-    double height = maxHeightController.text.isNotEmpty
+    double? height = maxHeightController.text.isNotEmpty
         ? double.parse(maxHeightController.text)
         : null;
 
-    int quality = qualityController.text.isNotEmpty
+    int? quality = qualityController.text.isNotEmpty
         ? int.parse(qualityController.text)
         : null;
 
-    onPick(width, height, quality);
+    onPick(width!, height!, quality!);
   }
 
   bool isVisible = true;
   bool isVisible1 = true;
   bool isVisible2 = true;
 
-  pickImageFromGallery(ImageSource source, {BuildContext context}) async {
+  pickImageFromGallery(ImageSource source, {required BuildContext context}) async {
     await _displayPickImageDialog(context,
         (double maxWidth, double maxHeight, int quality) async {
       try {
@@ -1111,7 +1106,7 @@ class _SignupState extends State<SignupForm2> {
     });
   }
 
-  pickImageFromGallery1(ImageSource source, {BuildContext context}) async {
+  pickImageFromGallery1(ImageSource source, {required BuildContext context}) async {
     await _displayPickImageDialog(context,
         (double maxWidth, double maxHeight, int quality) async {
       try {
@@ -1136,7 +1131,7 @@ class _SignupState extends State<SignupForm2> {
     });
   }
 
-  pickImageFromGallery2(ImageSource source, {BuildContext context}) async {
+  pickImageFromGallery2(ImageSource source, {required BuildContext context}) async {
     await _displayPickImageDialog(context,
         (double maxWidth, double maxHeight, int quality) async {
       try {
@@ -1162,12 +1157,10 @@ class _SignupState extends State<SignupForm2> {
   }
 
   Text _getRetrieveErrorWidget() {
-    if (_retrieveDataError != null) {
-      final Text result = Text(_retrieveDataError);
+      final Text result = Text(_retrieveDataError!);
       _retrieveDataError = null;
       return result;
-    }
-    return null;
+    
   }
 
   Future<void> retrieveLostData() async {
@@ -1407,11 +1400,11 @@ class _SignupState extends State<SignupForm2> {
     _listZone = getZone("CM");
   }
 
-  Future<List<MyItems>> civi;
+  Future<List<MyItems>>? civi;
   String payslocalisation = "CM";
   String codepays = "";
 
-  void _handleRadioValueCiv(MyItems value) {
+  void _handleRadioValueCiv(MyItems? value) {
     setState(() {
       civilite = value;
     });
@@ -1442,7 +1435,7 @@ class _SignupState extends State<SignupForm2> {
 
     allTranslations.init(mySingleton.getLangue.toString());
 
-    List<DropdownMenuItem<MyItems>> items1 = List();
+    List<DropdownMenuItem<MyItems>> items1 = [];
     for (int i = 0; i < vacation.length; i++) {
                             items1.add(
                               DropdownMenuItem(
@@ -1499,11 +1492,11 @@ class _SignupState extends State<SignupForm2> {
                           if (snapshot.hasError) {
                             return new Container();
                           } else if (snapshot.hasData) {
-                            List<Widget> civ = new List();
+                            List<Widget> civ = [];
 
-                            for (int i = 0; i < snapshot.data.length; i++) {
+                            for (int i = 0; i < snapshot.data!.length; i++) {
                               Widget radio = new Radio(
-                                value: snapshot.data[i],
+                                value: snapshot.data![i],
                                 groupValue: civilite,
                                 onChanged: _handleRadioValueCiv,
                               );
@@ -1511,7 +1504,7 @@ class _SignupState extends State<SignupForm2> {
                               Widget pad = new Padding(
                                   padding: EdgeInsets.only(top: 15.0),
                                   child: Text(
-                                    snapshot.data[i].libelle.toString(),
+                                    snapshot.data![i].libelle.toString(),
                                     style: new TextStyle(
                                         fontSize: 16.0,
                                         color: Colors.black,
@@ -1566,7 +1559,7 @@ class _SignupState extends State<SignupForm2> {
                               fontWeight: FontWeight.normal),
                         ),
                         validator: (value) {
-                          if (value.isEmpty) {
+                          if (value!.isEmpty) {
                             return allTranslations.text('requis_title');
                           }
                         },
@@ -1607,7 +1600,7 @@ class _SignupState extends State<SignupForm2> {
                               fontWeight: FontWeight.normal),
                         ),
                         validator: (value) {
-                          if (value.isEmpty) {
+                          if (value!.isEmpty) {
                            return allTranslations.text('requis_title');
                           }
                         },
@@ -1713,7 +1706,7 @@ class _SignupState extends State<SignupForm2> {
                               fontWeight: FontWeight.normal),
                         ),
                         validator: (value) {
-                          if (value.isEmpty) {
+                          if (value!.isEmpty) {
                            return allTranslations.text('requis_title');
                           }
                         },
@@ -1740,7 +1733,7 @@ class _SignupState extends State<SignupForm2> {
                                        locale:  Locale("fr","FR"),
                                       initialDate: _dateTime == null
                                           ? DateTime.now()
-                                          : _dateTime,
+                                          : _dateTime!,
                                       firstDate: DateTime(1920),
                                       lastDate: DateTime.now())
                                   .then((date) {
@@ -1822,7 +1815,7 @@ class _SignupState extends State<SignupForm2> {
                                     fontWeight: FontWeight.normal),
                               ),
                               validator: (value) {
-                                if (value.isEmpty) {
+                                if (value!.isEmpty) {
                                   return allTranslations.text('requis_title');
                                 }
                               },
@@ -1867,7 +1860,7 @@ class _SignupState extends State<SignupForm2> {
                               fontWeight: FontWeight.normal),
                         ),
                         validator: (value) {
-                          if (value.isEmpty) {
+                          if (value!.isEmpty) {
                             return allTranslations.text('requis_title');
                           }
                         },
@@ -1907,7 +1900,7 @@ class _SignupState extends State<SignupForm2> {
                               fontWeight: FontWeight.normal),
                         ),
                         validator: (value) {
-                          if (value.isEmpty) {
+                          if (value!.isEmpty) {
                             return allTranslations.text('requis_title');
                           }
                         },
@@ -1951,7 +1944,7 @@ class _SignupState extends State<SignupForm2> {
                         fontWeight: FontWeight.normal),
                   ),
                   validator: (value) {
-                    if (value.isEmpty) {
+                    if (value!.isEmpty) {
                      return allTranslations.text('requis_title');
                     }
                   },
@@ -1977,7 +1970,7 @@ class _SignupState extends State<SignupForm2> {
                                 locale:  Locale("fr","FR"),
                                 initialDate: _dateTime1 == null
                                     ? DateTime.now()
-                                    : _dateTime1,
+                                    : _dateTime1!,
                                 firstDate: DateTime.now(),
                                 lastDate: DateTime(2030))
                             .then((date) {
@@ -2055,7 +2048,7 @@ class _SignupState extends State<SignupForm2> {
                               fontWeight: FontWeight.normal),
                         ),
                         validator: (value) {
-                          if (value.isEmpty) {
+                          if (value!.isEmpty) {
                            return allTranslations.text('requis_title');
                           }
                         },
@@ -2212,13 +2205,13 @@ class _SignupState extends State<SignupForm2> {
                         } else if (snapshot.hasData) {
                           //  if (ville == null) ville = snapshot.data.elementAt(0);
 
-                          List<DropdownMenuItem<MyItems>> items = List();
+                          List<DropdownMenuItem<MyItems>> items = [];
 
-                          for (int i = 0; i < snapshot.data.length; i++) {
+                          for (int i = 0; i < snapshot.data!.length; i++) {
                             items.add(
                               DropdownMenuItem(
-                                  child: Text(snapshot.data[i].libelle),
-                                  value: snapshot.data[i]),
+                                  child: Text(snapshot.data![i].libelle),
+                                  value: snapshot.data![i]),
                             );
                           }
 
@@ -2283,7 +2276,7 @@ class _SignupState extends State<SignupForm2> {
                             fontWeight: FontWeight.normal),
                       ),
                       validator: (value) {
-                        if (value.isEmpty) {
+                        if (value!.isEmpty) {
                          return allTranslations.text('requis_title');
                         }
                       },
@@ -2583,7 +2576,7 @@ new Divider(
                     //ui.Image image = _signaturePadKey.currentState.clear();
                     //_signaturePadKey.currentState.clear();
                     final sign = _sign.currentState;
-                    sign.clear();
+                    sign!.clear();
                     setState(() {
                       _img = ByteData(0);
                       signatures = "";

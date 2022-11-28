@@ -49,9 +49,9 @@ class ComptePage1State extends State<ComptePage1> {
   String nomuser = "";
   String token = "";
   bool _isSaving = true;
-  List<String> ids;
-  List<String> noms;
-  List<String> patients;
+  List<String>? ids;
+  List<String>? noms;
+  List<String>? patients;
   String currentid = "1";
   String currentpatient = "";
   String currentacces = "";
@@ -59,7 +59,7 @@ class ComptePage1State extends State<ComptePage1> {
   String currentnom = "";
   String currentpin = "";
   String currentphoto = "";
-  Future<Compte> profil;
+  Future<Compte>? profil;
   bool _isChecked = false;
   bool isSwitched = false;
 
@@ -91,7 +91,7 @@ class ComptePage1State extends State<ComptePage1> {
 
     print("DATA4 :" + response.body.toString());
 
-    if (response.statusCode == 200) {
+ 
       final responseJson = json.decode(response.body.toString());
 
       setState(() {
@@ -115,9 +115,7 @@ class ComptePage1State extends State<ComptePage1> {
       });
 
       return Compte.fromJson(responseJson);
-    }
-
-    return null;
+   
   }
 
   final color = const Color(0xFFcd005f);
@@ -623,7 +621,7 @@ class ComptePage1State extends State<ComptePage1> {
                                                             FontWeight.normal),
                                                   ),
                                                   validator: (value) {
-                                                    if (value.isEmpty) {
+                                                    if (value!.isEmpty) {
                                                       return 'Champ obligatoire';
                                                     }
                                                   },
@@ -674,7 +672,7 @@ class ComptePage1State extends State<ComptePage1> {
                                                             FontWeight.normal),
                                                   ),
                                                   validator: (value) {
-                                                    if (value.isEmpty) {
+                                                    if (value!.isEmpty) {
                                                       return 'Champ obligatoire';
                                                     }
                                                   },
@@ -1084,7 +1082,7 @@ class ComptePage1State extends State<ComptePage1> {
                                               value: _isChecked,
                                               onChanged: (newValue) {
                                                 setState(() {
-                                                  _isChecked = newValue;
+                                                  _isChecked = newValue!;
                                                 });
                                               },
                                               controlAffinity:
@@ -1143,7 +1141,6 @@ class ComptePage1State extends State<ComptePage1> {
                         // You can reach your snapshot.data['url'] in here
                       }
 
-                      return null;
                     }))));
   }
 }

@@ -8,9 +8,9 @@ class Employe {
   var status;
 
   Employe(
-      {this.hopital,
-      this.horaire,
-      this.localisation,
+      {required this.hopital,
+      required this.horaire,
+      required this.localisation,
       this.idhospi,
       this.status});
 

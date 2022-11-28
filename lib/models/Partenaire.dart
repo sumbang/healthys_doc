@@ -13,14 +13,14 @@ class Partenaire {
 
   Partenaire(
       {this.id,
-      this.nom,
-      this.description,
-      this.paysid,
-      this.paysnom,
-      this.ville,
-      this.logo,
-      this.contact,
-      this.email});
+     required  this.nom,
+     required  this.description,
+     required  this.paysid,
+     required  this.paysnom,
+     required  this.ville,
+     required  this.logo,
+     required  this.contact,
+     required  this.email});
 
   factory Partenaire.fromJson(Map<String, dynamic> json) => Partenaire(
       id: json['id'],

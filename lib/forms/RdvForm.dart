@@ -46,7 +46,7 @@ class RdvFormState extends State<RdvForm> {
   final _symptomeController = TextEditingController();
   final _heureController = TextEditingController();
   final _securityController = TextEditingController();
-  DateTime _dateTime;
+  DateTime? _dateTime;
   int hopital = -1;
 
   void initState() {
@@ -66,7 +66,7 @@ class RdvFormState extends State<RdvForm> {
   }
 
   Widget _buildHospi(List<Employe> list) {
-    List<Widget> mList = new List();
+    List<Widget> mList = [];
 
     for (int b = 0; b < list.length; b++) {
       Employe cmap = list[b];
@@ -314,7 +314,7 @@ class RdvFormState extends State<RdvForm> {
                                 context: context,
                                 initialDate: _dateTime == null
                                     ? DateTime.now()
-                                    : _dateTime,
+                                    : _dateTime!,
                                 firstDate: DateTime(2010),
                                 lastDate: DateTime(2030))
                             .then((date) {
@@ -490,7 +490,7 @@ class RdvFormState extends State<RdvForm> {
                     fontWeight: FontWeight.normal),
               ),
               validator: (value) {
-                if (value.isEmpty) {
+                if (value!.isEmpty) {
                   return allTranslations.text('requis_title');
                 }
               },

@@ -25,6 +25,7 @@ import 'ConsultationPage.dart';
 import 'HomePage.dart';
 import 'HomePageNew.dart';
 import 'NewDossierPage.dart';
+import 'PdfViewer.dart';
 
 class DossierMedicalPage2 extends StatelessWidget {
   String numero;
@@ -76,11 +77,11 @@ class DossierMedicalPageState extends State<DossierMedical> {
   bool isVideo = false;
   bool isVisible = false;
   bool isAccess = true;
-  Future<String> contenu;
-  List<Contenu> base = new List();
-  List<Contenu> urgence = new List();
-  List<Contenu> docteur = new List();
-  List<Contenu> consultation = new List();
+  Future<String>? contenu;
+  List<Contenu> base = [];
+  List<Contenu> urgence = [];
+  List<Contenu> docteur = [];
+  List<Contenu> consultation = [];
 
   void initState() {
     _loadUser();
@@ -142,7 +143,7 @@ class DossierMedicalPageState extends State<DossierMedical> {
   }
 
   List<Widget> _buildExpandableContent(List<Contenu> items) {
-    List<Widget> listElementWidgetList = new List<Widget>();
+    List<Widget> listElementWidgetList = <Widget>[];
 
     for (int i = 0; i < items.length; i++) {
       listElementWidgetList.add(new Padding(
@@ -184,7 +185,7 @@ class DossierMedicalPageState extends State<DossierMedical> {
   }
 
   List<Widget> _buildExpandableContent1(List<Contenu> items) {
-    List<Widget> listElementWidgetList = new List<Widget>();
+    List<Widget> listElementWidgetList = <Widget>[];
 
     for (int i = 0; i < items.length; i++) {
       listElementWidgetList.add(new Padding(
@@ -237,12 +238,12 @@ class DossierMedicalPageState extends State<DossierMedical> {
                 onTap: () {
                   print("fichier : " + items[i].valeur);
 
-                  /*  Navigator.of(context).push(PageRouteBuilder(
+                    Navigator.of(context).push(PageRouteBuilder(
                       opaque: false,
                       pageBuilder: (BuildContext context, _, __) =>
-                          PdfViewer(items[i].valeur)));*/
+                          PdfViewer(items[i].valeur)));
 
-                  _launchURL(items[i].valeur);
+                 // _launchURL(items[i].valeur);
                 },
                 child: new Container(
                   width: 150.0,
@@ -294,11 +295,8 @@ class DossierMedicalPageState extends State<DossierMedical> {
 
     print("DATA2 :" + response.body.toString());
 
-    if (response.statusCode == 200) {
       return response.body.toString();
-    }
-
-    return null;
+   
   }
 
   @override

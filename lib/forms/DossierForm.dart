@@ -49,12 +49,12 @@ class DossierFormState extends State<DossierForm> {
   final _symptomeController = TextEditingController();
   final _heureController = TextEditingController();
   final _securityController = TextEditingController();
-  DateTime _dateTime;
+  DateTime? _dateTime;
   int hopital = -1;
 
-  File selectedfile;
-  Response response;
-  String progress;
+  File? selectedfile;
+  Response? response;
+  String? progress;
   Dio dio = new Dio();
 
   void initState() {
@@ -152,9 +152,9 @@ class DossierFormState extends State<DossierForm> {
 
       // uploads du fichier
 
-      String base64Image = base64Encode(selectedfile.readAsBytesSync());
-      String fileName = selectedfile.path.split('/').last;
-      String ext = lookupMimeType(selectedfile.path).split('/').last;
+      String base64Image = base64Encode(selectedfile!.readAsBytesSync());
+      String fileName = selectedfile!.path.split('/').last;
+      String ext = lookupMimeType(selectedfile!.path).split('/').last;
 
       Map data1 = {
         "image": base64Image,
@@ -313,7 +313,7 @@ class DossierFormState extends State<DossierForm> {
                                 context: context,
                                 initialDate: _dateTime == null
                                     ? DateTime.now()
-                                    : _dateTime,
+                                    : _dateTime!,
                                 firstDate: DateTime(2000),
                                 lastDate: DateTime.now())
                             .then((date) {
@@ -377,7 +377,7 @@ class DossierFormState extends State<DossierForm> {
               //show file name here
               child: selectedfile == null
                   ? Text("Choose File")
-                  : Text(p.basename(selectedfile.path)),
+                  : Text(p.basename(selectedfile!.path)),
               //basename is from path package, to get filename from path
               //check if file is selected, if yes then show file name
             ),
@@ -386,14 +386,14 @@ class DossierFormState extends State<DossierForm> {
               color: Colors.transparent,
             ),
             Container(
-                child: RaisedButton.icon(
+                child: ElevatedButton.icon(
               onPressed: () {
                 selectFile();
               },
               icon: Icon(Icons.folder_open),
               label: Text(allTranslations.text("z16")+" *"),
-              color: Colors.redAccent,
-              colorBrightness: Brightness.dark,
+             // color: Colors.redAccent,
+              //colorBrightness: Brightness.dark,
             )),
             Divider(
               height: 30.0,
@@ -418,7 +418,7 @@ class DossierFormState extends State<DossierForm> {
                     fontWeight: FontWeight.normal),
               ),
               validator: (value) {
-                if (value.isEmpty) {
+                if (value!.isEmpty) {
                   return allTranslations.text('requis_title');
                 }
               },

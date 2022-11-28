@@ -14,6 +14,7 @@ import 'package:healthys_medecin/config/SizeConfig.dart';
 import 'package:healthys_medecin/config/image_compress_service.dart';
 import 'package:healthys_medecin/models/Content.dart';
 import 'package:healthys_medecin/models/DetailConsultation.dart';
+import 'package:healthys_medecin/models/soins.dart';
 import 'package:http/http.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:image_picker/image_picker.dart';
@@ -75,8 +76,8 @@ class ConsultationPageState extends State<Consultation51> {
   final color2 = const Color(0xFF008dad);
 
   bool isVideo = false;
-  String _retrieveDataError;
-  String _retrieveDataError1;
+  String? _retrieveDataError;
+  String? _retrieveDataError1;
   bool _isSaving = true;
 
   final TextEditingController maxWidthController = TextEditingController();
@@ -104,34 +105,34 @@ class ConsultationPageState extends State<Consultation51> {
   final TextEditingController diagnosticconfirmationController = TextEditingController();
    String dropdownValue = "";
 
-  List<String> exa = new List();
-  List<String> para = new List();
-  List<String> soins = new List();
-  List<String> diag = new List();
-  var _listPara = List<Widget>();
-  var _listPara1 = List<Widget>();
-  var _listExam = List<Widget>();
-  var _listSoin = List<Widget>();
-  var _listDiag = List<Widget>();
+  List<String> exa = [];
+  List<String> para = [];
+  List<String> soins = [];
+  List<String> diag = [];
+  var _listPara = [];
+  var _listPara1 = [];
+  var _listExam = [];
+  var _listSoin = [];
+  var _listDiag = [];
 
-  Future<File> imageFile, imageFile1, imageFile2;
-  PickedFile _imageFile, _imageFile1, _imageFile2;
-  File _image, _image1, _image2;
-  File tmpFile, tmpFile1, tmpFile2;
+  Future<File>? imageFile, imageFile1, imageFile2;
+  PickedFile? _imageFile, _imageFile1, _imageFile2;
+  File? _image, _image1, _image2;
+  File? tmpFile, tmpFile1, tmpFile2;
   final ImagePicker _picker = ImagePicker();
-  dynamic _pickImageError;
+  dynamic? _pickImageError;
   final ImagePicker _picker1 = ImagePicker();
-  dynamic _pickImageError1;
+  dynamic? _pickImageError1;
   final ImagePicker _picker2 = ImagePicker();
-  dynamic _pickImageError2;
+  dynamic? _pickImageError2;
 
-  String base64Image;
-  String _fileName;
-  String _path;
-  String base64Image1;
-  String _fileName1;
-  String _path1;
-  Map<String, String> _paths;
+  String? base64Image;
+  String? _fileName;
+  String? _path;
+  String? base64Image1;
+  String? _fileName1;
+  String? _path1;
+  Map<String, String>? _paths;
   String _extension = "png, jpg, jpeg, pdf";
   bool _loadingPath = false;
   bool _multiPick = false;
@@ -147,9 +148,9 @@ class ConsultationPageState extends State<Consultation51> {
   final bleu3 = const Color(0xFF3b5998);
   final clair = const Color(0xFFF9FAFB);
 
-  List<Asset> l_images = List<Asset>();
-  List<Asset> l_images1 = List<Asset>();
-  List<Asset> l_images2 = List<Asset>();
+  List<Asset> l_images = <Asset>[];
+  List<Asset> l_images1 = <Asset>[];
+  List<Asset> l_images2 = <Asset>[];
 
   List<Widget> buildGridView() {
     return List.generate(l_images.length, (index) {
@@ -191,7 +192,7 @@ class ConsultationPageState extends State<Consultation51> {
   }
 
   Future<List<File>> convertListAssetToListFile() async {
-    List<File> files = List<File>();
+    List<File> files = <File>[];
     // images from galllery
     for (int i = 0; i < l_images.length; i++) {
       String imagePath = await FlutterAbsolutePath.getAbsolutePath(
@@ -204,7 +205,7 @@ class ConsultationPageState extends State<Consultation51> {
   }
 
   Future<List<File>> convertListAssetToListFile1() async {
-    List<File> files = List<File>();
+    List<File> files = <File>[];
     // images from galllery
     for (int i = 0; i < l_images1.length; i++) {
       String imagePath = await FlutterAbsolutePath.getAbsolutePath(
@@ -217,7 +218,7 @@ class ConsultationPageState extends State<Consultation51> {
   }
 
   Future<List<File>> convertListAssetToListFile2() async {
-    List<File> files = List<File>();
+    List<File> files = <File>[];
     // images from galllery
     for (int i = 0; i < l_images2.length; i++) {
       String imagePath = await FlutterAbsolutePath.getAbsolutePath(
@@ -230,7 +231,7 @@ class ConsultationPageState extends State<Consultation51> {
   }
 
   Future<void> loadAssets1() async {
-    List<Asset> resultList = List<Asset>();
+    List<Asset> resultList = <Asset>[];
 
     try {
       resultList = await MultiImagePicker.pickImages(
@@ -259,7 +260,7 @@ class ConsultationPageState extends State<Consultation51> {
   }
 
   Future<void> loadAssets2() async {
-    List<Asset> resultList = List<Asset>();
+    List<Asset> resultList = <Asset>[];
 
     try {
       resultList = await MultiImagePicker.pickImages(
@@ -288,7 +289,7 @@ class ConsultationPageState extends State<Consultation51> {
   }
 
   Future<void> loadAssets3() async {
-    List<Asset> resultList = List<Asset>();
+    List<Asset> resultList = <Asset>[];
 
     try {
       resultList = await MultiImagePicker.pickImages(
@@ -323,7 +324,7 @@ class ConsultationPageState extends State<Consultation51> {
       return retrieveError;
     }
     if (_imageFile != null) {
-      return Image.file(File(_imageFile.path));
+      return Image.file(File(_imageFile!.path));
     } else if (_pickImageError != null) {
       return Text(
         'Erreur : $_pickImageError',
@@ -343,7 +344,7 @@ class ConsultationPageState extends State<Consultation51> {
       return retrieveError;
     }
     if (_imageFile1 != null) {
-      return Image.file(File(_imageFile1.path));
+      return Image.file(File(_imageFile1!.path));
     } else if (_pickImageError1 != null) {
       return Text(
         'Erreur : $_pickImageError1',
@@ -363,7 +364,7 @@ class ConsultationPageState extends State<Consultation51> {
       return retrieveError;
     }
     if (_imageFile2 != null) {
-      return Image.file(File(_imageFile2.path));
+      return Image.file(File(_imageFile2!.path));
     } else if (_pickImageError2 != null) {
       return Text(
         'Erreur : $_pickImageError2',
@@ -377,7 +378,7 @@ class ConsultationPageState extends State<Consultation51> {
     }
   }
 
-  pickImageFromGallery(ImageSource source, {BuildContext context}) async {
+  pickImageFromGallery(ImageSource source, {required BuildContext context}) async {
     await _displayPickImageDialog(context,
         (double maxWidth, double maxHeight, int quality) async {
       try {
@@ -401,7 +402,7 @@ class ConsultationPageState extends State<Consultation51> {
     });
   }
 
-  pickImageFromGallery1(ImageSource source, {BuildContext context}) async {
+  pickImageFromGallery1(ImageSource source, {required BuildContext context}) async {
     await _displayPickImageDialog(context,
         (double maxWidth, double maxHeight, int quality) async {
       try {
@@ -426,12 +427,10 @@ class ConsultationPageState extends State<Consultation51> {
   }
 
   Text _getRetrieveErrorWidget() {
-    if (_retrieveDataError != null) {
-      final Text result = Text(_retrieveDataError);
+      final Text result = Text(_retrieveDataError!);
       _retrieveDataError = null;
       return result;
-    }
-    return null;
+    
   }
 
   Future<void> retrieveLostData() async {
@@ -532,8 +531,8 @@ class ConsultationPageState extends State<Consultation51> {
         });
   }
 
-  Future<List<Content>> contenu;
-  Future<DetailConsultation> details;
+  Future<List<Content>>? contenu;
+  Future<DetailConsultation>? details;
   Future<List<Content>> _getContent() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -556,9 +555,8 @@ class ConsultationPageState extends State<Consultation51> {
 
     print("DATA2 :" + response.body.toString());
 
-    List<Content> maliste = List();
+    List<Content> maliste = [];
 
-    if (response.statusCode == 200) {
       final responseJson = json.decode(response.body);
 
       for (int i = 0; i < responseJson.length; i++) {
@@ -566,9 +564,7 @@ class ConsultationPageState extends State<Consultation51> {
       }
 
       return maliste;
-    }
-
-    return null;
+  
   }
 
   Future<DetailConsultation> _getDetail() async {
@@ -593,15 +589,13 @@ class ConsultationPageState extends State<Consultation51> {
 
     print("DATA21 :" + response.body.toString());
 
-    List<Content> maliste = List();
+    List<Content> maliste = [];
 
-    if (response.statusCode == 200) {
+
       final responseJson = json.decode(response.body);
 
       return DetailConsultation.fromJson(responseJson);
-    }
-
-    return null;
+  
   }
 
   void initState() {
@@ -611,7 +605,7 @@ class ConsultationPageState extends State<Consultation51> {
   }
 
   List<Widget> _buildList(String datas) {
-    List<Widget> listElementWidgetList = new List<Widget>();
+    List<Widget> listElementWidgetList = <Widget>[];
     List<String> items = datas.split(";");
 
     for (int i = 0; i < items.length; i++) {
@@ -645,7 +639,7 @@ class ConsultationPageState extends State<Consultation51> {
   }
 
   List<Widget> _buildList2(String datas) {
-    List<Widget> listElementWidgetList = new List<Widget>();
+    List<Widget> listElementWidgetList = <Widget>[];
     List<String> items = datas.split("|");
 
     for (int i = 0; i < items.length; i++) {
@@ -679,7 +673,7 @@ class ConsultationPageState extends State<Consultation51> {
   }
 
   List<Widget> _buildExpandableContent(List<Content> items) {
-    List<Widget> listElementWidgetList = new List<Widget>();
+    List<Widget> listElementWidgetList = <Widget>[];
 
     for (int i = 0; i < items.length; i++) {
       listElementWidgetList.add(new Padding(
@@ -723,7 +717,7 @@ class ConsultationPageState extends State<Consultation51> {
   List<Widget> _buildExpandableContent1(List<Content> items) {
     String texte = "";
 
-    List<Widget> listElementWidgetList = new List<Widget>();
+    List<Widget> listElementWidgetList = <Widget>[];
 
     for (int i = 0; i < items.length; i++) {
       texte += items[i].libelle.toString() + ", ";
@@ -1609,7 +1603,7 @@ class ConsultationPageState extends State<Consultation51> {
                                               onChanged: (value) {
                                                 refresh(() {
                                                   setState(() {
-                                                    _value = value;
+                                                    _value = value!;
                                                   });
                                                 });
                                               }))
@@ -1621,10 +1615,10 @@ class ConsultationPageState extends State<Consultation51> {
                                   ),
                                   Column(children: [
                                     CheckboxListTile(
-                                      onChanged: (bool value) {
+                                      onChanged: (bool? value) {
                                         if (mounted) {
                                           setState(() {
-                                            if (value) {
+                                            if (value!) {
                                               selectedZone.add(matin);
                                             } else {
                                               selectedZone.remove(matin);
@@ -1638,10 +1632,10 @@ class ConsultationPageState extends State<Consultation51> {
                                       title: new Text(matin),
                                     ),
                                     CheckboxListTile(
-                                      onChanged: (bool value) {
+                                      onChanged: (bool? value) {
                                         if (mounted) {
                                           setState(() {
-                                            if (value) {
+                                            if (value!) {
                                               selectedZone.add(midi);
                                             } else {
                                               selectedZone.remove(midi);
@@ -1655,10 +1649,10 @@ class ConsultationPageState extends State<Consultation51> {
                                       title: new Text(midi),
                                     ),
                                     CheckboxListTile(
-                                      onChanged: (bool value) {
+                                      onChanged: (bool? value) {
                                         if (mounted) {
                                           setState(() {
-                                            if (value) {
+                                            if (value!) {
                                               selectedZone.add(apresmidi);
                                             } else {
                                               selectedZone.remove(apresmidi);
@@ -1672,10 +1666,10 @@ class ConsultationPageState extends State<Consultation51> {
                                       title: new Text(apresmidi),
                                     ),
                                     CheckboxListTile(
-                                      onChanged: (bool value) {
+                                      onChanged: (bool? value) {
                                         if (mounted) {
                                           setState(() {
-                                            if (value) {
+                                            if (value!) {
                                               selectedZone.add(soir);
                                             } else {
                                               selectedZone.remove(soir);
@@ -1689,10 +1683,10 @@ class ConsultationPageState extends State<Consultation51> {
                                       title: new Text(soir),
                                     ),
                                     CheckboxListTile(
-                                      onChanged: (bool value) {
+                                      onChanged: (bool? value) {
                                         if (mounted) {
                                           setState(() {
-                                            if (value) {
+                                            if (value!) {
                                               selectedZone.add(coucher);
                                             } else {
                                               selectedZone.remove(coucher);
@@ -1778,7 +1772,7 @@ class ConsultationPageState extends State<Consultation51> {
                                               onChanged: (value) {
                                                 refresh(() {
                                                   setState(() {
-                                                    _value1 = value;
+                                                    _value1 = value!;
                                                   });
                                                 });
                                               }))
@@ -2310,8 +2304,8 @@ class ConsultationPageState extends State<Consultation51> {
     return Scaffold(
         backgroundColor: Color(0xffF8F8FA),
         body: FutureBuilder(
-            future: Future.wait([contenu, details]),
-            builder: (context, snapshot) {
+            future: Future.wait([contenu!, details!]),
+            builder: (context, AsyncSnapshot snapshot) {
               if (snapshot.hasError) print(snapshot.error);
               if (snapshot.hasData) {
                 if (snapshot.data[0] == null) {
@@ -2339,7 +2333,7 @@ class ConsultationPageState extends State<Consultation51> {
                       ],
                     )),
                   );
-                } else if (snapshot.data[0].toString().contains("PHP Notice")) {
+                } else if (snapshot.data![0].toString().contains("PHP Notice")) {
                   return Container(
                     child: Center(
                         child: Column(
@@ -2365,10 +2359,10 @@ class ConsultationPageState extends State<Consultation51> {
                     )),
                   );
                 } else {
-                  List<Content> identification = new List();
-                  List<Content> parametres = new List();
-                  List<Content> antecedents = new List();
-                  List<Content> antecedents1 = new List();
+                  List<Content> identification = [];
+                  List<Content> parametres = [];
+                  List<Content> antecedents = [];
+                  List<Content> antecedents1 = [];
                   String motif = "";
                   String photo = "";
                   String nom = "";
@@ -2376,7 +2370,7 @@ class ConsultationPageState extends State<Consultation51> {
                   String datnaiss = "";
 
                   for (int i = 0; i < snapshot.data[0].length; i++) {
-                    if (snapshot.data[0][i].groupe == 1) {
+                         if (snapshot.data![0][i]!.cast<Content>().groupe == 1) {
                       if (snapshot.data[0][i].libelle == "Nom")
                         nom = snapshot.data[0][i].valeur.toString();
                       else if (snapshot.data[0][i].libelle == "photo")
@@ -2401,7 +2395,7 @@ class ConsultationPageState extends State<Consultation51> {
                     }
                   }
 
-                  DetailConsultation deta = snapshot.data[1];
+                  DetailConsultation deta = snapshot.data![1];
 
                   var truedate = "";
 
@@ -2660,7 +2654,7 @@ class ConsultationPageState extends State<Consultation51> {
                                           : Container(),*/
                                       Container(
                                           child: Column(
-                                        children: this._listExam,
+                                        children: this._listExam.cast<Widget>(),
                                       )),
                                       SizedBox(
                                         height: 10,
@@ -3040,7 +3034,7 @@ class ConsultationPageState extends State<Consultation51> {
                                           : Container(),*/
                                       Container(
                                           child: Column(
-                                        children: this._listSoin,
+                                        children: this._listSoin.cast<Widget>(),
                                       )),
                                       SizedBox(
                                         height: 10,
@@ -3255,9 +3249,9 @@ class ConsultationPageState extends State<Consultation51> {
                                                       height: 2,
                                                       color: Colors.deepPurpleAccent,
                                                     ),
-                                                    onChanged: (String newValue) {
+                                                    onChanged: (String? newValue) {
                                                       setState(() {
-                                                        dropdownValue = newValue;
+                                                        dropdownValue = newValue!;
                                                       });
                                                     },
                                                     items: <String>['', 'Observation', 'Hospitalisation', 'Ambulatoire']
@@ -3321,19 +3315,19 @@ class ConsultationPageState extends State<Consultation51> {
 
   Future<void> _displayPickImageDialog(
       BuildContext context, OnPickImageCallback onPick) async {
-    double width = maxWidthController.text.isNotEmpty
+    double? width = maxWidthController.text.isNotEmpty
         ? double.parse(maxWidthController.text)
         : null;
 
-    double height = maxHeightController.text.isNotEmpty
+    double? height = maxHeightController.text.isNotEmpty
         ? double.parse(maxHeightController.text)
         : null;
 
-    int quality = qualityController.text.isNotEmpty
+    int? quality = qualityController.text.isNotEmpty
         ? int.parse(qualityController.text)
         : null;
 
-    onPick(width, height, quality);
+    onPick(width!, height!, quality!);
   }
 }
 

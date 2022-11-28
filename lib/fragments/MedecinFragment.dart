@@ -37,7 +37,7 @@ class MedecinFragmentState extends State<MedecinFragment> {
   int currentLength = 0;
   final int increment = 10;
   bool isLoading = false;
-  Future<List<Medecin>> docteurs;
+  Future<List<Medecin>>? docteurs;
   List<Medecin> _searchResult = [];
   TextEditingController controller = new TextEditingController();
 
@@ -58,7 +58,7 @@ class MedecinFragmentState extends State<MedecinFragment> {
   }
 
   List<Widget> MedecinItem(List<Medecin> maliste, BuildContext context) {
-    List<Widget> listElementWidgetList = new List<Widget>();
+    List<Widget> listElementWidgetList = <Widget>[];
 
     if (maliste != null) {
       var lengthOfList = maliste.length;
@@ -66,7 +66,7 @@ class MedecinFragmentState extends State<MedecinFragment> {
       for (int i = 0; i < lengthOfList; i++) {
         Medecin item = maliste[i];
 
-        List<Widget> actions = new List<Widget>();
+        List<Widget> actions = <Widget>[];
 
         var listItem = new Container(
             padding: EdgeInsets.all(10.0),
@@ -273,7 +273,7 @@ class MedecinFragmentState extends State<MedecinFragment> {
 
     String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
 
-    List<Medecin> liste = List();
+    List<Medecin> liste = [];
 
     var response = await http.get(
         Setting.apiracine +
@@ -286,7 +286,7 @@ class MedecinFragmentState extends State<MedecinFragment> {
 
     print("DATA4 :" + response.body.toString());
 
-    if (response.statusCode == 200) {
+  
       final responseJson = json.decode(response.body.toString());
 
       for (int i = 0; i < responseJson.length; i++) {
@@ -294,9 +294,7 @@ class MedecinFragmentState extends State<MedecinFragment> {
       }
 
       return liste;
-    }
-
-    return null;
+   
   }
 
   @override
@@ -379,7 +377,7 @@ class MedecinFragmentState extends State<MedecinFragment> {
                       return;
                     }
 
-                    snapshot.data.forEach((userDetail) {
+                    snapshot.data!.forEach((userDetail) {
                       if (userDetail.phone
                               .toString()
                               .toLowerCase()
@@ -447,7 +445,7 @@ class MedecinFragmentState extends State<MedecinFragment> {
                                 child: ListView(
                                   // This next line does the trick.
                                   scrollDirection: Axis.vertical,
-                                  children: MedecinItem(snapshot.data, context),
+                                  children: MedecinItem(snapshot.data!.cast<Medecin>(), context),
                                 )),
                       ),
                     ],
@@ -456,7 +454,6 @@ class MedecinFragmentState extends State<MedecinFragment> {
               }
           }
 
-          return null;
         });
   }
 }

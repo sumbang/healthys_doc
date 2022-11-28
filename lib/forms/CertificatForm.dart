@@ -41,7 +41,7 @@ class CertificatFormState extends State<CertificatForm> {
 
   final _raisonController = TextEditingController();
   final _securityController = TextEditingController();
-  DateTime _dateTime;
+  DateTime? _dateTime;
   int hopital = -1;
 
   void initState() {
@@ -211,7 +211,7 @@ class CertificatFormState extends State<CertificatForm> {
                     fontWeight: FontWeight.normal),
               ),
               validator: (value) {
-                if (value.isEmpty) {
+                if (value!.isEmpty) {
                   return allTranslations.text('requis_title');
                 }
               },

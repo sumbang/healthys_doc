@@ -27,9 +27,9 @@ class CentreFragmentState extends State<CentreFragment> {
   String token = "";
   String currentnom = "";
   String currentphoto = "";
-  TabController _controller;
+  TabController? _controller;
 
-  Future<List<Partenaire>> datas;
+  Future<List<Partenaire>>? datas;
   List<Partenaire> _searchResult = [];
   TextEditingController controller = new TextEditingController();
 
@@ -60,7 +60,7 @@ class CentreFragmentState extends State<CentreFragment> {
   }
 
   List<Widget> PartenaireItem(List<Partenaire> maliste, BuildContext context) {
-    List<Widget> listElementWidgetList = new List<Widget>();
+    List<Widget> listElementWidgetList = <Widget>[];
 
     if (maliste != null) {
       var lengthOfList = maliste.length;
@@ -193,7 +193,7 @@ class CentreFragmentState extends State<CentreFragment> {
     String token1 = (prefs.getString('token') ?? '');
 
     String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
-    List<Partenaire> liste = List();
+    List<Partenaire> liste = [];
 
     var response =
         await http.get(Setting.apiracine + "partners?types=5", headers: {
@@ -203,7 +203,7 @@ class CentreFragmentState extends State<CentreFragment> {
 
     print("DATA4 :" + response.body.toString());
 
-    if (response.statusCode == 200) {
+ 
       final responseJson = json.decode(response.body.toString());
 
       for (int i = 0; i < responseJson.length; i++) {
@@ -211,9 +211,7 @@ class CentreFragmentState extends State<CentreFragment> {
       }
 
       return liste;
-    }
-
-    return null;
+  
   }
 
   @override
@@ -296,7 +294,7 @@ class CentreFragmentState extends State<CentreFragment> {
                       return;
                     }
 
-                    snapshot.data.forEach((userDetail) {
+                    snapshot.data!.forEach((userDetail) {
                       if (userDetail.nom
                               .toString()
                               .toLowerCase()
@@ -370,7 +368,7 @@ class CentreFragmentState extends State<CentreFragment> {
                                   // This next line does the trick.
                                   scrollDirection: Axis.vertical,
                                   children:
-                                      PartenaireItem(snapshot.data, context),
+                                      PartenaireItem(snapshot.data!.cast<Partenaire>(), context),
                                 )),
                       )
                     ],
@@ -382,7 +380,7 @@ class CentreFragmentState extends State<CentreFragment> {
             // You can reach your snapshot.data['url'] in here
           }
 
-          return null;
+          
         });
   }
 }
