@@ -58,7 +58,7 @@ class NewDossierPageState extends State<NewDossierPage1> {
         },
         child: Scaffold(
             appBar: AppBar(
-              title: Text(allTranslations.text("z61")),
+              title: Text(allTranslations.text("z221")),
               backgroundColor: color,
               elevation: 0,
               leading: new IconButton(

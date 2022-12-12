@@ -2370,7 +2370,7 @@ class ConsultationPageState extends State<Consultation51> {
                   String datnaiss = "";
 
                   for (int i = 0; i < snapshot.data[0].length; i++) {
-                         if (snapshot.data![0][i]!.cast<Content>().groupe == 1) {
+                         if (snapshot.data![0][i].groupe == 1) {
                       if (snapshot.data[0][i].libelle == "Nom")
                         nom = snapshot.data[0][i].valeur.toString();
                       else if (snapshot.data[0][i].libelle == "photo")

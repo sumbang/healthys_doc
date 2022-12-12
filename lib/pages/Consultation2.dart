@@ -170,10 +170,17 @@ class ConsultationPageState extends State<Consultation_2> {
           backgroundColor: Colors.blue,
           textColor: Colors.white);
 
-      Navigator.push(
-        context,
-        new MaterialPageRoute(builder: (_) => new HomePage()),
-      );
+     if(perso == "1") {
+                  Navigator.push(
+                    context,
+                    new MaterialPageRoute(builder: (_) => new HomePageNew()),
+                  );
+                  }else {
+                  Navigator.push(
+                    context,
+                    new MaterialPageRoute(builder: (_) => new HomePage()),
+                  );
+                  }
     } else {
       Navigator.of(context, rootNavigator: true).pop('dialog');
       var responseJson = json.decode(res.body);
