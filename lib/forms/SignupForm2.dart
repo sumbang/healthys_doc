@@ -400,7 +400,6 @@ class _SignupState extends State<SignupForm2> {
     if (_nomController.text.isEmpty ||
         _phone1Controller.text.isEmpty ||
         _cniController.text.isEmpty ||
-        _ordreController.text.isEmpty ||
         _emailController.text.isEmpty ||
         civilite == null ||
         specialite == null ||
@@ -1738,6 +1737,8 @@ class _SignupState extends State<SignupForm2> {
                                       lastDate: DateTime.now())
                                   .then((date) {
                                 setState(() {
+                                  if(date != null) {
+
                                   _dateTime = date;
                                   String vj = "";
                                   String vm = "";
@@ -1756,6 +1757,7 @@ class _SignupState extends State<SignupForm2> {
                                   var formattedDate =
                                       "${date1.year}-${vm}-${vj}";
                                   _datnaissController.text = formattedDate;
+                                  }
                                 });
                               });
                             },
@@ -1972,9 +1974,11 @@ class _SignupState extends State<SignupForm2> {
                                     ? DateTime.now()
                                     : _dateTime1!,
                                 firstDate: DateTime.now(),
-                                lastDate: DateTime(2030))
+                                lastDate: DateTime(2050))
                             .then((date) {
                           setState(() {
+                            if(date != null) {
+
                             _dateTime1 = date;
                             String vj = "";
                             String vm = "";
@@ -1991,6 +1995,7 @@ class _SignupState extends State<SignupForm2> {
                               vm = m.toString();
                             var formattedDate = "${date1.year}-${vm}-${vj}";
                             _datedelivController.text = formattedDate;
+                            }
                           });
                         });
                       },
@@ -2269,17 +2274,12 @@ class _SignupState extends State<SignupForm2> {
                           Icons.card_membership,
                           color: color,
                         ),
-                        labelText: allTranslations.text('ordre_title'),
+                        labelText: allTranslations.text('ordre_title1'),
                         labelStyle: TextStyle(
                             color: color,
                             fontSize: 16.0,
                             fontWeight: FontWeight.normal),
                       ),
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                         return allTranslations.text('requis_title');
-                        }
-                      },
                       keyboardType: TextInputType.text,
                       controller: _ordreController,
                     ),

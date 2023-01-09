@@ -1083,36 +1083,7 @@ class _SignupState extends State<SignupForm> {
                               left: 0.0, right: 0.0, top: 5.0, bottom: 5.0),
                           child: new InkWell(
                             onTap: () {
-                              /* DatePicker.showDatePicker(context,
-                                  showTitleActions: true,
-                                  minTime: DateTime(1960, 3, 5),
-                                  //maxTime: DateTime(20, 6, 7),
-                                  theme: DatePickerTheme(
-                                      headerColor: Colors.white,
-                                      backgroundColor: Colors.white,
-                                      itemStyle: TextStyle(
-                                          color: color2,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16),
-                                      doneStyle: TextStyle(
-                                          color: color,
-                                          fontSize: 16)), onChanged: (date) {
-                                var d = date.toString().split(' ');
-                                _datnaissController.text = d[0].toString();
-                              }, onConfirm: (date) {
-                                var d = date.toString().split(' ');
-                                _datnaissController.text = d[0].toString();
-                              },
-                                  currentTime: DateTime.now(),
-                                  locale: allTranslations.currentLanguage
-                                              .toString() ==
-                                          "fr"
-                                      ? LocaleType.fr
-                                      : allTranslations.currentLanguage
-                                                  .toString() ==
-                                              "es"
-                                          ? LocaleType.es
-                                          : LocaleType.en); */
+                             
 
                               showDatePicker(
                                       context: context,
@@ -1124,7 +1095,8 @@ class _SignupState extends State<SignupForm> {
                                       lastDate: DateTime(2030))
                                   .then((date) {
                                 setState(() {
-                                  _dateTime = date;
+                                  if(date != null) {
+                                    _dateTime = date;
                                   String vj = "";
                                   String vm = "";
                                   var date1 =
@@ -1142,6 +1114,8 @@ class _SignupState extends State<SignupForm> {
                                   var formattedDate =
                                       "${date1.year}-${vm}-${vj}";
                                   _datnaissController.text = formattedDate;
+                                  }
+                                  
                                 });
                               });
                             },
@@ -1351,7 +1325,8 @@ class _SignupState extends State<SignupForm> {
                                       lastDate: DateTime(2030))
                                   .then((date) {
                                 setState(() {
-                                  _dateTime = date;
+                                  if(date != null) {
+ _dateTime = date;
                                   String vj = "";
                                   String vm = "";
                                   var date1 =
@@ -1369,6 +1344,8 @@ class _SignupState extends State<SignupForm> {
                                   var formattedDate =
                                       "${date1.year}-${vm}-${vj}";
                                   _datedelivController.text = formattedDate;
+                                  }
+                                 
                                 });
                               });
                             },

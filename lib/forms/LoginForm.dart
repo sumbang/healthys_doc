@@ -81,10 +81,10 @@ class _LoginState extends State<LoginForm> {
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     icon: new Icon(
-                      Icons.person,
+                      Icons.email,
                       color: color,
                     ),
-                    labelText: allTranslations.text('login_title1') + " *",
+                    labelText: allTranslations.text('email_title') + " *",
                     labelStyle: TextStyle(
                         color: Colors.grey,
                         fontSize: 16.0,

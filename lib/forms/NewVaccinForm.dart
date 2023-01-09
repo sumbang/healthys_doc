@@ -456,6 +456,8 @@ class NewVaccinFormState extends State<NewVaccinForm> {
                                 lastDate: DateTime(2030))
                             .then((date) {
                           setState(() {
+                            if(date != null) {
+
                             _dateTime = date;
                             String vj = "";
                             String vm = "";
@@ -472,6 +474,7 @@ class NewVaccinFormState extends State<NewVaccinForm> {
                               vm = m.toString();
                             var formattedDate = "${date1.year}-${vm}-${vj}";
                             _dateController.text = formattedDate;
+                            }
                           });
                         });
                       },

@@ -1837,6 +1837,8 @@ class _SignupState extends State<NewPatientForm1> {
                                       lastDate: DateTime.now())
                                   .then((date) {
                                 setState(() {
+                                  if(date != null) {
+
                                   _dateTime = date;
                                   String vj = "";
                                   String vm = "";
@@ -1855,6 +1857,7 @@ class _SignupState extends State<NewPatientForm1> {
                                   var formattedDate =
                                       "${date1.year}-${vm}-${vj}";
                                   _datnaissController.text = formattedDate;
+                                  }
                                 });
                               });
                             },

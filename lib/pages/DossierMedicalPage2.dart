@@ -370,6 +370,8 @@ class DossierMedicalPageState extends State<DossierMedical> {
                   docteur.clear();
                   consultation.clear();
 
+                  print("base : "+responseJson["base"].toString());
+
                   for (int i = 0; i < responseJson["base"].length; i++) {
                     Contenu contenu = Contenu.fromJson(responseJson["base"][i]);
                     base.add(contenu);

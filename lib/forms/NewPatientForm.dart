@@ -1885,6 +1885,8 @@ class _SignupState extends State<NewPatientForm> {
                                       lastDate: DateTime.now())
                                   .then((date) {
                                 setState(() {
+                                  if(date != null) {
+
                                   _dateTime = date;
                                   String vj = "";
                                   String vm = "";
@@ -1903,6 +1905,7 @@ class _SignupState extends State<NewPatientForm> {
                                   var formattedDate =
                                       "${date1.year}-${vm}-${vj}";
                                   _datnaissController.text = formattedDate;
+                                  }
                                 });
                               });
                             },
@@ -2221,6 +2224,8 @@ class _SignupState extends State<NewPatientForm> {
                                 lastDate: DateTime(2050))
                             .then((date) {
                           setState(() {
+                            if(date != null) {
+
                             _dateTime1 = date;
                             String vj = "";
                             String vm = "";
@@ -2237,6 +2242,7 @@ class _SignupState extends State<NewPatientForm> {
                               vm = m.toString();
                             var formattedDate = "${date1.year}-${vm}-${vj}";
                             _datedelivController.text = formattedDate;
+                            }
                           });
                         });
                              /* DatePicker.showDatePicker(context,

@@ -318,6 +318,8 @@ class DossierFormState extends State<DossierForm> {
                                 lastDate: DateTime.now())
                             .then((date) {
                           setState(() {
+                            if(date != null) {
+
                             _dateTime = date;
                             String vj = "";
                             String vm = "";
@@ -334,6 +336,7 @@ class DossierFormState extends State<DossierForm> {
                               vm = m.toString();
                             var formattedDate = "${date1.year}-${vm}-${vj}";
                             _dateController.text = formattedDate;
+                            }
                           });
                         });
                       },

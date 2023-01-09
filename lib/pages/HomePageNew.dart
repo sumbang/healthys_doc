@@ -856,7 +856,7 @@ class HomePageNew1State extends State<HomePageNew1> {
                       child: Padding(
                     padding: EdgeInsets.all(5.0),
                     child: new Text(
-                      menu[i].libelle,
+                      menu[i].libelle.toUpperCase(),
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: color,

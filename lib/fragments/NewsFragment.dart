@@ -11,6 +11,8 @@ import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
+import '../pages/Information.dart';
+
 class NewsFragment extends StatefulWidget {
   NewsFragment();
 
@@ -71,10 +73,14 @@ class NewsFragmentState extends State<NewsFragment> {
 
         var listItem = new GestureDetector(
           onTap: () {
-            Navigator.push(
+           /* Navigator.push(
               context,
               new MaterialPageRoute(builder: (_) => new NewDetailPage(item)),
-            );
+            );*/
+             Navigator.of(context).push(PageRouteBuilder(
+                    opaque: false,
+                    pageBuilder: (BuildContext context, _, __) =>
+                        Information(item.id)));
           },
           child: Container(
             padding: EdgeInsets.all(0.0),
@@ -92,6 +98,13 @@ class NewsFragmentState extends State<NewsFragment> {
                     ? Image.network(Setting.serveurimage1 + '' + item.image,
                         width: double.infinity,
                         fit: BoxFit.contain,
+                        errorBuilder:(context, error, stackTrace) {
+                      return new Image.asset(
+                               "img/uploads.png",
+                               width: double.infinity,
+                    fit: BoxFit.contain,
+                            );
+                    },
                         alignment: Alignment.centerLeft)
                     : Container(),
                 Divider(
