@@ -55,7 +55,8 @@ dependencies:
   flutter_swiper: ^1.1.2
   flutter_staggered_grid_view:
   qr_flutter: ^3.1.0
-  #qrscan: ^0.3.2
+  #qrscan: ^0.3.3
+  mobile_scanner: ^2.1.0
   image_gallery_saver: ^1.5.0
   #camera: ^0.5.8+2
   flutter_datetime_picker: 1.5.0

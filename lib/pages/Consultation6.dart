@@ -26,6 +26,8 @@ import 'package:healthys_medecin/config/all_translations.dart'; import 'package:
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:simple_autocomplete_formfield/simple_autocomplete_formfield.dart';
 
+import '../models/Affection.dart';
+import '../models/Medicament.dart';
 import 'Consultation2.dart';
 
 class Consultation6 extends StatelessWidget {
@@ -136,6 +138,17 @@ class ConsultationPageState extends State<Consultation51> {
   String _extension = "png, jpg, jpeg, pdf";
   bool _loadingPath = false;
   bool _multiPick = false;
+
+
+  Soins? currentSoin;
+  Affection? currentAffection;
+  Medicament? currentMedoc;
+  Future<List<Soins>>? _soins;
+  List<Soins> listSoins = [];
+  List<Medicament> listMedocs = [];
+  Future<List<Medicament>>? _medocs;
+  List<Affection> listAffection = [];
+  Future<List<Affection>>? _affections;
 
   bool is_cni = false;
   bool is_ordre = false;
@@ -598,10 +611,113 @@ class ConsultationPageState extends State<Consultation51> {
   
   }
 
+
+  
+ Future<List<Soins>> _getSoins() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    MySingleton mySingleton = new MySingleton();
+
+    String token1 = (prefs.getString('token') ?? '');
+
+    String basicAuth = 'Bearer ' + token1;
+
+    var response = await http.get(
+        Setting.apiracine +
+            "comptes/soins",
+        headers: {
+          "Authorization": basicAuth,
+          "Language": mySingleton.getLangue.toString(),
+        });
+
+    print("DATA21 :" + response.body.toString());
+
+    List<Soins> maliste = []; listSoins.clear();
+
+
+      final responseJson = json.decode(response.body);
+
+      for (int i = 0; i < responseJson.length; i++) {
+        maliste.add(Soins.fromJson(responseJson[i]));
+        listSoins.add(Soins.fromJson(responseJson[i]));
+      }
+      return maliste;
+   
+  }
+
+   Future<List<Medicament>> _getMedocs() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    MySingleton mySingleton = new MySingleton();
+
+    String token1 = (prefs.getString('token') ?? '');
+
+    String basicAuth = 'Bearer ' + token1;
+
+    var response = await http.get(
+        Setting.apiracine +
+            "comptes/medicament",
+        headers: {
+          "Authorization": basicAuth,
+          "Language": mySingleton.getLangue.toString(),
+        });
+
+    print("DATA21 :" + response.body.toString());
+
+    List<Medicament> maliste = []; listMedocs.clear();
+
+      final responseJson = json.decode(response.body);
+
+      for (int i = 0; i < responseJson.length; i++) {
+        maliste.add(Medicament.fromJson(responseJson[i]));
+        listMedocs.add(Medicament.fromJson(responseJson[i]));
+      }
+      return maliste;
+   
+  }
+
+  
+   Future<List<Affection>> _getAffections() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    MySingleton mySingleton = new MySingleton();
+
+    String token1 = (prefs.getString('token') ?? '');
+
+    String basicAuth = 'Bearer ' + token1;
+
+    var response = await http.get(
+        Setting.apiracine +
+            "comptes/affection",
+        headers: {
+          "Authorization": basicAuth,
+          "Language": mySingleton.getLangue.toString(),
+        });
+
+    print("DATA21 :" + response.body.toString());
+
+    List<Affection> maliste = []; listAffection.clear();
+
+      final responseJson = json.decode(response.body);
+
+      for (int i = 0; i < responseJson.length; i++) {
+        maliste.add(Affection.fromJson(responseJson[i]));
+        listAffection.add(Affection.fromJson(responseJson[i]));
+      }
+      return maliste;
+   
+  }
+
+
+
   void initState() {
     super.initState();
     contenu = _getContent();
     details = _getDetail();
+
+    _soins = _getSoins();
+    _medocs = _getMedocs();
+    _affections = _getAffections();
   }
 
   List<Widget> _buildList(String datas) {
@@ -796,6 +912,7 @@ class ConsultationPageState extends State<Consultation51> {
     });
   }
 
+
   _addPara() {
     showDialog(
         context: context,
@@ -812,7 +929,7 @@ class ConsultationPageState extends State<Consultation51> {
                         child: Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            "NOUVEAU PARAMETRE",
+                            allTranslations.text("z46"),
                             style: TextStyle(
                                 color: color2, fontWeight: FontWeight.bold),
                           ),
@@ -851,7 +968,7 @@ class ConsultationPageState extends State<Consultation51> {
                             children: [
                               Padding(
                                 padding: EdgeInsets.all(8.0),
-                                child: Text("Libellé du paramètre *"),
+                                child: Text(allTranslations.text("z47")+ " *"),
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
@@ -871,6 +988,7 @@ class ConsultationPageState extends State<Consultation51> {
                                           color: Colors.black,
                                           fontWeight: FontWeight.normal),
                                       decoration: InputDecoration(
+                                        hintText: allTranslations.text("z48"),
                                         border: InputBorder.none,
                                         labelStyle: TextStyle(
                                             color: Colors.grey,
@@ -886,7 +1004,7 @@ class ConsultationPageState extends State<Consultation51> {
                               ),
                               Padding(
                                 padding: EdgeInsets.all(8.0),
-                                child: Text("Valeur du paramètre *"),
+                                child: Text(allTranslations.text("z49")+ " *"),
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
@@ -1019,7 +1137,7 @@ class ConsultationPageState extends State<Consultation51> {
                                         ),
                                         child: new Center(
                                           child: new Text(
-                                            'AJOUTER',
+                                           allTranslations.text("z28"),
                                             style: new TextStyle(
                                                 fontSize: 18.0,
                                                 color: Colors.white),
@@ -1049,7 +1167,7 @@ class ConsultationPageState extends State<Consultation51> {
                         child: Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            "NOUVEL EXAMEN",
+                            allTranslations.text("z91"),
                             style: TextStyle(
                                 color: color2, fontWeight: FontWeight.bold),
                           ),
@@ -1080,7 +1198,7 @@ class ConsultationPageState extends State<Consultation51> {
                   child: ConstrainedBox(
                       constraints: BoxConstraints(),
                       child: Container(
-                          height: 220.0,
+                         // height: 250.0,
                           width: 300.0, // Change as per your requirement
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -1088,22 +1206,46 @@ class ConsultationPageState extends State<Consultation51> {
                             children: [
                               Padding(
                                 padding: EdgeInsets.all(8.0),
-                                child: Text("Nom de l'examen *"),
+                                child: Text(allTranslations.text("z91")+" *"),
                               ),
+                              Divider(height: 10, color: Colors.transparent,),
                               Padding(
-                                padding: const EdgeInsets.all(8.0),
+                                padding: const EdgeInsets.all(0.0),
                                 child: Container(
-                                  padding: const EdgeInsets.all(12.0),
+                                  padding: const EdgeInsets.all(0.0),
                                   width: double.infinity,
-                                  height: 70,
-                                  decoration: new BoxDecoration(
+                                  /*decoration: new BoxDecoration(
                                     color: Colors.white70,
                                     borderRadius:
-                                        BorderRadius.all(Radius.circular(1.0)),
+                                        BorderRadius.all(Radius.circular(0.0)),
                                     border:
                                         new Border.all(color: Colors.black38),
-                                  ),
-                                  child: TextFormField(
+                                  ),*/
+                                  child:SimpleAutocompleteFormField<Soins>(
+               decoration: InputDecoration(labelText: "Saisir un examen ", border: OutlineInputBorder()),
+                //suggestionsHeight: 300.0,
+                maxSuggestions: 5,
+                itemBuilder: (context, person) => Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                    Text(person!.nom, style: TextStyle(fontWeight: FontWeight.normal)),
+                  ]),
+                ),
+                onSearch: (search) async => listSoins
+                    .where((person) =>
+                        person.nom.toLowerCase().contains(search.toLowerCase()))
+                    .toList(),
+                itemFromString: (string) {
+                  final matches = listSoins.where((person) => person.nom.toLowerCase() == string.toLowerCase());
+                  return matches.isEmpty ? null : matches.first;
+                },
+                initialValue: null,
+                controller: examController,
+                onChanged: (value) => setState(() => currentSoin = value),
+                onSaved: (value) => setState(() => currentSoin = value),
+                //validator: (person) => person == null ? 'Invalid person.' : null,
+              )
+                                 /* child: TextFormField(
                                       maxLines: 3,
                                       style: const TextStyle(
                                           color: Colors.black,
@@ -1116,7 +1258,7 @@ class ConsultationPageState extends State<Consultation51> {
                                             fontWeight: FontWeight.normal),
                                       ),
                                       controller: examController,
-                                      keyboardType: TextInputType.multiline),
+                                      keyboardType: TextInputType.multiline),*/
                                 ),
                               ),
                               Padding(
@@ -1218,7 +1360,7 @@ class ConsultationPageState extends State<Consultation51> {
                                         ),
                                         child: new Center(
                                           child: new Text(
-                                            'AJOUTER',
+                                            allTranslations.text("z28"),
                                             style: new TextStyle(
                                                 fontSize: 18.0,
                                                 color: Colors.white),
@@ -1248,7 +1390,7 @@ class ConsultationPageState extends State<Consultation51> {
                         child: Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            allTranslations.text('para7').toUpperCase(),
+                            allTranslations.text('para10').toUpperCase(),
                             style: TextStyle(
                                 color: color2, fontWeight: FontWeight.bold),
                           ),
@@ -1279,7 +1421,7 @@ class ConsultationPageState extends State<Consultation51> {
                   child: ConstrainedBox(
                       constraints: BoxConstraints(),
                       child: Container(
-                          height: 220.0,
+                         // height: 250.0,
                           width: 300.0, // Change as per your requirement
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -1291,20 +1433,45 @@ class ConsultationPageState extends State<Consultation51> {
                                     allTranslations.text('para8').toString() +
                                         "*"),
                               ),
+                              SizedBox(height: 20,),
                               Padding(
-                                padding: const EdgeInsets.all(8.0),
+                                padding: const EdgeInsets.all(0.0),
                                 child: Container(
-                                  padding: const EdgeInsets.all(12.0),
+                                  padding: const EdgeInsets.all(0.0),
                                   width: double.infinity,
-                                  height: 70,
-                                  decoration: new BoxDecoration(
+                                 // height: 70,
+                              /*    decoration: new BoxDecoration(
                                     color: Colors.white70,
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(1.0)),
                                     border:
                                         new Border.all(color: Colors.black38),
-                                  ),
-                                  child: TextFormField(
+                                  ),*/
+                                   child:SimpleAutocompleteFormField<Affection>(
+               decoration: InputDecoration(labelText: "Saisir un diagnostic ", border: OutlineInputBorder()),
+                //suggestionsHeight: 300.0,
+                maxSuggestions: 5,
+                itemBuilder: (context, person) => Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                    Text(person!.lib_affection, style: TextStyle(fontWeight: FontWeight.normal)),
+                  ]),
+                ),
+                onSearch: (search) async => listAffection
+                    .where((person) =>
+                        person.lib_affection.toLowerCase().contains(search.toLowerCase()))
+                    .toList(),
+                itemFromString: (string) {
+                  final matches = listAffection.where((person) => person.lib_affection.toLowerCase() == string.toLowerCase());
+                  return matches.isEmpty ? null : matches.first;
+                },
+                initialValue: null,
+                controller: diagnosticController,
+                onChanged: (value) => setState(() => currentAffection = value),
+                onSaved: (value) => setState(() => currentAffection = value),
+                //validator: (person) => person == null ? 'Invalid person.' : null,
+              )
+                                /*  child: TextFormField(
                                       maxLines: 3,
                                       style: const TextStyle(
                                           color: Colors.black,
@@ -1317,8 +1484,12 @@ class ConsultationPageState extends State<Consultation51> {
                                             fontWeight: FontWeight.normal),
                                       ),
                                       controller: diagnosticController,
-                                      keyboardType: TextInputType.multiline),
+                                      keyboardType: TextInputType.multiline),*/
                                 ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Text(allTranslations.text('z68').toString(),style: TextStyle(fontSize: 11, color:color)),
                               ),
                               Padding(
                                   padding: const EdgeInsets.symmetric(
@@ -1420,7 +1591,7 @@ class ConsultationPageState extends State<Consultation51> {
                                         ),
                                         child: new Center(
                                           child: new Text(
-                                            'AJOUTER',
+                                            allTranslations.text("z28"),
                                             style: new TextStyle(
                                                 fontSize: 18.0,
                                                 color: Colors.white),
@@ -1461,7 +1632,7 @@ class ConsultationPageState extends State<Consultation51> {
                           child: Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              "NOUVELE PRESCRIPTION",
+                              allTranslations.text("z52"),
                               style: TextStyle(
                                   color: color2, fontWeight: FontWeight.bold),
                             ),
@@ -1499,22 +1670,46 @@ class ConsultationPageState extends State<Consultation51> {
                                 children: [
                                   Padding(
                                     padding: EdgeInsets.all(8.0),
-                                    child: Text("Nom du médicament *"),
+                                    child: Text(allTranslations.text("z101")+" *"),
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Container(
-                                      padding: const EdgeInsets.all(12.0),
+                                      padding: const EdgeInsets.all(0.0),
                                       width: double.infinity,
-                                      height: 70,
-                                      decoration: new BoxDecoration(
+                                      //height: 70,
+                                     /* decoration: new BoxDecoration(
                                         color: Colors.white70,
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(1.0)),
                                         border: new Border.all(
                                             color: Colors.black38),
-                                      ),
-                                      child: TextFormField(
+                                      ),*/
+                                             child:SimpleAutocompleteFormField<Medicament>(
+                decoration: InputDecoration(labelText: "Saisir un medicament *", border: OutlineInputBorder()),
+                //suggestionsHeight: 80.0,
+                maxSuggestions: 5,
+                itemBuilder: (context, person) => Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                    Text(person!.nom, style: TextStyle(fontWeight: FontWeight.normal)),
+                  ]),
+                ),
+                onSearch: (search) async => listMedocs
+                    .where((person) =>
+                        person.nom.toLowerCase().contains(search.toLowerCase()))
+                    .toList(),
+                itemFromString: (string) {
+                  final matches = listMedocs.where((person) => person.nom.toLowerCase() == string.toLowerCase());
+                  return matches.isEmpty ? null : matches.first;
+                },
+                initialValue: null,
+                controller: medocController,
+                onChanged: (value) => setState(() => currentMedoc = value),
+                onSaved: (value) => setState(() => currentMedoc = value),
+               // validator: (person) => person == null ? 'Invalid person.' : null,
+              )
+                                     /* child: TextFormField(
                                           maxLines: 3,
                                           style: const TextStyle(
                                               color: Colors.black,
@@ -1528,12 +1723,12 @@ class ConsultationPageState extends State<Consultation51> {
                                           ),
                                           controller: medocController,
                                           keyboardType:
-                                              TextInputType.multiline),
+                                              TextInputType.multiline),*/
                                     ),
                                   ),
                                   Padding(
                                     padding: EdgeInsets.all(8.0),
-                                    child: Text("Prise *"),
+                                     child: Text(allTranslations.text("z102")+" *"),
                                   ),
                                   Row(
                                     crossAxisAlignment:
@@ -1589,7 +1784,7 @@ class ConsultationPageState extends State<Consultation51> {
                                               value: _value,
                                               items: [
                                                 DropdownMenuItem(
-                                                  child: Text("Comprimé"),
+                                                  child: Text(allTranslations.text("z98")),
                                                   value: 1,
                                                 ),
                                                 DropdownMenuItem(
@@ -1597,7 +1792,7 @@ class ConsultationPageState extends State<Consultation51> {
                                                   value: 2,
                                                 ),
                                                 DropdownMenuItem(
-                                                    child: Text("Sachet"),
+                                                    child: Text(allTranslations.text("z99")),
                                                     value: 3)
                                               ],
                                               onChanged: (value) {
@@ -1611,7 +1806,7 @@ class ConsultationPageState extends State<Consultation51> {
                                   ),
                                   Padding(
                                     padding: EdgeInsets.all(8.0),
-                                    child: Text("Période de prise *"),
+                                    child: Text(allTranslations.text("z103")+ "*"),
                                   ),
                                   Column(children: [
                                     CheckboxListTile(
@@ -1702,7 +1897,7 @@ class ConsultationPageState extends State<Consultation51> {
                                   ]),
                                   Padding(
                                     padding: EdgeInsets.all(8.0),
-                                    child: Text("Pendant *"),
+                                    child: Text(allTranslations.text("z104")+" *"),
                                   ),
                                   Row(
                                     crossAxisAlignment:
@@ -1758,15 +1953,15 @@ class ConsultationPageState extends State<Consultation51> {
                                               value: _value1,
                                               items: [
                                                 DropdownMenuItem(
-                                                  child: Text("Jour"),
+                                                  child: Text(allTranslations.text("z95")),
                                                   value: 1,
                                                 ),
                                                 DropdownMenuItem(
-                                                  child: Text("Semaine"),
+                                                  child: Text(allTranslations.text("z96")),
                                                   value: 2,
                                                 ),
                                                 DropdownMenuItem(
-                                                    child: Text("Mois"),
+                                                    child: Text(allTranslations.text("z97")),
                                                     value: 3)
                                               ],
                                               onChanged: (value) {
@@ -1822,20 +2017,20 @@ class ConsultationPageState extends State<Consultation51> {
                                               String prise1 = "";
 
                                               if (_value1 == 1)
-                                                duree1 = "Jour(s)";
+                                                duree1 = allTranslations.text("z95");
                                               else if (_value1 == 2)
-                                                duree1 = "Semaine(s)";
+                                                duree1 = allTranslations.text("z96");
                                               else if (_value1 == 3)
-                                                duree1 = "Mois";
+                                                duree1 = allTranslations.text("z97");
 
                                               if (_value == 1)
-                                                prise1 = "Comprimé(s)";
+                                                prise1 = allTranslations.text("z98");
                                               else if (_value == 2)
                                                 prise1 = "Ml";
                                               else if (_value == 3)
-                                                prise1 = "Sachet(s)";
+                                                prise1 = allTranslations.text("z99");
                                               else if (_value == 4)
-                                                prise1 = "Unité(s)";
+                                                prise1 = allTranslations.text("z100");
 
                                               String meszones = "";
 
@@ -1936,7 +2131,7 @@ class ConsultationPageState extends State<Consultation51> {
                                                               height: 5.0,
                                                             ),
                                                             new Text(
-                                                                "Pendant : " +
+                                                                allTranslations.text("z93") +
                                                                     dureeController
                                                                         .text
                                                                         .toString()
@@ -1956,7 +2151,7 @@ class ConsultationPageState extends State<Consultation51> {
                                                               height: 5.0,
                                                             ),
                                                             new Text(
-                                                                "Période : " +
+                                                                allTranslations.text("z94") +
                                                                     meszones
                                                                         .toString(),
                                                                 style:
@@ -2017,7 +2212,7 @@ class ConsultationPageState extends State<Consultation51> {
                                             ),
                                             child: new Center(
                                               child: new Text(
-                                                'AJOUTER',
+                                                allTranslations.text("z28"),
                                                 style: new TextStyle(
                                                     fontSize: 18.0,
                                                     color: Colors.white),

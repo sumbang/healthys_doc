@@ -327,7 +327,7 @@ class HomePage1State extends State<HomePage1> {
                   color: Colors.transparent,
                 ),
                 new Text(
-                  "©2022 HEALTH'YS Doc",
+                  "©2023 HEALTH'YS Doc",
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 16.0,
