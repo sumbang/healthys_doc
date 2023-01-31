@@ -51,13 +51,13 @@ class SettingFragmentState extends State<SettingFragment> {
     String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
 
     var response = await http.get(
-        Setting.apiracine +
+        Uri.parse(Setting.apiracine +
             "comptes/profil?compte=" +
             compte +
             "&profil=" +
             profil +
             "&role=" +
-            role,
+            role),
         headers: {
           "Authorization": basicAuth,
           "Language": mySingleton.getLangue.toString(),
@@ -89,7 +89,7 @@ class SettingFragmentState extends State<SettingFragment> {
     String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
 
     var response =
-        await http.get(Setting.apiracine + "comptes/souscription", headers: {
+        await http.get(Uri.parse(Setting.apiracine + "comptes/souscription"), headers: {
       "Authorization": basicAuth,
       "Language": mySingleton.getLangue.toString(),
     });

@@ -238,7 +238,7 @@ class RendezVousFragmentState extends State<RendezVousFragment>
 
 
     var response = await http.get(
-        Setting.apiracine + "meetings?role=" + role + "&profil=" + profil + "",
+        Uri.parse(Setting.apiracine + "meetings?role=" + role + "&profil=" + profil + ""),
         headers: {
           "Authorization": basicAuth,
           "Language": mySingleton.getLangue.toString(),

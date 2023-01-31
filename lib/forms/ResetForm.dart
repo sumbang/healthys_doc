@@ -127,7 +127,7 @@ class _ResetState extends State<ResetForm> {
           msg: allTranslations.text('requis1_title'),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 5,
+          timeInSecForIosWeb: 5,
           backgroundColor: Colors.blue,
           textColor: Colors.white);
     } else {
@@ -156,7 +156,7 @@ class _ResetState extends State<ResetForm> {
 
        MySingleton mySingleton = new MySingleton();
 
-      var res = await http.post(Setting.apiracine + "comptes/reset",
+      var res = await http.post(Uri.parse(Setting.apiracine + "comptes/reset"),
           body: data,
           headers: {"Language": mySingleton.getLangue.toString()});
 
@@ -169,7 +169,7 @@ class _ResetState extends State<ResetForm> {
             msg: responseJson["message"].toString(),
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.BOTTOM,
-            timeInSecForIos: 5,
+            timeInSecForIosWeb: 5,
             backgroundColor: Colors.blue,
             textColor: Colors.white);
 
@@ -187,7 +187,7 @@ class _ResetState extends State<ResetForm> {
             msg: responseJson["message"].toString(),
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.BOTTOM,
-            timeInSecForIos: 5,
+            timeInSecForIosWeb: 5,
             backgroundColor: Colors.blue,
             textColor: Colors.white);
       }

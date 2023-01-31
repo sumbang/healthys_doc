@@ -77,13 +77,13 @@ class ComptePage1State extends State<ComptePage1> {
     print("profil : " + profil + ", compte : " + compte);
 
     var response = await http.get(
-        Setting.apiracine +
+        Uri.parse(Setting.apiracine +
             "comptes/profil?compte=" +
             compte +
             "&profil=" +
             profil +
             "&role=" +
-            role,
+            role),
         headers: {
           "Authorization": basicAuth,
           "Language": mySingleton.getLangue.toString(),
@@ -233,7 +233,7 @@ class ComptePage1State extends State<ComptePage1> {
 
      MySingleton mySingleton = new MySingleton();
 
-    var res = await http.post(Setting.apiracine + "comptes/reset",
+    var res = await http.post(Uri.parse(Setting.apiracine + "comptes/reset"),
         body: data,
         headers: {"Language": mySingleton.getLangue.toString(),});
 
@@ -246,7 +246,7 @@ class ComptePage1State extends State<ComptePage1> {
           msg: responseJson["message"].toString(),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 5,
+          timeInSecForIosWeb: 5,
           backgroundColor: Colors.blue,
           textColor: Colors.white);
 
@@ -264,7 +264,7 @@ class ComptePage1State extends State<ComptePage1> {
           msg: responseJson["message"].toString(),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 5,
+          timeInSecForIosWeb: 5,
           backgroundColor: Colors.blue,
           textColor: Colors.white);
     }
@@ -282,7 +282,7 @@ class ComptePage1State extends State<ComptePage1> {
           msg: allTranslations.text('requis1_title'),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 5,
+          timeInSecForIosWeb: 5,
           backgroundColor: Colors.blue,
           textColor: Colors.white);
     } else {
@@ -321,7 +321,7 @@ class ComptePage1State extends State<ComptePage1> {
         "phone2": _phone2Controller.text.toString()
       };
 
-      var res = await http.put(Setting.apiracine + "comptes/update2?id=" + user,
+      var res = await http.put(Uri.parse(Setting.apiracine + "comptes/update2?id=" + user),
           body: data,
           headers: {
             "Authorization": basicAuth,
@@ -339,7 +339,7 @@ class ComptePage1State extends State<ComptePage1> {
             msg: responseJson["message"].toString(),
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.BOTTOM,
-            timeInSecForIos: 5,
+            timeInSecForIosWeb: 5,
             backgroundColor: Colors.blue,
             textColor: Colors.white);
 
@@ -355,7 +355,7 @@ class ComptePage1State extends State<ComptePage1> {
             msg: responseJson["message"].toString(),
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.BOTTOM,
-            timeInSecForIos: 5,
+            timeInSecForIosWeb: 5,
             backgroundColor: Colors.blue,
             textColor: Colors.white);
       }

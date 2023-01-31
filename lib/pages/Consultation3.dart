@@ -337,7 +337,7 @@ class ConsultationPageState extends State<Consultation31> {
           imageQuality: quality,
         );
 
-        print("File picked : " + pickedFile.path.toString());
+        print("File picked : " + pickedFile!.path.toString());
 
         setState(() {
           _imageFile = pickedFile;
@@ -361,7 +361,7 @@ class ConsultationPageState extends State<Consultation31> {
           imageQuality: quality,
         ); 
 
-        print("File picked : " + pickedFile.path.toString());
+        print("File picked : " + pickedFile!.path.toString());
 
         setState(() {
           _imageFile1 = pickedFile;
@@ -392,7 +392,7 @@ class ConsultationPageState extends State<Consultation31> {
         _imageFile = response.file;
       });
     } else {
-      _retrieveDataError = response.exception.code;
+      _retrieveDataError = response.exception!.code;
     }
   }
 
@@ -407,7 +407,7 @@ class ConsultationPageState extends State<Consultation31> {
         _imageFile1 = response.file;
       });
     } else {
-      _retrieveDataError1 = response.exception.code;
+      _retrieveDataError1 = response.exception!.code;
     }
   }
 
@@ -489,11 +489,11 @@ class ConsultationPageState extends State<Consultation31> {
     String basicAuth = 'Bearer ' + token1;
 
     var response = await http.get(
-        Setting.apiracine +
+        Uri.parse(Setting.apiracine +
             "consultations/" +
             this.id.toString() +
             "?type=1&language=" +
-            mySingleton.getLangue.toString(),
+            mySingleton.getLangue.toString()),
         headers: {
           "Authorization": basicAuth,
           "Language": mySingleton.getLangue.toString(),
@@ -681,8 +681,8 @@ class ConsultationPageState extends State<Consultation31> {
     String basicAuth = 'Bearer ' + token1;
 
     var response = await http.get(
-        Setting.apiracine +
-            "comptes/soins",
+        Uri.parse(Setting.apiracine +
+            "comptes/soins"),
         headers: {
           "Authorization": basicAuth,
           "Language": mySingleton.getLangue.toString(),
@@ -713,8 +713,8 @@ class ConsultationPageState extends State<Consultation31> {
     String basicAuth = 'Bearer ' + token1;
 
     var response = await http.get(
-        Setting.apiracine +
-            "comptes/medicament",
+        Uri.parse(Setting.apiracine +
+            "comptes/medicament"),
         headers: {
           "Authorization": basicAuth,
           "Language": mySingleton.getLangue.toString(),
@@ -745,8 +745,8 @@ class ConsultationPageState extends State<Consultation31> {
     String basicAuth = 'Bearer ' + token1;
 
     var response = await http.get(
-        Setting.apiracine +
-            "comptes/affection",
+        Uri.parse(Setting.apiracine +
+            "comptes/affection"),
         headers: {
           "Authorization": basicAuth,
           "Language": mySingleton.getLangue.toString(),
@@ -776,7 +776,7 @@ class ConsultationPageState extends State<Consultation31> {
           msg: allTranslations.text('requis1_title'),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 5,
+          timeInSecForIosWeb: 5,
           backgroundColor: Colors.blue,
           textColor: Colors.white);
     } else {
@@ -941,7 +941,7 @@ class ConsultationPageState extends State<Consultation31> {
       String basicAuth = 'Bearer ' + token1; 
 
       var res = await http.put(
-          Setting.apiracine + "consultations/update1?id=" + this.id.toString(),
+          Uri.parse(Setting.apiracine + "consultations/update1?id=" + this.id.toString()),
           body: data,
           headers: {
             "Authorization": basicAuth,
@@ -959,7 +959,7 @@ class ConsultationPageState extends State<Consultation31> {
             msg: responseJson["message"].toString(),
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.BOTTOM,
-            timeInSecForIos: 5,
+            timeInSecForIosWeb: 5,
             backgroundColor: Colors.blue,
             textColor: Colors.white);
 
@@ -976,7 +976,7 @@ class ConsultationPageState extends State<Consultation31> {
             msg: responseJson["message"].toString(),
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.BOTTOM,
-            timeInSecForIos: 5,
+            timeInSecForIosWeb: 5,
             backgroundColor: Colors.blue,
             textColor: Colors.white);
       }
@@ -1155,7 +1155,7 @@ class ConsultationPageState extends State<Consultation31> {
                                                   .text('requis1_title'),
                                               toastLength: Toast.LENGTH_LONG,
                                               gravity: ToastGravity.BOTTOM,
-                                              timeInSecForIos: 5,
+                                              timeInSecForIosWeb: 5,
                                               backgroundColor: Colors.blue,
                                               textColor: Colors.white);
                                         } else {
@@ -1379,7 +1379,7 @@ class ConsultationPageState extends State<Consultation31> {
                                                   .text('requis1_title'),
                                               toastLength: Toast.LENGTH_LONG,
                                               gravity: ToastGravity.BOTTOM,
-                                              timeInSecForIos: 5,
+                                              timeInSecForIosWeb: 5,
                                               backgroundColor: Colors.blue,
                                               textColor: Colors.white);
                                         } else {
@@ -1609,7 +1609,7 @@ class ConsultationPageState extends State<Consultation31> {
                                                   .text('requis1_title'),
                                               toastLength: Toast.LENGTH_LONG,
                                               gravity: ToastGravity.BOTTOM,
-                                              timeInSecForIos: 5,
+                                              timeInSecForIosWeb: 5,
                                               backgroundColor: Colors.blue,
                                               textColor: Colors.white);
                                         } else {
@@ -2096,7 +2096,7 @@ class ConsultationPageState extends State<Consultation31> {
                                                   toastLength:
                                                       Toast.LENGTH_LONG,
                                                   gravity: ToastGravity.BOTTOM,
-                                                  timeInSecForIos: 5,
+                                                  timeInSecForIosWeb: 5,
                                                   backgroundColor: Colors.blue,
                                                   textColor: Colors.white);
                                             } else if (selectedZone.length ==
@@ -2107,7 +2107,7 @@ class ConsultationPageState extends State<Consultation31> {
                                                   toastLength:
                                                       Toast.LENGTH_LONG,
                                                   gravity: ToastGravity.BOTTOM,
-                                                  timeInSecForIos: 5,
+                                                  timeInSecForIosWeb: 5,
                                                   backgroundColor: Colors.blue,
                                                   textColor: Colors.white);
                                             } else {

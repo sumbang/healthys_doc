@@ -107,7 +107,7 @@ class RendezVousFragmentState extends State<RendezVous2Fragment>
     String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
 
     var response = await http.get(
-        Setting.apiracine + "meetings/confirm?id=" + pos.toString(),
+        Uri.parse(Setting.apiracine + "meetings/confirm?id=" + pos.toString()),
         headers: {
           "Authorization": basicAuth,
           "Language": mySingleton.getLangue.toString(),
@@ -124,7 +124,7 @@ class RendezVousFragmentState extends State<RendezVous2Fragment>
           msg: responseJson["message"].toString(),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 5,
+          timeInSecForIosWeb: 5,
           backgroundColor: Colors.blue,
           textColor: Colors.white);
 
@@ -141,7 +141,7 @@ class RendezVousFragmentState extends State<RendezVous2Fragment>
           msg: responseJson["message"].toString(),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 5,
+          timeInSecForIosWeb: 5,
           backgroundColor: Colors.blue,
           textColor: Colors.white);
     }
@@ -174,7 +174,7 @@ class RendezVousFragmentState extends State<RendezVous2Fragment>
     String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
 
     var response = await http.get(
-        Setting.apiracine + "meetings/rejet?id=" + pos.toString(),
+        Uri.parse(Setting.apiracine + "meetings/rejet?id=" + pos.toString()),
         headers: {
           "Authorization": basicAuth,
           "Language": mySingleton.getLangue.toString(),
@@ -191,7 +191,7 @@ class RendezVousFragmentState extends State<RendezVous2Fragment>
           msg: responseJson["message"].toString(),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 5,
+          timeInSecForIosWeb: 5,
           backgroundColor: Colors.blue,
           textColor: Colors.white);
 
@@ -208,7 +208,7 @@ class RendezVousFragmentState extends State<RendezVous2Fragment>
           msg: responseJson["message"].toString(),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 5,
+          timeInSecForIosWeb: 5,
           backgroundColor: Colors.blue,
           textColor: Colors.white);
     }
@@ -388,7 +388,7 @@ class RendezVousFragmentState extends State<RendezVous2Fragment>
     print("DATA4 :" + role + " - " + id);
 
     var response = await http.get(
-        Setting.apiracine + "meetings?role=" + role + "&hopital=" + id + "",
+        Uri.parse(Setting.apiracine + "meetings?role=" + role + "&hopital=" + id + ""),
         headers: {
           "Authorization": basicAuth,
           "Language": mySingleton.getLangue.toString(),

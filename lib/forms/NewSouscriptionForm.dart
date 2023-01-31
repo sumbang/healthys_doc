@@ -67,7 +67,7 @@ class _ResetState extends State<NewSouscriptionForm> {
     MySingleton mySingleton = new MySingleton();
 
     var response = await http.get(
-        Setting.apiracine + "comptes/data?types=" + nature.toString(),
+        Uri.parse(Setting.apiracine + "comptes/data?types=" + nature.toString()),
         headers: {"Language": mySingleton.getLangue.toString()});
 
 
@@ -98,7 +98,7 @@ class _ResetState extends State<NewSouscriptionForm> {
           msg: allTranslations.text("z29"),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 5,
+          timeInSecForIosWeb: 5,
           backgroundColor: Colors.blue,
           textColor: Colors.white);
     } else if (pin != currentpin) {
@@ -106,7 +106,7 @@ class _ResetState extends State<NewSouscriptionForm> {
           msg:allTranslations.text("z30"),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 5,
+          timeInSecForIosWeb: 5,
           backgroundColor: Colors.blue,
           textColor: Colors.white);
     } else {
@@ -142,7 +142,7 @@ class _ResetState extends State<NewSouscriptionForm> {
       String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
 
       var res = await http
-          .post(Setting.apiracine + "comptes/jointure", body: data, headers: {
+          .post(Uri.parse(Setting.apiracine + "comptes/jointure"), body: data, headers: {
         "Language":  mySingleton.getLangue.toString(),
         "Authorization": basicAuth,
       });
@@ -156,7 +156,7 @@ class _ResetState extends State<NewSouscriptionForm> {
             msg: responseJson["message"].toString(),
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.BOTTOM,
-            timeInSecForIos: 5,
+            timeInSecForIosWeb: 5,
             backgroundColor: Colors.blue,
             textColor: Colors.white);
 
@@ -173,7 +173,7 @@ class _ResetState extends State<NewSouscriptionForm> {
             msg: responseJson["message"].toString(),
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.BOTTOM,
-            timeInSecForIos: 5,
+            timeInSecForIosWeb: 5,
             backgroundColor: Colors.blue,
             textColor: Colors.white);
       }
@@ -274,7 +274,7 @@ class _ResetState extends State<NewSouscriptionForm> {
           msg: allTranslations.text('requis1_title'),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 5,
+          timeInSecForIosWeb: 5,
           backgroundColor: Colors.blue,
           textColor: Colors.white);
     } else {
@@ -305,7 +305,7 @@ class _ResetState extends State<NewSouscriptionForm> {
       String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
 
       var response = await http.get(
-          Setting.apiracine + "comptes/check?matricule=" + matricule.toString(),
+          Uri.parse(Setting.apiracine + "comptes/check?matricule=" + matricule.toString()),
           headers: {
             "Language":  mySingleton.getLangue.toString(),
             "Authorization": basicAuth,
@@ -324,7 +324,7 @@ class _ResetState extends State<NewSouscriptionForm> {
               msg: "Le code est : " + responseJson["code"].toString(),
               toastLength: Toast.LENGTH_LONG,
               gravity: ToastGravity.BOTTOM,
-              timeInSecForIos: 5,
+              timeInSecForIosWeb: 5,
               backgroundColor: Colors.blue,
               textColor: Colors.white);
         });
@@ -337,7 +337,7 @@ class _ResetState extends State<NewSouscriptionForm> {
             msg: responseJson["message"].toString(),
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.BOTTOM,
-            timeInSecForIos: 5,
+            timeInSecForIosWeb: 5,
             backgroundColor: Colors.blue,
             textColor: Colors.white);
       }

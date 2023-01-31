@@ -117,7 +117,7 @@ class ChooseProfilePageState extends State<ChooseProfilePage1> {
       'TOKEN': token.toString(),
     };
 
-    var res = await http.put(Setting.apiracine + "comptes/logout", body: data);
+    var res = await http.put(Uri.parse(Setting.apiracine + "comptes/logout"), body: data);
 
     final prefs = await SharedPreferences.getInstance();
 
@@ -157,7 +157,7 @@ class ChooseProfilePageState extends State<ChooseProfilePage1> {
           msg: responseJson['message'].toString(),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 5,
+          timeInSecForIosWeb: 5,
           backgroundColor: Colors.blue,
           textColor: Colors.white);
     }
@@ -197,7 +197,7 @@ class ChooseProfilePageState extends State<ChooseProfilePage1> {
     print("DOC :" + ids![pos].toString());
 
     var response = await http.get(
-        Setting.apiracine + "comptes/check1?medecin=" + ids![pos].toString(),
+        Uri.parse(Setting.apiracine + "comptes/check1?medecin=" + ids![pos].toString()),
         headers: {
           "Authorization": basicAuth,
           "Language": mySingleton.getLangue.toString(),
@@ -214,7 +214,7 @@ class ChooseProfilePageState extends State<ChooseProfilePage1> {
           msg: allTranslations.text("z119"),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 3,
+          timeInSecForIosWeb: 3,
           backgroundColor: Colors.green,
           textColor: Colors.white);
 
@@ -250,7 +250,7 @@ class ChooseProfilePageState extends State<ChooseProfilePage1> {
           msg: allTranslations.text("z44"),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 3,
+          timeInSecForIosWeb: 3,
           backgroundColor: Colors.green,
           textColor: Colors.white);
     }

@@ -136,7 +136,7 @@ class NewUpdateFormState extends State<NewUpdateForm> {
   }
 
   void requestPersmission() async {
-    await PermissionHandler().requestPermissions([PermissionGroup.camera]);
+    //await PermissionHandler().requestPermissions([PermissionGroup.camera]);
   }
 
   Future _scan1() async {
@@ -158,7 +158,7 @@ class NewUpdateFormState extends State<NewUpdateForm> {
     String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
     List<MyItems> liste = [];
 
-    var response = await http.get(Setting.apiracine + "comptes/data?types=4", headers: {
+    var response = await http.get(Uri.parse(Setting.apiracine + "comptes/data?types=4"), headers: {
       "Authorization": basicAuth,
       "Language": mySingleton.getLangue.toString(),
     });
@@ -182,7 +182,7 @@ class NewUpdateFormState extends State<NewUpdateForm> {
     String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
     List<MyItems> liste = [];
 
-    var response = await http.get(Setting.apiracine + "comptes/data?types=6", headers: {
+    var response = await http.get(Uri.parse(Setting.apiracine + "comptes/data?types=6"), headers: {
       "Authorization": basicAuth,
       "Language": mySingleton.getLangue.toString(),
     });
@@ -384,7 +384,7 @@ class NewUpdateFormState extends State<NewUpdateForm> {
           msg: allTranslations.text('requis1_title'),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 5,
+          timeInSecForIosWeb: 5,
           backgroundColor: Colors.blue,
           textColor: Colors.white);
     } else {
@@ -424,7 +424,7 @@ class NewUpdateFormState extends State<NewUpdateForm> {
       };
 
       var res =
-          await http.post(Setting.apiracine + "comptes/update3", body: data, headers: {
+          await http.post(Uri.parse(Setting.apiracine + "comptes/update3"), body: data, headers: {
         "Authorization": basicAuth,
         "Language": mySingleton.getLangue.toString(),
       });
@@ -440,7 +440,7 @@ class NewUpdateFormState extends State<NewUpdateForm> {
             msg: responseJson["message"].toString(),
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.BOTTOM,
-            timeInSecForIos: 5,
+            timeInSecForIosWeb: 5,
             backgroundColor: Colors.blue,
             textColor: Colors.white);
 
@@ -464,7 +464,7 @@ class NewUpdateFormState extends State<NewUpdateForm> {
             msg: responseJson["message"].toString(),
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.BOTTOM,
-            timeInSecForIos: 5,
+            timeInSecForIosWeb: 5,
             backgroundColor: Colors.blue,
             textColor: Colors.white);
       }

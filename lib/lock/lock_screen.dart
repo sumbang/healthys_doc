@@ -57,7 +57,7 @@ class _LockScreenState extends State<LockScreen> {
       'TOKEN': token.toString(),
     };
 
-    var res = await http.put(Setting.apiracine + "comptes/logout", body: data);
+    var res = await http.put(Uri.parse(Setting.apiracine + "comptes/logout"), body: data);
 
     final prefs = await SharedPreferences.getInstance();
 
@@ -97,7 +97,7 @@ class _LockScreenState extends State<LockScreen> {
           msg: responseJson['message'].toString(),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 5,
+          timeInSecForIosWeb: 5,
           backgroundColor: Colors.blue,
           textColor: Colors.white);
     }
@@ -256,17 +256,17 @@ class _LockScreenState extends State<LockScreen> {
                           msg: allTranslations.text("s1"),
                           toastLength: Toast.LENGTH_LONG,
                           gravity: ToastGravity.BOTTOM,
-                          timeInSecForIos: 5,
+                          timeInSecForIosWeb: 5,
                           backgroundColor: rouge,
                           textColor: Colors.white);
                     } else if (this._textEditingController.text == pass_exist) {
-                      AppLock.of(context).didUnlock('some data');
+                      AppLock.of(context)!.didUnlock('some data');
                     } else {
                       Fluttertoast.showToast(
                           msg: allTranslations.text("s5"),
                           toastLength: Toast.LENGTH_LONG,
                           gravity: ToastGravity.BOTTOM,
-                          timeInSecForIos: 5,
+                          timeInSecForIosWeb: 5,
                           backgroundColor: rouge,
                           textColor: Colors.white);
                     }

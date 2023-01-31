@@ -63,8 +63,8 @@ class ChooseLanguagePageState extends State<ChooseLanguage1> {
                       Center(child : GestureDetector(onTap: (){
                             MySingleton mySingleton = new MySingleton();
                             mySingleton.setLangue("fr");
-                          AppLock.of(context).enable();
-                          AppLock.of(context).showLockScreen();
+                          AppLock.of(context)!.enable();
+                          AppLock.of(context)!.showLockScreen();
                              Navigator.push(
                               context,
                               new MaterialPageRoute(builder: (_) => new MyApp()),
@@ -84,8 +84,8 @@ class ChooseLanguagePageState extends State<ChooseLanguage1> {
                            MySingleton mySingleton = new MySingleton();
                             mySingleton.setLangue("en");
                             
-                          AppLock.of(context).enable();
-                          AppLock.of(context).showLockScreen();
+                          AppLock.of(context)!.enable();
+                          AppLock.of(context)!.showLockScreen();
                              Navigator.push(
                               context,
                               new MaterialPageRoute(builder: (_) => new MyApp()),
@@ -105,8 +105,8 @@ class ChooseLanguagePageState extends State<ChooseLanguage1> {
                              MySingleton mySingleton = new MySingleton();
                             mySingleton.setLangue("es");
                             
-                          AppLock.of(context).enable();
-                          AppLock.of(context).showLockScreen();
+                          AppLock.of(context)!.enable();
+                          AppLock.of(context)!.showLockScreen();
                              Navigator.push(
                               context,
                               new MaterialPageRoute(builder: (_) => new MyApp()),

@@ -92,7 +92,7 @@ class DashboardFragmentState extends State<DashboardFragment> {
     String basicAuth = 'Basic ' + base64Encode(utf8.encode('$credential'));
 
     var response = await http.get(
-        Setting.apiracine + "comptes/indicateur?role=" + currentrole,
+        Uri.parse(Setting.apiracine + "comptes/indicateur?role=" + currentrole),
         headers: {"Authorization": basicAuth});
 
     print("DATA1 :" + response.body.toString());
@@ -267,7 +267,7 @@ class DashboardFragmentState extends State<DashboardFragment> {
                               msg: allTranslations.text('s5'),
                               toastLength: Toast.LENGTH_LONG,
                               gravity: ToastGravity.BOTTOM,
-                              timeInSecForIos: 5,
+                              timeInSecForIosWeb: 5,
                               backgroundColor: Colors.blue,
                               textColor: Colors.white);
                         } else {

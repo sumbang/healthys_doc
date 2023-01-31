@@ -51,7 +51,7 @@ class InfosFragmentState extends State<InfosFragment> {
     List<MyItems> liste = [];
 
     var response = await http
-        .get(Setting.apiracine + "comptes/data?types=" + nature.toString());
+        .get(Uri.parse(Setting.apiracine + "comptes/data?types=" + nature.toString()));
 
     print("DATA :" + response.body.toString());
 
@@ -77,7 +77,7 @@ class InfosFragmentState extends State<InfosFragment> {
     sit = getElements("2");
 
     var res = await http
-        .get(Setting.apiracine + "comptes/" + currentpatient1, headers: {
+        .get(Uri.parse(Setting.apiracine + "comptes/" + currentpatient1), headers: {
       "Authorization": basicAuth,
       "Language": mySingleton.getLangue.toString(),
     });
@@ -131,7 +131,7 @@ class InfosFragmentState extends State<InfosFragment> {
           msg: allTranslations.text('requis_title'),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 5,
+          timeInSecForIosWeb: 5,
           backgroundColor: Colors.blue,
           textColor: Colors.white);
     } else {
@@ -178,7 +178,7 @@ class InfosFragmentState extends State<InfosFragment> {
 
       print("DATA5 :" + Setting.apiracine + "comptes/" + currentpatient1);
 
-      var res = await http.put(Setting.apiracine + "comptes/" + currentpatient1,
+      var res = await http.put(Uri.parse(Setting.apiracine + "comptes/" + currentpatient1),
           body: data,
           headers: {
             "Authorization": basicAuth,
@@ -196,7 +196,7 @@ class InfosFragmentState extends State<InfosFragment> {
             msg: responseJson["message"].toString(),
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.BOTTOM,
-            timeInSecForIos: 5,
+            timeInSecForIosWeb: 5,
             backgroundColor: Colors.blue,
             textColor: Colors.white);
       } else {
@@ -207,7 +207,7 @@ class InfosFragmentState extends State<InfosFragment> {
             msg: responseJson["message"].toString(),
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.BOTTOM,
-            timeInSecForIos: 5,
+            timeInSecForIosWeb: 5,
             backgroundColor: Colors.blue,
             textColor: Colors.white);
       }

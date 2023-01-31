@@ -305,7 +305,7 @@ class _SignupState extends State<SignupForm2> {
      MySingleton mySingleton = new MySingleton();
 
     var response = await http.get(
-        Setting.apiracine + "comptes/data?types=" + nature.toString(),
+        Uri.parse(Setting.apiracine + "comptes/data?types=" + nature.toString()),
         headers: {"Language": mySingleton.getLangue.toString(),});
 
       final responseJson = json.decode(response.body.toString());
@@ -326,7 +326,7 @@ class _SignupState extends State<SignupForm2> {
      MySingleton mySingleton = new MySingleton();
 
     var response = await http.get(
-        Setting.apiracine + "comptes/zone?pays=" + nature.toString(),
+        Uri.parse(Setting.apiracine + "comptes/zone?pays=" + nature.toString()),
         headers: {"Language": mySingleton.getLangue.toString(),});
 
     print("zone : " + response.body.toString());
@@ -408,7 +408,7 @@ class _SignupState extends State<SignupForm2> {
           msg: allTranslations.text('requis1_title'),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 5,
+          timeInSecForIosWeb: 5,
           backgroundColor: Colors.blue,
           textColor: Colors.white);
     } 
@@ -417,7 +417,7 @@ class _SignupState extends State<SignupForm2> {
           msg: allTranslations.text('condition_title'),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 5,
+          timeInSecForIosWeb: 5,
           backgroundColor: Colors.blue,
           textColor: Colors.white);
     }else if (l_images1.length == 0) {
@@ -425,7 +425,7 @@ class _SignupState extends State<SignupForm2> {
           msg: allTranslations.text('z84'),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 5,
+          timeInSecForIosWeb: 5,
           backgroundColor: Colors.blue,
           textColor: Colors.white);
     } else if (l_images2.length == 0) {
@@ -433,7 +433,7 @@ class _SignupState extends State<SignupForm2> {
           msg: allTranslations.text('z85'),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 5,
+          timeInSecForIosWeb: 5,
           backgroundColor: Colors.blue,
           textColor: Colors.white);
     } else if (l_images.length != 2) {
@@ -441,7 +441,7 @@ class _SignupState extends State<SignupForm2> {
           msg: allTranslations.text('z86'),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 5,
+          timeInSecForIosWeb: 5,
           backgroundColor: Colors.blue,
           textColor: Colors.white);
     } else {
@@ -591,7 +591,7 @@ class _SignupState extends State<SignupForm2> {
       };
 
       var res5 =
-          await http.post(Setting.apiracine + "comptes/uploader", body: _data);
+          await http.post(Uri.parse(Setting.apiracine + "comptes/uploader"), body: _data);
       if (res5.statusCode == 200) {
         setState(() {
           _signature = res5.body.toString();
@@ -640,7 +640,7 @@ class _SignupState extends State<SignupForm2> {
 
       print("tosend : " + data.toString());
 
-      var res = await http.post(Setting.apiracine + "comptes",
+      var res = await http.post(Uri.parse(Setting.apiracine + "comptes"),
           body: data,
           headers: {"Language": mySingleton.getLangue.toString(),});
 
@@ -653,7 +653,7 @@ class _SignupState extends State<SignupForm2> {
             msg: responseJson["message"].toString(),
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.BOTTOM,
-            timeInSecForIos: 5,
+            timeInSecForIosWeb: 5,
             backgroundColor: Colors.blue,
             textColor: Colors.white);
 
@@ -669,7 +669,7 @@ class _SignupState extends State<SignupForm2> {
             msg: responseJson["message"].toString(),
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.BOTTOM,
-            timeInSecForIos: 5,
+            timeInSecForIosWeb: 5,
             backgroundColor: Colors.blue,
             textColor: Colors.white);
       }
@@ -951,7 +951,7 @@ class _SignupState extends State<SignupForm2> {
                                                   .text('requis1_title'),
                                               toastLength: Toast.LENGTH_LONG,
                                               gravity: ToastGravity.BOTTOM,
-                                              timeInSecForIos: 5,
+                                              timeInSecForIosWeb: 5,
                                               backgroundColor: Colors.blue,
                                               textColor: Colors.white);
                                         } else {
@@ -1091,7 +1091,7 @@ class _SignupState extends State<SignupForm2> {
           imageQuality: quality,
         );
 
-        print("File picked : " + pickedFile.path.toString());
+        print("File picked : " + pickedFile!.path.toString());
 
         setState(() {
           _imageFile = pickedFile;
@@ -1116,7 +1116,7 @@ class _SignupState extends State<SignupForm2> {
           imageQuality: quality,
         );
 
-        print("File picked : " + pickedFile.path.toString());
+        print("File picked : " + pickedFile!.path.toString());
 
         setState(() {
           _imageFile1 = pickedFile;
@@ -1141,7 +1141,7 @@ class _SignupState extends State<SignupForm2> {
           imageQuality: quality,
         );
 
-        print("File picked : " + pickedFile.path.toString());
+        print("File picked : " + pickedFile!.path.toString());
 
         setState(() {
           _imageFile2 = pickedFile;
@@ -1173,7 +1173,7 @@ class _SignupState extends State<SignupForm2> {
         _imageFile = response.file;
       });
     } else {
-      _retrieveDataError = response.exception.code;
+      _retrieveDataError = response.exception!.code;
     }
   }
 

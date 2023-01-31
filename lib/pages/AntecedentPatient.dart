@@ -55,11 +55,11 @@ class AntecedentPatient1 extends State<AntecedentPatient> {
     MySingleton mySingleton = new MySingleton();
 
     var response = await http.get(
-        Setting.apiracine +
+       Uri.parse(Setting.apiracine +
             "comptes/data?types=" +
             nature.toString() +
             "&language=" +
-            mySingleton.getLangue.toString(),
+            mySingleton.getLangue.toString()),
         headers: {"Language": mySingleton.getLangue.toString(),});
 
     print("DATA :" + response.body.toString());
@@ -84,7 +84,7 @@ class AntecedentPatient1 extends State<AntecedentPatient> {
     print("id : " + this.patient.toString());
 
     var res = await http.get(
-        Setting.apiracine + "comptes/donnee2?patient=" + this.patient,
+        Uri.parse(Setting.apiracine + "comptes/donnee2?patient=" + this.patient),
         headers: {
           "Authorization": basicAuth,
           "Language": mySingleton.getLangue.toString(),

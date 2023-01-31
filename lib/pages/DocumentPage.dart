@@ -105,7 +105,7 @@ class DocumentPageState extends State<DocumentPage_2> {
     List<Document> liste = [];
 
     var response =
-        await http.get(Setting.apiracine + "consultation/document", headers: {
+        await http.get(Uri.parse(Setting.apiracine + "consultation/document"), headers: {
       "Authorization": basicAuth,
       "Language": mySingleton.getLangue.toString(),
     });

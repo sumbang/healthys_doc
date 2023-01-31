@@ -71,9 +71,9 @@ class ConsultationPage1State extends State<ConsultationPage1> {
     String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
 
     var response = await http.get(
-        Setting.apiracine +
+        Uri.parse(Setting.apiracine +
             "consultations/patient?numero=" +
-            this.numero.toString(),
+            this.numero.toString()),
         headers: {
           "Authorization": basicAuth,
           "Language": mySingleton.getLangue.toString(),

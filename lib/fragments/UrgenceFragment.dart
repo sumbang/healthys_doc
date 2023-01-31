@@ -48,7 +48,7 @@ class UrgenceFragmentState extends State<UrgenceFragment> {
     print("DATA5 :" + "comptes/urgence?patient=" + currentpatient1);
 
     var response = await http.get(
-        Setting.apiracine + "comptes/urgence?patient=" + currentpatient1,
+        Uri.parse(Setting.apiracine + "comptes/urgence?patient=" + currentpatient1),
         headers: {
           "Authorization": basicAuth,
           "Language": mySingleton.getLangue.toString(),
@@ -75,7 +75,7 @@ class UrgenceFragmentState extends State<UrgenceFragment> {
           msg: allTranslations.text('requis_title'),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 5,
+          timeInSecForIosWeb: 5,
           backgroundColor: Colors.blue,
           textColor: Colors.white);
     } else {
@@ -118,7 +118,7 @@ class UrgenceFragmentState extends State<UrgenceFragment> {
       String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
 
       var res = await http.put(
-          Setting.apiracine + "comptes/urgence1?patient=" + currentpatient1,
+          Uri.parse(Setting.apiracine + "comptes/urgence1?patient=" + currentpatient1),
           body: data,
           headers: {
             "Authorization": basicAuth,
@@ -136,7 +136,7 @@ class UrgenceFragmentState extends State<UrgenceFragment> {
             msg: responseJson["message"].toString(),
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.BOTTOM,
-            timeInSecForIos: 5,
+            timeInSecForIosWeb: 5,
             backgroundColor: Colors.blue,
             textColor: Colors.white);
 
@@ -152,7 +152,7 @@ class UrgenceFragmentState extends State<UrgenceFragment> {
             msg: responseJson["message"].toString(),
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.BOTTOM,
-            timeInSecForIos: 5,
+            timeInSecForIosWeb: 5,
             backgroundColor: Colors.blue,
             textColor: Colors.white);
       }

@@ -196,7 +196,7 @@ class HopitauxFragmentState extends State<HopitauxFragment> {
     List<Partenaire> liste = [];
 
     var response =
-        await http.get(Setting.apiracine + "partners?types=2", headers: {
+        await http.get(Uri.parse(Setting.apiracine + "partners?types=2"), headers: {
       "Authorization": basicAuth,
       "Language": mySingleton.getLangue.toString(),
     });

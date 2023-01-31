@@ -59,7 +59,7 @@ class _ResetState extends State<ActivationForm> {
     String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
 
     var response =
-        await http.get(Setting.apiracine + "comptes/abonnements", headers: {
+        await http.get(Uri.parse(Setting.apiracine + "comptes/abonnements"), headers: {
       "Language":  mySingleton.getLangue.toString(),
       "Authorization": basicAuth,
     });
@@ -84,7 +84,7 @@ class _ResetState extends State<ActivationForm> {
 
 
     var response =
-        await http.get(Setting.apiracine + "comptes/modes", headers: {
+        await http.get(Uri.parse(Setting.apiracine + "comptes/modes"), headers: {
       "Language":  mySingleton.getLangue.toString(),
       "Authorization": basicAuth,
     });
@@ -140,7 +140,7 @@ class _ResetState extends State<ActivationForm> {
           msg: allTranslations.text("z1"),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 5,
+          timeInSecForIosWeb: 5,
           backgroundColor: Colors.red,
           textColor: Colors.white);
     } else if (abonnement == null) {
@@ -148,7 +148,7 @@ class _ResetState extends State<ActivationForm> {
           msg: allTranslations.text("z2"),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 5,
+          timeInSecForIosWeb: 5,
           backgroundColor: Colors.red,
           textColor: Colors.white);
     } else if (mode == null) {
@@ -156,7 +156,7 @@ class _ResetState extends State<ActivationForm> {
           msg: allTranslations.text("z3"),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 5,
+          timeInSecForIosWeb: 5,
           backgroundColor: Colors.red,
           textColor: Colors.white);
     } else if ((mode!.id == 2) && (reference.isEmpty)) {
@@ -164,7 +164,7 @@ class _ResetState extends State<ActivationForm> {
           msg: allTranslations.text("z4"),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 5,
+          timeInSecForIosWeb: 5,
           backgroundColor: Colors.red,
           textColor: Colors.white);
     } else if (pin.toString().isEmpty) {
@@ -172,7 +172,7 @@ class _ResetState extends State<ActivationForm> {
           msg: allTranslations.text("z5"),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 5,
+          timeInSecForIosWeb: 5,
           backgroundColor: Colors.red,
           textColor: Colors.white);
     } else if (pin != currentpin) {
@@ -180,7 +180,7 @@ class _ResetState extends State<ActivationForm> {
           msg: allTranslations.text("z6"),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 5,
+          timeInSecForIosWeb: 5,
           backgroundColor: Colors.red,
           textColor: Colors.white);
     } else {
@@ -254,7 +254,7 @@ class _ResetState extends State<ActivationForm> {
 
      
       var res = await http
-          .post(Setting.apiracine + "comptes/abonner", body: data, headers: {
+          .post(Uri.parse(Setting.apiracine + "comptes/abonner"), body: data, headers: {
         "Language": mySingleton.getLangue.toString(),
         "Authorization": basicAuth,
       });
@@ -268,7 +268,7 @@ class _ResetState extends State<ActivationForm> {
             msg: responseJson["message"].toString(),
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.BOTTOM,
-            timeInSecForIos: 5,
+            timeInSecForIosWeb: 5,
             backgroundColor: Colors.green,
             textColor: Colors.white);
 
@@ -287,7 +287,7 @@ class _ResetState extends State<ActivationForm> {
             msg: responseJson["message"].toString(),
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.BOTTOM,
-            timeInSecForIos: 5,
+            timeInSecForIosWeb: 5,
             backgroundColor: Colors.blue,
             textColor: Colors.white);
       }
@@ -301,7 +301,7 @@ class _ResetState extends State<ActivationForm> {
   }
 
   void requestPersmission() async {
-    await PermissionHandler().requestPermissions([PermissionGroup.camera]);
+    //await PermissionHandler().requestPermissions([PermissionGroup.camera]);
   }
 
   Future _scan1() async {

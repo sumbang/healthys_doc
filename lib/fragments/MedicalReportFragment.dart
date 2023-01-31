@@ -70,7 +70,7 @@ class MedicalReportFragmentState extends State<MedicalReportFragment> {
           msg: "Veuillez renseigner un matricule santé",
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 5,
+          timeInSecForIosWeb: 5,
           backgroundColor: Colors.blue,
           textColor: Colors.white);
     } else if (pin != currentpin) {
@@ -78,7 +78,7 @@ class MedicalReportFragmentState extends State<MedicalReportFragment> {
           msg: "Pin d'authentification incorrect",
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 5,
+          timeInSecForIosWeb: 5,
           backgroundColor: Colors.blue,
           textColor: Colors.white);
     } else {
@@ -113,7 +113,7 @@ class MedicalReportFragmentState extends State<MedicalReportFragment> {
       };
 
       var res = await http
-          .put(Setting.apiracine + "comptes/search", body: data, headers: {
+          .put(Uri.parse(Setting.apiracine + "comptes/search"), body: data, headers: {
         "Authorization": basicAuth,
         "Language": mySingleton.getLangue.toString(),
       });
@@ -127,7 +127,7 @@ class MedicalReportFragmentState extends State<MedicalReportFragment> {
             msg: responseJson["message"].toString(),
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.BOTTOM,
-            timeInSecForIos: 5,
+            timeInSecForIosWeb: 5,
             backgroundColor: Colors.blue,
             textColor: Colors.white);
 
@@ -144,7 +144,7 @@ class MedicalReportFragmentState extends State<MedicalReportFragment> {
             msg: responseJson["message"].toString(),
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.BOTTOM,
-            timeInSecForIos: 5,
+            timeInSecForIosWeb: 5,
             backgroundColor: Colors.blue,
             textColor: Colors.white);
       }
@@ -304,7 +304,7 @@ class MedicalReportFragmentState extends State<MedicalReportFragment> {
   }
 
   void requestPersmission() async {
-    await PermissionHandler().requestPermissions([PermissionGroup.camera]);
+    //await PermissionHandler().requestPermissions([PermissionGroup.camera]);
   }
 
   Future _scan1() async {

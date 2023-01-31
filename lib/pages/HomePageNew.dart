@@ -221,9 +221,9 @@ class HomePageNew1State extends State<HomePageNew1> {
     String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
 
     var res = await http.get(
-        Setting.apiracine +
+        Uri.parse(Setting.apiracine +
             "comptes/indicateur?role=" +
-            currentacces.toString(),
+            currentacces.toString()),
         headers: {
           "Language": mySingleton.getLangue.toString(),
           "Authorization": basicAuth,
@@ -254,7 +254,7 @@ class HomePageNew1State extends State<HomePageNew1> {
           msg: "Chargement des indicateurs",
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 5,
+          timeInSecForIosWeb: 5,
           backgroundColor: Colors.green,
           textColor: Colors.white);
 
@@ -271,7 +271,7 @@ class HomePageNew1State extends State<HomePageNew1> {
           msg: responseJson["message"].toString(),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 5,
+          timeInSecForIosWeb: 5,
           backgroundColor: Colors.blue,
           textColor: Colors.white);
     }
@@ -365,7 +365,7 @@ class HomePageNew1State extends State<HomePageNew1> {
       'TOKEN': token.toString(),
     };
 
-    var res = await http.put(Setting.apiracine + "comptes/logout", body: data);
+    var res = await http.put(Uri.parse(Setting.apiracine + "comptes/logout"), body: data);
 
     final prefs = await SharedPreferences.getInstance();
 
@@ -405,7 +405,7 @@ class HomePageNew1State extends State<HomePageNew1> {
           msg: responseJson['message'].toString(),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 5,
+          timeInSecForIosWeb: 5,
           backgroundColor: Colors.blue,
           textColor: Colors.white);
     }

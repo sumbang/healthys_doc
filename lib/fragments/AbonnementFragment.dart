@@ -71,7 +71,7 @@ class AbonnementFragmentState extends State<AbonnementFragment> {
     List<Abonnement> liste = [];
 
     var response =
-        await http.get(Setting.apiracine + "comptes/abonnement", headers: {
+        await http.get(Uri.parse(Setting.apiracine + "comptes/abonnement"), headers: {
       "Authorization": basicAuth,
       "Language": mySingleton.getLangue.toString(),
     });

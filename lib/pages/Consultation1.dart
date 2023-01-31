@@ -91,7 +91,7 @@ class ConsultationPageState extends State<Consultation_1> {
      MySingleton mySingleton = new MySingleton();
 
     var response = await http.get(
-        Setting.apiracine + "comptes/data?types=" + nature.toString(),
+        Uri.parse(Setting.apiracine + "comptes/data?types=" + nature.toString()),
         headers: {"Language": mySingleton.getLangue.toString(),});
 
     print("DATA :" + response.body.toString());
@@ -120,7 +120,7 @@ class ConsultationPageState extends State<Consultation_1> {
     print("DATA :" + user.toString());
 
     var response = await http.get(
-        Setting.apiracine + "consultations/medecin?user=" + user.toString(),
+        Uri.parse(Setting.apiracine + "consultations/medecin?user=" + user.toString()),
         headers: {
           "Authorization": basicAuth,
           "Language": mySingleton.getLangue.toString(),
@@ -150,7 +150,7 @@ class ConsultationPageState extends State<Consultation_1> {
           msg: allTranslations.text('requis_title'),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 5,
+          timeInSecForIosWeb: 5,
           backgroundColor: Colors.blue,
           textColor: Colors.white);
     } /* else if (_docteur == null) {
@@ -253,7 +253,7 @@ class ConsultationPageState extends State<Consultation_1> {
         'para': _para,
       };
 
-      var res = await http.post(Setting.apiracine + "consultations/create1",
+      var res = await http.post(Uri.parse(Setting.apiracine + "consultations/create1"),
           body: data,
           headers: {
             "Authorization": basicAuth,
@@ -273,7 +273,7 @@ class ConsultationPageState extends State<Consultation_1> {
             msg: responseJson["message"].toString(),
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.BOTTOM,
-            timeInSecForIos: 5,
+            timeInSecForIosWeb: 5,
             backgroundColor: Colors.blue,
             textColor: Colors.white);
 
@@ -292,7 +292,7 @@ class ConsultationPageState extends State<Consultation_1> {
             msg: responseJson["message"].toString(),
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.BOTTOM,
-            timeInSecForIos: 5,
+            timeInSecForIosWeb: 5,
             backgroundColor: Colors.blue,
             textColor: Colors.white);
       }
@@ -445,7 +445,7 @@ class ConsultationPageState extends State<Consultation_1> {
                                                   .text('requis1_title'),
                                               toastLength: Toast.LENGTH_LONG,
                                               gravity: ToastGravity.BOTTOM,
-                                              timeInSecForIos: 5,
+                                              timeInSecForIosWeb: 5,
                                               backgroundColor: Colors.blue,
                                               textColor: Colors.white);
                                         } else {

@@ -44,7 +44,7 @@ class _PDFScreenState extends State<PDFScreen> with WidgetsBindingObserver {
   }
 
   void requestPersmission() async {
-    await PermissionHandler().requestPermissions([PermissionGroup.storage]);
+   // await PermissionHandler().requestPermissions([PermissionGroup.storage]);
   }
 
   Future<File> createFileOfPdfUrl(String url) async {

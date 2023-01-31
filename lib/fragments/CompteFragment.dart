@@ -53,13 +53,13 @@ class CompteFragmentState extends State<CompteFragment> {
     print("profil : " + profil + ", compte : " + compte);
 
     var response = await http.get(
-        Setting.apiracine +
+        Uri.parse(Setting.apiracine +
             "comptes/profil?compte=" +
             compte +
             "&profil=" +
             profil +
             "&role=" +
-            role,
+            role),
         headers: {
           "Authorization": basicAuth,
           "Language": mySingleton.getLangue.toString(),

@@ -133,11 +133,11 @@ class EvolutionPage1 extends State<EvolutionPage> {
     String basicAuth = 'Bearer ' + token1;
 
     var response = await http.get(
-        Setting.apiracine +
+        Uri.parse(Setting.apiracine +
             "consultations/view3?id=" +
             consultation.toString() +
             "&language=" +
-            mySingleton.getLangue.toString(),
+            mySingleton.getLangue.toString()),
         headers: {
           "Authorization": basicAuth,
           "Language": mySingleton.getLangue.toString(),

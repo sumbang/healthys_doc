@@ -107,7 +107,7 @@ class RdvFormState extends State<RdvForm> {
           msg: allTranslations.text('s5'),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 5,
+          timeInSecForIosWeb: 5,
           backgroundColor: Colors.blue,
           textColor: Colors.white);
     } else if (_medecinController.text.isEmpty ||
@@ -118,7 +118,7 @@ class RdvFormState extends State<RdvForm> {
           msg: allTranslations.text('requis1_title'),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 5,
+          timeInSecForIosWeb: 5,
           backgroundColor: Colors.blue,
           textColor: Colors.white);
     } else {
@@ -157,7 +157,7 @@ class RdvFormState extends State<RdvForm> {
       };
 
       var res =
-          await http.post(Setting.apiracine + "meetings", body: data, headers: {
+          await http.post(Uri.parse(Setting.apiracine + "meetings"), body: data, headers: {
         "Authorization": basicAuth,
         "Language": mySingleton.getLangue.toString(),
       });
@@ -171,7 +171,7 @@ class RdvFormState extends State<RdvForm> {
             msg: responseJson["message"].toString(),
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.BOTTOM,
-            timeInSecForIos: 5,
+            timeInSecForIosWeb: 5,
             backgroundColor: Colors.blue,
             textColor: Colors.white);
 
@@ -187,7 +187,7 @@ class RdvFormState extends State<RdvForm> {
             msg: responseJson["message"].toString(),
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.BOTTOM,
-            timeInSecForIos: 5,
+            timeInSecForIosWeb: 5,
             backgroundColor: Colors.blue,
             textColor: Colors.white);
       }

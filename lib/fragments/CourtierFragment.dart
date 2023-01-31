@@ -196,7 +196,7 @@ class CourtierFragmentState extends State<CourtierFragment> {
     List<Partenaire> liste = [];
 
     var response =
-        await http.get(Setting.apiracine + "partners?types=7", headers: {
+        await http.get(Uri.parse(Setting.apiracine + "partners?types=7"), headers: {
       "Authorization": basicAuth,
       "Language": mySingleton.getLangue.toString(),
     });

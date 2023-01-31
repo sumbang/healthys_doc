@@ -147,9 +147,9 @@ class ConsultationPageState extends State<Consultation_2> {
     print("token : " + token1);
 
     var res = await http.get(
-        Setting.apiracine +
+        Uri.parse(Setting.apiracine +
             "consultation/rapport/?id=" +
-            consultation.toString(),
+            consultation.toString()),
         headers: {
           "Authorization": basicAuth,
           "Language": mySingleton.getLangue.toString(),
@@ -166,7 +166,7 @@ class ConsultationPageState extends State<Consultation_2> {
           msg: responseJson["message"].toString(),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 5,
+          timeInSecForIosWeb: 5,
           backgroundColor: Colors.blue,
           textColor: Colors.white);
 
@@ -189,7 +189,7 @@ class ConsultationPageState extends State<Consultation_2> {
           msg: responseJson["message"].toString(),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 5,
+          timeInSecForIosWeb: 5,
           backgroundColor: Colors.blue,
           textColor: Colors.white);
     }
@@ -208,13 +208,13 @@ class ConsultationPageState extends State<Consultation_2> {
     List<Mconsultation2> liste = [];
 
     var response = await http.get(
-        Setting.apiracine +
+        Uri.parse(Setting.apiracine +
             "consultations?role=" +
             role +
             "&user=" +
             user +
             "&type=" +
-            type.toString(),
+            type.toString()),
         headers: {
           "Authorization": basicAuth,
           "Language": mySingleton.getLangue.toString(),

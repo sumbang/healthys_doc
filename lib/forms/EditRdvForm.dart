@@ -75,7 +75,7 @@ class EditRdvFormState extends State<EditRdvForm> {
           msg: allTranslations.text('requis1_title'),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 5,
+          timeInSecForIosWeb: 5,
           backgroundColor: Colors.blue,
           textColor: Colors.white);
     } else {
@@ -113,7 +113,7 @@ class EditRdvFormState extends State<EditRdvForm> {
 
 
       var res = await http
-          .post(Setting.apiracine + "meetings/confirm", body: data, headers: {
+          .post(Uri.parse(Setting.apiracine + "meetings/confirm"), body: data, headers: {
         "Authorization": basicAuth,
         "Language":  mySingleton.getLangue.toString()
       });
@@ -127,7 +127,7 @@ class EditRdvFormState extends State<EditRdvForm> {
             msg: responseJson["message"].toString(),
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.BOTTOM,
-            timeInSecForIos: 5,
+            timeInSecForIosWeb: 5,
             backgroundColor: Colors.blue,
             textColor: Colors.white);
 
@@ -143,7 +143,7 @@ class EditRdvFormState extends State<EditRdvForm> {
             msg: responseJson["message"].toString(),
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.BOTTOM,
-            timeInSecForIos: 5,
+            timeInSecForIosWeb: 5,
             backgroundColor: Colors.blue,
             textColor: Colors.white);
       }

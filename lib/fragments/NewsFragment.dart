@@ -206,7 +206,7 @@ class NewsFragmentState extends State<NewsFragment> {
     String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
     List<News> liste = [];
 
-    var response = await http.get(Setting.apiracine + "news", headers: {
+    var response = await http.get(Uri.parse(Setting.apiracine + "news"), headers: {
       "Authorization": basicAuth,
       "Language": mySingleton.getLangue.toString(),
     });

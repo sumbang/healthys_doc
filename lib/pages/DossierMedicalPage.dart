@@ -118,7 +118,7 @@ class DossierMedicalPageState extends State<DossierMedical> {
           imageQuality: quality,
         );
 
-        print("File picked : " + pickedFile.path.toString());
+        print("File picked : " + pickedFile!.path.toString());
 
         setState(() {
           _imageFile = pickedFile;
@@ -149,7 +149,7 @@ class DossierMedicalPageState extends State<DossierMedical> {
         _imageFile = response.file;
       });
     } else {
-      _retrieveDataError = response.exception.code;
+      _retrieveDataError = response.exception!.code;
     }
   }
 
@@ -197,11 +197,11 @@ class DossierMedicalPageState extends State<DossierMedical> {
     String basicAuth = 'Bearer ' + token1; 
 
     var response = await http.get(
-        Setting.apiracine +
+        Uri.parse(Setting.apiracine +
             "comptes/patient?id=" +
             this.id.toString() +
             "&type=1&language=" +
-           mySingleton.getLangue.toString(),
+           mySingleton.getLangue.toString()),
         headers: {
           "Authorization": basicAuth,
           "Language": mySingleton.getLangue.toString(),

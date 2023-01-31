@@ -196,7 +196,7 @@ class AssurancesFragmentState extends State<AssurancesFragment> {
     List<Partenaire> liste = [];
 
     var response =
-        await http.get(Setting.apiracine + "partners?types=3", headers: {
+        await http.get(Uri.parse(Setting.apiracine + "partners?types=3"), headers: {
       "Authorization": basicAuth,
       "Language": mySingleton.getLangue.toString(),
     });

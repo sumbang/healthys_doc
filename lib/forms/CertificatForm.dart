@@ -71,7 +71,7 @@ class CertificatFormState extends State<CertificatForm> {
           msg: allTranslations.text('s5'),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 5,
+          timeInSecForIosWeb: 5,
           backgroundColor: Colors.blue,
           textColor: Colors.white);
     } else if (_raisonController.text.isEmpty) {
@@ -79,7 +79,7 @@ class CertificatFormState extends State<CertificatForm> {
           msg: allTranslations.text('requis1_title'),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 5,
+          timeInSecForIosWeb: 5,
           backgroundColor: Colors.blue,
           textColor: Colors.white);
     } else {
@@ -113,7 +113,7 @@ class CertificatFormState extends State<CertificatForm> {
         "description": _raisonController.text.toString()
       };
 
-      var res = await http.post(Setting.apiracine + "consultation/certificat",
+      var res = await http.post(Uri.parse(Setting.apiracine + "consultation/certificat"),
           body: data,
           headers: {
             "Authorization": basicAuth,
@@ -129,7 +129,7 @@ class CertificatFormState extends State<CertificatForm> {
             msg: responseJson["message"].toString(),
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.BOTTOM,
-            timeInSecForIos: 5,
+            timeInSecForIosWeb: 5,
             backgroundColor: Colors.blue,
             textColor: Colors.white);
 
@@ -145,7 +145,7 @@ class CertificatFormState extends State<CertificatForm> {
             msg: responseJson["message"].toString(),
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.BOTTOM,
-            timeInSecForIos: 5,
+            timeInSecForIosWeb: 5,
             backgroundColor: Colors.blue,
             textColor: Colors.white);
       }

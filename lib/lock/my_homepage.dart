@@ -38,20 +38,20 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             ElevatedButton(
               child: Text('Set app lock enabled'),
-              onPressed: () => AppLock.of(context).enable(),
+              onPressed: () => AppLock.of(context)!.enable(),
             ),
             ElevatedButton(
               child: Text('Set app lock disabled'),
-              onPressed: () => AppLock.of(context).disable(),
+              onPressed: () => AppLock.of(context)!.disable(),
             ),
             ElevatedButton(
               child: Text('Manually show lock screen'),
-              onPressed: () => AppLock.of(context).showLockScreen(),
+              onPressed: () => AppLock.of(context)!.showLockScreen(),
             ),
             ElevatedButton(
               child: Text('Manually show lock screen (awaiting)'),
               onPressed: () async {
-                await AppLock.of(context).showLockScreen();
+                await AppLock.of(context)!.showLockScreen();
 
                 print('Did unlock!');
               },

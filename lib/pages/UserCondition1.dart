@@ -9,7 +9,6 @@ import 'package:healthys_medecin/config/all_translations.dart'; import 'package:
 import 'package:http/http.dart' as http;
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class UserCondition1 extends StatefulWidget {
@@ -64,15 +63,6 @@ class UserCondition11 extends State<UserCondition1> {
                       onWebViewCreated: (WebViewController webViewController) {
                         _controller.complete(webViewController);
                       },
-                      // TODO(iskakaushik): Remove this when collection literals makes it to stable.
-                      /*navigationDelegate: (NavigationRequest request) {
-                  if (request.url.startsWith('https://www.youtube.com/')) {
-                    print('blocking navigation to $request}');
-                    return NavigationDecision.prevent;
-                  }
-                  print('allowing navigation to $request');
-                  return NavigationDecision.navigate;
-                }, */
                       onPageStarted: (String url) {
                         print('Page started loading: $url');
                       },

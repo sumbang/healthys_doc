@@ -279,7 +279,7 @@ class _ResetState extends State<NewPassForm> {
           msg: allTranslations.text('requis1_title'),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 5,
+          timeInSecForIosWeb: 5,
           backgroundColor: Colors.blue,
           textColor: Colors.white);
     } else if (_pass1Controller.text.toString() !=
@@ -288,7 +288,7 @@ class _ResetState extends State<NewPassForm> {
           msg: allTranslations.text("z18"),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 5,
+          timeInSecForIosWeb: 5,
           backgroundColor: Colors.blue,
           textColor: Colors.white);
     } else {
@@ -319,7 +319,7 @@ class _ResetState extends State<NewPassForm> {
 
       MySingleton mySingleton = new MySingleton();
 
-      var res = await http.post(Setting.apiracine + "comptes/reset1",
+      var res = await http.post(Uri.parse(Setting.apiracine + "comptes/reset1"),
           body: data,
           headers: {"Language":  mySingleton.getLangue.toString()});
 
@@ -332,7 +332,7 @@ class _ResetState extends State<NewPassForm> {
             msg: responseJson["message"].toString(),
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.BOTTOM,
-            timeInSecForIos: 5,
+            timeInSecForIosWeb: 5,
             backgroundColor: Colors.blue,
             textColor: Colors.white);
 
@@ -349,7 +349,7 @@ class _ResetState extends State<NewPassForm> {
             msg: responseJson["message"].toString(),
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.BOTTOM,
-            timeInSecForIos: 5,
+            timeInSecForIosWeb: 5,
             backgroundColor: Colors.blue,
             textColor: Colors.white);
       }

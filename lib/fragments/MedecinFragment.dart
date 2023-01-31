@@ -276,9 +276,9 @@ class MedecinFragmentState extends State<MedecinFragment> {
     List<Medecin> liste = [];
 
     var response = await http.get(
-        Setting.apiracine +
+        Uri.parse(Setting.apiracine +
             "comptes/docteur?language=" +
-            mySingleton.getLangue.toString(),
+            mySingleton.getLangue.toString()),
         headers: {
           "Authorization": basicAuth,
           "Language": mySingleton.getLangue.toString(),

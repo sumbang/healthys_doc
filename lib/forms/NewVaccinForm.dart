@@ -187,7 +187,7 @@ class NewVaccinFormState extends State<NewVaccinForm> {
   }
 
   void requestPersmission() async {
-    await PermissionHandler().requestPermissions([PermissionGroup.camera]);
+    //await PermissionHandler().requestPermissions([PermissionGroup.camera]);
   }
 
   Future _scan1() async {
@@ -209,7 +209,7 @@ class NewVaccinFormState extends State<NewVaccinForm> {
     String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
     List<MyItems> liste = [];
 
-    var response = await http.get(Setting.apiracine + "vaccins/item", headers: {
+    var response = await http.get(Uri.parse(Setting.apiracine + "vaccins/item"), headers: {
       "Authorization": basicAuth,
       "Language": mySingleton.getLangue.toString(),
     });
@@ -775,7 +775,7 @@ class NewVaccinFormState extends State<NewVaccinForm> {
           msg: allTranslations.text('requis1_title'),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 5,
+          timeInSecForIosWeb: 5,
           backgroundColor: Colors.blue,
           textColor: Colors.white);
     } else if (l_images.length == 0) {
@@ -783,7 +783,7 @@ class NewVaccinFormState extends State<NewVaccinForm> {
           msg: allTranslations.text('requis1_title'),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 5,
+          timeInSecForIosWeb: 5,
           backgroundColor: Colors.blue,
           textColor: Colors.white);
     } else if (pin != currentpin) {
@@ -791,7 +791,7 @@ class NewVaccinFormState extends State<NewVaccinForm> {
           msg: allTranslations.text("z30"),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 5,
+          timeInSecForIosWeb: 5,
           backgroundColor: Colors.blue,
           textColor: Colors.white);
     } else {
@@ -868,7 +868,7 @@ class NewVaccinFormState extends State<NewVaccinForm> {
       };
 
       var res =
-          await http.post(Setting.apiracine + "vaccins", body: data, headers: {
+          await http.post(Uri.parse(Setting.apiracine + "vaccins"), body: data, headers: {
         "Authorization": basicAuth,
         "Language": mySingleton.getLangue.toString(),
       });
@@ -882,7 +882,7 @@ class NewVaccinFormState extends State<NewVaccinForm> {
             msg: responseJson["message"].toString(),
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.BOTTOM,
-            timeInSecForIos: 5,
+            timeInSecForIosWeb: 5,
             backgroundColor: Colors.blue,
             textColor: Colors.white);
 
@@ -905,7 +905,7 @@ class NewVaccinFormState extends State<NewVaccinForm> {
             msg: responseJson["message"].toString(),
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.BOTTOM,
-            timeInSecForIos: 5,
+            timeInSecForIosWeb: 5,
             backgroundColor: Colors.blue,
             textColor: Colors.white);
       }

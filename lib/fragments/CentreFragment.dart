@@ -196,7 +196,7 @@ class CentreFragmentState extends State<CentreFragment> {
     List<Partenaire> liste = [];
 
     var response =
-        await http.get(Setting.apiracine + "partners?types=5", headers: {
+        await http.get(Uri.parse(Setting.apiracine + "partners?types=5"), headers: {
       "Authorization": basicAuth,
       "Language": mySingleton.getLangue.toString(),
     });

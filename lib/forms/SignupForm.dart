@@ -137,7 +137,7 @@ class _SignupState extends State<SignupForm> {
      MySingleton mySingleton = new MySingleton();
 
     var response = await http.get(
-        Setting.apiracine + "comptes/data?types=" + nature.toString(),
+        Uri.parse(Setting.apiracine + "comptes/data?types=" + nature.toString()),
         headers: {"Language": mySingleton.getLangue.toString(),});
 
     print("DATA " + nature + " : " + response.body.toString());
@@ -241,7 +241,7 @@ class _SignupState extends State<SignupForm> {
           msg: allTranslations.text('requis1_title'),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 5,
+          timeInSecForIosWeb: 5,
           backgroundColor: Colors.blue,
           textColor: Colors.white);
     } else if (images.length == 0) {
@@ -249,7 +249,7 @@ class _SignupState extends State<SignupForm> {
           msg: "Veuillez charger votre CNI",
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 5,
+          timeInSecForIosWeb: 5,
           backgroundColor: Colors.blue,
           textColor: Colors.white);
     } /*else if (!_isChecked) {
@@ -390,7 +390,7 @@ class _SignupState extends State<SignupForm> {
             'cnifile': _cnifile
           };
 
-          var res = await http.post(Setting.apiracine + "comptes",
+          var res = await http.post(Uri.parse(Setting.apiracine + "comptes"),
               body: data,
               headers: {
                 "Language": mySingleton.getLangue.toString(),
@@ -405,7 +405,7 @@ class _SignupState extends State<SignupForm> {
                 msg: responseJson["message"].toString(),
                 toastLength: Toast.LENGTH_LONG,
                 gravity: ToastGravity.BOTTOM,
-                timeInSecForIos: 5,
+                timeInSecForIosWeb: 5,
                 backgroundColor: Colors.blue,
                 textColor: Colors.white);
 
@@ -422,7 +422,7 @@ class _SignupState extends State<SignupForm> {
                 msg: responseJson["message"].toString(),
                 toastLength: Toast.LENGTH_LONG,
                 gravity: ToastGravity.BOTTOM,
-                timeInSecForIos: 5,
+                timeInSecForIosWeb: 5,
                 backgroundColor: Colors.blue,
                 textColor: Colors.white);
           }
@@ -433,14 +433,14 @@ class _SignupState extends State<SignupForm> {
 
           String fileName = tmpFile!.path.split('/').last;
 
-          String ext = lookupMimeType(tmpFile!.path).split('/').last;
+          String ext = lookupMimeType(tmpFile!.path)!.split('/').last;
 
           Map data = {
             "image": base64Image,
             "name": ext,
           };
 
-          var res1 = await http.post(Setting.apiracine + "comptes/uploader",
+          var res1 = await http.post(Uri.parse(Setting.apiracine + "comptes/uploader"),
               body: data);
 
           print("retour : " + res1.body.toString());
@@ -507,7 +507,7 @@ class _SignupState extends State<SignupForm> {
 
             print("send : " + data.toString());
 
-            var res = await http.post(Setting.apiracine + "comptes",
+            var res = await http.post(Uri.parse(Setting.apiracine + "comptes"),
                 body: data,
                 headers: {
                   "Language": mySingleton.getLangue.toString(),
@@ -524,7 +524,7 @@ class _SignupState extends State<SignupForm> {
                   msg: responseJson["message"].toString(),
                   toastLength: Toast.LENGTH_LONG,
                   gravity: ToastGravity.BOTTOM,
-                  timeInSecForIos: 5,
+                  timeInSecForIosWeb: 5,
                   backgroundColor: Colors.blue,
                   textColor: Colors.white);
 
@@ -541,7 +541,7 @@ class _SignupState extends State<SignupForm> {
                   msg: responseJson["message"].toString(),
                   toastLength: Toast.LENGTH_LONG,
                   gravity: ToastGravity.BOTTOM,
-                  timeInSecForIos: 5,
+                  timeInSecForIosWeb: 5,
                   backgroundColor: Colors.blue,
                   textColor: Colors.white);
             }
@@ -552,7 +552,7 @@ class _SignupState extends State<SignupForm> {
                 msg: allTranslations.text('erreur_title'),
                 toastLength: Toast.LENGTH_LONG,
                 gravity: ToastGravity.BOTTOM,
-                timeInSecForIos: 5,
+                timeInSecForIosWeb: 5,
                 backgroundColor: Colors.orange,
                 textColor: Colors.white);
           }
@@ -564,7 +564,7 @@ class _SignupState extends State<SignupForm> {
             msg: "Impossible de charger votre CNI",
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.BOTTOM,
-            timeInSecForIos: 5,
+            timeInSecForIosWeb: 5,
             backgroundColor: Colors.blue,
             textColor: Colors.white);
       }
@@ -672,7 +672,7 @@ class _SignupState extends State<SignupForm> {
           imageQuality: quality,
         );
 
-        print("File picked : " + pickedFile.path.toString());
+        print("File picked : " + pickedFile!.path.toString());
 
         setState(() {
           _imageFile = pickedFile;
@@ -704,7 +704,7 @@ class _SignupState extends State<SignupForm> {
         _imageFile = response.file;
       });
     } else {
-      _retrieveDataError = response.exception.code;
+      _retrieveDataError = response.exception!.code;
     }
   }
 

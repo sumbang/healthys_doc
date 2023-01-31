@@ -285,10 +285,10 @@ class DossierMedicalPageState extends State<DossierMedical> {
     print("langue :" + mySingleton.getLangue.toString());
 
     var response = await http.get(
-        Setting.apiracine +
+        Uri.parse(Setting.apiracine +
             "consultation/dossier?numero=" +
             this.id.toString() +
-            "&type=1",
+            "&type=1"),
         headers: {
           "Authorization": basicAuth,
           "Language": mySingleton.getLangue.toString(),

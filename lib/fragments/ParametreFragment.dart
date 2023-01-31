@@ -45,7 +45,7 @@ class ParametreFragmentState extends State<ParametreFragment> {
     List<MyItems> liste = [];
 
     var response = await http
-        .get(Setting.apiracine + "comptes/data?types=" + nature.toString());
+        .get(Uri.parse(Setting.apiracine + "comptes/data?types=" + nature.toString()));
 
     print("DATA :" + response.body.toString());
 
@@ -77,7 +77,7 @@ class ParametreFragmentState extends State<ParametreFragment> {
     groupe = getElements("4");
 
     var res = await http.get(
-        Setting.apiracine + "comptes/donnee?patient=" + currentpatient1,
+        Uri.parse(Setting.apiracine + "comptes/donnee?patient=" + currentpatient1),
         headers: {
           "Authorization": basicAuth,
           "Language": mySingleton.getLangue.toString(),
@@ -117,7 +117,7 @@ class ParametreFragmentState extends State<ParametreFragment> {
           msg: allTranslations.text('requis_title'),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 5,
+          timeInSecForIosWeb: 5,
           backgroundColor: Colors.blue,
           textColor: Colors.white);
     } else {
@@ -159,11 +159,11 @@ class ParametreFragmentState extends State<ParametreFragment> {
       String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
 
       var res = await http.put(
-          Setting.apiracine +
+          Uri.parse(Setting.apiracine +
               "comptes/para?patient=" +
               currentpatient1 +
               "&user=" +
-              id,
+              id),
           body: data,
           headers: {
             "Authorization": basicAuth,
@@ -183,7 +183,7 @@ class ParametreFragmentState extends State<ParametreFragment> {
             msg: responseJson["message"].toString(),
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.BOTTOM,
-            timeInSecForIos: 5,
+            timeInSecForIosWeb: 5,
             backgroundColor: Colors.blue,
             textColor: Colors.white);
       } else {
@@ -194,7 +194,7 @@ class ParametreFragmentState extends State<ParametreFragment> {
             msg: responseJson["message"].toString(),
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.BOTTOM,
-            timeInSecForIos: 5,
+            timeInSecForIosWeb: 5,
             backgroundColor: Colors.blue,
             textColor: Colors.white);
       }

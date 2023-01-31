@@ -117,11 +117,11 @@ class ConsultationPageState extends State<Consultation51> {
     String basicAuth = 'Bearer ' + token1; 
 
     var response = await http.get(
-        Setting.apiracine +
+        Uri.parse(Setting.apiracine +
             "consultations/" +
             this.id.toString() +
             "?type=1&language=" +
-            mySingleton.getLangue.toString(),
+            mySingleton.getLangue.toString()),
         headers: {
           "Authorization": basicAuth,
           "Language": mySingleton.getLangue.toString(),
@@ -150,11 +150,11 @@ class ConsultationPageState extends State<Consultation51> {
 
     String basicAuth = 'Bearer ' + token1; 
     var response = await http.get(
-        Setting.apiracine +
+        Uri.parse(Setting.apiracine +
             "consultations/view2?id=" +
             this.id.toString() +
             "&type=1&language=" +
-            mySingleton.getLangue.toString(),
+            mySingleton.getLangue.toString()),
         headers: {
           "Authorization": basicAuth,
           "Language": mySingleton.getLangue.toString(),

@@ -114,7 +114,7 @@ class ConsultationPageState extends State<Consultation31> {
           imageQuality: quality,
         );
 
-        print("File picked : " + pickedFile.path.toString());
+        print("File picked : " + pickedFile!.path.toString());
 
         setState(() {
           _imageFile = pickedFile;
@@ -145,7 +145,7 @@ class ConsultationPageState extends State<Consultation31> {
         _imageFile = response.file;
       });
     } else {
-      _retrieveDataError = response.exception.code;
+      _retrieveDataError = response.exception!.code;
     }
   }
 
@@ -193,11 +193,11 @@ class ConsultationPageState extends State<Consultation31> {
     String basicAuth = 'Bearer ' + token1; 
 
     var response = await http.get(
-        Setting.apiracine +
+        Uri.parse(Setting.apiracine +
             "consultations/" +
             this.id.toString() +
             "?type=1&language=" +
-            mySingleton.getLangue.toString(),
+            mySingleton.getLangue.toString()),
         headers: {
           "Authorization": basicAuth,
           "Language": mySingleton.getLangue.toString(),
@@ -226,11 +226,11 @@ class ConsultationPageState extends State<Consultation31> {
 
     String basicAuth = 'Bearer ' + token1; 
     var response = await http.get(
-        Setting.apiracine +
+        Uri.parse(Setting.apiracine +
             "consultations/view2?id=" +
             this.id.toString() +
             "?type=1&language=" +
-            mySingleton.getLangue.toString(),
+            mySingleton.getLangue.toString()),
         headers: {
           "Authorization": basicAuth,
           "Language": mySingleton.getLangue.toString(),

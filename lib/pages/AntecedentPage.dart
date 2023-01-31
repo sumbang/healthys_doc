@@ -81,11 +81,11 @@ class AntecedentPage1 extends State<AntecedentPage> {
     MySingleton mySingleton = new MySingleton();
 
     var response = await http.get(
-        Setting.apiracine +
+        Uri.parse(Setting.apiracine +
             "comptes/data?types=" +
             nature.toString() +
             "&language=" +
-            mySingleton.getLangue.toString(),
+            mySingleton.getLangue.toString()),
         headers: {"Language": mySingleton.getLangue.toString(),});
 
     print("DATA :" + response.body.toString());
@@ -107,7 +107,7 @@ class AntecedentPage1 extends State<AntecedentPage> {
           msg: "Chargeement des donnees...",
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 5,
+          timeInSecForIosWeb: 5,
           backgroundColor: Colors.green,
           textColor: Colors.white);
 
@@ -125,7 +125,7 @@ class AntecedentPage1 extends State<AntecedentPage> {
     print("patient : "+this.patient.toString());
 
     var res = await http.get(
-        Setting.apiracine + "comptes/donnee2?patient=" + this.patient,
+        Uri.parse(Setting.apiracine + "comptes/donnee2?patient=" + this.patient),
         headers: {
           "Authorization": basicAuth,
           "Language": mySingleton.getLangue.toString(),
@@ -339,7 +339,7 @@ class AntecedentPage1 extends State<AntecedentPage> {
           msg: allTranslations.text("z39"),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 5,
+          timeInSecForIosWeb: 5,
           backgroundColor: Colors.green,
           textColor: Colors.white);
 
@@ -459,7 +459,7 @@ class AntecedentPage1 extends State<AntecedentPage> {
 
     print("DATA4 :" + data.toString());
 
-    var res = await http.put(Setting.apiracine + "comptes/antecedent",
+    var res = await http.put(Uri.parse(Setting.apiracine + "comptes/antecedent"),
         body: data, headers: {"Authorization": basicAuth});
 
     print("DATA5 :" + res.body.toString());
@@ -473,7 +473,7 @@ class AntecedentPage1 extends State<AntecedentPage> {
           msg: responseJson["message"].toString(),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 5,
+          timeInSecForIosWeb: 5,
           backgroundColor: Colors.blue,
           textColor: Colors.white);
     } else {
@@ -484,7 +484,7 @@ class AntecedentPage1 extends State<AntecedentPage> {
           msg: responseJson["message"].toString(),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 5,
+          timeInSecForIosWeb: 5,
           backgroundColor: Colors.blue,
           textColor: Colors.white);
     }

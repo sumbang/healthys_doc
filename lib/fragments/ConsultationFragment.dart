@@ -74,7 +74,7 @@ class ConsultationFragmentState extends State<ConsultationFragment> {
     List<Consultation> liste = [];
 
     var response = await http.get(
-        Setting.apiracine +
+       Uri.parse(Setting.apiracine +
             "consultations?role=" +
             role +
             "&p=" +
@@ -82,7 +82,7 @@ class ConsultationFragmentState extends State<ConsultationFragment> {
             "&user=" +
             user +
             "&type=" +
-            type.toString(),
+            type.toString()),
         headers: {
           "Authorization": basicAuth,
           "Language": mySingleton.getLangue.toString(),

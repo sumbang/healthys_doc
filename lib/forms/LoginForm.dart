@@ -242,7 +242,7 @@ class _LoginState extends State<LoginForm> {
 
       MySingleton mySingleton = new MySingleton();
 
-      var res = await http.post(Setting.apiracine + "compte/login",
+      var res = await http.post(Uri.parse(Setting.apiracine + "compte/login"),
           body: data,
           headers: {
             "Language": mySingleton.getLangue.toString(),
@@ -343,7 +343,7 @@ class _LoginState extends State<LoginForm> {
             msg: responseJson['message'].toString(),
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.BOTTOM,
-            timeInSecForIos: 5,
+            timeInSecForIosWeb: 5,
             backgroundColor: Colors.blue,
             textColor: Colors.white);
       }

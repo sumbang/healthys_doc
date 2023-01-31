@@ -135,7 +135,7 @@ class _ResetState extends State<NewConsultationForm> {
           imageQuality: quality,
         );
 
-        print("File picked : " + pickedFile.path.toString());
+        print("File picked : " + pickedFile!.path.toString());
 
         setState(() {
           _imageFile = pickedFile;
@@ -168,7 +168,7 @@ class _ResetState extends State<NewConsultationForm> {
         _imageFile = response.file;
       });
     } else {
-      _retrieveDataError = response.exception.code;
+      _retrieveDataError = response.exception!.code;
     }
   }
 
@@ -212,7 +212,7 @@ class _ResetState extends State<NewConsultationForm> {
     MySingleton mySingleton = new MySingleton();
 
     var response = await http.get(
-        Setting.apiracine + "comptes/data?types=" + nature.toString(),
+        Uri.parse(Setting.apiracine + "comptes/data?types=" + nature.toString()),
         headers: {"Language":  mySingleton.getLangue.toString()});
 
   
@@ -245,7 +245,7 @@ class _ResetState extends State<NewConsultationForm> {
           msg: allTranslations.text("z29"),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 5,
+          timeInSecForIosWeb: 5,
           backgroundColor: Colors.blue,
           textColor: Colors.white);
     } else if (pin != currentpin) {
@@ -253,7 +253,7 @@ class _ResetState extends State<NewConsultationForm> {
           msg: allTranslations.text("z30"),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 5,
+          timeInSecForIosWeb: 5,
           backgroundColor: Colors.blue,
           textColor: Colors.white);
     } else {
@@ -326,7 +326,7 @@ class _ResetState extends State<NewConsultationForm> {
       String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
 
       var res = await http
-          .post(Setting.apiracine + "comptes/jointure3", body: data, headers: {
+          .post(Uri.parse(Setting.apiracine + "comptes/jointure3"), body: data, headers: {
         "Language":  mySingleton.getLangue.toString(),
         "Authorization": basicAuth,
       });
@@ -350,7 +350,7 @@ class _ResetState extends State<NewConsultationForm> {
             msg: responseJson["message"].toString(),
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.BOTTOM,
-            timeInSecForIos: 5,
+            timeInSecForIosWeb: 5,
             backgroundColor: Colors.blue,
             textColor: Colors.white);
       }
@@ -358,7 +358,7 @@ class _ResetState extends State<NewConsultationForm> {
   }
 
   void requestPersmission() async {
-    await PermissionHandler().requestPermissions([PermissionGroup.camera]);
+    //await PermissionHandler().requestPermissions([PermissionGroup.camera]);
   }
 
   _scan() {

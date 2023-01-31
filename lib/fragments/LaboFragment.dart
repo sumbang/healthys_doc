@@ -196,7 +196,7 @@ class LaboFragmentState extends State<LaboFragment> {
     List<Partenaire> liste = [];
 
     var response =
-        await http.get(Setting.apiracine + "partners?types=1", headers: {
+        await http.get(Uri.parse(Setting.apiracine + "partners?types=1"), headers: {
       "Authorization": basicAuth,
       "Language": mySingleton.getLangue.toString(),
     });

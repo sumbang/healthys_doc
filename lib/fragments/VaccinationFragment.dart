@@ -333,7 +333,7 @@ class VaccinationFragmentState extends State<VaccinationFragment>
 
 
     var response = await http
-        .get(Setting.apiracine + "vaccins?groupe=2&id=" + id, headers: {
+        .get(Uri.parse(Setting.apiracine + "vaccins?groupe=2&id=" + id), headers: {
       "Authorization": basicAuth,
       "Language": mySingleton.getLangue.toString(),
     });
@@ -362,7 +362,7 @@ class VaccinationFragmentState extends State<VaccinationFragment>
     List<Programme> liste = [];
     
     var response =
-        await http.get(Setting.apiracine + "vaccins/programme", headers: {
+        await http.get(Uri.parse(Setting.apiracine + "vaccins/programme"), headers: {
       "Authorization": basicAuth,
       "Language": mySingleton.getLangue.toString(),
     });

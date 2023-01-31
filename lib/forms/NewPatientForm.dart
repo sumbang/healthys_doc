@@ -405,7 +405,7 @@ class _SignupState extends State<NewPatientForm> {
                                     msg: allTranslations.text('requis_title'),
                                     toastLength: Toast.LENGTH_LONG,
                                     gravity: ToastGravity.BOTTOM,
-                                    timeInSecForIos: 5,
+                                    timeInSecForIosWeb: 5,
                                     backgroundColor: color,
                                     textColor: Colors.white);
                               } else {
@@ -671,7 +671,7 @@ class _SignupState extends State<NewPatientForm> {
                                     msg: allTranslations.text('requis_title'),
                                     toastLength: Toast.LENGTH_LONG,
                                     gravity: ToastGravity.BOTTOM,
-                                    timeInSecForIos: 5,
+                                    timeInSecForIosWeb: 5,
                                     backgroundColor: color,
                                     textColor: Colors.white);
                               } else {
@@ -872,7 +872,7 @@ class _SignupState extends State<NewPatientForm> {
     MySingleton mySingleton = new MySingleton();
 
     var response = await http.get(
-        Setting.apiracine + "comptes/data?types=" + nature.toString(),
+        Uri.parse(Setting.apiracine + "comptes/data?types=" + nature.toString()),
         headers: {"Language":  mySingleton.getLangue.toString()});
 
     print("DATA " + nature + " : " + response.body.toString());
@@ -986,7 +986,7 @@ class _SignupState extends State<NewPatientForm> {
           msg: allTranslations.text('requis1_title'),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 5,
+          timeInSecForIosWeb: 5,
           backgroundColor: Colors.red,
           textColor: Colors.white);
     } else if (_liste_personne.length == 0) {
@@ -994,7 +994,7 @@ class _SignupState extends State<NewPatientForm> {
           msg: allTranslations.text("z19"),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 5,
+          timeInSecForIosWeb: 5,
           backgroundColor: Colors.red,
           textColor: Colors.white);
     } else if (enfant == true && _enfantController.text.toString().isEmpty) {
@@ -1002,7 +1002,7 @@ class _SignupState extends State<NewPatientForm> {
           msg: allTranslations.text("z20"),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 5,
+          timeInSecForIosWeb: 5,
           backgroundColor: Colors.red,
           textColor: Colors.white);
     } else if (!sign2.hasPoints) {
@@ -1010,7 +1010,7 @@ class _SignupState extends State<NewPatientForm> {
           msg: allTranslations.text('condition_title'),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 5,
+          timeInSecForIosWeb: 5,
           backgroundColor: Colors.blue,
           textColor: Colors.white);
     } else {
@@ -1166,7 +1166,7 @@ class _SignupState extends State<NewPatientForm> {
       };
 
       var res5 =
-          await http.post(Setting.apiracine + "comptes/uploader", body: _data);
+          await http.post(Uri.parse(Setting.apiracine + "comptes/uploader"), body: _data);
       if (res5.statusCode == 200) {
         setState(() {
           _signature = res5.body.toString();
@@ -1226,7 +1226,7 @@ class _SignupState extends State<NewPatientForm> {
 
 
       var res = await http
-          .post(Setting.apiracine + "comptes/jointure7", body: data, headers: {
+          .post(Uri.parse(Setting.apiracine + "comptes/jointure7"), body: data, headers: {
         "Language": mySingleton.getLangue.toString(),
         "Authorization": basicAuth,
       });
@@ -1242,7 +1242,7 @@ class _SignupState extends State<NewPatientForm> {
             msg: responseJson["message"].toString(),
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.BOTTOM,
-            timeInSecForIos: 5,
+            timeInSecForIosWeb: 5,
             backgroundColor: Colors.green,
             textColor: Colors.white);
 
@@ -1262,7 +1262,7 @@ class _SignupState extends State<NewPatientForm> {
             msg: responseJson["message"].toString(),
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.BOTTOM,
-            timeInSecForIos: 5,
+            timeInSecForIosWeb: 5,
             backgroundColor: Colors.red,
             textColor: Colors.white);
       }
@@ -1429,7 +1429,7 @@ class _SignupState extends State<NewPatientForm> {
           imageQuality: quality,
         );
 
-        print("File picked : " + pickedFile.path.toString());
+        print("File picked : " + pickedFile!.path.toString());
 
         setState(() {
           _imageFile = pickedFile;
@@ -1454,7 +1454,7 @@ class _SignupState extends State<NewPatientForm> {
           imageQuality: quality,
         );
 
-        print("File picked : " + pickedFile.path.toString());
+        print("File picked : " + pickedFile!.path.toString());
 
         setState(() {
           _imageFile1 = pickedFile;
@@ -1479,7 +1479,7 @@ class _SignupState extends State<NewPatientForm> {
           imageQuality: quality,
         );
 
-        print("File picked : " + pickedFile.path.toString());
+        print("File picked : " + pickedFile!.path.toString());
 
         setState(() {
           _imageFile2 = pickedFile;
@@ -1511,7 +1511,7 @@ class _SignupState extends State<NewPatientForm> {
         _imageFile = response.file;
       });
     } else {
-      _retrieveDataError = response.exception.code;
+      _retrieveDataError = response.exception!.code;
     }
   }
 
@@ -1526,7 +1526,7 @@ class _SignupState extends State<NewPatientForm> {
         _imageFile1 = response.file;
       });
     } else {
-      _retrieveDataError = response.exception.code;
+      _retrieveDataError = response.exception!.code;
     }
   }
 
@@ -1541,7 +1541,7 @@ class _SignupState extends State<NewPatientForm> {
         _imageFile2 = response.file;
       });
     } else {
-      _retrieveDataError = response.exception.code;
+      _retrieveDataError = response.exception!.code;
     }
   }
 

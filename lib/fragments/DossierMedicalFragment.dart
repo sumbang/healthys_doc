@@ -79,11 +79,11 @@ class DossierMedicalFragmentState extends State<DossierMedicalFragment> {
     MySingleton mySingleton = new MySingleton();
 
     var response = await http.get(
-        Setting.apiracine +
+        Uri.parse(Setting.apiracine +
             "comptes/data?types=" +
             nature.toString() +
             "&language=" +
-            mySingleton.getLangue.toString(),
+            mySingleton.getLangue.toString()),
         headers: {"Language": mySingleton.getLangue.toString(),});
 
     print("DATA2 :" + response.body.toString());
@@ -111,7 +111,7 @@ class DossierMedicalFragmentState extends State<DossierMedicalFragment> {
     String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
 
     var res = await http.get(
-        Setting.apiracine + "comptes/donnee2?patient=" + currentpatient1,
+        Uri.parse(Setting.apiracine + "comptes/donnee2?patient=" + currentpatient1),
         headers: {
           "Authorization": basicAuth,
           "Language": mySingleton.getLangue.toString(),
@@ -345,11 +345,11 @@ class DossierMedicalFragmentState extends State<DossierMedicalFragment> {
     print("DATA5 :" + data.toString());
 
     var res = await http.put(
-        Setting.apiracine +
+        Uri.parse(Setting.apiracine +
             "comptes/antecedent?patient=" +
             currentpatient1 +
             "&user=" +
-            id,
+            id),
         body: data,
         headers: {
           "Authorization": basicAuth,
@@ -367,7 +367,7 @@ class DossierMedicalFragmentState extends State<DossierMedicalFragment> {
           msg: responseJson["message"].toString(),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 5,
+          timeInSecForIosWeb: 5,
           backgroundColor: Colors.blue,
           textColor: Colors.white);
     } else {
@@ -378,7 +378,7 @@ class DossierMedicalFragmentState extends State<DossierMedicalFragment> {
           msg: responseJson["message"].toString(),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 5,
+          timeInSecForIosWeb: 5,
           backgroundColor: Colors.blue,
           textColor: Colors.white);
     }

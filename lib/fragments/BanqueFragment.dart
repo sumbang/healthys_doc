@@ -195,7 +195,7 @@ class BanqueFragmentState extends State<BanqueFragment> {
     String basicAuth = 'Bearer ' + token1; MySingleton mySingleton = new MySingleton();
     List<Partenaire> liste = [];
     var response =
-        await http.get(Setting.apiracine + "partners?types=6", headers: {
+        await http.get(Uri.parse(Setting.apiracine + "partners?types=6"), headers: {
       "Authorization": basicAuth,
       "Language": mySingleton.getLangue.toString(),
     });

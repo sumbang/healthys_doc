@@ -71,7 +71,7 @@ class PdfViewer1 extends State<PdfViewer> {
       fileName = name;
     }
     try {
-      var data = await http.get(url);
+      var data = await http.get(Uri.parse(url));
       var bytes = data.bodyBytes;
       var dir = await getApplicationDocumentsDirectory();
       File file = File("${dir.path}/" + fileName + ".pdf");
@@ -108,7 +108,7 @@ class PdfViewer1 extends State<PdfViewer> {
   }
 
   void requestPersmission() async {
-    await PermissionHandler().requestPermissions([PermissionGroup.storage]);
+    //await PermissionHandler().requestPermissions([PermissionGroup.storage]);
   }
 
   @override

@@ -73,11 +73,20 @@ class DossierFormState extends State<DossierForm> {
   }
 
   selectFile() async {
-    selectedfile = await FilePicker.getFile(
+
+    FilePickerResult? result = await FilePicker.platform.pickFiles(type: FileType.custom,allowedExtensions: ['jpg', 'pdf']);
+
+    if (result != null) {
+    selectedfile = File(result.files.single.path.toString());
+    } else {
+      // User canceled the picker
+    }
+    
+   /* selectedfile = await FilePicker.getFile(
       type: FileType.custom,
       allowedExtensions: ['jpg', 'pdf'],
       //allowed extension to choose
-    );
+    ); */
 
     //for file_pocker plugin version 2 or 2+
     /*
@@ -110,7 +119,7 @@ class DossierFormState extends State<DossierForm> {
           msg: allTranslations.text('s5'),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 5,
+          timeInSecForIosWeb: 5,
           backgroundColor: Colors.blue,
           textColor: Colors.white);
     } else if (_patientController.text.isEmpty ||
@@ -121,7 +130,7 @@ class DossierFormState extends State<DossierForm> {
           msg: allTranslations.text('requis1_title'),
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 5,
+          timeInSecForIosWeb: 5,
           backgroundColor: Colors.blue,
           textColor: Colors.white);
     } else {
@@ -154,7 +163,7 @@ class DossierFormState extends State<DossierForm> {
 
       String base64Image = base64Encode(selectedfile!.readAsBytesSync());
       String fileName = selectedfile!.path.split('/').last;
-      String ext = lookupMimeType(selectedfile!.path).split('/').last;
+      String ext = lookupMimeType(selectedfile!.path)!.split('/').last;
 
       Map data1 = {
         "image": base64Image,
@@ -162,7 +171,7 @@ class DossierFormState extends State<DossierForm> {
       };
 
       var res1 =
-          await http.post(Setting.apiracine + "comptes/uploader1", body: data1);
+          await http.post(Uri.parse(Setting.apiracine + "comptes/uploader1"), body: data1);
 
       if (res1.statusCode == 200) {
         var response1Json = json.decode(res1.body);
@@ -177,7 +186,7 @@ class DossierFormState extends State<DossierForm> {
         MySingleton mySingleton = new MySingleton();
 
         var res = await http
-            .post(Setting.apiracine + "comptes/dossier", body: data, headers: {
+            .post(Uri.parse(Setting.apiracine + "comptes/dossier"), body: data, headers: {
           "Authorization": basicAuth,
           "Language":  mySingleton.getLangue.toString()
         });
@@ -191,7 +200,7 @@ class DossierFormState extends State<DossierForm> {
               msg: responseJson["message"].toString(),
               toastLength: Toast.LENGTH_LONG,
               gravity: ToastGravity.BOTTOM,
-              timeInSecForIos: 5,
+              timeInSecForIosWeb: 5,
               backgroundColor: Colors.blue,
               textColor: Colors.white);
 
@@ -209,7 +218,7 @@ class DossierFormState extends State<DossierForm> {
               msg: responseJson["message"].toString(),
               toastLength: Toast.LENGTH_LONG,
               gravity: ToastGravity.BOTTOM,
-              timeInSecForIos: 5,
+              timeInSecForIosWeb: 5,
               backgroundColor: Colors.blue,
               textColor: Colors.white);
         }
@@ -220,7 +229,7 @@ class DossierFormState extends State<DossierForm> {
             msg: allTranslations.text('erreur_title'),
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.BOTTOM,
-            timeInSecForIos: 5,
+            timeInSecForIosWeb: 5,
             backgroundColor: Colors.orange,
             textColor: Colors.white);
       }

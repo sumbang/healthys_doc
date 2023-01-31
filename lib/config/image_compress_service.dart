@@ -32,6 +32,6 @@ class ImageCompressService {
       minHeight: 600,
       quality: 50,
     );
-    return result;
+    return result!;
   }
 }

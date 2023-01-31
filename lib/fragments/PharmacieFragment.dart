@@ -197,7 +197,7 @@ class PharmacieFragmentState extends State<PharmacieFragment> {
 
 
     var response =
-        await http.get(Setting.apiracine + "partners?types=4", headers: {
+        await http.get(Uri.parse(Setting.apiracine + "partners?types=4"), headers: {
       "Authorization": basicAuth,
       "Language": mySingleton.getLangue.toString(),
     });
