@@ -460,5 +460,12 @@
   "z118":"Ingrese o escanee el número de salud del paciente para el cual desea acceder al expediente médico",
   "z119":"Perfil cargado",
   "z220":"Nacido el ",
-  "z221":"Agregar una consulta"
+  "z221":"Agregar una consulta",
+  "da1":"Demander un paiement",
+  "da2":"Numéro de compte mobile",
+  "da3":"Montant à demander",
+  "da4":"Demander",
+  "da5":"Traitement en cours",
+  "da6":"Opération terminée",
+  "da7":"Mode de paiement"
 }

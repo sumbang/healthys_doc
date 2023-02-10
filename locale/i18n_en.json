@@ -460,6 +460,12 @@
   "z118":"Please enter or scan the health number of the patient for whom you wish to access the medical file",
   "z119":"Profile loaded",
   "z220":"Born on ",
-  "z221":"Add a consultation"
-
+  "z221":"Add a consultation",
+  "da1":"Demander un paiement",
+  "da2":"Numéro de compte mobile",
+  "da3":"Montant à demander",
+  "da4":"Demander",
+  "da5":"Traitement en cours",
+  "da6":"Opération terminée",
+  "da7":"Mode de paiement"
 }

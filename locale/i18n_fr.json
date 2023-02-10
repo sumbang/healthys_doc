@@ -460,7 +460,12 @@
   "z118":"Bien voulour saisir ou scanner le matricule santé du patient pour lequel vous souhaitez accéder au dossier médical",
   "z119":"Profil chargé",
   "z220":"Née le ",
-  "z221":"Ajouter une consultation"
-  
-
+  "z221":"Ajouter une consultation",
+  "da1":"Demander un paiement",
+  "da2":"Numéro de compte mobile",
+  "da3":"Montant à demander",
+  "da4":"Demander",
+  "da5":"Traitement en cours",
+  "da6":"Opération terminée",
+  "da7":"Mode de paiement"
 }

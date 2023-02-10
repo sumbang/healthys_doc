@@ -12,6 +12,7 @@ import 'package:healthys_medecin/config/all_translations.dart'; import 'package:
 import 'package:healthys_medecin/main.dart';
 import 'package:healthys_medecin/models/Menu.dart';
 import 'package:healthys_medecin/pages/ActivationPage.dart';
+import 'package:healthys_medecin/pages/AskPaiement.dart';
 import 'package:healthys_medecin/pages/ChooseProfile.dart';
 import 'package:healthys_medecin/pages/ComptePage.dart';
 import 'package:healthys_medecin/pages/ConfidentialitePage.dart';
@@ -492,6 +493,15 @@ class HomePage1State extends State<HomePage1> {
       onTap: () {
         Navigator.of(context, rootNavigator: true).pop('dialog');
         _SecurityBox(new ChooseProfilePage());
+      },
+    ));
+
+    maliste1.add(new ListTile(
+      leading: Icon(Icons.payment),
+      title: Text(allTranslations.text("da1")),
+      onTap: () {
+        Navigator.of(context, rootNavigator: true).pop('dialog');
+        _SecurityBox(new AskPaiement());
       },
     ));
 
