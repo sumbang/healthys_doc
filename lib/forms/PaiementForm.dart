@@ -139,9 +139,12 @@ String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
       print("retour : "+res.body.toString() );
 
       if (res.statusCode == 200) {
+
         var responseJson = json.decode(res.body);
 
-        Navigator.of(context, rootNavigator: true).pop('dialog');
+        if(responseJson["code"] == 0) {
+
+  Navigator.of(context, rootNavigator: true).pop('dialog');
 
         Fluttertoast.showToast(
             msg: allTranslations.text("da6"),
@@ -155,16 +158,34 @@ String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
           context,
           new MaterialPageRoute(builder: (_) => new AskPaiement()),
         );
+
+        }
+
+        else {
+          
+   Navigator.of(context, rootNavigator: true).pop('dialog');
+        var responseJson = json.decode(res.body);
+
+        Fluttertoast.showToast(
+            msg: allTranslations.text('erreur_title'),
+            toastLength: Toast.LENGTH_LONG,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 5,
+            backgroundColor: Colors.red,
+            textColor: Colors.white);
+        }
+
+      
       } else {
         Navigator.of(context, rootNavigator: true).pop('dialog');
         var responseJson = json.decode(res.body);
 
         Fluttertoast.showToast(
-            msg: responseJson["message"].toString(),
+            msg: allTranslations.text('erreur_title'),
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 5,
-            backgroundColor: Colors.blue,
+            backgroundColor: Colors.red,
             textColor: Colors.white);
       }
     } 
