@@ -461,11 +461,12 @@
   "z119":"Profile loaded",
   "z220":"Born on ",
   "z221":"Add a consultation",
-  "da1":"Demander un paiement",
-  "da2":"Numéro de compte mobile",
-  "da3":"Montant à demander",
-  "da4":"Demander",
-  "da5":"Traitement en cours",
-  "da6":"Opération terminée",
-  "da7":"Mode de paiement"
+  "da1":"Request payment",
+  "da2":"Mobile account number",
+  "da3":"Amount to request",
+  "da4":"Request",
+  "da5":"Processing in progress",
+  "da6":"Operation completed",
+  "da7":"Payment method",
+  "z94":"Do you have a disability ?"
 }

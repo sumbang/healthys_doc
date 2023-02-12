@@ -118,6 +118,7 @@ String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
 
       String token1 = (prefs.getString('token') ?? '');
       String currentpatient1 = (prefs.getString('currentpatient') ?? '');
+      String iduser = (prefs.getString('id') ?? '');
       String token2 = 'api_live.tGXUD5WTjMvb0u6X++DgCkz2C7j5xpAwVo8kEBNBhpSLzBobapC0xUHG71qJF6BH';
 
       String basicAuth = 'Bearer ' + token2; MySingleton mySingleton = new MySingleton();
@@ -126,7 +127,7 @@ String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
         "accountIdentifier": "237"+_phone,
         "amount": _montant,
         "providerIdentifier": selectedValue,
-        "referenceOrder": "REF"+getRandomString(5),
+        "referenceOrder": "PAY-"+iduser+"-"+getRandomString(5),
       };
 
       var res =

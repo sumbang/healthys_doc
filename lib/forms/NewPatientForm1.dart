@@ -71,6 +71,7 @@ class _SignupState extends State<NewPatientForm1> {
   final _professionController = TextEditingController();
   final _pinController = TextEditingController();
   final _enfantController = TextEditingController();
+  final _handicapController = TextEditingController();
 
   var _listMedecin = <Widget>[];
   var _listPersonne = <Widget>[];
@@ -84,7 +85,22 @@ class _SignupState extends State<NewPatientForm1> {
   String currentpatient = "";
   bool isVisible = true;
   bool isVisible1 = true;
+  bool handicap = false;
+  bool handicap1 = false;
   bool isVisible2 = true;
+
+  String selectedValue = "Handicap moteur";
+
+  List<DropdownMenuItem<String>> get dropdownItems{
+  List<DropdownMenuItem<String>> menuItems = [
+    DropdownMenuItem(child: Text("Handicap moteur"),value: "Handicap moteur"),
+    DropdownMenuItem(child: Text("Handicap auditif"),value: "Handicap auditif"),
+    DropdownMenuItem(child: Text("Handicap visuel"),value: "Handicap visuel"),
+    DropdownMenuItem(child: Text("Handicap"),value: "Handicap"),
+    DropdownMenuItem(child: Text("Autres"),value: "Autres"),
+  ];
+  return menuItems;
+}
 
   final gris = const Color(0xFF373736);
   final bleu = const Color(0xFF194185);
@@ -1152,6 +1168,16 @@ class _SignupState extends State<NewPatientForm1> {
       _b1 += ']';
       _b2 += ']';
 
+      if(handicap) {
+        if(selectedValue != "Autres") {
+          _handicapController.text = selectedValue;
+        } 
+      }
+
+      String _handicap = handicap ? _handicapController.text.toString() : "0";
+
+      if(_handicap.isEmpty) _handicap = "0";
+
       Map data = {
         'civilite': civilite!.id.toString(),
         'nom': _nomController.text.toString(),
@@ -1168,6 +1194,7 @@ class _SignupState extends State<NewPatientForm1> {
         'cni': _cnifile,
         'datedeliv': '',
         'personne': _b1,
+        'handicap': _handicap,
         'medecin': _b2,
         'sport': _sport,
         'enfant': _enfantController.text.toString(),
@@ -2464,6 +2491,90 @@ class _SignupState extends State<NewPatientForm1> {
                         },
                         keyboardType: TextInputType.text,
                         controller: _sportController,
+                      ),
+                    ),
+                  )
+                : Container(),
+
+                  CheckboxListTile(
+              title: Center(
+                  child: Text(
+                allTranslations.text('z94'),
+                style: TextStyle(
+                    color: color2, fontWeight: FontWeight.bold, fontSize: 16.0),
+                textAlign: TextAlign.left,
+              )),
+              value: handicap,
+              onChanged: (newValue) {
+                if (newValue!)
+                  setState(() {
+                    handicap = true;
+                  });
+                else
+                  setState(() {
+                    handicap =  false;
+                  });
+              },
+              controlAffinity:
+                  ListTileControlAffinity.leading, //  <-- leading Checkbox
+            ),
+
+            handicap
+                ? Padding(
+                    padding: const EdgeInsets.all(0.0),
+                    child: Container(
+                      padding: const EdgeInsets.only(
+                          left: 10.0, right: 5.0, top: 3.0, bottom: 8.0),
+                      width: double.infinity,
+                      decoration: new BoxDecoration(
+                        color: Colors.white70,
+                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        border: new Border.all(color: Colors.black38),
+                      ),
+                      child: DropdownButton(
+                        value: selectedValue,
+                        items: dropdownItems, 
+                        onChanged: (String? value) { 
+                          setState(() {
+                             selectedValue = value!;
+                          });   
+                         },
+                        ) 
+                      ),)  : Container(),
+
+            handicap? SizedBox(height: 8.0,) : Container(),
+
+            handicap
+                ? Padding(
+                    padding: const EdgeInsets.all(0.0),
+                    child: Container(
+                      padding: const EdgeInsets.only(
+                          left: 10.0, right: 5.0, top: 3.0, bottom: 3.0),
+                      width: double.infinity,
+                      decoration: new BoxDecoration(
+                        color: Colors.white70,
+                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        border: new Border.all(color: Colors.black38),
+                      ),
+                      child: TextFormField(
+                        obscureText: false,
+                        style: const TextStyle(
+                            color: Colors.black, fontWeight: FontWeight.normal),
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          icon: new Icon(
+                            Icons.assessment,
+                            color: color,
+                          ),
+                          labelText:
+                              allTranslations.text('toxico4_title'),
+                          labelStyle: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.normal),
+                        ),
+                        keyboardType: TextInputType.text,
+                        controller: _handicapController,
                       ),
                     ),
                   )

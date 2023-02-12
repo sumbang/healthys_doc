@@ -10,6 +10,7 @@ import 'package:healthys_medecin/forms/RdvForm.dart';
 import 'package:healthys_medecin/models/Medecin.dart';
 
 import 'HomePage.dart';
+import 'HomePageNew.dart';
 
 class AskPaiement extends StatelessWidget {
  
@@ -59,14 +60,14 @@ class AskPaiementState extends State<AskPaiement1> {
         child: Scaffold(
             appBar: AppBar(
               title: Text(allTranslations.text('da1')),
-              backgroundColor: color2,
+              backgroundColor: color,
               elevation: 0,
               leading: new IconButton(
                 icon: new Icon(Icons.arrow_back),
                 onPressed: () {
                   Navigator.push(
                     context,
-                    new MaterialPageRoute(builder: (_) => new HomePage()),
+                    new MaterialPageRoute(builder: (_) => new HomePageNew()),
                   );
                 },
               ),

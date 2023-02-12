@@ -496,14 +496,14 @@ class HomePage1State extends State<HomePage1> {
       },
     ));
 
-    maliste1.add(new ListTile(
+   /* maliste1.add(new ListTile(
       leading: Icon(Icons.payment),
       title: Text(allTranslations.text("da1")),
       onTap: () {
         Navigator.of(context, rootNavigator: true).pop('dialog');
         _SecurityBox(new AskPaiement());
       },
-    ));
+    ));*/
 
    /* maliste1.add(new ListTile(
       leading: Icon(Icons.security),
